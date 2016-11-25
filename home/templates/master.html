@@ -258,7 +258,7 @@
 	          <li class="dropdown user user-menu">
 	            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 	              <img src="{% static 'libs/dist/img/user2-160x160.jpg' %}" class="user-image" alt="User Image">
-	              <span class="hidden-xs">Alexander Pierce</span>
+	              <span class="hidden-xs">Jorge Peregrino</span>
 	            </a>
 	            <ul class="dropdown-menu">
 	              <!-- User image -->
@@ -266,25 +266,25 @@
 	                <img src="{% static 'libs/dist/img/user2-160x160.jpg' %}" class="img-circle" alt="User Image">
 
 	                <p>
-	                  Alexander Pierce - Web Developer
+	                  Jorge Peregrino - Supervisor
 	                  <small>Member since Nov. 2012</small>
 	                </p>
 	              </li>
 
 	              <!-- Menu Body -->
-	              <!-- <li class="user-body">
+	              <li class="user-body">
 	                <div class="row">
 	                  <div class="col-xs-4 text-center">
-	                    <a href="#">Followers</a>
+	                    <a href="#">Usuarios</a>
 	                  </div>
 	                  <div class="col-xs-4 text-center">
-	                    <a href="#">Sales</a>
+	                    <a href="#">Empresas</a>
 	                  </div>
 	                  <div class="col-xs-4 text-center">
-	                    <a href="#">Friends</a>
+	                    <a href="#">?</a>
 	                  </div>
 	                </div>
-	              </li> -->
+	              </li>
 				  <!--./ Menu Body -->	              
 
 	              <!-- Menu Footer-->
@@ -339,15 +339,71 @@
 	      <!-- sidebar menu: : style can be found in sidebar.less -->
 	      <ul class="sidebar-menu">
 	        <li class="header">MENU</li>
-	        <li>
-	          <a href="pages/calendar.html">
-	            <i class="fa fa-calendar"></i> <span>Calendar</span>
+
+			<!-- Activos -->
+			<li id="opt_dashboard"><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+
+	        <!-- Activos -->
+	        <li class="treeview" id="tree_activos">
+	          <a href="#">
+	            <i class="fa fa-puzzle-piece"></i>
+	            <span>Activos</span>
 	            <span class="pull-right-container">
-	              <small class="label pull-right bg-red">3</small>
-	              <small class="label pull-right bg-blue">17</small>
+	              <i class="fa fa-angle-left pull-right"></i>
 	            </span>
 	          </a>
+	          <ul class="treeview-menu">
+	            <li id="opt_equipos"><a href="{% url 'activos.equipos' %}"><i class="fa fa-circle-o"></i> Equipos</a></li>
+	            <li id="opt_ubicaciones"><a href="#"><i class="fa fa-circle-o"></i> Ubicaciones</a></li>
+	            <li id="opt_odometros"><a href="#"><i class="fa fa-circle-o"></i> Odometros</a></li>
+	          </ul>
+	        </li> 
+
+	        <!-- Inventarios -->
+	        <li class="treeview" id="tree_inventarios">
+	          <a href="#">
+	            <i class="fa fa-cubes"></i>
+	            <span>Inventarios</span>
+	            <span class="pull-right-container">
+	              <i class="fa fa-angle-left pull-right"></i>
+	            </span>
+	          </a>
+	          <ul class="treeview-menu">
+	            <li id="opt_almacenes"><a href="#"><i class="fa fa-circle-o"></i> Almacenes</a></li>
+	            <li id="opt_articulos"><a href="#"><i class="fa fa-circle-o"></i> Articulos</a></li>
+	          </ul>
+	        </li> 
+
+	        <!-- Trabajos -->
+	        <li class="treeview" id="tree_trabajos">
+	          <a href="#">
+	            <i class="fa fa-wrench"></i>
+	            <span>Trabajos</span>
+	            <span class="pull-right-container">
+	              <i class="fa fa-angle-left pull-right"></i>
+	            </span>
+	          </a>
+	          <ul class="treeview-menu">
+	            <li id="opt_ordenes"><a href="#"><i class="fa fa-circle-o"></i> Ordenes</a></li>
+	          </ul>
 	        </li>
+
+	        <!-- Programaciones -->
+	        <li class="treeview" id="tree_programaciones">
+	          <a href="#">
+	            <i class="fa fa-calendar"></i>
+	            <span>Programaciones</span>
+	            <span class="pull-right-container">
+	              <i class="fa fa-angle-left pull-right"></i>
+	            </span>
+	          </a>
+	          <ul class="treeview-menu">
+	            <li id="opt_a"><a href="#"><i class="fa fa-circle-o"></i> ?</a></li>
+	            <li id="opt_b"><a href="#"><i class="fa fa-circle-o"></i> ?</a></li>
+	          </ul>
+	        </li> 		        
+
+
 	      </ul>
 	    </section>
 	    <!-- /.sidebar -->
@@ -394,6 +450,9 @@
 
 	<!-- AdminLTE App -->
 	<script src="{% static 'libs/dist/js/app.min.js' %}"></script>
+
+	<!-- CoreM App -->
+	<script src="{% static 'master.js' %}"></script>
 
 	{% block scripts %}
 

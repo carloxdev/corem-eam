@@ -28,10 +28,10 @@ INSTALLED_APPS = [
     'activos.apps.ActivosConfig',
     'home.apps.HomeConfig',
     'inventarios.apps.InventariosConfig',
-    'mediciones.apps.MedicionesConfig',
     'programaciones.apps.ProgramacionesConfig',
     'seguridad.apps.SeguridadConfig',
     'trabajos.apps.TrabajosConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [

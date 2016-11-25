@@ -12,5 +12,5 @@ from .views import Login
 
 urlpatterns = [
     url(r'^dashboard/$', Dashboard.as_view(), name='seguridad.dashboard'),
-    url(r'^login/$', Login.as_view(), name='seguriddad.login'),
+    url(r'^$', Login.as_view(), name='seguriddad.login'),
 ]
