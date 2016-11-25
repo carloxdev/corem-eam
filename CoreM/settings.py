@@ -64,23 +64,52 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'CoreM.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+""" Configuraciones para las tres bases de datos a usar en el proyecto.
+    Realizar los ajustes necesarios para trabajar en local.
+    Faltan por agregar las configuraciones comentadas.
+"""
 DATABASES = {
+# La base de datos por default sera MYSQL, la base de datos en blanco de la app
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'coremdb',
         'USER': 'root',
-        'PASSWORD': '12345',
+        'PASSWORD': 'admin',
         # Empty for localhost through domain sockets or '127.0.0.1' for
         # localhost through TCP.
         'HOST': '',
-        'PORT': '',  # Set to empty string for default.
-    }
+        'PORT': '',  # Set to empty string for default. 
+    },
+# Base de datos SQLServer para la autenticacion
+    'users': {
+        # 'ENGINE': 'sql_server.pyodbc', 
+        # 'NAME': 'APPSDB',
+        # 'USER': 'Administrador',
+        # 'PASSWORD': '$1cc0rpSvr',
+        # 'HOST':'10.10.3.203',
+        # 'PORT': '',
+        # 'OPTIONS':{
+         #   'driver': 'SQL Server Native Client 10.0'
+        # },
+
+    },
+# Base de datos Oracle
+    'orac_db': {
+        # 'ENGINE': 'sqlserver_ado',
+        # 'NAME': '',
+        # 'USER': '',
+        # 'PASSWORD': '',
+        # 'HOST':'',
+        # 'PORT': ,
+
+    },
 }
 
 
