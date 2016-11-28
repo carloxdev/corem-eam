@@ -9,7 +9,7 @@ from django.conf.urls import include
 from rest_framework import routers
 
 # API Rest - Views:
-from activos.views import EquipoAPI
+from activos.views import EquipoAPI, UbicacionAPI
 
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
@@ -21,6 +21,11 @@ router.register(
     r'equipos',
     EquipoAPI,
     'api_equipos'
+)
+router.register(
+	r'ubicaciones',
+	UbicacionAPI,
+	'api_ubicaciones'
 )
 
 urlpatterns = [

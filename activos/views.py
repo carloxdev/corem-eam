@@ -8,19 +8,20 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
 # Django Urls:
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 
 # Django Generic Views
 from django.views.generic.base import View
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 # Modelos:
-from .models import Equipo
+from .models import Equipo, Ubicacion
 
 # API Rest:
 from rest_framework import viewsets
 
 # API Rest - Serializadores:
-from .serializers import EquipoSerializer
+from .serializers import EquipoSerializer, UbicacionSerializer
 
 # API Rest - Paginacion:
 from .pagination import GenericPagination
@@ -29,6 +30,7 @@ from .pagination import GenericPagination
 from forms import EquipoFiltersForm
 from forms import EquipoCreateForm
 from forms import EquipoUpdateForm
+from forms import UbicacionCreateForm, UbicacionFiltersForm
 
 
 # ----------------- EMPRESA ----------------- #
@@ -162,4 +164,49 @@ class EquipoUpdateView(View):
 class EquipoAPI(viewsets.ModelViewSet):
     queryset = Equipo.objects.all()
     serializer_class = EquipoSerializer
+    pagination_class = GenericPagination
+
+
+class UbicacionCreateView(CreateView):
+    model = Ubicacion
+    form_class = UbicacionCreateForm
+    template_name = 'ubicacion/formulario.html'
+    success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+class UbicacionListView(View):
+
+    def __init__(self):
+        self.template_name = 'ubicacion/lista.html'
+
+    def get(self, request):
+
+        formulario = UbicacionFiltersForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        return render(request, self.template_name, {})
+
+
+class UbicacionUpdateView(UpdateView):
+    model = Ubicacion
+    form_class = UbicacionCreateForm
+    template_name = 'ubicacion/formulario.html'
+    success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+class UbicacionDeleteView(DeleteView):
+    model = Ubicacion
+    template_name = ''
+    success_url = reverse_lazy('')
+
+
+class UbicacionAPI(viewsets.ModelViewSet):
+    queryset = Ubicacion.objects.all()
+    serializer_class = UbicacionSerializer
     pagination_class = GenericPagination

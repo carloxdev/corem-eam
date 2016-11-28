@@ -4,7 +4,7 @@
 from rest_framework import serializers
 
 # Modelos:
-from .models import Equipo
+from .models import Equipo, Ubicacion
 
 
 class EquipoSerializer(serializers.HyperlinkedModelSerializer):
@@ -48,3 +48,14 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
             return obj.ubicacion.clave
         except:
             return ""
+
+
+class UbicacionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Ubicacion
+        fields = (
+            'pk',
+            'clave', 
+            'descripcion'
+        )

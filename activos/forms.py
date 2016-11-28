@@ -6,7 +6,7 @@ from django.forms import TextInput
 from django.forms import Select
 
 # Modelos:
-from .models import Equipo
+from .models import Equipo, Ubicacion
 
 
 class EquipoFiltersForm(ModelForm):
@@ -58,6 +58,17 @@ class EquipoCreateForm(ModelForm):
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
         }
+        labels = {
+            'tag': 'Tag',
+            'descripcion': 'Descripción',
+            'serie': 'Serie',
+            'tipo': 'Tipo',
+            'estado': 'Estado',
+            'padre': 'Padre',
+            'empresa': 'Empresa',
+            'sistema': 'Sistema',
+            'ubicacion': 'Ubicación',
+        }
 
 
 class EquipoUpdateForm(ModelForm):
@@ -75,4 +86,35 @@ class EquipoUpdateForm(ModelForm):
             'empresa': Select(attrs={'class': 'form-control'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'descripcion': 'PRUEBA',
+            'serie': 'Serie',
+            'tipo': 'Tipo',
+            'estado': 'Estado',
+            'padre': 'Padre',
+            'empresa': 'Empresa',
+            'sistema': 'Sistema',
+            'ubicacion': 'Ubicación',
+        }
+
+
+class UbicacionCreateForm(ModelForm):
+
+    class Meta:
+        model = Ubicacion
+        fields = '__all__'
+        widgets = {
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class UbicacionFiltersForm(ModelForm):
+
+    class Meta:
+        model = Ubicacion
+        fields = ['descripcion']
+        widgets = {
+        'descripcion': TextInput(attrs={'class': 'form-control'})
         }
