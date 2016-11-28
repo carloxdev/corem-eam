@@ -49,6 +49,43 @@ class EquipoListView(View):
         return render(request, self.template_name, {})
 
 
+class EquipoCreateView(View):
+
+    def __init__(self):
+        self.template_name = 'equipo/nuevo.html'
+
+    def get(self, request):
+
+        formulario = EquipoFiltersForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        return render(request, self.template_name, {})
+
+
+class EquipoUpdateView(View):
+    def __init__(self):
+        self.template_name = 'equipo/editar.html'
+
+    def get(self, request, pk):
+
+        formulario = EquipoFiltersForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        return render(request, self.template_name, {})
+
+
 class EquipoAPI(viewsets.ModelViewSet):
     queryset = Equipo.objects.all()
     serializer_class = EquipoSerializer

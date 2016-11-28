@@ -29,6 +29,9 @@ class Equipo(models.Model):
     # cliente =
     # responsable =
 
+    def __str__(self):
+        return "{} - {}".format(self.tag, self.descripcion)
+
 
 class Asignacion(models.Model):
     equipo = models.ForeignKey(Equipo)

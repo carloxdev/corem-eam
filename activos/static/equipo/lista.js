@@ -2,8 +2,9 @@
             GLOBAL VARS
 \*-----------------------------------------------*/
 
-var urlGridPrincipal = window.location.origin + "/api/equipos/"
-
+var url_grid = window.location.origin + "/api/equipos/"
+var url_nuevo = window.location.origin + "/equipos/nuevo/"
+var url_editar = window.location.origin + "/equipos/editar/"
 var pagina = null
 
 
@@ -25,8 +26,9 @@ $(document).ready(function () {
 \*-----------------------------------------------*/
 
 function Pagina() {
-	
-	grid_principal = new GridPrincipal()
+
+	this.targetaFiltros = new TargetaFiltros()
+	this.grid_principal = new GridPrincipal()
 }
 // Pagina.prototype.set_PageActive = function () {
 
@@ -37,13 +39,23 @@ function Pagina() {
             OBJETO: FILTROS
 \*-----------------------------------------------*/
 
-function Filtros() {
+function TargetaFiltros() {
 
+	this.$tag = $('#id_tag')
+	this.$serie = $('#id_serie')
+	this.$estado = $('#id_estado')
+	this.$empresa = $('#id_empresa')
+	this.$padre = $('#id_padre')
+	this.$sistema = $('#id_sistema')
+	this.$ubicacion = $('#id_ubicacion')
+	this.$descripcion = $('#id_descripcion')
 
+	this.init()
 }
-Filtros.prototype.init = function () {
-
-	
+TargetaFiltros.prototype.init = function () {
+	this.$empresa.select2();
+    this.$padre.select2();
+    this.$ubicacion.select2();
 }
 
 /*-----------------------------------------------*\
@@ -84,7 +96,7 @@ GridPrincipal.prototype.init = function () {
         transport: {
             read: {
 
-                url: urlGridPrincipal,
+                url: url_grid,
                 type: "GET",
                 dataType: "json",
             },
@@ -121,6 +133,14 @@ GridPrincipal.prototype.init = function () {
 		{ field: "empresa" , title: "empresa", width: "120px" },
 		{ field: "sistema" , title: "sistema", width: "120px" },
 		{ field: "ubicacion" , title: "ubicacion", width: "120px" },
+        {
+           command: {
+               text: "Editar",
+               click: this.editar,
+           },
+           title: " ",
+           width: "110px"
+        },        
     ]    
 
 
@@ -136,11 +156,21 @@ GridPrincipal.prototype.init = function () {
         columns: this.kColumns,
         scrollable: true,
         pageable: true,
-		
+        toolbar: [
+            { template: kendo.template($("#template").html()) }
+        ],
     })
 
     this.kGrid.data("kendoGrid").resize()
 }
+GridPrincipal.prototype.nuevo = function (e) {
+    window.location.href = url_nuevo
+}
+GridPrincipal.prototype.editar = function (e) {
 
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_editar + fila.pk;
+}
 
 

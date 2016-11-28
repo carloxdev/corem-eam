@@ -12,6 +12,9 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
 
+<!-- Select2 -->
+<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
+
 <!-- CoreM -->
 <link rel="stylesheet" href="{% static 'equipo/lista.css' %}"/>
 
@@ -77,15 +80,12 @@
 			                </div>
 
 							<div class="form-group col-sx-12 col-sm-4 col-md-4">
-				                <label>Padre</label>
-				                <select class="form-control select2">
-				                  <option selected="selected">ACTIVO</option>
-				                  <option>INACTIVO</option>
-				                </select>
+				                <label for="{{ form.padre.id_for_label }}">Padre</label>
+								{{ form.padre }}
 			                </div>
 			                <div class="form-group col-sx-12 col-sm-4 col-md-4">
-			                  <label>Sistema</label>
-			                  <input type="text" class="form-control">
+			                  <label for="{{ form.sistema.id_for_label }}">Sistema</label>
+			                  {{ form.sistema }}
 			                </div>
 						</div>
 
@@ -94,10 +94,7 @@
 
 							<div class="form-group col-sx-12 col-sm-4 col-md-4">
 				                <label>Ubicacion</label>
-				                <select class="form-control select2">
-				                  <option selected="selected">ACTIVO</option>
-				                  <option>INACTIVO</option>
-				                </select>
+				                {{ form.ubicacion }}
 			                </div>
 
 			                <div class="form-group col-sx-12 col-sm-8 col-md-8">
@@ -142,7 +139,16 @@
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
+	<!-- Select2 -->
+	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
+
+	<script id="template" type="text/x-kendo-template">
+		<a class="k-button" href="\#" onclick="return pagina.grid_principal.nuevo()">Nuevo</a>
+	</script>
+
 	<!-- CoreM -->
 	<script src="{% static 'equipo/lista.js' %}"></script>
+
+
 
 {% endblock scripts %}

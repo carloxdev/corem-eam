@@ -16,6 +16,7 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Equipo
         fields = (
+            'pk',
             'tag',
             'descripcion',
             'serie',

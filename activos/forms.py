@@ -35,7 +35,7 @@ class EquipoFiltersForm(ModelForm):
             'serie': TextInput(attrs={'class': 'form-control'}),
             'estado': TextInput(attrs={'class': 'form-control'}),
             'empresa': Select(attrs={'class': 'form-control'}),
-            'padre': Select(attrs={'class': 'form-control'}),
+            'padre': Select(attrs={'class': 'form-control select2'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
