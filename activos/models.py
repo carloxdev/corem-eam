@@ -23,9 +23,9 @@ class Equipo(models.Model):
     tipo = models.CharField(max_length=144, null=True, blank=True)
     estado = models.CharField(max_length=144, null=True, blank=True)
     padre = models.ForeignKey('self', null=True, blank=True)
-    empresa = models.ForeignKey(Empresa, null=True)
+    empresa = models.ForeignKey(Empresa, null=True, blank=True)
     sistema = models.CharField(max_length=144, null=True, blank=True)
-    ubicacion = models.ForeignKey(Ubicacion, null=True)
+    ubicacion = models.ForeignKey(Ubicacion, null=True, blank=True)
     # cliente =
     # responsable =
 
