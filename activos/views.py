@@ -4,10 +4,11 @@
 
 # Django Atajos
 from django.shortcuts import render
-# from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 
 # Django Urls:
-# from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -26,6 +27,8 @@ from .pagination import GenericPagination
 
 # Formularios:
 from forms import EquipoFiltersForm
+from forms import EquipoCreateForm
+from forms import EquipoUpdateForm
 
 
 # ----------------- EMPRESA ----------------- #
@@ -56,7 +59,7 @@ class EquipoCreateView(View):
 
     def get(self, request):
 
-        formulario = EquipoFiltersForm()
+        formulario = EquipoCreateForm()
 
         contexto = {
             'form': formulario
@@ -65,25 +68,95 @@ class EquipoCreateView(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-        return render(request, self.template_name, {})
+
+        formulario = EquipoCreateForm(request.POST)
+
+        if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
+            equipo = Equipo()
+            equipo.tag = datos_formulario.get('tag')
+            equipo.descripcion = datos_formulario.get('descripcion')
+            equipo.serie = datos_formulario.get('serie')
+            equipo.tipo = datos_formulario.get('tipo')
+            equipo.estado = datos_formulario.get('estado')
+            equipo.padre = datos_formulario.get('padre')
+            equipo.empresa = datos_formulario.get('empresa')
+            equipo.sistema = datos_formulario.get('sistema')
+            equipo.ubicacion = datos_formulario.get('ubicacion')
+
+            equipo.save()
+
+            return redirect(
+                reverse('activos.equipos_lista')
+            )
+
+        contexto = {
+            'form': formulario
+        }
+        return render(request, self.template_name, contexto)
 
 
 class EquipoUpdateView(View):
     def __init__(self):
         self.template_name = 'equipo/editar.html'
+        self.tag = ''
 
     def get(self, request, pk):
 
-        formulario = EquipoFiltersForm()
+        equipo = get_object_or_404(Equipo, pk=pk)
+        self.tag = equipo.tag
+
+        formulario = EquipoUpdateForm(
+            initial={
+                'descripcion': equipo.descripcion,
+                'serie': equipo.serie,
+                'tipo': equipo.tipo,
+                'estado': equipo.estado,
+                'padre': equipo.padre,
+                'empresa': equipo.empresa,
+                'sistema': equipo.sistema,
+                'ubicacion': equipo.ubicacion,
+            }
+        )
 
         contexto = {
-            'form': formulario
+            'form': formulario,
+            'tag': self.tag
         }
 
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
-        return render(request, self.template_name, {})
+
+        formulario = EquipoUpdateForm(request.POST)
+
+        equipo = get_object_or_404(Equipo, pk=pk)
+        self.tag = equipo.tag
+
+        if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
+            equipo.descripcion = datos_formulario.get('descripcion')
+            equipo.serie = datos_formulario.get('serie')
+            equipo.tipo = datos_formulario.get('tipo')
+            equipo.estado = datos_formulario.get('estado')
+            equipo.padre = datos_formulario.get('padre')
+            equipo.empresa = datos_formulario.get('empresa')
+            equipo.sistema = datos_formulario.get('sistema')
+            equipo.ubicacion = datos_formulario.get('ubicacion')
+
+            equipo.save()
+
+            return redirect(
+                reverse('activos.equipos_lista')
+            )
+
+        contexto = {
+            'form': formulario,
+            'tag': self.tag
+        }
+        return render(request, self.template_name, contexto)
 
 
 class EquipoAPI(viewsets.ModelViewSet):

@@ -22,21 +22,57 @@ class EquipoFiltersForm(ModelForm):
         model = Equipo
         fields = [
             'tag',
+            'descripcion',
             'serie',
             'estado',
             'empresa',
             'padre',
             'sistema',
             'ubicacion',
-            'descripcion',
         ]
         widgets = {
             'tag': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
             'serie': TextInput(attrs={'class': 'form-control'}),
             'estado': TextInput(attrs={'class': 'form-control'}),
             'empresa': Select(attrs={'class': 'form-control'}),
             'padre': Select(attrs={'class': 'form-control select2'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
+        }
+
+
+class EquipoCreateForm(ModelForm):
+
+    class Meta:
+        model = Equipo
+        fields = '__all__'
+        widgets = {
+            'tag': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'serie': TextInput(attrs={'class': 'form-control'}),
+            'tipo': Select(attrs={'class': 'form-control'}),
+            'estado': TextInput(attrs={'class': 'form-control'}),
+            'padre': Select(attrs={'class': 'form-control select2'}),
+            'empresa': Select(attrs={'class': 'form-control'}),
+            'sistema': TextInput(attrs={'class': 'form-control'}),
+            'ubicacion': Select(attrs={'class': 'form-control'}),
+        }
+
+
+class EquipoUpdateForm(ModelForm):
+
+    class Meta:
+        model = Equipo
+        fields = '__all__'
+        exclude = ['tag']
+        widgets = {
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'serie': TextInput(attrs={'class': 'form-control'}),
+            'tipo': Select(attrs={'class': 'form-control'}),
+            'estado': TextInput(attrs={'class': 'form-control'}),
+            'padre': Select(attrs={'class': 'form-control select2'}),
+            'empresa': Select(attrs={'class': 'form-control'}),
+            'sistema': TextInput(attrs={'class': 'form-control'}),
+            'ubicacion': Select(attrs={'class': 'form-control'}),
         }

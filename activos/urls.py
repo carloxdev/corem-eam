@@ -12,7 +12,7 @@ urlpatterns = [
     url(
         r'^equipos/$',
         EquipoListView.as_view(),
-        name='activos.equipos'
+        name='activos.equipos_lista'
     ),
     url(
         r'^equipos/nuevo/$',

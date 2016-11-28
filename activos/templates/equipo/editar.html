@@ -14,7 +14,7 @@
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-	    <li><a href="{% url 'activos.equipos' %}">Equipos</a></li>
+	    <li><a href="{% url 'activos.equipos_lista' %}">Equipos</a></li>
 	    <li class="active">Editar</li>
 	  </ol>
 	</section>
@@ -28,24 +28,20 @@
 	          <!-- Filtros -->
 	          <div class="box box-primary">
 	            <div class="box-header with-border">
-	              <h3 class="box-title">Editando Equipo: <strong> {% if clave %} {{ clave }} {% endif %}</strong> </h3>
+	              <h3 class="box-title">Editando Equipo: <strong> {% if tag %} {{ tag }} {% endif %}</strong> </h3>
 	            </div>
 	            <!-- /.box-header -->
-
-	              <div class="box-body">
-
 					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-						{{ form.as_p }}
+		              <div class="box-body">
+							{{ form.as_p }}					
+		              </div>
+		              <!-- /.box-body -->
+
+		              <div class="box-footer">
+		                <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+		              </div>
+		              <!-- /.box-footer -->
 					</form>
-				
-	              </div>
-	              <!-- /.box-body -->
-
-	              <div class="box-footer">
-	                <button type="submit" class="btn btn-primary pull-right">Guardar</button>
-	              </div>
-	              <!-- /.box-footer -->
-
 	            </form>
 	          </div>
 	          <!-- /.box -->
