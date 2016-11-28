@@ -35,90 +35,135 @@
 		              <div class="box-body">
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.tag.errors %} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.tag.name }}">{{ form.tag.label }}</label>
 		              					{{ form.tag }}
+		              					{% for error in form.tag.errors %}
+                                        <div class="help-block text-right" id="id_tag-error">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.descripcion.errors %} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.descripcion.name }}">{{ form.descripcion.label }}</label>
 		              					{{ form.descripcion }}
+		              					{% for error in form.descripcion.errors %}
+		              					<div class="help-block text-right" id="id_descripcion-error">
+		              						{{ error }}
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.serie.errors%} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.serie.name }}">{{ form.serie.label }}</label>
 		              					{{ form.serie }}
+		              					{% for error in form.serie.errors %}
+		              					<div class="help-block text-right" id="id_serie-error">
+		              						{{ error }}
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.tipo.errors %} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.tipo.name }}">{{ form.tipo.label }}</label>
 		              					{{ form.tipo }}
+		              					{% for error in form.tipo.errors %}
+		              					<div class="help-block text-right" id="id_tipo-error">
+		              						{{ error }}
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.estado.errors %} has-error {% endif%}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.estado.name }}">{{ form.estado.label }}</label>
 		              					{{ form.estado }}
+		              					{% for error in form.estado.errors %}
+		              					<div class="help-block text-right" id="id_estado-error">
+		              						{{ error }}
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.padre.errors%} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.padre.name }}">{{ form.padre.label }}</label>
 		              					{{ form.padre }}
+		              					{% for error in form.padre.errors %}
+		              					<div class="help-block text-right" id="id_padre-error">
+		              						{{ error }}		              						
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.empresa.errors%} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.empresa.name }}">{{ form.empresa.label }}</label>
 		              					{{ form.empresa }}
+		              					{% for error in form.empresa.errors %}
+		              					<div class="help-block text-right" id="id_empresa-error">
+		              						{{ error }}		              						
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.sistema.errors%} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.sistema.name }}">{{ form.sistema.label }}</label>
 		              					{{ form.sistema }}
+		              					{% for error in form.sistema.errors %}
+		              					<div class="help-block text-right" id="id_sistema-error">
+		              						{{ error }}		              						
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
 		              	</div>
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="form-group {% if form.sistema.errors%} has-error {% endif %}">
 		              				<div class="col-sm-12">
 		              					<label for="{{ form.ubicacion.name }}">{{ form.ubicacion.label }}</label>
 		              					{{ form.ubicacion }}
+		              					{% for error in form.ubicacion.errors %}
+		              					<div class="help-block text-right" id="id_ubicacion-error">
+		              						{{ error }}		              						
+		              					</div>
+		              					{% endfor %}
 		              				</div>
 		              			</div>
 		              		</div>
@@ -129,9 +174,10 @@
 		              <div class="box-footer">
 		              	<div class="row">
 		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="form-group">
+		              			<div class="pull-right form-group">
 		              				<div class="col-sm-12">
-		              					<button type="submit" class="btn btn-primary pull-right">Guardar</button>
+		    		              		<a class="btn btn-default" href="{% url 'activos.equipos_lista' %}">Regresar</a>
+		              					<button type="submit" class="btn btn-primary">Guardar</button>
 		              				</div>
 		              			</div>
 		              		</div>
