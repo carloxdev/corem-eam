@@ -19,6 +19,7 @@ from .models import Equipo, Ubicacion
 
 # API Rest:
 from rest_framework import viewsets
+from rest_framework.views import APIView
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer, UbicacionSerializer
@@ -191,6 +192,20 @@ class UbicacionListView(View):
 
     def post(self, request):
         return render(request, self.template_name, {})
+
+
+class UbicacionDeleteView(APIView):
+
+    def delete(self, request, *args, **kwargs):
+        id_ubicacion = request.POST['id']
+        response_data = {'exito': True}
+        
+        try:
+            ubicacion = Ubicacion.objects.get(id=id_ubicacion)
+            ubicacacion.delete()
+        except Ubicacion.DoesNotExist:
+            response_data['exito'] = False
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 class UbicacionUpdateView(UpdateView):

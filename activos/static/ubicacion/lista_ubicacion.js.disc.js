@@ -5,9 +5,7 @@
 var url_grid = window.location.origin + "/api/ubicaciones/"
 var url_nuevo = window.location.origin + "/ubicaciones/nuevo/"
 var url_editar = window.location.origin + "/ubicaciones/editar/"
-var url_eliminar = window.location.origin + "/ubicaciones/eliminar/"
 var pagina = null
-var modal;
 
 
 /*-----------------------------------------------*\
@@ -16,8 +14,7 @@ var modal;
 
 $(document).ready(function () {
 
-	pagina = new Pagina();
-    
+	pagina = new Pagina()
 
 })
 
@@ -32,7 +29,6 @@ function Pagina() {
 
 	this.targetaFiltros = new TargetaFiltros()
 	this.grid_principal = new GridPrincipal()
-
 }
 // Pagina.prototype.set_PageActive = function () {
 
@@ -64,7 +60,6 @@ function GridPrincipal(_id) {
 
     this.init()
 }
-
 GridPrincipal.prototype.init = function () {
 
 	kendo.culture("es-MX")
@@ -86,12 +81,6 @@ GridPrincipal.prototype.init = function () {
                 type: "GET",
                 dataType: "json",
             },
-            destroy: {
-                url: url_editar,
-                type: "POST",
-                dataType: "json"
-
-            },
             parameterMap: function (data, action) {
                 if (action === "read") {
 
@@ -99,9 +88,6 @@ GridPrincipal.prototype.init = function () {
                         page: data.page,
                         pageSize: data.pageSize,
                     }
-                }
-                else {
-                    return JSON.stringify(data);
                 }
             }
         },
@@ -114,7 +100,7 @@ GridPrincipal.prototype.init = function () {
         },
         error: function (e) {
 			// alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
-			alert("Error")
+			alert("Valio gaver")
         },
     })
 
@@ -122,22 +108,22 @@ GridPrincipal.prototype.init = function () {
 		{ field: "clave" , title: "clave", width: "120px" },
 		{ field: "descripcion" , title: "descripcion", width: "120px" },
         {
-           command: [
-                { text: "Editar", click: this.editar },
-                { text: "Eliminar", click: this.eliminar }
-           ],
+           command: {
+               text: "Editar",
+               click: this.editar,
+           },
            title: " ",
            width: "110px"
         },        
-    ]
-    
+    ]    
+
 
     this.kGrid = this.$id.kendoGrid({
         dataSource: this.kFuenteDatos,
         columnMenu: false,
         groupable: false,
         sortable: false,
-        editable: "inline",
+        editable: false,
         resizable: true,
         selectable: true,
         scrollable: false,
@@ -149,9 +135,8 @@ GridPrincipal.prototype.init = function () {
         ],
     })
 
-    this.kGrid.data("kendoGrid").resize();
+    this.kGrid.data("kendoGrid").resize()
 }
-
 GridPrincipal.prototype.nuevo = function (e) {
     window.location.href = url_nuevo
 }
@@ -162,25 +147,5 @@ GridPrincipal.prototype.editar = function (e) {
     console.log(fila);
     window.location.href = url_editar + fila.pk;
 }
-GridPrincipal.prototype.eliminar = function (e) {
-    e.preventDefault();
-    var fila = this.dataItem($(e.currentTarget).closest("tr"));
-    var id_ubicacion = fila.pk;
-    if(confirm('¿Desea eliminar la ubicación con clave: ' + fila.clave + '?')) {
-    grid = $("#grid_principal").data("kendoGrid");
-   /* $.ajax({
-        url:"eliminar",
-        headers: { 'Authorization' : 'Token {{ request.session.token }}' },
-        data: {"pk": id_ubicacion},
-        type:'DELETE',
-        dataType:'json'
-    });
-    */
-    grid.dataSource.remove(fila);
-    grid.dataSource.sync();
-    grid.dataSource.refresh();
-    
-  }
-   
-}
+
 

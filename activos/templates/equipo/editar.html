@@ -33,80 +33,28 @@
 	            <!-- /.box-header -->
 					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 		              <div class="box-body">
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.descripcion.name}}">{{ form.descripcion.label }}</label>
-									{{ form.descripcion }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.serie.name }}">{{ form.serie.label }}</label>
-									{{ form.serie }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.tipo.name }}">{{ form.tipo.label }}</label>
-									{{ form.tipo }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.estado.name }}">{{ form.estado.label}}</label>
-									{{ form.estado }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.padre.name }}">{{ form.padre.label }}</label>
-									{{ form.padre }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.empresa.name }}">{{ form.empresa.label }}</label>
-									{{ form.empresa }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.sistema.name }}">{{ form.sistema.label }}</label>
-									{{ form.sistema }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								<div class="form-group">
-									<div class="col-sm-12"><label for="{{ form.ubicacion.name }}">{{ form.ubicacion.label }}</label>
-									{{ form.ubicacion }}
-									</div>
-								</div>
-							</div>
-						</div>			
+						{% for field in form %}
+					    <div class="row">
+					    	<div class="col-sm-10 col-md-offset-1">
+					    		<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    			<div class="col-sm-12">
+					    				<label for="{{ field.label }}">{{ field.label_tag }}
+					       		 		{% if field.field.required %}<span class="">*</span>{% endif %}</label>
 
-		              </div>
+					        			{{ field }}
+					        			
+					        			{% for error in field.errors %}
+		              					<div class="help-block text-right" id="{{ field.label }}-error">
+		              						{{ error }}
+		              					</div>
+		              					{% endfor %}
+					    			</div>
+					    		</div>
+					    		 
+					    	</div>
+					       
+					    </div>
+					    {% endfor %}
 		              <!-- /.box-body -->
 		             <div class="box-footer">
 		              	<div class="row">

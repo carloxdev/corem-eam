@@ -88,7 +88,7 @@ class EquipoUpdateForm(ModelForm):
             'ubicacion': Select(attrs={'class': 'form-control'}),
         }
         labels = {
-            'descripcion': 'PRUEBA',
+            'descripcion': 'Descripción',
             'serie': 'Serie',
             'tipo': 'Tipo',
             'estado': 'Estado',

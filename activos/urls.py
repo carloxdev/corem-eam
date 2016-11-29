@@ -7,7 +7,7 @@ from django.conf.urls import url
 from .views import EquipoListView
 from .views import EquipoCreateView
 from .views import EquipoUpdateView
-from .views import UbicacionCreateView, UbicacionListView, UbicacionUpdateView
+from .views import UbicacionCreateView, UbicacionListView, UbicacionDeleteView, UbicacionUpdateView
 
 urlpatterns = [
     url(
@@ -36,8 +36,13 @@ urlpatterns = [
         name='activos.ubicaciones_nuevo'
     ),
     url(
-        r'ubicaciones/editar/(?P<pk>\d+)',
+        r'^ubicaciones/editar/(?P<pk>\d+)',
         UbicacionUpdateView.as_view(),
         name='activos.ubicaciones_editar'
+    ),
+    url(
+        r'^ubicaciones/eliminar',
+        UbicacionDeleteView.as_view(),
+        name='activos.ubicaciones_eliminar'
     ),
 ]
