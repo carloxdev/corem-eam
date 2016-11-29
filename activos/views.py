@@ -12,7 +12,7 @@ from django.core.urlresolvers import reverse, reverse_lazy
 
 # Django Generic Views
 from django.views.generic.base import View
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 
 # Modelos:
 from .models import Equipo, Ubicacion
@@ -22,7 +22,7 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 
 # API Rest - Serializadores:
-from .serializers import EquipoSerializer, UbicacionSerializer
+from .serializers import EquipoSerializer, UbicacionSerializer, EquipoTreeSerializer
 
 # API Rest - Paginacion:
 from .pagination import GenericPagination
@@ -61,11 +61,12 @@ class EquipoCreateView(View):
         self.template_name = 'equipo/nuevo.html'
 
     def get(self, request):
-
+        ins = Equipo()
+        hijos = ins.get_all_children()
+        print hijos
         formulario = EquipoCreateForm()
-
         contexto = {
-            'form': formulario
+            'form': formulario,
         }
 
         return render(request, self.template_name, contexto)
@@ -87,6 +88,7 @@ class EquipoCreateView(View):
             equipo.empresa = datos_formulario.get('empresa')
             equipo.sistema = datos_formulario.get('sistema')
             equipo.ubicacion = datos_formulario.get('ubicacion')
+            equipo.imagen = request.FILES['imagen']
 
             equipo.save()
 
@@ -225,3 +227,17 @@ class UbicacionAPI(viewsets.ModelViewSet):
     queryset = Ubicacion.objects.all()
     serializer_class = UbicacionSerializer
     pagination_class = GenericPagination
+
+
+class EquipoTreeListView(TemplateView):
+    template_name= "equipo/arbol.html"
+
+
+class EquipoTreeView(APIView):
+    serializer_class = EquipoTreeSerializer
+
+
+    def get(self, request, format=None):
+        lista = Equipo.objects.all()
+
+        return HttpResponse(json.dumps(serializer.lista), content_type="application/json")

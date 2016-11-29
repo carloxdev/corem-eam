@@ -20,6 +20,7 @@ class AdminEquipo(admin.ModelAdmin):
         'padre',
         'empresa',
         'sistema',
+        'imagen',
     )
 
 

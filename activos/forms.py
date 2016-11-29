@@ -57,6 +57,7 @@ class EquipoCreateForm(ModelForm):
             'empresa': Select(attrs={'class': 'form-control'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
+            
         }
         labels = {
             'tag': 'Tag',
@@ -68,6 +69,7 @@ class EquipoCreateForm(ModelForm):
             'empresa': 'Empresa',
             'sistema': 'Sistema',
             'ubicacion': 'Ubicación',
+            'imagen': 'Imagen'
         }
 
 
