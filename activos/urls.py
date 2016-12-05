@@ -7,7 +7,8 @@ from django.conf.urls import url
 from .views import EquipoListView
 from .views import EquipoCreateView
 from .views import EquipoUpdateView
-from .views import UbicacionCreateView, UbicacionListView, UbicacionDeleteView, UbicacionUpdateView
+from .views import UbicacionCreateView, UbicacionListView, UbicacionDeleteView, UbicacionUpdateView, EquipoTreeListView, obtener_arbol
+
 
 urlpatterns = [
     url(
@@ -24,6 +25,11 @@ urlpatterns = [
         r'^equipos/editar/(?P<pk>.*)/$',
         EquipoUpdateView.as_view(),
         name='activos.equipos_editar'
+    ),
+    url(
+        r'equipos/arbol/$',
+        EquipoTreeListView.as_view(),
+        name='activos.equipos_arbol'
     ),
     url(
         r'ubicaciones/$',
@@ -45,4 +51,10 @@ urlpatterns = [
         UbicacionDeleteView.as_view(),
         name='activos.ubicaciones_eliminar'
     ),
+    url(
+        r'^equipos/api_tree',
+        obtener_arbol,
+        name='activos.api_tree'
+    ),
+
 ]

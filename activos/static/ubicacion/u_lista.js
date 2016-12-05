@@ -14,7 +14,7 @@ var pagina = null
 
 $(document).ready(function () {
 
-	pagina = new Pagina()
+    pagina = new Pagina()
 
 })
 
@@ -27,8 +27,8 @@ $(document).ready(function () {
 
 function Pagina() {
 
-	this.targetaFiltros = new TargetaFiltros()
-	this.grid_principal = new GridPrincipal()
+    this.targetaFiltros = new TargetaFiltros()
+    this.grid_principal = new GridPrincipal()
 }
 // Pagina.prototype.set_PageActive = function () {
 
@@ -41,9 +41,9 @@ function Pagina() {
 
 function TargetaFiltros() {
 
-	this.$descripcion = $('#id_descripcion');
+    this.$descripcion = $('#id_descripcion');
 
-	
+    
 }
 
 /*-----------------------------------------------*\
@@ -52,7 +52,7 @@ function TargetaFiltros() {
 
 function GridPrincipal(_id) {
 
-	this.$id = $("#grid_principal")
+    this.$id = $("#grid_principal")
     this.kFields = null
     this.kFuenteDatos = null
     this.kColumns = null
@@ -62,11 +62,11 @@ function GridPrincipal(_id) {
 }
 GridPrincipal.prototype.init = function () {
 
-	kendo.culture("es-MX")
+    kendo.culture("es-MX")
 
     this.kFields = {
-		clave: { type: "string"},
-		descripcion: { type: "string" },
+        clave: { type: "string"},
+        descripcion: { type: "string" },
     }
 
 
@@ -99,14 +99,14 @@ GridPrincipal.prototype.init = function () {
             }
         },
         error: function (e) {
-			// alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
-			alert("Valio gaver")
+            // alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
+            alert("Valio gaver")
         },
     })
 
     this.kColumns = [
-		{ field: "clave" , title: "clave", width: "120px" },
-		{ field: "descripcion" , title: "descripcion", width: "120px" },
+        { field: "clave" , title: "clave", width: "120px" },
+        { field: "descripcion" , title: "descripcion", width: "120px" },
         {
            command: {
                text: "Editar",

@@ -1,0 +1,72 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block title %} Editar Equipo {% endblock title %}
+
+{% block css %}
+	<link href="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.css' %}">
+
+{% endblock css %}	
+
+{% block contenido %}
+
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+	  <h1>
+	    <span id="titulo">Equipos</span>
+	    <small>Ver</small>
+	  </h1>
+	  <ol class="breadcrumb">
+	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	    <li><a href="{% url 'activos.equipos_lista' %}">Equipos</a></li>
+	    <li class="active">Ver</li>
+	  </ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content" id="contenido">
+
+		<div class="row">
+	        <div class="col-md-12">
+
+	          <!-- Filtros -->
+	          <div class="box box-primary">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">Root</h3>
+	            </div>
+	            <!-- /.box-header -->
+					
+		              <div class="box-body">
+		               <h1>Root</h1>
+		              	<div id="tree">
+		              		
+		              	</div>
+		              <!-- /.box-body -->
+
+		              </div>
+		              <!-- /.box-footer -->
+
+	            
+	          </div>
+	          <!-- /.box -->
+
+	        </div>			
+
+		</div>
+
+	</section>
+	<!-- /. Main content -->
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+	<!-- Kendo Js -->
+	<script src="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.js' %}"></script>
+	<script src="{% static 'equipo/tree.js' %}"></script>
+	
+
+
+
+{% endblock scripts %}

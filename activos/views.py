@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+# Librerias Python
+import json
 # Librerias django
 
 # Django Atajos
@@ -9,6 +10,7 @@ from django.shortcuts import redirect
 
 # Django Urls:
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponse
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -88,7 +90,7 @@ class EquipoCreateView(View):
             equipo.empresa = datos_formulario.get('empresa')
             equipo.sistema = datos_formulario.get('sistema')
             equipo.ubicacion = datos_formulario.get('ubicacion')
-            equipo.imagen = request.FILES['imagen']
+            equipo.imagen = request.POST['imagen']
 
             equipo.save()
 
@@ -202,11 +204,9 @@ class UbicacionDeleteView(APIView):
         id_ubicacion = request.POST['id']
         response_data = {'exito': True}
         
-        try:
-            ubicacion = Ubicacion.objects.get(id=id_ubicacion)
-            ubicacacion.delete()
-        except Ubicacion.DoesNotExist:
-            response_data['exito'] = False
+        ubicacion = Ubicacion.objects.get(id=id_ubicacion)
+        ubicacion.delete()
+        
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
@@ -233,11 +233,53 @@ class EquipoTreeListView(TemplateView):
     template_name= "equipo/arbol.html"
 
 
-class EquipoTreeView(APIView):
-    serializer_class = EquipoTreeSerializer
+def obtener_arbol(request):
+    tree = {'text': '', 'nodes':[] }
+    sub_tree = tree['nodes']
+    def print_Hijos(_hijos, _tag):
+
+    
+        _tag += "--"
+
+        for hijo in _hijos:
+            print "{} Hijo: {}".format(_tag, hijo)
+            hijos = Equipo.objects.filter(padre=hijo)
+            if len(hijos) > 0:
+                print_Hijos(hijos, _tag)
+
+        return None
 
 
-    def get(self, request, format=None):
-        lista = Equipo.objects.all()
+    daddies = Equipo.objects.filter(padre=None)
+    tag = "--"
 
-        return HttpResponse(json.dumps(serializer.lista), content_type="application/json")
+    for daddy in daddies:
+        
+        print "Padre: {}".format(daddy)
+        
+        hijos = Equipo.objects.filter(padre=daddy)
+        print_Hijos(hijos, tag)
+
+    return HttpResponse(json.dumps(tree), content_type="application/json")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
