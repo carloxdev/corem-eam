@@ -24,8 +24,7 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 
 # API Rest - Serializadores:
-from .serializers import EquipoSerializer, UbicacionSerializer, EquipoTreeSerializer
-
+from .serializers import EquipoSerializer, UbicacionSerializer
 # API Rest - Paginacion:
 from .pagination import GenericPagination
 
