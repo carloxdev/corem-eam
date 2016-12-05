@@ -14,7 +14,11 @@ from django.http import HttpResponse
 
 # Django Generic Views
 from django.views.generic.base import View
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
+from django.views.generic import CreateView
+from django.views.generic import ListView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
+from django.views.generic import TemplateView
 
 # Modelos:
 from .models import Equipo, Ubicacion
@@ -32,10 +36,11 @@ from .pagination import GenericPagination
 from forms import EquipoFiltersForm
 from forms import EquipoCreateForm
 from forms import EquipoUpdateForm
-from forms import UbicacionCreateForm, UbicacionFiltersForm
+from forms import UbicacionFiltersForm
+from forms import UbicacionCreateForm
 
 
-# ----------------- EMPRESA ----------------- #
+# ----------------- EQUIPO ----------------- #
 
 class EquipoListView(View):
 
@@ -171,6 +176,47 @@ class EquipoAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
 
 
+class UbicacionAPI(viewsets.ModelViewSet):
+    queryset = Ubicacion.objects.all()
+    serializer_class = UbicacionSerializer
+    pagination_class = GenericPagination
+
+
+class EquipoTreeListView(TemplateView):
+    template_name = "equipo/arbol.html"
+
+
+def obtener_arbol(request):
+    tree = {'text': '', 'nodes': []}
+    sub_tree = tree['nodes']
+
+    def print_Hijos(_hijos, _tag):
+
+        _tag += "--"
+
+        for hijo in _hijos:
+            print "{} Hijo: {}".format(_tag, hijo)
+            hijos = Equipo.objects.filter(padre=hijo)
+            if len(hijos) > 0:
+                print_Hijos(hijos, _tag)
+
+        return None
+
+    daddies = Equipo.objects.filter(padre=None)
+    tag = "--"
+
+    for daddy in daddies:
+
+        print "Padre: {}".format(daddy)
+
+        hijos = Equipo.objects.filter(padre=daddy)
+        print_Hijos(hijos, tag)
+
+    return HttpResponse(json.dumps(tree), content_type="application/json")
+
+# ----------------- UBICACION ----------------- #
+
+
 class UbicacionCreateView(CreateView):
     model = Ubicacion
     form_class = UbicacionCreateForm
@@ -197,88 +243,8 @@ class UbicacionListView(View):
         return render(request, self.template_name, {})
 
 
-class UbicacionDeleteView(APIView):
-
-    def delete(self, request, *args, **kwargs):
-        id_ubicacion = request.POST['id']
-        response_data = {'exito': True}
-        
-        ubicacion = Ubicacion.objects.get(id=id_ubicacion)
-        ubicacion.delete()
-        
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-
 class UbicacionUpdateView(UpdateView):
     model = Ubicacion
     form_class = UbicacionCreateForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos.ubicaciones_lista')
-
-
-class UbicacionDeleteView(DeleteView):
-    model = Ubicacion
-    template_name = ''
-    success_url = reverse_lazy('')
-
-
-class UbicacionAPI(viewsets.ModelViewSet):
-    queryset = Ubicacion.objects.all()
-    serializer_class = UbicacionSerializer
-    pagination_class = GenericPagination
-
-
-class EquipoTreeListView(TemplateView):
-    template_name= "equipo/arbol.html"
-
-
-def obtener_arbol(request):
-    tree = {'text': '', 'nodes':[] }
-    sub_tree = tree['nodes']
-    def print_Hijos(_hijos, _tag):
-
-    
-        _tag += "--"
-
-        for hijo in _hijos:
-            print "{} Hijo: {}".format(_tag, hijo)
-            hijos = Equipo.objects.filter(padre=hijo)
-            if len(hijos) > 0:
-                print_Hijos(hijos, _tag)
-
-        return None
-
-
-    daddies = Equipo.objects.filter(padre=None)
-    tag = "--"
-
-    for daddy in daddies:
-        
-        print "Padre: {}".format(daddy)
-        
-        hijos = Equipo.objects.filter(padre=daddy)
-        print_Hijos(hijos, tag)
-
-    return HttpResponse(json.dumps(tree), content_type="application/json")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 

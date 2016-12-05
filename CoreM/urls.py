@@ -20,12 +20,12 @@ router = routers.DefaultRouter()
 router.register(
     r'equipos',
     EquipoAPI,
-    'api_equipos'
+    'equipo'
 )
 router.register(
-	r'ubicaciones',
-	UbicacionAPI,
-	'api_ubicaciones'
+    r'ubicaciones',
+    UbicacionAPI,
+    'ubicacion'
 )
 
 urlpatterns = [

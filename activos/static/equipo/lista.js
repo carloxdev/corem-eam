@@ -1,11 +1,12 @@
 /*-----------------------------------------------*\
-            GLOBAL VARS
+            GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
 var url_grid = window.location.origin + "/api/equipos/"
 var url_nuevo = window.location.origin + "/equipos/nuevo/"
 var url_editar = window.location.origin + "/equipos/editar/"
-var pagina = null
+var targeta_filtros = null
+var targeta_resultados = null
 
 
 /*-----------------------------------------------*\
@@ -14,29 +15,15 @@ var pagina = null
 
 $(document).ready(function () {
 
-	pagina = new Pagina()
-
+	this.targeta_filtros = new TargetaFiltros()
+    
+    this.targeta_resultados = new TargetaResultados()
 })
 
-// $(window).resizable
 
 
 /*-----------------------------------------------*\
-            OBJETO: PAGINA
-\*-----------------------------------------------*/
-
-function Pagina() {
-
-	this.targetaFiltros = new TargetaFiltros()
-	this.grid_principal = new GridPrincipal()
-}
-// Pagina.prototype.set_PageActive = function () {
-
-
-// }
-
-/*-----------------------------------------------*\
-            OBJETO: FILTROS
+            OBJETO: Targeta Filtros
 \*-----------------------------------------------*/
 
 function TargetaFiltros() {
@@ -58,11 +45,22 @@ TargetaFiltros.prototype.init = function () {
     this.$ubicacion.select2();
 }
 
+
 /*-----------------------------------------------*\
-            OBJETO: GRID
+            OBJETO: Grid Principal
 \*-----------------------------------------------*/
 
-function GridPrincipal(_id) {
+function TargetaResultados() {
+
+    this.grid_principal = new GridPrincipal()
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: Grid Principal
+\*-----------------------------------------------*/
+
+function GridPrincipal() {
 
 	this.$id = $("#grid_principal")
     this.kFields = null

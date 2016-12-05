@@ -4,7 +4,8 @@
 from rest_framework import serializers
 
 # Modelos:
-from .models import Equipo, Ubicacion
+from .models import Equipo
+from .models import Ubicacion
 
 
 class EquipoSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,6 +17,7 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Equipo
         fields = (
+            'url',
             'pk',
             'tag',
             'descripcion',
@@ -56,6 +58,7 @@ class UbicacionSerializer(serializers.ModelSerializer):
         model = Ubicacion
         fields = (
             'pk',
-            'clave', 
+            'url',
+            'clave',
             'descripcion'
         )
