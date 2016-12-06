@@ -16,3 +16,13 @@ media/*
 # Configuracion
 # ---------------------------------------
 CoreM/settings.py
+
+# Migraciones
+
+activos/migrations/*
+home/migrations/*
+inventarios/migrations/*
+mediciones/migrations/*
+programaciones/migrations/*
+seguridad/migrations/*
+trabajos/migrations/*

@@ -95,3 +95,7 @@ class Medicion(models.Model):
 
     def __str__(self):
         return "{0} : {1}".format(self.equipo, self.clave)
+
+
+class Prueba(models.Model):
+    campo = models.CharField(max_length=20)
