@@ -109,4 +109,4 @@ class Texto(models.Model):
 
 class Imagen(models.Model):
     equipo = models.ForeignKey(Equipo)
-    imagen = models.ImageField(upload_to='equipos/img')
+    ruta = models.ImageField(upload_to='equipos/img')
