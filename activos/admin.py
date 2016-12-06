@@ -7,6 +7,8 @@ from django.contrib import admin
 from .models import Equipo
 from .models import Ubicacion
 from .models import Asignacion
+from .models import Odometro
+from .models import Medicion
 
 
 @admin.register(Equipo)
@@ -38,4 +40,23 @@ class AdminAsignacion(admin.ModelAdmin):
         'equipo',
         'ubicacion',
         'fecha',
+    )
+
+
+@admin.register(Odometro)
+class Odometro(admin.ModelAdmin):
+    list_display = (
+        'equipo',
+        'clave',
+        'descripcion',
+        'udm',
+        'is_active',
+    )
+
+
+@admin.register(Medicion)
+class Medicion(admin.ModelAdmin):
+    list_display = (
+        'odometro',
+        'lectura',
     )
