@@ -7,6 +7,20 @@ from django.db import models
 # Otros Modelos:
 from seguridad.models import Empresa
 
+EQUIPO_ESTADO = (
+    ('ACT', 'ACTIVO'),
+    ('DES', 'DESHABILITADO'),
+    ('REP', 'EN REPARACION'),
+)
+
+ODOMETRO_UDM = (
+    ('HR', 'HORAS'),
+    ('KM', 'KILOMETROS'),
+    ('K', 'KELVIN'),
+    ('C', 'GRADOS CELSIUS'),
+    ('F', 'GRADOS FAHRENHEIT'),
+)
+
 
 class Ubicacion(models.Model):
     clave = models.CharField(max_length=144, null=True)
@@ -21,7 +35,12 @@ class Equipo(models.Model):
     descripcion = models.CharField(max_length=144, null=True)
     serie = models.CharField(max_length=144, null=True, blank=True)
     tipo = models.CharField(max_length=144, null=True, blank=True)
-    estado = models.CharField(max_length=144, null=True, blank=True)
+    estado = models.CharField(
+        max_length=4,
+        choices=EQUIPO_ESTADO,
+        default="ACT",
+        blank=True
+    )
     padre = models.ForeignKey('self', null=True, blank=True)
     empresa = models.ForeignKey(Empresa, null=True, blank=True)
     sistema = models.CharField(max_length=144, null=True, blank=True)
@@ -57,3 +76,22 @@ class Asignacion(models.Model):
 
     class Meta:
         unique_together = (('equipo', 'ubicacion'),)
+
+
+class Odometro(models.Model):
+    equipo = models.ForeignKey(Equipo)
+    clave = models.CharField(max_length=144)
+    descripcion = models.CharField(max_length=144, null=True)
+    udm = models.CharField(max_length=3, choices=ODOMETRO_UDM, null=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{0} : {1}".format(self.equipo, self.clave)
+
+
+class Medicion(models.Model):
+    odometro = models.ForeignKey(Odometro)
+    lectura = models.DecimalField(max_digits=20, decimal_places=4, default=0.0)
+
+    def __str__(self):
+        return "{0} : {1}".format(self.equipo, self.clave)
