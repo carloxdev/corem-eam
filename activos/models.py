@@ -45,7 +45,7 @@ class Equipo(models.Model):
     empresa = models.ForeignKey(Empresa, null=True, blank=True)
     sistema = models.CharField(max_length=144, null=True, blank=True)
     ubicacion = models.ForeignKey(Ubicacion, null=True, blank=True)
-    imagen = models.ImageField(upload_to='img/equipos', blank=True)
+    imagen = models.ImageField(upload_to='equipos/img', blank=True)
     # cliente =
     # responsable =
 
@@ -97,5 +97,16 @@ class Medicion(models.Model):
         return "{0} : {1}".format(self.equipo, self.clave)
 
 
-class Prueba(models.Model):
-    campo = models.CharField(max_length=20)
+class Archivo(models.Model):
+    equipo = models.ForeignKey(Equipo)
+    archivo = models.FileField(upload_to='equipos/files', blank=True)
+
+
+class Texto(models.Model):
+    equipo = models.ForeignKey(Equipo)
+    texto = models.CharField(max_length=255, null=True, blank=True)
+
+
+class Imagen(models.Model):
+    equipo = models.ForeignKey(Equipo)
+    imagen = models.ImageField(upload_to='equipos/img')
