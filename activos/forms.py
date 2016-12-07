@@ -10,7 +10,7 @@ from .models import Equipo
 from .models import Ubicacion
 from .models import Archivo
 from .models import Texto
-from .models import Imagen
+from .models import ImagenAnexo
 
 
 class EquipoFiltersForm(ModelForm):
@@ -139,5 +139,5 @@ class TextoForm(ModelForm):
     pass
 
 
-class ImagenForm(ModelForm):
+class ImagenAnexoForm(ModelForm):
     pass
