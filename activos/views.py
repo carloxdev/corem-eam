@@ -261,10 +261,7 @@ def anexos(request, **kwargs):
 
 def anexar_texto(request, **kwargs):
     id_e = kwargs.get('pk', 0)
-    equipo = Equipo.objects.get(id=id_e)
-    equipo_id = equipo.id
-    print equipo_id
-    print equipo
+
     if request.method == 'GET':
         form = TextoForm()
         id = id_e
@@ -283,10 +280,7 @@ def anexar_texto(request, **kwargs):
 
 def anexar_imagen(request, **kwargs):
     id_e = kwargs.get('pk', 0)
-    equipo = Equipo.objects.get(id=id_e)
-    
-    # equipo_id = equipo.id
-    # print equipo_id
+
     if request.method == 'GET':
         form = ImagenAnexoForm()
     else:
@@ -301,7 +295,7 @@ def anexar_imagen(request, **kwargs):
                 imagenAnexo.ruta = request.POST['ruta']
             else:
                 imagenAnexo.ruta = request.FILES['ruta']
-                imagenAnexo.save(commit=False)
+                # imagenAnexo.save(commit=False)
                 imagenAnexo.equipo_id = id_e
                 imagenAnexo.save()
             imagenAnexo.equipo_id = id_e
