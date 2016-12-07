@@ -16,11 +16,8 @@ var targeta_resultados = null
 $(document).ready(function () {
 
 	this.targeta_filtros = new TargetaFiltros()
-    
     this.targeta_resultados = new TargetaResultados()
 })
-
-
 
 /*-----------------------------------------------*\
             OBJETO: Targeta Filtros
@@ -116,8 +113,7 @@ GridPrincipal.prototype.init = function () {
             }
         },
         error: function (e) {
-			// alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
-			alert("Valio gaver")
+			alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     })
 

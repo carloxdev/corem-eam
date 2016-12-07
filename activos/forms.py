@@ -57,7 +57,6 @@ class EquipoCreateForm(ModelForm):
             'empresa': Select(attrs={'class': 'form-control'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
-            
         }
         labels = {
             'tag': 'Tag',
@@ -118,5 +117,5 @@ class UbicacionFiltersForm(ModelForm):
         model = Ubicacion
         fields = ['descripcion']
         widgets = {
-        'descripcion': TextInput(attrs={'class': 'form-control'})
+            'descripcion': TextInput(attrs={'class': 'form-control'})
         }
