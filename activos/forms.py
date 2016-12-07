@@ -6,7 +6,11 @@ from django.forms import TextInput
 from django.forms import Select
 
 # Modelos:
-from .models import Equipo, Ubicacion
+from .models import Equipo
+from .models import Ubicacion
+from .models import Archivo
+from .models import Texto
+from .models import ImagenAnexo
 
 
 class EquipoFiltersForm(ModelForm):
@@ -119,3 +123,21 @@ class UbicacionFiltersForm(ModelForm):
         widgets = {
             'descripcion': TextInput(attrs={'class': 'form-control'})
         }
+
+
+class ArchivoForm(ModelForm):
+
+    class Meta:
+        model = Archivo
+        fields = ['archivo']
+        labels = {
+            'archivo': 'Subir archivo',
+        }
+
+
+class TextoForm(ModelForm):
+    pass
+
+
+class ImagenAnexoForm(ModelForm):
+    pass
