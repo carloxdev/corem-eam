@@ -19,7 +19,7 @@ from django.views.generic import UpdateView
 from django.views.generic import TemplateView
 
 # Modelos:
-from .models import Equipo, Ubicacion
+from .models import Equipo, Ubicacion, ImagenAnexo
 
 # API Rest:
 from rest_framework import viewsets
@@ -284,6 +284,7 @@ def anexar_texto(request, **kwargs):
 def anexar_imagen(request, **kwargs):
     id_e = kwargs.get('pk', 0)
     equipo = Equipo.objects.get(id=id_e)
+    
     # equipo_id = equipo.id
     # print equipo_id
     if request.method == 'GET':
@@ -293,14 +294,18 @@ def anexar_imagen(request, **kwargs):
 
         if form.is_valid():
 
-            imagen = form.save(commit=False)
-
+            datos_formulario = form.cleaned_data
+            imagenAnexo = ImagenAnexo()
+            imagenAnexo.descripcion = datos_formulario.get('descripcion')
             if 'ruta' in request.POST:
-                imagen.ruta = request.POST['ruta']
+                imagenAnexo.ruta = request.POST['ruta']
             else:
-                imagen.ruta = request.FILES['ruta']
-                imagen.equipo_id = id_e
-                imagen.save()
+                imagenAnexo.ruta = request.FILES['ruta']
+                imagenAnexo.save(commit=False)
+                imagenAnexo.equipo_id = id_e
+                imagenAnexo.save()
+            imagenAnexo.equipo_id = id_e
+            imagenAnexo.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
     return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})
