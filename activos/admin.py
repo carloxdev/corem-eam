@@ -13,8 +13,31 @@ from .models import Texto
 from .models import ImagenAnexo
 
 
+# Import-Export
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+
+class EquipoResource(resources.ModelResource):
+    class Meta:
+        model = Equipo
+        fields = (
+            'tag',
+            'descripcion',
+            'serie',
+            'tipo',
+            'estado',
+            'padre',
+            'empresa',
+            'sistema',
+            'cliente',
+            'responsable',
+        )
+
+
 @admin.register(Equipo)
-class AdminEquipo(admin.ModelAdmin):
+class AdminEquipo(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = EquipoResource
     list_display = (
         'tag',
         'descripcion',
@@ -24,7 +47,8 @@ class AdminEquipo(admin.ModelAdmin):
         'padre',
         'empresa',
         'sistema',
-        'imagen',
+        'cliente',
+        'responsable',
     )
 
 
