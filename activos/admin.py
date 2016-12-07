@@ -50,7 +50,7 @@ class Odometro(admin.ModelAdmin):
         'clave',
         'descripcion',
         'udm',
-        'is_active',
+        'esta_activo',
     )
 
 
@@ -58,5 +58,6 @@ class Odometro(admin.ModelAdmin):
 class Medicion(admin.ModelAdmin):
     list_display = (
         'odometro',
+        'fecha',
         'lectura',
     )

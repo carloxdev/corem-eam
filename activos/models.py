@@ -29,6 +29,9 @@ class Ubicacion(models.Model):
     def __str__(self):
         return self.clave
 
+    class Meta:
+        verbose_name_plural = "Ubicaciones"
+
 
 class Equipo(models.Model):
     tag = models.CharField(max_length=144, null=True)
@@ -46,8 +49,8 @@ class Equipo(models.Model):
     sistema = models.CharField(max_length=144, null=True, blank=True)
     ubicacion = models.ForeignKey(Ubicacion, null=True, blank=True)
     imagen = models.ImageField(upload_to='equipos/img', blank=True)
-    # cliente =
-    # responsable =
+    cliente = models.CharField(max_length=144, null=True, blank=True)
+    responsable = models.CharField(max_length=144, null=True, blank=True)
 
     def __str__(self):
         return "{} - {}".format(self.tag, self.descripcion)
@@ -76,6 +79,7 @@ class Asignacion(models.Model):
 
     class Meta:
         unique_together = (('equipo', 'ubicacion'),)
+        verbose_name_plural = "Asignaciones"
 
 
 class Odometro(models.Model):
@@ -83,7 +87,7 @@ class Odometro(models.Model):
     clave = models.CharField(max_length=144)
     descripcion = models.CharField(max_length=144, null=True)
     udm = models.CharField(max_length=3, choices=ODOMETRO_UDM, null=True)
-    is_active = models.BooleanField(default=True)
+    esta_activo = models.BooleanField(default=True)
 
     def __str__(self):
         return "{0} : {1}".format(self.equipo, self.clave)
@@ -91,10 +95,14 @@ class Odometro(models.Model):
 
 class Medicion(models.Model):
     odometro = models.ForeignKey(Odometro)
+    fecha = models.DateTimeField(auto_now=False, auto_now_add=False)
     lectura = models.DecimalField(max_digits=20, decimal_places=4, default=0.0)
 
     def __str__(self):
-        return "{0} : {1}".format(self.equipo, self.clave)
+        return "{0} : {1}".format(self.odometro, self.fecha)
+
+    class Meta:
+        verbose_name_plural = "Mediciones"
 
 
 class Archivo(models.Model):
