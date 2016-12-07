@@ -15,9 +15,7 @@ from django.http import HttpResponse
 # Django Generic Views
 from django.views.generic.base import View
 from django.views.generic import CreateView
-from django.views.generic import ListView
 from django.views.generic import UpdateView
-from django.views.generic import DeleteView
 from django.views.generic import TemplateView
 
 # Modelos:
@@ -25,7 +23,6 @@ from .models import Equipo, Ubicacion
 
 # API Rest:
 from rest_framework import viewsets
-from rest_framework.views import APIView
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer, UbicacionSerializer
@@ -38,6 +35,7 @@ from forms import EquipoCreateForm
 from forms import EquipoUpdateForm
 from forms import UbicacionFiltersForm
 from forms import UbicacionCreateForm
+from forms import TextoForm
 
 
 # ----------------- EQUIPO ----------------- #
@@ -94,8 +92,10 @@ class EquipoCreateView(View):
             equipo.empresa = datos_formulario.get('empresa')
             equipo.sistema = datos_formulario.get('sistema')
             equipo.ubicacion = datos_formulario.get('ubicacion')
-            equipo.imagen = request.POST['imagen']
-
+            if 'imagen' in request.POST:
+                equipo.imagen = request.POST['imagen']
+            else:
+                equipo.imagen = request.FILES['imagen']
             equipo.save()
 
             return redirect(
@@ -248,3 +248,29 @@ class UbicacionUpdateView(UpdateView):
     form_class = UbicacionCreateForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+def anexos(request, **kwargs):
+    e_id = kwargs.get('pk', 0)
+    equipo = Equipo.objects.get(id=e_id)
+    contexto = {'id': e_id}
+    print equipo
+    return render(request, 'equipo/anexos.html', contexto)
+
+
+def anexar_texto(request, **kwargs):
+    id_e = kwargs.get('pk', 0)
+    equipo = Equipo.objects.get(id=id_e)
+    equipo_id = equipo.id
+    # print equipo
+    if request.method == 'GET':
+        form = TextoForm()
+        id = id_e
+    else:
+        form = TextoForm(request.POST)
+        if form.is_valid():
+            texto = form.save()
+            texto.equipo = equipo_id
+            texto.save()
+        return redirect('equipos/')
+    return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})
