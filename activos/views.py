@@ -15,17 +15,14 @@ from django.http import HttpResponse
 # Django Generic Views
 from django.views.generic.base import View
 from django.views.generic import CreateView
-from django.views.generic import ListView
 from django.views.generic import UpdateView
-from django.views.generic import DeleteView
 from django.views.generic import TemplateView
 
 # Modelos:
-from .models import Equipo, Ubicacion
+from .models import Equipo, Ubicacion, ImagenAnexo
 
 # API Rest:
 from rest_framework import viewsets
-from rest_framework.views import APIView
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer, UbicacionSerializer
@@ -38,6 +35,8 @@ from forms import EquipoCreateForm
 from forms import EquipoUpdateForm
 from forms import UbicacionFiltersForm
 from forms import UbicacionCreateForm
+from forms import TextoForm
+from forms import ImagenAnexoForm
 
 
 # ----------------- EQUIPO ----------------- #
@@ -94,8 +93,10 @@ class EquipoCreateView(View):
             equipo.empresa = datos_formulario.get('empresa')
             equipo.sistema = datos_formulario.get('sistema')
             equipo.ubicacion = datos_formulario.get('ubicacion')
-            equipo.imagen = request.POST['imagen']
-
+            if 'imagen' in request.POST:
+                equipo.imagen = request.POST['imagen']
+            else:
+                equipo.imagen = request.FILES['imagen']
             equipo.save()
 
             return redirect(
@@ -248,3 +249,57 @@ class UbicacionUpdateView(UpdateView):
     form_class = UbicacionCreateForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+def anexos(request, **kwargs):
+    e_id = kwargs.get('pk', 0)
+    equipo = Equipo.objects.get(id=e_id)
+    contexto = {'id': e_id}
+    print equipo
+    return render(request, 'equipo/anexos.html', contexto)
+
+
+def anexar_texto(request, **kwargs):
+    id_e = kwargs.get('pk', 0)
+
+    if request.method == 'GET':
+        form = TextoForm()
+        id = id_e
+
+    else:
+        form = TextoForm(request.POST)
+        if form.is_valid():
+            texto = form.save(commit=False)
+            texto.equipo_id = id_e
+            texto.save()
+
+        return redirect(reverse_lazy('activos.equipos_lista'))
+
+    return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_e})
+
+
+def anexar_imagen(request, **kwargs):
+    id_e = kwargs.get('pk', 0)
+
+    if request.method == 'GET':
+        form = ImagenAnexoForm()
+    else:
+        form = ImagenAnexoForm(request.POST)
+
+        if form.is_valid():
+
+            datos_formulario = form.cleaned_data
+            imagenAnexo = ImagenAnexo()
+            imagenAnexo.descripcion = datos_formulario.get('descripcion')
+            if 'ruta' in request.POST:
+                imagenAnexo.ruta = request.POST['ruta']
+            else:
+                imagenAnexo.ruta = request.FILES['ruta']
+                # imagenAnexo.save(commit=False)
+                imagenAnexo.equipo_id = id_e
+                imagenAnexo.save()
+            imagenAnexo.equipo_id = id_e
+            imagenAnexo.save()
+
+        return redirect(reverse_lazy('activos.equipos_lista'))
+    return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})

@@ -9,6 +9,8 @@ from .models import Ubicacion
 from .models import Asignacion
 from .models import Odometro
 from .models import Medicion
+from .models import Texto
+from .models import ImagenAnexo
 
 
 @admin.register(Equipo)
@@ -60,4 +62,21 @@ class Medicion(admin.ModelAdmin):
         'odometro',
         'fecha',
         'lectura',
+    )
+
+
+@admin.register(Texto)
+class Texto(admin.ModelAdmin):
+    list_display = (
+        'equipo',
+        'texto',
+    )
+
+
+@admin.register(ImagenAnexo)
+class ImagenAnexo(admin.ModelAdmin):
+    list_display = (
+        'equipo',
+        'ruta',
+        'descripcion',
     )
