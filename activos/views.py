@@ -262,15 +262,17 @@ def anexar_texto(request, **kwargs):
     id_e = kwargs.get('pk', 0)
     equipo = Equipo.objects.get(id=id_e)
     equipo_id = equipo.id
-    # print equipo
+    print equipo_id
+    print equipo
     if request.method == 'GET':
         form = TextoForm()
         id = id_e
     else:
         form = TextoForm(request.POST)
         if form.is_valid():
-            texto = form.save()
-            texto.equipo = equipo_id
+            texto = form.save(commit=False)
+            texto.equipo_id = id_e
             texto.save()
-        return redirect('equipos/')
+
+        return redirect(reverse_lazy('activos.equipos_lista'))
     return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})

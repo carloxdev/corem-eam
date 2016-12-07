@@ -5,6 +5,7 @@
 var url_grid = window.location.origin + "/api/equipos/"
 var url_nuevo = window.location.origin + "/equipos/nuevo/"
 var url_editar = window.location.origin + "/equipos/editar/"
+var url_anexos = window.location.origin + "/equipos/anexos/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -131,6 +132,7 @@ GridPrincipal.prototype.init = function () {
 		{ field: "empresa" , title: "empresa", width: "120px" },
 		{ field: "sistema" , title: "sistema", width: "120px" },
 		{ field: "ubicacion" , title: "ubicacion", width: "120px" },
+        
         {
            command: {
                text: "Editar",
@@ -138,7 +140,15 @@ GridPrincipal.prototype.init = function () {
            },
            title: " ",
            width: "110px"
-        },        
+        },  
+        {
+            command: {
+                text: "Anexos",
+                click: this.anexos,
+            },
+            title: " ",
+            width: "110px"
+        },      
     ]    
 
 
@@ -170,5 +180,16 @@ GridPrincipal.prototype.editar = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk;
 }
+GridPrincipal.prototype.anexos = function (e) {
 
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    id_equipo = fila.pk
+    var id_input = document.createElement("INPUT");
+    id_input.setAttribute("type", "hidden");
+    id_input.setAttribute("value", id_equipo);
+    window.location.href = url_anexos + id_input.value;
+
+
+}
 

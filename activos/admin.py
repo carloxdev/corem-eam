@@ -9,6 +9,7 @@ from .models import Ubicacion
 from .models import Asignacion
 from .models import Odometro
 from .models import Medicion
+from .models import Texto
 
 
 @admin.register(Equipo)
@@ -59,4 +60,12 @@ class Medicion(admin.ModelAdmin):
     list_display = (
         'odometro',
         'lectura',
+    )
+
+
+@admin.register(Texto)
+class Texto(admin.ModelAdmin):
+    list_display = (
+        'equipo',
+        'texto',
     )

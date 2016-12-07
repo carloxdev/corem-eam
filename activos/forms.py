@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Django:
+from django import forms
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Select
@@ -136,7 +137,16 @@ class ArchivoForm(ModelForm):
 
 
 class TextoForm(ModelForm):
-    pass
+
+    class Meta:
+        model = Texto
+        fields = ['texto']
+        widgets = {
+            'texto': forms.Textarea(attrs={'class': 'form-control'})
+        }
+        labels = {
+            'texto': 'Introduzca texto',
+        }
 
 
 class ImagenAnexoForm(ModelForm):
