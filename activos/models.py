@@ -109,4 +109,5 @@ class Texto(models.Model):
 
 class ImagenAnexo(models.Model):
     equipo = models.ForeignKey(Equipo)
-    ruta = models.ImageField(upload_to='equipos/img')
+    ruta = models.ImageField(upload_to='equipos/img', blank=True)
+    descripcion = models.CharField(max_length=100, null=True, blank=True)

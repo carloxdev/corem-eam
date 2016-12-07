@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% block title %} Anexos Equipo {% endblock title %}
+{% block title %} Editar Equipo {% endblock title %}
 
 {% block css %}
 	<link href="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.css' %}">
@@ -44,18 +44,48 @@
 			        </a>
 	            </div>
 	            <!-- /.box-header -->
-					
+					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 		              <div class="box-body">
-		              
-			              
-              
-            
+		               {% for field in form %}
+					    <div class="row">
+					    	<div class="col-sm-10 col-md-offset-1">
+					    		<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    			<div class="col-sm-12">
+					    				<label for="{{ field.label }}">{{ field.label_tag }}
+					       		 		{% if field.field.required %}<span class="">*</span>{% endif %}</label>
+
+					        			{{ field }}
+					        			
+					        			{% for error in field.errors %}
+		              					<div class="help-block text-right" id="{{ field.label }}-error">
+		              						{{ error }}
+		              					</div>
+		              					{% endfor %}
+					    			</div>
+					    		</div>
+					    		 
+					    	</div>
+					       
+					    </div>
+					    {% endfor %}
+		              	
 		              <!-- /.box-body -->
 
+		              <div class="box-footer">
+		              	<div class="row">
+		              		<div class="col-sm-10 col-md-offset-1">
+		              			<div class="pull-right form-group">
+		              				<div class="col-sm-12">
+		    		              		
+		              					<button type="submit" class="btn btn-primary">Guardar</button>
+		              				</div>
+		              			</div>
+		              		</div>
+		              	</div>
 		              </div>
 		              <!-- /.box-footer -->
 
-	            
+	            </form>
 	          </div>
 	          <!-- /.box -->
 

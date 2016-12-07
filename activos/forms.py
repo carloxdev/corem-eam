@@ -150,4 +150,14 @@ class TextoForm(ModelForm):
 
 
 class ImagenAnexoForm(ModelForm):
-    pass
+
+    class Meta:
+        model = ImagenAnexo
+        fields = ['descripcion', 'ruta']
+        labels = {
+            'ruta': 'Imagen',
+            'descripcion': 'Descripción o comentario',
+        }
+        widgets = {
+            'descripcion': TextInput(attrs={'class': 'form-control'})
+        }

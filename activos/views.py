@@ -36,6 +36,7 @@ from forms import EquipoUpdateForm
 from forms import UbicacionFiltersForm
 from forms import UbicacionCreateForm
 from forms import TextoForm
+from forms import ImagenAnexoForm
 
 
 # ----------------- EQUIPO ----------------- #
@@ -267,12 +268,39 @@ def anexar_texto(request, **kwargs):
     if request.method == 'GET':
         form = TextoForm()
         id = id_e
+
     else:
         form = TextoForm(request.POST)
         if form.is_valid():
             texto = form.save(commit=False)
             texto.equipo_id = id_e
             texto.save()
+
+        return redirect(reverse_lazy('activos.equipos_lista'))
+
+    return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_e})
+
+
+def anexar_imagen(request, **kwargs):
+    id_e = kwargs.get('pk', 0)
+    equipo = Equipo.objects.get(id=id_e)
+    # equipo_id = equipo.id
+    # print equipo_id
+    if request.method == 'GET':
+        form = ImagenAnexoForm()
+    else:
+        form = ImagenAnexoForm(request.POST)
+
+        if form.is_valid():
+
+            imagen = form.save(commit=False)
+
+            if 'ruta' in request.POST:
+                imagen.ruta = request.POST['ruta']
+            else:
+                imagen.ruta = request.FILES['ruta']
+                imagen.equipo_id = id_e
+                imagen.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
     return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})
