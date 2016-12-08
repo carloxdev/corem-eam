@@ -22,6 +22,7 @@ class EquipoResource(resources.ModelResource):
     class Meta:
         model = Equipo
         fields = (
+            'id',
             'tag',
             'descripcion',
             'serie',
@@ -39,6 +40,7 @@ class EquipoResource(resources.ModelResource):
 class AdminEquipo(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = EquipoResource
     list_display = (
+        'id',
         'tag',
         'descripcion',
         'serie',

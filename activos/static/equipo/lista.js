@@ -6,6 +6,7 @@ var url_grid = window.location.origin + "/api/equipos/"
 var url_nuevo = window.location.origin + "/equipos/nuevo/"
 var url_editar = window.location.origin + "/equipos/editar/"
 var url_anexos = window.location.origin + "/equipos/anexos/"
+var url_estructura = window.location.origin + "/equipos/arbol/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -119,32 +120,36 @@ GridPrincipal.prototype.init = function () {
     })
 
     this.kColumns = [
-		{ field: "tag" , title: "tag", width: "120px" },
-		{ field: "descripcion" , title: "descripcion", width: "120px" },
-		{ field: "serie" , title: "serie", width: "120px" },
-		{ field: "tipo" , title: "tipo", width: "120px" },
-		{ field: "estado" , title: "estado", width: "120px" },
-		{ field: "padre" , title: "padre", width: "120px" },
-		{ field: "empresa" , title: "empresa", width: "120px" },
-		{ field: "sistema" , title: "sistema", width: "120px" },
-		{ field: "ubicacion" , title: "ubicacion", width: "120px" },
+		{ field: "tag" , title: "Tag", width: "120px" },
+		{ field: "descripcion" , title: "Descripcion", width: "200px" },
+		{ field: "serie" , title: "Serie", width: "150px" },
+		{ field: "tipo" , title: "Tipo", width: "150px" },
+		{ field: "estado" , title: "Estado", width: "120px" },
+		{ field: "padre" , title: "Padre", width: "200px" },
+		{ field: "empresa" , title: "Empresa", width: "120px", hidden: "true" },
+		{ field: "sistema" , title: "Sistema", width: "200px" },
+		{ field: "ubicacion" , title: "Ubicacion", width: "280px" },
         
         {
-           command: {
-               text: "Editar",
-               click: this.editar,
-           },
+           command: [
+                {
+                   text: "Editar",
+                   click: this.editar,
+                },
+                {
+                    text: "Estructura",
+                    click: this.ver_Estructura,
+                },
+                {
+                    text: "Anexos",
+                    click: this.anexos,
+                },                
+            ],           
            title: " ",
-           width: "110px"
-        },  
-        {
-            command: {
-                text: "Anexos",
-                click: this.anexos,
-            },
-            title: " ",
-            width: "110px"
-        },      
+           width: "300px"
+        }, 
+
+
     ]    
 
 
@@ -161,7 +166,8 @@ GridPrincipal.prototype.init = function () {
         scrollable: true,
         pageable: true,
         toolbar: [
-            { template: kendo.template($("#template").html()) }
+            { template: kendo.template($("#template").html()) },
+            "excel"
         ],
     })
 
@@ -185,7 +191,8 @@ GridPrincipal.prototype.anexos = function (e) {
     id_input.setAttribute("type", "hidden");
     id_input.setAttribute("value", id_equipo);
     window.location.href = url_anexos + id_input.value;
-
-
 }
-
+GridPrincipal.prototype.ver_Estructura =  function (e) {
+    e.preventDefault()
+    window.location.href = url_estructura
+}

@@ -62,6 +62,8 @@ class EquipoCreateForm(ModelForm):
             'empresa': Select(attrs={'class': 'form-control'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
+            'cliente': Select(attrs={'class': 'form-control'}),
+            'responsable': Select(attrs={'class': 'form-control'}),
         }
         labels = {
             'tag': 'Tag',
@@ -73,7 +75,9 @@ class EquipoCreateForm(ModelForm):
             'empresa': 'Empresa',
             'sistema': 'Sistema',
             'ubicacion': 'Ubicación',
-            'imagen': 'Imagen'
+            'imagen': 'Imagen',
+            'cliente': 'Cliente',
+            'responsable': 'Responsable',
         }
 
 
@@ -92,6 +96,8 @@ class EquipoUpdateForm(ModelForm):
             'empresa': Select(attrs={'class': 'form-control'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
+            'cliente': Select(attrs={'class': 'form-control'}),
+            'responsable': Select(attrs={'class': 'form-control'}),
         }
         labels = {
             'descripcion': 'Descripción',
@@ -102,6 +108,8 @@ class EquipoUpdateForm(ModelForm):
             'empresa': 'Empresa',
             'sistema': 'Sistema',
             'ubicacion': 'Ubicación',
+            'cliente': 'Cliente',
+            'responsable': 'Responsable',
         }
 
 
