@@ -12,6 +12,7 @@ from .views import obtener_arbol
 from .views import anexos
 from .views import anexar_texto
 from .views import anexar_imagen
+from .views import anexar_archivo
 
 from .views import UbicacionCreateView
 from .views import UbicacionListView
@@ -82,5 +83,10 @@ urlpatterns = [
         r'^equipos/anexos/(?P<pk>\d+)/imagen',
         anexar_imagen,
         name='activos.anexar_imagen'
+    ),
+    url(
+        r'^equipos/anexos/(?P<pk>\d+)/archivo',
+        anexar_archivo,
+        name='activos.anexar_archivo'
     ),
 ]

@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% block title %} Editar Equipo {% endblock title %}
+{% block title %} Anexos Equipo {% endblock title %}
 
 {% block css %}
 	<link href="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.css' %}">
@@ -33,13 +33,13 @@
 	          <!-- Filtros -->
 	          <div class="box box-primary">
 	            <div class="box-header with-border">
-	                <a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
+	                <a class="btn btn-app">
 			           	<i class="fa fa-pencil"></i> Texto
 			        </a>
 			        <a href="/equipos/anexos/{{id}}/imagen" class="btn btn-app">
 			        	<i class="fa fa-file-image-o"></i> Imagen
 			        </a>
-			        <a class="btn btn-app">
+			        <a href="/equipos/anexos/{{id}}/archivo" class="btn btn-app">
 			            <i class="fa fa-file-o"></i> Archivo
 			        </a>
 	            </div>

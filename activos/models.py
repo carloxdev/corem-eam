@@ -108,6 +108,7 @@ class Medicion(models.Model):
 class Archivo(models.Model):
     equipo = models.ForeignKey(Equipo)
     archivo = models.FileField(upload_to='equipos/files', blank=True)
+    descripcion = models.CharField(max_length=255, null=True, blank=True)
 
 
 class Texto(models.Model):

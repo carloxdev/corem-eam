@@ -126,16 +126,6 @@ class UbicacionFiltersForm(ModelForm):
         }
 
 
-class ArchivoForm(ModelForm):
-
-    class Meta:
-        model = Archivo
-        fields = ['archivo']
-        labels = {
-            'archivo': 'Subir archivo',
-        }
-
-
 class TextoForm(ModelForm):
 
     class Meta:
@@ -157,6 +147,20 @@ class ImagenAnexoForm(ModelForm):
         labels = {
             'ruta': 'Imagen',
             'descripcion': 'Descripción o comentario',
+        }
+        widgets = {
+            'descripcion': TextInput(attrs={'class': 'form-control'})
+        }
+
+
+class ArchivoForm(ModelForm):
+
+    class Meta:
+        model = Archivo
+        fields = ['descripcion', 'archivo']
+        labels = {
+            'descripcion': 'Descripción',
+            'archivo': 'Subir archivo',
         }
         widgets = {
             'descripcion': TextInput(attrs={'class': 'form-control'})
