@@ -19,7 +19,7 @@ from django.views.generic import UpdateView
 from django.views.generic import TemplateView
 
 # Modelos:
-from .models import Equipo, Ubicacion, ImagenAnexo
+from .models import Equipo, Ubicacion, ImagenAnexo, Archivo
 
 # API Rest:
 from rest_framework import viewsets
@@ -37,6 +37,7 @@ from forms import UbicacionFiltersForm
 from forms import UbicacionCreateForm
 from forms import TextoForm
 from forms import ImagenAnexoForm
+from forms import ArchivoForm
 
 
 # ----------------- EQUIPO ----------------- #
@@ -303,3 +304,30 @@ def anexar_imagen(request, **kwargs):
 
         return redirect(reverse_lazy('activos.equipos_lista'))
     return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})
+
+
+def anexar_archivo(request, **kwargs):
+    id_e = kwargs.get('pk', 0)
+
+    if request.method == 'GET':
+        form = ArchivoForm()
+    else:
+        form = ArchivoForm(request.POST)
+
+        if form.is_valid():
+            datos_formulario = form.cleaned_data
+            archivo = Archivo()
+            archivo.descripcion = datos_formulario.get('descripcion')
+            if 'archivo' in request.POST:
+                archivo.archivo = request.POST['archivo']
+            else:
+                archivo.archivo = request.FILES['archivo']
+                archivo.equipo_id = id_e
+                archivo.save()
+            archivo.equipo_id = id_e
+            archivo.save()
+
+        return redirect(reverse_lazy('activos.equipos_lista'))
+
+    return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_e})
+

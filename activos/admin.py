@@ -11,6 +11,7 @@ from .models import Odometro
 from .models import Medicion
 from .models import Texto
 from .models import ImagenAnexo
+from .models import Archivo
 
 
 # Import-Export
@@ -104,5 +105,14 @@ class ImagenAnexo(admin.ModelAdmin):
     list_display = (
         'equipo',
         'ruta',
+        'descripcion',
+    )
+
+
+@admin.register(Archivo)
+class Archivo(admin.ModelAdmin):
+    list_display = (
+        'equipo',
+        'archivo',
         'descripcion',
     )
