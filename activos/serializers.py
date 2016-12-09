@@ -6,6 +6,7 @@ from rest_framework import serializers
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
+from .models import Texto
 
 
 class EquipoSerializer(serializers.HyperlinkedModelSerializer):
@@ -62,3 +63,22 @@ class UbicacionSerializer(serializers.ModelSerializer):
             'clave',
             'descripcion'
         )
+
+
+class TextoAnexoSerializer(serializers.HyperlinkedModelSerializer):
+
+    equipo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Texto
+        fields = (
+            'pk',
+            'equipo',
+            'texto',
+        )
+
+    def get_equipo(self, obj):
+        try:
+            return obj.equipo.tag
+        except:
+            return ""

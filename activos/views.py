@@ -23,9 +23,12 @@ from .models import Equipo, Ubicacion, ImagenAnexo, Archivo
 
 # API Rest:
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 # API Rest - Serializadores:
-from .serializers import EquipoSerializer, UbicacionSerializer
+from .serializers import EquipoSerializer
+from .serializers import UbicacionSerializer
+from .serializers import TextoAnexoSerializer
 # API Rest - Paginacion:
 from .pagination import GenericPagination
 
@@ -38,6 +41,8 @@ from forms import UbicacionCreateForm
 from forms import TextoForm
 from forms import ImagenAnexoForm
 from forms import ArchivoForm
+
+from models import Texto
 
 
 # ----------------- EQUIPO ----------------- #
@@ -273,11 +278,13 @@ class TextoAnexoView(View):
 
     def get(self, request, pk):
         id_equipo = pk
+        texto = Texto.objects.filter(equipo=id_equipo)
         form = TextoForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
+            'textos': texto
         }
 
         return render(request, self.template_name, contexto)
@@ -360,3 +367,9 @@ class ArchivoAnexoView(View):
             archivo.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
+
+
+class TextoEquipoAnexoAPI(viewsets.ModelViewSet):
+    serializer_class = TextoAnexoSerializer
+    queryset = Texto.objects.all()
+    pagination_class = GenericPagination

@@ -5,7 +5,9 @@
 {% block title %} Anexos Equipo {% endblock title %}
 
 {% block css %}
-	<link href="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.css' %}">
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
 
 {% endblock css %}	
 
@@ -88,8 +90,53 @@
 	          </div>
 	          <!-- /.box -->
 
-	        </div>			
+	       		
 
+		</div>
+		<div id="grid_principal" data-role="grid" class="k-grid k-widget">
+			
+			<div class="k-grid-header" style="padding-right: 12px;">
+				<div class="k-grid-header-wrap" data-role="resizable">
+					<div class="k-grid-header-wrap" data-role="resizable">
+						<table role="grid">
+							<colgroup>
+								<col style="width:120px">
+								<col style="width:120px">
+								<col style="width:110px">
+							</colgroup>
+							<thead role="rowgroup">
+								<tr role="row">
+									<th role="columnheader" data-field="texto" rowspan="1" data-title="texto" data-index="0" id="d601e8b9-071c-4770-a774-4a3e8872a091" class="k-header">texto</th>
+									<th role="columnheader" data-field="equipo" rowspan="1" data-title="equipo" data-index="1" id="419d81ae-13a9-4c69-a6d2-943af44dd0d2" class="k-header">equipo</th>
+									<th id="d6c3de87-db26-433b-8005-48171d6f0240" rowspan="1" data-index="2" class="k-header"> </th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="k-grid-content">
+				<table role="grid" data-role="selectable" class="k-selectable">
+					<colgroup>
+						<col style="width:120px">
+						<col style="width:120px">
+						<col style="width:110px">
+					</colgroup>
+					<tbody role="rowgroup">
+						{% if textos %}
+						{% for texto in textos %}
+						<tr data-uid="73cb07f4-6cab-49f2-babd-2f9ae0b5c832" role="row">
+							<td role="gridcell">{{ texto.texto }}</td>
+							<td role="gridcell">{{ texto.equipo.tag }}</td>
+							<td role="gridcell"><a class="k-button k-button-icontext k-grid-Editar" href="#"><span class=" "></span>Editar</a></td>
+						</tr>
+						{% endfor %}
+						{% else %}
+						<h4 align="center">No hay comentarios anexos a este equipo</h4>
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
 		</div>
 
 	</section>
@@ -101,6 +148,17 @@
 
 	<!-- Kendo Js -->	
 
+	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
+
+	<script id="template" type="text/x-kendo-template">
+		<a class="k-button" href="\#" onclick="return targeta_resultados.grid_principal.nuevo()">Nuevo</a>
+	</script>
+
+	
+
+	<!-- CoreM -->
+	
 
 
 {% endblock scripts %}
