@@ -252,82 +252,111 @@ class UbicacionUpdateView(UpdateView):
     success_url = reverse_lazy('activos.ubicaciones_lista')
 
 
-def anexos(request, **kwargs):
-    e_id = kwargs.get('pk', 0)
-    equipo = Equipo.objects.get(id=e_id)
-    contexto = {'id': e_id}
-    print equipo
-    return render(request, 'equipo/anexos.html', contexto)
+class AnexosView(View):
+
+    def __init__(self):
+        self.template_name = 'equipo/anexos.html'
+
+    def get(self, request, pk):
+        id_equipo = pk
+        contexto = {
+            'id': id_equipo,
+        }
+
+        return render(request, self.template_name, contexto)
 
 
-def anexar_texto(request, **kwargs):
-    id_e = kwargs.get('pk', 0)
+class TextoAnexoView(View):
 
-    if request.method == 'GET':
+    def __init__(self):
+        self.template_name = 'equipo/anexos_texto.html'
+
+    def get(self, request, pk):
+        id_equipo = pk
         form = TextoForm()
-        id = id_e
 
-    else:
+        contexto = {
+            'form': form,
+            'id': id_equipo,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        id_equipo = pk
         form = TextoForm(request.POST)
         if form.is_valid():
             texto = form.save(commit=False)
-            texto.equipo_id = id_e
+            texto.equipo_id = id_equipo
             texto.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
 
-    return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_e})
 
+class ImagenAnexoView(View):
 
-def anexar_imagen(request, **kwargs):
-    id_e = kwargs.get('pk', 0)
+    def __init__(self):
+        self.template_name = 'equipo/anexos_imagen.html'
 
-    if request.method == 'GET':
+    def get(self, request, pk):
+        id_equipo = pk
         form = ImagenAnexoForm()
-    else:
-        form = ImagenAnexoForm(request.POST)
 
+        contexto = {
+            'form': form,
+            'id': id_equipo,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        id_equipo = pk
+        form = TextoForm(request.POST)
         if form.is_valid():
-
-            datos_formulario = form.cleaned_data
             imagenAnexo = ImagenAnexo()
-            imagenAnexo.descripcion = datos_formulario.get('descripcion')
+            imagenAnexo.descripcion = request.POST['descripcion']
             if 'ruta' in request.POST:
                 imagenAnexo.ruta = request.POST['ruta']
             else:
                 imagenAnexo.ruta = request.FILES['ruta']
-                # imagenAnexo.save(commit=False)
-                imagenAnexo.equipo_id = id_e
+                imagenAnexo.equipo_id = id_equipo
                 imagenAnexo.save()
-            imagenAnexo.equipo_id = id_e
+            imagenAnexo.equipo_id = id_equipo
             imagenAnexo.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
-    return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})
 
 
-def anexar_archivo(request, **kwargs):
-    id_e = kwargs.get('pk', 0)
+class ArchivoAnexoView(View):
 
-    if request.method == 'GET':
+    def __init__(self):
+        self.template_name = 'equipo/anexos_archivo.html'
+
+    def get(self, request, pk):
+        id_equipo = pk
         form = ArchivoForm()
-    else:
+
+        contexto = {
+            'form': form,
+            'id': id_equipo,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        id_equipo = pk
         form = ArchivoForm(request.POST)
 
         if form.is_valid():
-            datos_formulario = form.cleaned_data
             archivo = Archivo()
-            archivo.descripcion = datos_formulario.get('descripcion')
+            archivo.descripcion = request.POST['descripcion']
             if 'archivo' in request.POST:
                 archivo.archivo = request.POST['archivo']
             else:
                 archivo.archivo = request.FILES['archivo']
-                archivo.equipo_id = id_e
+                archivo.equipo_id = id_equipo
                 archivo.save()
-            archivo.equipo_id = id_e
+            archivo.equipo_id = id_equipo
             archivo.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
-
-    return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_e})
-

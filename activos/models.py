@@ -50,7 +50,7 @@ class Equipo(models.Model):
     empresa = models.ForeignKey(Empresa, null=True, blank=True)
     sistema = models.CharField(max_length=144, null=True, blank=True)
     ubicacion = models.ForeignKey(Ubicacion, null=True, blank=True)
-    imagen = models.ImageField(upload_to='equipos/img', blank=True, validators=[valid_extension])
+    imagen = models.ImageField(upload_to='equipos/img', blank=True, validators=(valid_extension))
     cliente = models.CharField(max_length=144, null=True, blank=True)
     responsable = models.CharField(max_length=144, null=True, blank=True)
 
