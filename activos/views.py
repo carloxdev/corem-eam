@@ -37,12 +37,7 @@ from rest_framework import viewsets
 from .serializers import EquipoSerializer
 from .serializers import EquipoTreeSerilizado
 from .serializers import UbicacionSerializer
-<<<<<<< HEAD
-from .serializers import TextoAnexoSerializer
-
-=======
 from home.serializers import AnexoTextoSerializer
->>>>>>> se movieron los modelos y formularios de anexos al modulo home
 # API Rest - Paginacion:
 from .pagination import GenericPagination
 
@@ -213,8 +208,6 @@ class EquipoTreeAPI(View):
             content_type="application/json"
         )
 
-
-<<<<<<< HEAD
 # ----------------- UBICACION ----------------- #
 
 
@@ -271,11 +264,7 @@ class AnexosView(View):
         return render(request, self.template_name, contexto)
 
 
-class TextoAnexoView(View):
-=======
-
 class AnexoTextoView(View):
->>>>>>> se movieron los modelos y formularios de anexos al modulo home
 
     def __init__(self):
         self.template_name = 'equipo/anexos_texto.html'
