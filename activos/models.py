@@ -50,22 +50,16 @@ class Equipo(models.Model):
     empresa = models.ForeignKey(Empresa, null=True, blank=True)
     sistema = models.CharField(max_length=144, null=True, blank=True)
     ubicacion = models.ForeignKey(Ubicacion, null=True, blank=True)
-    imagen = models.ImageField(upload_to='equipos/img', blank=True, validators=(valid_extension))
+    imagen = models.ImageField(
+        upload_to='equipos/img',
+        blank=True,
+        validators=(valid_extension)
+    )
     cliente = models.CharField(max_length=144, null=True, blank=True)
     responsable = models.CharField(max_length=144, null=True, blank=True)
 
     def __str__(self):
         return "{} - {}".format(self.tag, self.descripcion)
-
-    def get_all_children(self, include_self=True):
-        r = []
-        if include_self:
-            r.append(self)
-        for c in Equipo.objects.filter(padre=self):
-            _r = c.get_all_children(include_self=True)
-            if 0 < len(_r):
-                r.extend(_r)
-        return r
 
 
 class Asignacion(models.Model):
@@ -105,20 +99,3 @@ class Medicion(models.Model):
 
     class Meta:
         verbose_name_plural = "Mediciones"
-
-
-class Archivo(models.Model):
-    equipo = models.ForeignKey(Equipo)
-    archivo = models.FileField(upload_to='equipos/files', blank=True)
-    descripcion = models.CharField(max_length=255, null=True, blank=True)
-
-
-class Texto(models.Model):
-    equipo = models.ForeignKey(Equipo)
-    texto = models.CharField(max_length=255, null=True, blank=True)
-
-
-class ImagenAnexo(models.Model):
-    equipo = models.ForeignKey(Equipo)
-    ruta = models.ImageField(upload_to='equipos/img', blank=True, validators=[valid_extension])
-    descripcion = models.CharField(max_length=100, null=True, blank=True)

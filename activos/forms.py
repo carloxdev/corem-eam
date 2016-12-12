@@ -9,9 +9,9 @@ from django.forms import Select
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
-from .models import Archivo
-from .models import Texto
-from .models import ImagenAnexo
+from home.models import Archivo
+from home.models import Texto
+from home.models import ImagenAnexo
 
 
 class EquipoFiltersForm(ModelForm):

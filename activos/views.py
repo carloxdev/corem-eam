@@ -12,6 +12,11 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
+# Django Paginator
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
+
 # Django Generic Views
 from django.views.generic.base import View
 from django.views.generic import CreateView
@@ -21,12 +26,12 @@ from django.views.generic import TemplateView
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
-from .models import ImagenAnexo
-from .models import Archivo
+from home.models import ImagenAnexo
+from home.models import Archivo
+from home.models import Texto
 
 # API Rest:
 from rest_framework import viewsets
-from rest_framework.response import Response
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer
@@ -46,8 +51,6 @@ from forms import UbicacionCreateForm
 from forms import TextoForm
 from forms import ImagenAnexoForm
 from forms import ArchivoForm
-
-from models import Texto
 
 
 # ----------------- EQUIPO ----------------- #
@@ -188,12 +191,6 @@ class EquipoAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
 
 
-class UbicacionAPI(viewsets.ModelViewSet):
-    queryset = Ubicacion.objects.all()
-    serializer_class = UbicacionSerializer
-    pagination_class = GenericPagination
-
-
 class EquipoTreeListView(TemplateView):
     template_name = "equipo/arbol.html"
 
@@ -203,7 +200,6 @@ class EquipoTreeAPI(View):
     def get(self, request):
 
         daddies = Equipo.objects.filter(padre=None)
-        # daddies = Equipo.objects.filter(tag="COM1")
 
         serializador = EquipoTreeSerilizado()
         lista_json = serializador.get_Json(daddies)
@@ -215,13 +211,6 @@ class EquipoTreeAPI(View):
 
 
 # ----------------- UBICACION ----------------- #
-
-
-class UbicacionCreateView(CreateView):
-    model = Ubicacion
-    form_class = UbicacionCreateForm
-    template_name = 'ubicacion/formulario.html'
-    success_url = reverse_lazy('activos.ubicaciones_lista')
 
 
 class UbicacionListView(View):
@@ -243,11 +232,24 @@ class UbicacionListView(View):
         return render(request, self.template_name, {})
 
 
+class UbicacionCreateView(CreateView):
+    model = Ubicacion
+    form_class = UbicacionCreateForm
+    template_name = 'ubicacion/formulario.html'
+    success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
 class UbicacionUpdateView(UpdateView):
     model = Ubicacion
     form_class = UbicacionCreateForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+class UbicacionAPI(viewsets.ModelViewSet):
+    queryset = Ubicacion.objects.all()
+    serializer_class = UbicacionSerializer
+    pagination_class = GenericPagination
 
 
 class AnexosView(View):
@@ -272,12 +274,20 @@ class TextoAnexoView(View):
     def get(self, request, pk):
         id_equipo = pk
         texto = Texto.objects.filter(equipo=id_equipo)
+        paginator = Paginator(texto, 5)
+        pagina = request.GET.get('page')
+        try:
+            anexos = paginator.page(pagina)
+        except PageNotAnInteger:
+            anexos = paginator.page(1)
+        except EmptyPage:
+            anexos = paginator.page(paginator.num_pages)
         form = TextoForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
-            'textos': texto
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)

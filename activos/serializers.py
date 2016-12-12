@@ -9,7 +9,7 @@ from rest_framework import serializers
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
-from .models import Texto
+from home.models import Texto
 
 
 # ----------------- EQUIPO ----------------- #

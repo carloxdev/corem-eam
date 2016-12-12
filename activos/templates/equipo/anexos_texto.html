@@ -123,11 +123,11 @@
 						<col style="width:110px">
 					</colgroup>
 					<tbody role="rowgroup">
-						{% if textos %}
-						{% for texto in textos %}
+						{% if anexos %}
+						{% for anexo in anexos %}
 						<tr data-uid="73cb07f4-6cab-49f2-babd-2f9ae0b5c832" role="row">
-							<td role="gridcell">{{ texto.texto }}</td>
-							<td role="gridcell">{{ texto.equipo.tag }}</td>
+							<td role="gridcell">{{ anexo.texto }}</td>
+							<td role="gridcell">{{ anexo.equipo.tag }}</td>
 							<td role="gridcell"><a class="k-button k-button-icontext k-grid-Editar" href="#"><span class=" "></span>Editar</a></td>
 						</tr>
 						{% endfor %}
@@ -136,6 +136,26 @@
 						{% endif %}
 					</tbody>
 				</table>
+			</div>
+			<div class="k-pager-wrap k-grid-pager k-widget" data-role="pager">
+        		
+				<a {% if anexos.has_previous %} href="?page={{ anexos.previous_page_number }}" {% else %} href="" {% endif %} title="Página anterior" class="k-link k-pager-nav  k-state-disabled" tabindex="-1">
+					<span class="k-icon k-i-arrow-w">Ir a la página anterior</span>
+				</a>
+				
+					<ul class="k-pager-numbers k-reset">
+						
+						<li>
+							<span class="k-state-selected">{{ anexos.number }}</span>
+						</li>
+					</ul>
+				
+				<a {% if anexos.has_next %} href="?page={{ anexos.next_page_number }}" {% else %} href="" {% endif %} title="Página siguiente" class="k-link k-pager-nav  k-state-disabled" tabindex="-1">
+					<span class="k-icon k-i-arrow-e">Ir a la siguiente página</span>
+				</a>
+				
+				
+				<span class="k-pager-info k-label"></span>
 			</div>
 		</div>
 
