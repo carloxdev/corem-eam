@@ -14,6 +14,8 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 # Django Paginator
 from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -283,13 +285,20 @@ class TextoAnexoView(View):
     def get(self, request, pk):
         id_equipo = pk
         texto = Texto.objects.filter(equipo=id_equipo)
-        paginator = Paginator(texto, 25)
+        paginator = Paginator(texto, 5)
+        pagina = request.GET.get('page')
+        try:
+            anexos = paginator.page(pagina)
+        except PageNotAnInteger:
+            anexos = paginator.page(1)
+        except EmptyPage:
+            anexos = paginator.page(paginator.num_pages)
         form = TextoForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
-            'textos': texto
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)
