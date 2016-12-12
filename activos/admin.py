@@ -9,10 +9,6 @@ from .models import Ubicacion
 from .models import Asignacion
 from .models import Odometro
 from .models import Medicion
-from home.models import Texto
-from home.models import ImagenAnexo
-from home.models import Archivo
-
 
 # Import-Export
 from import_export import resources
@@ -90,30 +86,4 @@ class Medicion(admin.ModelAdmin):
         'odometro',
         'fecha',
         'lectura',
-    )
-
-
-@admin.register(Texto)
-class Texto(admin.ModelAdmin):
-    list_display = (
-        'equipo',
-        'texto',
-    )
-
-
-@admin.register(ImagenAnexo)
-class ImagenAnexo(admin.ModelAdmin):
-    list_display = (
-        'equipo',
-        'ruta',
-        'descripcion',
-    )
-
-
-@admin.register(Archivo)
-class Archivo(admin.ModelAdmin):
-    list_display = (
-        'equipo',
-        'archivo',
-        'descripcion',
     )

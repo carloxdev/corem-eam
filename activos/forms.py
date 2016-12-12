@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # Django:
-from django import forms
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Select
@@ -9,9 +8,6 @@ from django.forms import Select
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
-from home.models import Archivo
-from home.models import Texto
-from home.models import ImagenAnexo
 
 
 class EquipoFiltersForm(ModelForm):
@@ -129,47 +125,6 @@ class UbicacionFiltersForm(ModelForm):
     class Meta:
         model = Ubicacion
         fields = ['descripcion']
-        widgets = {
-            'descripcion': TextInput(attrs={'class': 'form-control'})
-        }
-
-
-class TextoForm(ModelForm):
-
-    class Meta:
-        model = Texto
-        fields = ['texto']
-        widgets = {
-            'texto': forms.Textarea(attrs={'class': 'form-control'})
-        }
-        labels = {
-            'texto': 'Introduzca texto',
-        }
-
-
-class ImagenAnexoForm(ModelForm):
-
-    class Meta:
-        model = ImagenAnexo
-        fields = ['descripcion', 'ruta']
-        labels = {
-            'ruta': 'Imagen',
-            'descripcion': 'Descripción o comentario',
-        }
-        widgets = {
-            'descripcion': TextInput(attrs={'class': 'form-control'})
-        }
-
-
-class ArchivoForm(ModelForm):
-
-    class Meta:
-        model = Archivo
-        fields = ['descripcion', 'archivo']
-        labels = {
-            'descripcion': 'Descripción',
-            'archivo': 'Subir archivo',
-        }
         widgets = {
             'descripcion': TextInput(attrs={'class': 'form-control'})
         }
