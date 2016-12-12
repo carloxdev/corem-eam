@@ -8,7 +8,7 @@ from .views import EquipoListView
 from .views import EquipoCreateView
 from .views import EquipoUpdateView
 from .views import EquipoTreeListView
-from .views import obtener_arbol
+from .views import EquipoTreeAPI
 from .views import anexos
 from .views import anexar_texto
 from .views import anexar_imagen
@@ -44,9 +44,9 @@ urlpatterns = [
         name='activos.equipos_arbol'
     ),
     url(
-        r'^equipos/api_tree',
-        obtener_arbol,
-        name='activos.api_tree'
+        r'^equipos/arbol/json',
+        EquipoTreeAPI.as_view(),
+        name='activos.equipos_api_tree'
     ),
 
     # ----------------- UBICACION ----------------- #

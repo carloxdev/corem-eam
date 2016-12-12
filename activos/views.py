@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-# Librerias Python
-import json
-# Librerias django
 
-# Django Atajos
+# LIBRERIAS Django
+
+# Django Atajos:
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
 # Django Urls:
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
 # Django Generic Views
@@ -19,13 +19,19 @@ from django.views.generic import UpdateView
 from django.views.generic import TemplateView
 
 # Modelos:
-from .models import Equipo, Ubicacion, ImagenAnexo, Archivo
+from .models import Equipo
+from .models import Ubicacion
+from .models import ImagenAnexo
+from .models import Archivo
 
 # API Rest:
 from rest_framework import viewsets
 
 # API Rest - Serializadores:
-from .serializers import EquipoSerializer, UbicacionSerializer
+from .serializers import EquipoSerializer
+from .serializers import EquipoTreeSerilizado
+from .serializers import UbicacionSerializer
+
 # API Rest - Paginacion:
 from .pagination import GenericPagination
 
@@ -188,33 +194,20 @@ class EquipoTreeListView(TemplateView):
     template_name = "equipo/arbol.html"
 
 
-def obtener_arbol(request):
-    tree = {'text': '', 'nodes': []}
-    sub_tree = tree['nodes']
+class EquipoTreeAPI(View):
 
-    def print_Hijos(_hijos, _tag):
+    def get(self, request):
 
-        _tag += "--"
+        daddies = Equipo.objects.filter(padre=None)
 
-        for hijo in _hijos:
-            print "{} Hijo: {}".format(_tag, hijo)
-            hijos = Equipo.objects.filter(padre=hijo)
-            if len(hijos) > 0:
-                print_Hijos(hijos, _tag)
+        serializador = EquipoTreeSerilizado()
+        lista_json = serializador.get_Json(daddies)
 
-        return None
+        return HttpResponse(
+            lista_json,
+            content_type="application/json"
+        )
 
-    daddies = Equipo.objects.filter(padre=None)
-    tag = "--"
-
-    for daddy in daddies:
-
-        print "Padre: {}".format(daddy)
-
-        hijos = Equipo.objects.filter(padre=daddy)
-        print_Hijos(hijos, tag)
-
-    return HttpResponse(json.dumps(tree), content_type="application/json")
 
 # ----------------- UBICACION ----------------- #
 
@@ -303,7 +296,7 @@ def anexar_imagen(request, **kwargs):
             imagenAnexo.save()
 
         return redirect(reverse_lazy('activos.equipos_lista'))
-    return render(request, 'equipo/anexos_texto.html', {'form':form, 'id': id_e})
+    return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_e})
 
 
 def anexar_archivo(request, **kwargs):
@@ -330,4 +323,3 @@ def anexar_archivo(request, **kwargs):
         return redirect(reverse_lazy('activos.equipos_lista'))
 
     return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_e})
-
