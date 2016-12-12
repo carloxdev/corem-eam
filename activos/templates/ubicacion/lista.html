@@ -9,11 +9,8 @@
 
 <!-- Kendo -->
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
-
-<!-- Select2 -->
-<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
 <!-- CoreM -->
 <link rel="stylesheet" href="{% static 'ubicacion/lista.css' %}"/>
@@ -54,26 +51,40 @@
 	              <div class="box-body">
 
 		              <div class="input-group input-group-sm">
-		                <input type="text" class="form-control">
+		                <input type="text" class="form-control" id="id_descripcion">
 		                    <span class="input-group-btn">
-		                      <button type="button" class="btn btn-info btn-flat">Buscar</button>
+		                      <button type="button" id="boton_buscar" class="btn btn-info btn-flat">Buscar</button>
 		                    </span>
 		              </div>
 				
 	              </div>
 	              <!-- /.box-body -->
-
-	            </form>
 	          </div>
 	          <!-- /.box -->
 
-	        </div>			
-		</div>
 
-		<div id="grid_principal">
-			<div id="modal">
-				
-			</div>
+	          <div class="box">
+	            <div class="box-header">
+	              <h3 class="box-title">Registros</h3>
+		          <div class="box-tools pull-right">
+		            <button type="button" id="boton_nuevo" class="btn btn-primary btn-sm">
+						<i class="fa fa-plus"></i>
+		            	Nuevo
+		            </button>
+					<button type="button" id="boton_exportar" class="btn btn-default btn-sm">
+						<i class="fa fa-file-excel-o"></i>
+		            	Exportar
+		            </button>
+		          </div>	              
+	            </div>
+				<div id="grid_principal">
+				</div>
+
+	          </div>
+
+	          <!-- /.box -->	
+
+	        </div>			
 		</div>
 
 	</section>
@@ -92,8 +103,6 @@
 	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
 	<!-- CoreM -->
-	<script src="{% static 'ubicacion/u_lista.js' %}"></script>
-	<script src="{% static 'ubicacion/csrf.js' %}"></script>
-
+	<script src="{% static 'ubicacion/lista.js' %}"></script>
 
 {% endblock scripts %}

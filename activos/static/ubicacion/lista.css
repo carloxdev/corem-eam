@@ -2,3 +2,13 @@
 	font-size: 35px;
 	text-align: center;
 }
+
+.boton_editar {
+	color: white;
+	background-color: #EE8A11;
+}
+
+.boton_editar:hover {
+	color: white;
+	background-color: #C3700E;
+}

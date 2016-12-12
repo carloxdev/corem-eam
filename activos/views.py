@@ -32,6 +32,9 @@ from home.models import Texto
 
 # API Rest:
 from rest_framework import viewsets
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer
@@ -41,6 +44,9 @@ from .serializers import TextoAnexoSerializer
 
 # API Rest - Paginacion:
 from .pagination import GenericPagination
+
+# API Rest - Filtros
+from .filters import UbicacionFilter
 
 # Formularios:
 from forms import EquipoFiltersForm
@@ -250,6 +256,15 @@ class UbicacionAPI(viewsets.ModelViewSet):
     queryset = Ubicacion.objects.all()
     serializer_class = UbicacionSerializer
     pagination_class = GenericPagination
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id',)
+
+    # filter_backends = (filters.DjangoFilterBackend,)
+    # filter_class = UbicacionFilter
+
+    # filter_backends = (filters.SearchFilter,)
+    # search_fields = ('id', 'clave', 'descripcion',)
 
 
 class AnexosView(View):
