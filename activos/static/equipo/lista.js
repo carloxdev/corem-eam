@@ -17,8 +17,8 @@ var targeta_resultados = null
 
 $(document).ready(function () {
 
-	this.targeta_filtros = new TargetaFiltros()
-    this.targeta_resultados = new TargetaResultados()
+	targeta_filtros = new TargetaFiltros()
+    targeta_resultados = new TargetaResultados()
 })
 
 /*-----------------------------------------------*\
@@ -164,7 +164,7 @@ GridPrincipal.prototype.init = function () {
         scrollable: false,
         columns: this.kColumns,
         scrollable: true,
-        pageable: true,
+        pageable: true,      
         toolbar: [
             { template: kendo.template($("#template").html()) },
             "excel"

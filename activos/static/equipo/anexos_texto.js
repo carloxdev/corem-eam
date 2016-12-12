@@ -2,8 +2,7 @@
             GLOBAL VARS
 \*-----------------------------------------------*/
 
-var url_grid = window.location.origin + "/api/ubicaciones/"
-var url_nuevo = window.location.origin + "/ubicaciones/nuevo/"
+var url_grid = window.location.origin + "/api/equipos/anexos/texto/"
 var url_editar = window.location.origin + "/ubicaciones/editar/"
 var pagina = null
 
@@ -27,7 +26,6 @@ $(document).ready(function () {
 
 function Pagina() {
 
-    this.targetaFiltros = new TargetaFiltros()
     this.grid_principal = new GridPrincipal()
 }
 // Pagina.prototype.set_PageActive = function () {
@@ -35,16 +33,6 @@ function Pagina() {
 
 // }
 
-/*-----------------------------------------------*\
-            OBJETO: FILTROS
-\*-----------------------------------------------*/
-
-function TargetaFiltros() {
-
-    this.$descripcion = $('#id_descripcion');
-
-    
-}
 
 /*-----------------------------------------------*\
             OBJETO: GRID
@@ -65,8 +53,8 @@ GridPrincipal.prototype.init = function () {
     kendo.culture("es-MX")
 
     this.kFields = {
-        clave: { type: "string"},
-        descripcion: { type: "string" },
+        texto: { type: "string"},
+        equipo: { type: "string" },
     }
 
 
@@ -100,13 +88,13 @@ GridPrincipal.prototype.init = function () {
         },
         error: function (e) {
             // alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
-            alert("Valio gaver")
+            alert("Error")
         },
     })
 
     this.kColumns = [
-        { field: "clave" , title: "clave", width: "120px" },
-        { field: "descripcion" , title: "descripcion", width: "120px" },
+        { field: "texto" , title: "texto", width: "120px" },
+        { field: "equipo" , title: "equipo", width: "120px" },
         {
            command: {
                text: "Editar",
@@ -129,9 +117,8 @@ GridPrincipal.prototype.init = function () {
         scrollable: false,
         columns: this.kColumns,
         scrollable: true,
-        noRecords: {
-            template: "<div class='grid-empy'> Sin Registros </div>"
-        },
+        pageable: true,
+        
     })
 
     this.kGrid.data("kendoGrid").resize()
@@ -146,5 +133,3 @@ GridPrincipal.prototype.editar = function (e) {
     console.log(fila);
     window.location.href = url_editar + fila.pk;
 }
-
-

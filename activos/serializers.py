@@ -9,6 +9,7 @@ from rest_framework import serializers
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
+from .models import Texto
 
 
 # ----------------- EQUIPO ----------------- #
@@ -62,36 +63,45 @@ class EquipoTreeSerilizado(object):
     def __init__(self):
         self.lista = []
 
-    def get_Descendencia(self, _hijos):
+    def get_Descendencia(self, _hijos, _nodo_padre):
+
+        lista_desendencia = []
 
         for hijo in _hijos:
 
             nodo = {}
             nodo["text"] = hijo.descripcion
-            nodo["href"] = hijo.id,
-            nodo["tag"] = ['0']
+            # nodo["href"] = "#{}".format(hijo.id)
+            # nodo["tag"] = ['0']
 
-            # if len(hijo )
+            nietos = Equipo.objects.filter(padre=hijo)
+
+            if len(nietos):
+                nodo["nodes"] = self.get_Descendencia(nietos, nodo)
+
+            lista_desendencia.append(nodo)
+
+        return lista_desendencia
 
     def get_Json(self, _daddies):
 
-        lista = []
+        self.lista = []
 
         for daddy in _daddies:
 
             nodo = {}
             nodo["text"] = daddy.descripcion
-            nodo["href"] = daddy.id,
-            nodo["tag"] = ['0']
-
-            lista.append(nodo)
+            # nodo["href"] = "#{}".format(daddy.id)
+            # nodo["tag"] = ['0']
 
             hijos = Equipo.objects.filter(padre=daddy)
 
             if len(hijos):
-                self.get_Descendencia(hijos)
+                nodo["nodes"] = self.get_Descendencia(hijos, nodo)
 
-        lista_json = json.dumps(lista)
+            self.lista.append(nodo)
+
+        lista_json = json.dumps(self.lista)
 
         return lista_json
 
@@ -110,30 +120,20 @@ class UbicacionSerializer(serializers.ModelSerializer):
         )
 
 
-# def obtener_arbol(request):
-#     tree = {'text': '', 'nodes': []}
-#     sub_tree = tree['nodes']
+class TextoAnexoSerializer(serializers.HyperlinkedModelSerializer):
 
-#     def print_Hijos(_hijos, _tag):
+    equipo = serializers.SerializerMethodField()
 
-#         _tag += "--"
+    class Meta:
+        model = Texto
+        fields = (
+            'pk',
+            'equipo',
+            'texto',
+        )
 
-#         for hijo in _hijos:
-#             print "{} Hijo: {}".format(_tag, hijo)
-#             hijos = Equipo.objects.filter(padre=hijo)
-#             if len(hijos) > 0:
-#                 print_Hijos(hijos, _tag)
-
-#         return None
-
-#     daddies = Equipo.objects.filter(padre=None)
-#     tag = "--"
-
-#     for daddy in daddies:
-
-#         print "Padre: {}".format(daddy)
-
-#         hijos = Equipo.objects.filter(padre=daddy)
-#         print_Hijos(hijos, tag)
-
-#     return HttpResponse(json.dumps(tree), content_type="application/json")
+    def get_equipo(self, obj):
+        try:
+            return obj.equipo.tag
+        except:
+            return ""
