@@ -26,9 +26,9 @@ from django.views.generic import TemplateView
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
-from home.models import ImagenAnexo
-from home.models import Archivo
-from home.models import Texto
+from home.models import AnexoImagen
+from home.models import AnexoArchivo
+from home.models import AnexoTexto
 
 # API Rest:
 from rest_framework import viewsets
@@ -40,8 +40,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import EquipoSerializer
 from .serializers import EquipoTreeSerilizado
 from .serializers import UbicacionSerializer
-from .serializers import TextoAnexoSerializer
-
+from home.serializers import AnexoTextoSerializer
 # API Rest - Paginacion:
 from .pagination import GenericPagination
 
@@ -54,9 +53,9 @@ from forms import EquipoCreateForm
 from forms import EquipoUpdateForm
 from forms import UbicacionFiltersForm
 from forms import UbicacionCreateForm
-from forms import TextoForm
-from forms import ImagenAnexoForm
-from forms import ArchivoForm
+from home.forms import AnexoTextoForm
+from home.forms import AnexoImagenForm
+from home.forms import AnexoArchivoForm
 
 
 # ----------------- EQUIPO ----------------- #
@@ -215,7 +214,6 @@ class EquipoTreeAPI(View):
             content_type="application/json"
         )
 
-
 # ----------------- UBICACION ----------------- #
 
 
@@ -281,14 +279,14 @@ class AnexosView(View):
         return render(request, self.template_name, contexto)
 
 
-class TextoAnexoView(View):
+class AnexoTextoView(View):
 
     def __init__(self):
         self.template_name = 'equipo/anexos_texto.html'
 
     def get(self, request, pk):
         id_equipo = pk
-        texto = Texto.objects.filter(equipo=id_equipo)
+        texto = AnexoTexto.objects.filter(equipo=id_equipo)
         paginator = Paginator(texto, 5)
         pagina = request.GET.get('page')
         try:
@@ -297,7 +295,7 @@ class TextoAnexoView(View):
             anexos = paginator.page(1)
         except EmptyPage:
             anexos = paginator.page(paginator.num_pages)
-        form = TextoForm()
+        form = AnexoTextoForm()
 
         contexto = {
             'form': form,
@@ -309,7 +307,7 @@ class TextoAnexoView(View):
 
     def post(self, request, pk):
         id_equipo = pk
-        form = TextoForm(request.POST)
+        form = AnexoTextoForm(request.POST)
         if form.is_valid():
             texto = form.save(commit=False)
             texto.equipo_id = id_equipo
@@ -318,27 +316,37 @@ class TextoAnexoView(View):
         return redirect(reverse_lazy('activos.equipos_lista'))
 
 
-class ImagenAnexoView(View):
+class AnexoImagenView(View):
 
     def __init__(self):
         self.template_name = 'equipo/anexos_imagen.html'
 
     def get(self, request, pk):
         id_equipo = pk
-        form = ImagenAnexoForm()
+        imagen = AnexoImagen.objects.filter(equipo=id_equipo)
+        paginator = Paginator(imagen, 5)
+        pagina = request.GET.get('page')
+        try:
+            anexos = paginator.page(pagina)
+        except PageNotAnInteger:
+            anexos = paginator.page(1)
+        except EmptyPage:
+            anexos = paginator.page(paginator.num_pages)
+        form = AnexoImagenForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
         id_equipo = pk
-        form = TextoForm(request.POST)
+        form = AnexoImagenForm(request.POST)
         if form.is_valid():
-            imagenAnexo = ImagenAnexo()
+            imagenAnexo = AnexoImagen()
             imagenAnexo.descripcion = request.POST['descripcion']
             if 'ruta' in request.POST:
                 imagenAnexo.ruta = request.POST['ruta']
@@ -352,28 +360,38 @@ class ImagenAnexoView(View):
         return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_e})
 
 
-class ArchivoAnexoView(View):
+class AnexoArchivoView(View):
 
     def __init__(self):
         self.template_name = 'equipo/anexos_archivo.html'
 
     def get(self, request, pk):
         id_equipo = pk
-        form = ArchivoForm()
+        archivo = AnexoArchivo.objects.filter(equipo=id_equipo)
+        paginator = Paginator(archivo, 5)
+        pagina = request.GET.get('page')
+        try:
+            anexos = paginator.page(pagina)
+        except PageNotAnInteger:
+            anexos = paginator.page(1)
+        except EmptyPage:
+            anexos = paginator.page(paginator.num_pages)
+        form = AnexoArchivoForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
         id_equipo = pk
-        form = ArchivoForm(request.POST)
+        form = AnexoArchivoForm(request.POST)
 
         if form.is_valid():
-            archivo = Archivo()
+            archivo = AnexoArchivo()
             archivo.descripcion = request.POST['descripcion']
             if 'archivo' in request.POST:
                 archivo.archivo = request.POST['archivo']
@@ -387,7 +405,56 @@ class ArchivoAnexoView(View):
         return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_e})
 
 
-class TextoEquipoAnexoAPI(viewsets.ModelViewSet):
-    serializer_class = TextoAnexoSerializer
-    queryset = Texto.objects.all()
+class AnexoTextoAPI(viewsets.ModelViewSet):
+    serializer_class = AnexoTextoSerializer
+    queryset = AnexoTexto.objects.all()
     pagination_class = GenericPagination
+
+# ----------------- UBICACION ----------------- #
+
+
+class UbicacionCreateView(CreateView):
+    model = Ubicacion
+    form_class = UbicacionCreateForm
+    template_name = 'ubicacion/formulario.html'
+    success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+class UbicacionListView(View):
+
+    def __init__(self):
+        self.template_name = 'ubicacion/lista.html'
+
+    def get(self, request):
+
+        formulario = UbicacionFiltersForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        return render(request, self.template_name, {})
+
+
+class UbicacionUpdateView(UpdateView):
+    model = Ubicacion
+    form_class = UbicacionCreateForm
+    template_name = 'ubicacion/formulario.html'
+    success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
+class AnexosView(View):
+
+    def __init__(self):
+        self.template_name = 'equipo/anexos.html'
+
+    def get(self, request, pk):
+        id_equipo = pk
+        contexto = {
+            'id': id_equipo,
+        }
+
+        return render(request, self.template_name, contexto)
