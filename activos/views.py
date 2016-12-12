@@ -9,8 +9,11 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
 # Django Urls:
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
+# Django Paginator
+from django.core.paginator import Paginator
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -19,11 +22,14 @@ from django.views.generic import UpdateView
 from django.views.generic import TemplateView
 
 # Modelos:
-from .models import Equipo, Ubicacion, ImagenAnexo, Archivo
+from .models import Equipo 
+from .models import Ubicacion
+from home.models import ImagenAnexo
+from home.models import Archivo
+from home.models import Texto
 
 # API Rest:
 from rest_framework import viewsets
-from rest_framework.response import Response
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer
@@ -41,8 +47,6 @@ from forms import UbicacionCreateForm
 from forms import TextoForm
 from forms import ImagenAnexoForm
 from forms import ArchivoForm
-
-from models import Texto
 
 
 # ----------------- EQUIPO ----------------- #
@@ -279,6 +283,7 @@ class TextoAnexoView(View):
     def get(self, request, pk):
         id_equipo = pk
         texto = Texto.objects.filter(equipo=id_equipo)
+        paginator = Paginator(texto, 25)
         form = TextoForm()
 
         contexto = {
