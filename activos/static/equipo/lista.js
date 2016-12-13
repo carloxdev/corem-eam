@@ -190,7 +190,7 @@ GridPrincipal.prototype.anexos = function (e) {
     var id_input = document.createElement("INPUT");
     id_input.setAttribute("type", "hidden");
     id_input.setAttribute("value", id_equipo);
-    window.location.href = url_anexos + id_input.value;
+    window.location.href = url_anexos + id_input.value + '/texto';
 }
 GridPrincipal.prototype.ver_Estructura =  function (e) {
     e.preventDefault()

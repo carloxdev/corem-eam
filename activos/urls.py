@@ -14,7 +14,6 @@ from .views import EquipoTreeAPI
 # from .views import anexar_imagen
 # from .views import anexar_archivo
 # from .views import obtener_arbol
-from .views import AnexosView
 from .views import AnexoTextoView
 from .views import AnexoImagenView
 from .views import AnexoArchivoView
@@ -56,11 +55,6 @@ urlpatterns = [
 
     # ----------------- ANEXOS ------------------ #
 
-    url(
-        r'equipos/anexos/(?P<pk>\d+)/$',
-        AnexosView.as_view(),
-        name='activos.equipos_anexar'
-    ),
     url(
         r'equipos/anexos/(?P<pk>\d+)/texto',
         AnexoTextoView.as_view(),

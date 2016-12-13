@@ -32,7 +32,7 @@
 
 		<div class="row">
 	        <div class="col-md-12">
-
+			<input id="id_equipo" type="hidden" value="{{ id }}">
 	          <!-- Filtros -->
 	          <div class="box box-primary">
 	            <div class="box-header with-border">
@@ -94,72 +94,8 @@
 
 		</div>
 
-		<div id="grid_principal" data-role="grid" class="k-grid k-widget">
-			<div class="k-grid-header" style="padding-right: 12px;">
-				<div class="k-grid-header-wrap" data-role="resizable">
-					<div class="k-grid-header-wrap" data-role="resizable">
-						<table role="grid">
-							<colgroup>
-								<col style="width:120px">
-								<col style="width:120px">
-								<col style="width:120px">
-								<col style="width:110px">
-							</colgroup>
-							<thead role="rowgroup">
-								<tr role="row">
-									<th role="columnheader" data-field="texto" rowspan="1" data-title="texto" data-index="0" id="d601e8b9-071c-4770-a774-4a3e8872a091" class="k-header">Equipo</th>
-									<th role="columnheader" data-field="equipo" rowspan="1" data-title="equipo" data-index="1" id="419d81ae-13a9-4c69-a6d2-943af44dd0d2" class="k-header">Archivo</th>
-									<th role="columnheader" data-field="equipo" rowspan="1" data-title="equipo" data-index="1" id="419d81ae-13a9-4c69-a6d2-943af44dd0d2" class="k-header">Descripción</th>
-									<th id="d6c3de87-db26-433b-8005-48171d6f0240" rowspan="1" data-index="2" class="k-header"></th>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="k-grid-content">
-				<table role="grid" data-role="selectable" class="k-selectable">
-					<colgroup>
-						<col style="width:120px">
-						<col style="width:120px">
-						<col style="width:110px">
-					</colgroup>
-					<tbody role="rowgroup">
-						{% if anexos %}
-						{% for anexo in anexos %}
-						<tr data-uid="73cb07f4-6cab-49f2-babd-2f9ae0b5c832" role="row">
-							<td role="gridcell">{{ anexo.equipo.tag }}</td>
-							<td role="gridcell">{{ anexo.archivo }}</td>
-							<td role="gridcell">{{ anexo.descripcion }}</td>
-							<td role="gridcell"><a class="k-button k-button-icontext k-grid-Editar" href="#"><span class=" "></span>Editar</a></td>
-						</tr>
-						{% endfor %}
-						{% else %}
-						<h4 align="center">No hay comentarios anexos a este equipo</h4>
-						{% endif %}
-					</tbody>
-				</table>
-			</div>
-			<div class="k-pager-wrap k-grid-pager k-widget" data-role="pager">
-        		
-				<a {% if anexos.has_previous %} href="?page={{ anexos.previous_page_number }}" {% else %} href="" {% endif %} title="Página anterior" class="k-link k-pager-nav  k-state-disabled" tabindex="-1">
-					<span class="k-icon k-i-arrow-w">Ir a la página anterior</span>
-				</a>
-				
-					<ul class="k-pager-numbers k-reset">
-						
-						<li>
-							<span class="k-state-selected">{{ anexos.number }}</span>
-						</li>
-					</ul>
-				
-				<a {% if anexos.has_next %} href="?page={{ anexos.next_page_number }}" {% else %} href="" {% endif %} title="Página siguiente" class="k-link k-pager-nav  k-state-disabled" tabindex="-1">
-					<span class="k-icon k-i-arrow-e">Ir a la siguiente página</span>
-				</a>
-				
-				
-				<span class="k-pager-info k-label"></span>
-			</div>
+		<div id="grid_principal">
+			
 		</div>
 	</section>
 	<!-- /. Main content -->
@@ -168,8 +104,14 @@
 
 {% block scripts %}
 
-	<!-- Kendo Js -->	
+	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
+	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
+	<script id="template" type="text/x-kendo-template">
+		<a class="k-button" href="\#" onclick="return targeta_resultados.grid_principal.nuevo()">Nuevo</a>
+	</script>
+
+	<script src="{% static 'equipo/anexo/archivo.js' %}"></script>
 
 
 {% endblock scripts %}

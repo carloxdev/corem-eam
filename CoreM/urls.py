@@ -9,7 +9,11 @@ from django.conf.urls import include
 from rest_framework import routers
 
 # API Rest - Views:
-from activos.views import EquipoAPI, UbicacionAPI
+from activos.views import EquipoAPI
+from activos.views import UbicacionAPI
+from activos.views import AnexoTextoAPI
+from activos.views import AnexoArchivoAPI
+from activos.views import AnexoImagenAPI
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
 from django.conf import settings
@@ -25,6 +29,21 @@ router.register(
     r'ubicaciones',
     UbicacionAPI,
     'ubicacion'
+)
+router.register(
+    r'anexo/equipo/texto',
+    AnexoTextoAPI,
+    'anexo_equipo_texto'
+)
+router.register(
+    r'anexo/equipo/archivo',
+    AnexoArchivoAPI,
+    'anexo_equipo_archivo'
+),
+router.register(
+    r'anexo/equipo/imagen',
+    AnexoImagenAPI,
+    'anexo_equipo_imagen'
 )
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
