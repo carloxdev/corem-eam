@@ -87,9 +87,7 @@ class EquipoCreateView(View):
         self.template_name = 'equipo/nuevo.html'
 
     def get(self, request):
-        ins = Equipo()
-        hijos = ins.get_all_children()
-        print hijos
+
         formulario = EquipoCreateForm()
         contexto = {
             'form': formulario,
