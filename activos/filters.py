@@ -4,20 +4,15 @@
 from rest_framework import filters
 # import django_filters
 
-
 # Modelos
-from .models import Ubicacion
+from .models import Equipo
 
 
-class UbicacionFilter(filters.FilterSet):
-
-    # fecha_operacion_min = django_filters.CharFilter(
-    #     action=filtra_FechaOperacion_Min)
-    # fecha_operacion_max = django_filters.CharFilter(
-    #     action=filtra_FechaOperacion_Max)
+class EquipoFilter(filters.FilterSet):
 
     class Meta:
-        model = Ubicacion
+        model = Equipo
         fields = [
-            'id',
+            'tag',
+            'descripcion',
         ]

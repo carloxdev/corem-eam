@@ -18,13 +18,26 @@ $(document).ready(function () {
     targeta_resultados = new TargetaResultados()
 })
 
+// Spinner en Ajax
+$(document).ajaxStart(function() { Pace.restart(); });
+
+// Asigna eventos a teclas
+$(document).keypress(function (e) {
+
+    // Tecla Enter
+    if (e.which == 13) {
+
+        targeta_resultados.grid.buscar()
+    }
+})
+
 /*-----------------------------------------------*\
             OBJETO: FILTROS
 \*-----------------------------------------------*/
 
 function TargetaFiltros() {
 
-    this.$descripcion = $('#id_descripcion');
+    this.$filtro = $('#filtro');
     this.$boton_buscar =  $('#boton_buscar');
     
     this.init()
@@ -34,8 +47,6 @@ TargetaFiltros.prototype.init = function () {
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
 TargetaFiltros.prototype.click_BotonBuscar = function(e) {
-
-    // alert("hola")
 
     e.preventDefault()
     targeta_resultados.grid.buscar()
@@ -86,7 +97,7 @@ GridPrincipal.prototype.init = function () {
         },
     })
 
-    this.kgrid.data("kendoGrid").resize()
+    // this.kgrid.data("kendoGrid").resize()
 }
 GridPrincipal.prototype.get_Campos = function (e) {
 
@@ -114,9 +125,6 @@ GridPrincipal.prototype.get_Columnas = function (e) {
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
     return {
-
-        serverPaging: true,
-        pageSize: 30,
         transport: {
             read: {
 
@@ -128,16 +136,12 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
                 if (action === "read") {
 
                     return {
-                        // page: data.page,
-                        // pageSize: data.pageSize,
-                        id: targeta_filtros.$descripcion.val()
+                        search: targeta_filtros.$filtro.val()
                     }
                 }
             }
         },
         schema: {
-            data: "results",
-            total: "count",
             model: {
                 fields: this.get_Campos()
             }
@@ -149,14 +153,10 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.page(1)   
+  this.kfuente_datos.read()
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
-    e.preventDefault()
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    console.log(fila);
-    window.location.href = url_editar + fila.pk;
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk;

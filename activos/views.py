@@ -30,23 +30,6 @@ from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
 
-# API Rest:
-from rest_framework import viewsets
-from rest_framework import filters
-from django_filters.rest_framework import DjangoFilterBackend
-
-
-# API Rest - Serializadores:
-from .serializers import EquipoSerializer
-from .serializers import EquipoTreeSerilizado
-from .serializers import UbicacionSerializer
-from home.serializers import AnexoTextoSerializer
-# API Rest - Paginacion:
-from .pagination import GenericPagination
-
-# API Rest - Filtros
-from .filters import UbicacionFilter
-
 # Formularios:
 from forms import EquipoFiltersForm
 from forms import EquipoCreateForm
@@ -56,6 +39,22 @@ from forms import UbicacionCreateForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
+
+# API Rest:
+from rest_framework import viewsets
+from rest_framework import filters
+
+# API Rest - Serializadores:
+from .serializers import EquipoSerializer
+from .serializers import EquipoTreeSerilizado
+from .serializers import UbicacionSerializer
+from home.serializers import AnexoTextoSerializer
+
+# API Rest - Paginacion:
+from .pagination import GenericPagination
+
+# API Rest - Filtros:
+from .filters import EquipoFilter
 
 
 # ----------------- EQUIPO ----------------- #
@@ -195,6 +194,10 @@ class EquipoAPI(viewsets.ModelViewSet):
     serializer_class = EquipoSerializer
     pagination_class = GenericPagination
 
+    filter_backends = (filters.DjangoFilterBackend,)
+    
+    # filter_class = EquipoFilter
+
 
 class EquipoTreeListView(TemplateView):
     template_name = "equipo/arbol.html"
@@ -253,16 +256,9 @@ class UbicacionUpdateView(UpdateView):
 class UbicacionAPI(viewsets.ModelViewSet):
     queryset = Ubicacion.objects.all()
     serializer_class = UbicacionSerializer
-    pagination_class = GenericPagination
 
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('id',)
-
-    # filter_backends = (filters.DjangoFilterBackend,)
-    # filter_class = UbicacionFilter
-
-    # filter_backends = (filters.SearchFilter,)
-    # search_fields = ('id', 'clave', 'descripcion',)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('clave', 'descripcion', )
 
 
 class AnexosView(View):

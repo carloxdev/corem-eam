@@ -10,6 +10,8 @@ from .models import Equipo
 from .models import Ubicacion
 
 
+# ----------------- EQUIPO ----------------- #
+
 class EquipoFiltersForm(ModelForm):
 
     # def __init__(self, *args, **kwargs):
@@ -107,6 +109,9 @@ class EquipoUpdateForm(ModelForm):
             'cliente': 'Cliente',
             'responsable': 'Responsable',
         }
+
+
+# ----------------- UBICACION ----------------- #
 
 
 class UbicacionCreateForm(ModelForm):

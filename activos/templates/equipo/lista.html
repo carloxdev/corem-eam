@@ -9,14 +9,17 @@
 
 <!-- Kendo -->
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
 <!-- Select2 -->
 <link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
+<!-- Pace -->
+<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
+
 <!-- CoreM -->
-<link rel="stylesheet" href="{% static 'equipo/lista.css' %}"/>
+<link rel="stylesheet" href="{% static 'pagina_lista.css' %}"/>
 
 {% endblock css %}
 
@@ -94,7 +97,7 @@
 
 						<div class="row">
 
-			                <div class="form-group col-sx-12 col-sm-8 col-md-8">
+			                <div class="form-group col-sx-12 col-sm-12 col-md-12">
 			                  <label>Descripcion</label>
 			                  <input type="text" class="form-control">
 			                </div>														
@@ -136,16 +139,13 @@
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
-	<script id="template" type="text/x-kendo-template">
-		<a class="k-button" href="\#" onclick="return targeta_resultados.grid_principal.nuevo()">Nuevo</a>
-	</script>
-
 	<!-- Select2 -->
 	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
+	<!-- Pace -->
+	<script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
+
 	<!-- CoreM -->
 	<script src="{% static 'equipo/lista.js' %}"></script>
-
-
 
 {% endblock scripts %}

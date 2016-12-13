@@ -12,8 +12,11 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
+<!-- Pace -->
+<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
+
 <!-- CoreM -->
-<link rel="stylesheet" href="{% static 'ubicacion/lista.css' %}"/>
+<link rel="stylesheet" href="{% static 'pagina_lista.css' %}"/>
 
 {% endblock css %}
 
@@ -51,7 +54,7 @@
 	              <div class="box-body">
 
 		              <div class="input-group input-group-sm">
-		                <input type="text" class="form-control" id="id_descripcion">
+		                <input type="text" class="form-control" id="filtro">
 		                    <span class="input-group-btn">
 		                      <button type="button" id="boton_buscar" class="btn btn-info btn-flat">Buscar</button>
 		                    </span>
@@ -61,8 +64,6 @@
 	              <!-- /.box-body -->
 	          </div>
 	          <!-- /.box -->
-
-
 	          <div class="box">
 	            <div class="box-header">
 	              <h3 class="box-title">Registros</h3>
@@ -81,8 +82,7 @@
 				</div>
 
 	          </div>
-
-	          <!-- /.box -->	
+	          <!-- /.box -->
 
 	        </div>			
 		</div>
@@ -101,6 +101,9 @@
 
 	<!-- Select2 -->
 	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
+
+	<!-- Pace -->
+	<script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
 
 	<!-- CoreM -->
 	<script src="{% static 'ubicacion/lista.js' %}"></script>
