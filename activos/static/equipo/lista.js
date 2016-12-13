@@ -17,9 +17,23 @@ var targeta_resultados = null
 
 $(document).ready(function () {
 
-	targeta_filtros = new TargetaFiltros()
+    targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
 })
+
+// Spinner en Ajax
+$(document).ajaxStart(function() { Pace.restart(); });
+
+// Asigna eventos a teclas
+$(document).keypress(function (e) {
+
+    // Tecla Enter
+    if (e.which == 13) {
+
+        targeta_resultados.grid.buscar()
+    }
+})
+
 
 /*-----------------------------------------------*\
             OBJETO: Targeta Filtros
@@ -30,42 +44,75 @@ function TargetaFiltros() {
 	this.$tag = $('#id_tag')
 	this.$serie = $('#id_serie')
 	this.$estado = $('#id_estado')
-	this.$empresa = $('#id_empresa')
 	this.$padre = $('#id_padre')
 	this.$sistema = $('#id_sistema')
 	this.$ubicacion = $('#id_ubicacion')
 	this.$descripcion = $('#id_descripcion')
 
+    this.$boton_buscar =  $('#boton_buscar');
+    this.$boton_limpiar =  $('#boton_limpiar');
+
 	this.init()
 }
 TargetaFiltros.prototype.init = function () {
-	this.$empresa.select2();
-    this.$padre.select2();
-    this.$ubicacion.select2();
+    this.$padre.select2()
+    this.$ubicacion.select2()
+
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+}
+TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
+
+    return {
+        page: _page,
+        pageSize: _pageSize,
+        tag: this.$tag.val(),
+        serie: this.$serie.val(),
+        estado: this.$estado.val(),
+        padre: this.$padre.val(),
+        sistema: this.$sistema.val(),
+        ubicacion: this.$ubicacion.val(),
+        descripcion: this.$descripcion.val(),
+    }
+}
+TargetaFiltros.prototype.click_BotonBuscar = function(e) {
+
+    e.preventDefault()
+    targeta_resultados.grid.buscar()
+}
+TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
+
+    e.preventDefault()
+
+    e.data.$tag.val("")
+    e.data.$serie.val("")
+    e.data.$estado.val("")
+    e.data.$padre.val("").trigger('change')
+    e.data.$sistema.val("")
+    e.data.$ubicacion.val("").trigger('change')
+    e.data.$descripcion.val("")
 }
 
-
 /*-----------------------------------------------*\
-            OBJETO: Grid Principal
+            OBJETO: RESULTADOS
 \*-----------------------------------------------*/
 
 function TargetaResultados() {
 
-    this.grid_principal = new GridPrincipal()
+    this.toolbar = new Toolbar()
+    this.grid = new GridPrincipal()
 }
 
 
 /*-----------------------------------------------*\
-            OBJETO: Grid Principal
+            OBJETO: GRID
 \*-----------------------------------------------*/
 
 function GridPrincipal() {
 
 	this.$id = $("#grid_principal")
-    this.kFields = null
-    this.kFuenteDatos = null
-    this.kColumns = null
-    this.kGrid = null
+    this.kfuente_datos = null
+    this.kgrid = null
 
     this.init()
 }
@@ -73,23 +120,80 @@ GridPrincipal.prototype.init = function () {
 
 	kendo.culture("es-MX")
 
-    this.kFields = {
-		tag: { type: "string" },
-		descripcion: { type: "string" },
-		serie: { type: "string" },
-		tipo: { type: "string" },
-		estado: { type: "string" },
-		padre: { type: "string" },
-		empresa: { type: "string" },
-		sistema: { type: "string" },
-		ubicacion: { type: "string" },
+    this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
+
+    this.kGrid = this.$id.kendoGrid({
+        dataSource: this.kfuente_datos,
+        columnMenu: false,
+        groupable: false,
+        sortable: false,
+        editable: false,
+        resizable: true,
+        selectable: true,
+        scrollable: false,
+        columns: this.get_Columnas(),
+        scrollable: true,
+        pageable: true,
+        noRecords: {
+            template: "<div class='grid-empy'> Sin Registros </div>"
+        },        
+    })
+}
+
+GridPrincipal.prototype.get_Campos = function (e) {
+
+    return {
+        tag: { type: "string" },
+        descripcion: { type: "string" },
+        serie: { type: "string" },
+        tipo: { type: "string" },
+        estado: { type: "string" },
+        padre: { type: "string" },
+        empresa: { type: "string" },
+        sistema: { type: "string" },
+        ubicacion: { type: "string" },
     }
+}
+GridPrincipal.prototype.get_Columnas = function (e) {
 
+    return [
+        { field: "tag" , title: "Tag", width: "120px" },
+        { field: "descripcion" , title: "Descripcion", width: "250px" },
+        { field: "serie" , title: "Serie", width: "120px" },
+        { field: "tipo" , title: "Tipo", width: "120px" },
+        { field: "estado" , title: "Estado", width: "120px" },
+        { field: "padre" , title: "Padre (Tag)", width: "100px" },
+        { field: "empresa" , title: "Empresa", hidden: "true" },
+        { field: "sistema" , title: "Sistema", width: "100px" },
+        { field: "ubicacion" , title: "Ubicacion", width: "100px" },
+        
+        {
+           command: [
+                {
+                   text: "Editar",
+                   click: this.click_BotonEditar,
+                   className: "boton_editar"
+                },
+                {
+                    text: "Estructura",
+                    click: this.click_BotonEstructura,
+                },
+                {
+                    text: "Anexos",
+                    click: this.click_BotonAnexos,
+                },                
+            ],           
+           title: " ",
+           width: "280px"
+        },
+    ]
+}
+GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
-    this.kFuenteDatos = new kendo.data.DataSource({
+    return {
 
         serverPaging: true,
-        pageSize: 30,
+        pageSize: 10,
         transport: {
             read: {
 
@@ -100,10 +204,7 @@ GridPrincipal.prototype.init = function () {
             parameterMap: function (data, action) {
                 if (action === "read") {
 
-                    return {
-                        page: data.page,
-                        pageSize: data.pageSize,
-                    }
+                    return targeta_filtros.get_Filtros(data.page, data.pageSize)
                 }
             }
         },
@@ -111,88 +212,60 @@ GridPrincipal.prototype.init = function () {
             data: "results",
             total: "count",
             model: {
-                fields: this.kFields    
+                fields: this.get_Campos()
             }
         },
         error: function (e) {
-			alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
+            alert("Este es un ejemplo")
+            // alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
-    })
-
-    this.kColumns = [
-		{ field: "tag" , title: "Tag", width: "120px" },
-		{ field: "descripcion" , title: "Descripcion", width: "200px" },
-		{ field: "serie" , title: "Serie", width: "150px" },
-		{ field: "tipo" , title: "Tipo", width: "150px" },
-		{ field: "estado" , title: "Estado", width: "120px" },
-		{ field: "padre" , title: "Padre", width: "200px" },
-		{ field: "empresa" , title: "Empresa", width: "120px", hidden: "true" },
-		{ field: "sistema" , title: "Sistema", width: "200px" },
-		{ field: "ubicacion" , title: "Ubicacion", width: "280px" },
-        
-        {
-           command: [
-                {
-                   text: "Editar",
-                   click: this.editar,
-                },
-                {
-                    text: "Estructura",
-                    click: this.ver_Estructura,
-                },
-                {
-                    text: "Anexos",
-                    click: this.anexos,
-                },                
-            ],           
-           title: " ",
-           width: "300px"
-        }, 
-
-
-    ]    
-
-
-    this.kGrid = this.$id.kendoGrid({
-        dataSource: this.kFuenteDatos,
-        columnMenu: false,
-        groupable: false,
-        sortable: false,
-        editable: false,
-        resizable: true,
-        selectable: true,
-        scrollable: false,
-        columns: this.kColumns,
-        scrollable: true,
-        pageable: true,      
-        toolbar: [
-            { template: kendo.template($("#template").html()) },
-            "excel"
-        ],
-    })
-
-    this.kGrid.data("kendoGrid").resize()
+    }
 }
-GridPrincipal.prototype.nuevo = function (e) {
-    window.location.href = url_nuevo
+GridPrincipal.prototype.buscar =  function() {
+  this.kfuente_datos.page(1)
 }
-GridPrincipal.prototype.editar = function (e) {
+GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk;
 }
-GridPrincipal.prototype.anexos = function (e) {
+GridPrincipal.prototype.click_BotonAnexos = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    id_equipo = fila.pk
-    var id_input = document.createElement("INPUT");
-    id_input.setAttribute("type", "hidden");
-    id_input.setAttribute("value", id_equipo);
-    window.location.href = url_anexos + id_input.value;
+    window.location.href = url_anexos + fila.pk + "/texto";
 }
-GridPrincipal.prototype.ver_Estructura =  function (e) {
+GridPrincipal.prototype.click_BotonEstructura =  function (e) {
     e.preventDefault()
     window.location.href = url_estructura
+}
+
+
+
+
+/*-----------------------------------------------*\
+            OBJETO: TOOLBAR
+\*-----------------------------------------------*/
+
+function Toolbar() {
+
+    this.$boton_nuevo = $("#boton_nuevo")
+    this.$boton_exportar = $("#boton_exportar")
+
+    this.init()
+}
+Toolbar.prototype.init = function (e) {
+
+    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
+    this.$boton_exportar.on("click", this, this.click_BotonExportar)
+}
+Toolbar.prototype.click_BotonNuevo = function (e) {
+
+    e.preventDefault()
+    window.location.href = url_nuevo
+}
+Toolbar.prototype.click_BotonExportar = function(e) {
+    e.preventDefault()
+    return null
 }

@@ -10,11 +10,6 @@ from .views import EquipoUpdateView
 from .views import EquipoTreeListView
 
 from .views import EquipoTreeAPI
-# from .views import anexar_texto
-# from .views import anexar_imagen
-# from .views import anexar_archivo
-# from .views import obtener_arbol
-from .views import AnexosView
 from .views import AnexoTextoView
 from .views import AnexoImagenView
 from .views import AnexoArchivoView
@@ -49,7 +44,7 @@ urlpatterns = [
         name='activos.equipos_arbol'
     ),
     url(
-        r'^equipos/arbol/json',
+        r'^equipos/arbol/json/$',
         EquipoTreeAPI.as_view(),
         name='activos.equipos_api_tree'
     ),
@@ -57,22 +52,17 @@ urlpatterns = [
     # ----------------- ANEXOS ------------------ #
 
     url(
-        r'equipos/anexos/(?P<pk>\d+)/$',
-        AnexosView.as_view(),
-        name='activos.equipos_anexar'
-    ),
-    url(
-        r'equipos/anexos/(?P<pk>\d+)/texto',
+        r'equipos/anexos/(?P<pk>\d+)/texto$/',
         AnexoTextoView.as_view(),
         name='activos.anexar_texto'
     ),
     url(
-        r'^equipos/anexos/(?P<pk>\d+)/imagen',
+        r'^equipos/anexos/(?P<pk>\d+)/imagen$/',
         AnexoImagenView.as_view(),
         name='activos.anexar_imagen'
     ),
     url(
-        r'^equipos/anexos/(?P<pk>\d+)/archivo',
+        r'^equipos/anexos/(?P<pk>\d+)/archivo$/',
         AnexoArchivoView.as_view(),
         name='activos.anexar_archivo'
     ),
@@ -90,7 +80,7 @@ urlpatterns = [
         name='activos.ubicaciones_nuevo'
     ),
     url(
-        r'^ubicaciones/editar/(?P<pk>\d+)',
+        r'^ubicaciones/editar/(?P<pk>\d+)$/',
         UbicacionUpdateView.as_view(),
         name='activos.ubicaciones_editar'
     ),

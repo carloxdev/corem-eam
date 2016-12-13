@@ -43,12 +43,16 @@ from home.forms import AnexoArchivoForm
 # API Rest:
 from rest_framework import viewsets
 from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # API Rest - Serializadores:
 from .serializers import EquipoSerializer
 from .serializers import EquipoTreeSerilizado
 from .serializers import UbicacionSerializer
 from home.serializers import AnexoTextoSerializer
+from home.serializers import AnexoArchivoSerializer
+from home.serializers import AnexoImagenSerializer
 
 # API Rest - Paginacion:
 from .pagination import GenericPagination
@@ -194,9 +198,8 @@ class EquipoAPI(viewsets.ModelViewSet):
     serializer_class = EquipoSerializer
     pagination_class = GenericPagination
 
-    filter_backends = (filters.DjangoFilterBackend,)
-    
-    # filter_class = EquipoFilter
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = EquipoFilter
 
 
 class EquipoTreeListView(TemplateView):
@@ -217,63 +220,8 @@ class EquipoTreeAPI(View):
             content_type="application/json"
         )
 
-# ----------------- UBICACION ----------------- #
 
-
-class UbicacionListView(View):
-
-    def __init__(self):
-        self.template_name = 'ubicacion/lista.html'
-
-    def get(self, request):
-
-        formulario = UbicacionFiltersForm()
-
-        contexto = {
-            'form': formulario
-        }
-
-        return render(request, self.template_name, contexto)
-
-    def post(self, request):
-        return render(request, self.template_name, {})
-
-
-class UbicacionCreateView(CreateView):
-    model = Ubicacion
-    form_class = UbicacionCreateForm
-    template_name = 'ubicacion/formulario.html'
-    success_url = reverse_lazy('activos.ubicaciones_lista')
-
-
-class UbicacionUpdateView(UpdateView):
-    model = Ubicacion
-    form_class = UbicacionCreateForm
-    template_name = 'ubicacion/formulario.html'
-    success_url = reverse_lazy('activos.ubicaciones_lista')
-
-
-class UbicacionAPI(viewsets.ModelViewSet):
-    queryset = Ubicacion.objects.all()
-    serializer_class = UbicacionSerializer
-
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('clave', 'descripcion', )
-
-
-class AnexosView(View):
-
-    def __init__(self):
-        self.template_name = 'equipo/anexos.html'
-
-    def get(self, request, pk):
-        id_equipo = pk
-        contexto = {
-            'id': id_equipo,
-        }
-
-        return render(request, self.template_name, contexto)
-
+# ----------------- EQUIPO - ANEXO ----------------- #
 
 class AnexoTextoView(View):
 
@@ -353,7 +301,7 @@ class AnexoImagenView(View):
             imagenAnexo.equipo_id = id_equipo
             imagenAnexo.save()
 
-        return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_e})
+        return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_equipo})
 
 
 class AnexoArchivoView(View):
@@ -397,24 +345,34 @@ class AnexoArchivoView(View):
                 archivo.save()
             archivo.equipo_id = id_equipo
             archivo.save()
-
-        return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_e})
+        return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_equipo})
 
 
 class AnexoTextoAPI(viewsets.ModelViewSet):
-    serializer_class = AnexoTextoSerializer
     queryset = AnexoTexto.objects.all()
+    serializer_class = AnexoTextoSerializer
     pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('equipo',)
+
+
+class AnexoArchivoAPI(viewsets.ModelViewSet):
+    queryset = AnexoArchivo.objects.all()
+    serializer_class = AnexoArchivoSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('equipo',)
+
+
+class AnexoImagenAPI(viewsets.ModelViewSet):
+    queryset = AnexoImagen.objects.all()
+    serializer_class = AnexoImagenSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('equipo',)
+
 
 # ----------------- UBICACION ----------------- #
-
-
-class UbicacionCreateView(CreateView):
-    model = Ubicacion
-    form_class = UbicacionCreateForm
-    template_name = 'ubicacion/formulario.html'
-    success_url = reverse_lazy('activos.ubicaciones_lista')
-
 
 class UbicacionListView(View):
 
@@ -435,6 +393,13 @@ class UbicacionListView(View):
         return render(request, self.template_name, {})
 
 
+class UbicacionCreateView(CreateView):
+    model = Ubicacion
+    form_class = UbicacionCreateForm
+    template_name = 'ubicacion/formulario.html'
+    success_url = reverse_lazy('activos.ubicaciones_lista')
+
+
 class UbicacionUpdateView(UpdateView):
     model = Ubicacion
     form_class = UbicacionCreateForm
@@ -442,15 +407,9 @@ class UbicacionUpdateView(UpdateView):
     success_url = reverse_lazy('activos.ubicaciones_lista')
 
 
-class AnexosView(View):
+class UbicacionAPI(viewsets.ModelViewSet):
+    queryset = Ubicacion.objects.all()
+    serializer_class = UbicacionSerializer
 
-    def __init__(self):
-        self.template_name = 'equipo/anexos.html'
-
-    def get(self, request, pk):
-        id_equipo = pk
-        contexto = {
-            'id': id_equipo,
-        }
-
-        return render(request, self.template_name, contexto)
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('clave', 'descripcion',)

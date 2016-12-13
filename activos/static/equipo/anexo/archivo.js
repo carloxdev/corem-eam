@@ -2,9 +2,7 @@
             GLOBAL VARS
 \*-----------------------------------------------*/
 
-var url_grid = window.location.origin + "/api/ubicaciones/"
-var url_nuevo = window.location.origin + "/ubicaciones/nuevo/"
-var url_editar = window.location.origin + "/ubicaciones/editar/"
+var url_grid = window.location.origin + "/api/anexo/equipo/archivo/?equipo="
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -18,26 +16,13 @@ $(document).ready(function () {
     targeta_resultados = new TargetaResultados()
 })
 
-// Spinner en Ajax
-$(document).ajaxStart(function() { Pace.restart(); });
-
-// Asigna eventos a teclas
-$(document).keypress(function (e) {
-
-    // Tecla Enter
-    if (e.which == 13) {
-
-        targeta_resultados.grid.buscar()
-    }
-})
-
 /*-----------------------------------------------*\
             OBJETO: FILTROS
 \*-----------------------------------------------*/
 
 function TargetaFiltros() {
 
-    this.$filtro = $('#filtro');
+    this.$descripcion = $('#id_descripcion');
     this.$boton_buscar =  $('#boton_buscar');
     
     this.init()
@@ -48,15 +33,10 @@ TargetaFiltros.prototype.init = function () {
 }
 TargetaFiltros.prototype.click_BotonBuscar = function(e) {
 
+    // alert("hola")
+
     e.preventDefault()
     targeta_resultados.grid.buscar()
-}
-TargetaFiltros.prototype.get_Filtros = function () {
-
-    return {
-        search: this.$filtro.val()
-        
-    }
 }
 
 /*-----------------------------------------------*\
@@ -83,7 +63,6 @@ function GridPrincipal() {
     this.init()
 }
 GridPrincipal.prototype.init = function () {
-
     kendo.culture("es-MX")
 
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
@@ -103,6 +82,8 @@ GridPrincipal.prototype.init = function () {
             template: "<div class='grid-empy'> Sin Registros </div>"
         },
     })
+
+    this.kgrid.data("kendoGrid").resize()
 }
 GridPrincipal.prototype.get_Campos = function (e) {
 
@@ -114,8 +95,9 @@ GridPrincipal.prototype.get_Campos = function (e) {
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [      
-        { field: "clave" , title: "Clave" },
-        { field: "descripcion" , title: "Descripcion"},
+        { field: "equipo" , title: "Equipo" },
+        { field: "texto" , title: "Texto"},
+        { field: "descripcion" , title: "Descripción"},
         {
            command: {
                text: "Editar",
@@ -128,22 +110,33 @@ GridPrincipal.prototype.get_Columnas = function (e) {
     ]
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
+    var id_equipo = $('#id_equipo').val()
 
     return {
+
+        serverPaging: true,
+        pageSize: 30,
         transport: {
             read: {
 
-                url: url_grid,
+                url: url_grid+id_equipo,
                 type: "GET",
                 dataType: "json",
             },
             parameterMap: function (data, action) {
                 if (action === "read") {
-                    return targeta_filtros.get_Filtros()
+
+                    return {
+                        page: data.page,
+                        pageSize: data.pageSize,
+                        
+                    }
                 }
             }
         },
         schema: {
+            data: "results",
+            total: "count",
             model: {
                 fields: this.get_Campos()
             }
@@ -155,10 +148,14 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.read()
+  this.kfuente_datos.page(1)   
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    console.log(fila);
+    window.location.href = url_editar + fila.pk;
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk;

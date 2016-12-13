@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
 
 <!-- CoreM -->
-<link rel="stylesheet" href="{% static 'pagina_lista.css' %}"/>
+<link rel="stylesheet" href="{% static 'page_lista.css' %}"/>
 
 {% endblock css %}
 
@@ -50,7 +50,6 @@
 
 		          <div class="box-tools pull-right">
 		            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-		            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
 		          </div>	              
 	            </div>
 	            <!-- /.box-header -->
@@ -99,7 +98,7 @@
 
 			                <div class="form-group col-sx-12 col-sm-12 col-md-12">
 			                  <label>Descripcion</label>
-			                  <input type="text" class="form-control">
+			                  {{ form.descripcion }}
 			                </div>														
 						</div>
 
@@ -109,8 +108,8 @@
 	              <!-- /.box-body -->
 
 	              <div class="box-footer">
-	                <button type="submit" class="btn btn-default">Limpiar</button>
-	                <button type="submit" class="btn btn-primary pull-right">Buscar</button>
+	                <button type="submit" id="boton_limpiar" class="btn btn-default">Limpiar</button>
+	                <button type="submit" id="boton_buscar" class="btn btn-info pull-right">Buscar</button>
 	              </div>
 	              <!-- /.box-footer -->
 
@@ -123,9 +122,25 @@
 		</div>
 
 
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Registros</h3>
+          <div class="box-tools pull-right">
+            <button type="button" id="boton_nuevo" class="btn btn-primary btn-sm">
+				<i class="fa fa-plus"></i>
+            	Nuevo
+            </button>
+			<button type="button" id="boton_exportar" class="btn btn-default btn-sm">
+				<i class="fa fa-file-excel-o"></i>
+            	Exportar
+            </button>
+          </div>	              
+        </div>
 		<div id="grid_principal">
-			
 		</div>
+
+      </div>
+      <!-- /.box -->
 
 	</section>
 	<!-- /. Main content -->
