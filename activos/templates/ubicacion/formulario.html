@@ -40,7 +40,6 @@
 					    			<div class="col-sm-12">
 					    				<label for="{{ field.label }}">{{ field.label_tag }}
 					       		 		{% if field.field.required %}<span class="">*</span>{% endif %}</label>
-
 					        			{{ field }}
 					        			
 					        			{% for error in field.errors %}
@@ -50,9 +49,7 @@
 		              					{% endfor %}
 					    			</div>
 					    		</div>
-					    		 
 					    	</div>
-					       
 					    </div>
 					    {% endfor %}
 		              <!-- /.box-body -->

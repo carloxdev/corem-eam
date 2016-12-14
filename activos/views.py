@@ -32,9 +32,8 @@ from home.models import AnexoTexto
 
 # Formularios:
 from forms import EquipoFiltersForm
-from forms import EquipoCreateForm
-from forms import EquipoUpdateForm
-from forms import UbicacionCreateForm
+from forms import EquipoForm
+from forms import UbicacionForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -84,13 +83,10 @@ class EquipoListView(View):
 class EquipoCreateView(View):
 
     def __init__(self):
-        self.template_name = 'equipo/nuevo.html'
+        self.template_name = 'equipo/formulario.html'
 
     def get(self, request):
-        ins = Equipo()
-        hijos = ins.get_all_children()
-        print hijos
-        formulario = EquipoCreateForm()
+        formulario = EquipoForm()
         contexto = {
             'form': formulario,
         }
@@ -99,7 +95,7 @@ class EquipoCreateView(View):
 
     def post(self, request):
 
-        formulario = EquipoCreateForm(request.POST)
+        formulario = EquipoForm(request.POST)
 
         if formulario.is_valid():
 
@@ -132,7 +128,7 @@ class EquipoCreateView(View):
 
 class EquipoUpdateView(View):
     def __init__(self):
-        self.template_name = 'equipo/editar.html'
+        self.template_name = 'equipo/formulario.html'
         self.tag = ''
 
     def get(self, request, pk):
@@ -140,7 +136,7 @@ class EquipoUpdateView(View):
         equipo = get_object_or_404(Equipo, pk=pk)
         self.tag = equipo.tag
 
-        formulario = EquipoUpdateForm(
+        formulario = EquipoForm(
             initial={
                 'descripcion': equipo.descripcion,
                 'serie': equipo.serie,
@@ -162,7 +158,7 @@ class EquipoUpdateView(View):
 
     def post(self, request, pk):
 
-        formulario = EquipoUpdateForm(request.POST)
+        formulario = EquipoForm(request.POST)
 
         equipo = get_object_or_404(Equipo, pk=pk)
         self.tag = equipo.tag
@@ -385,39 +381,20 @@ class AnexoImagenAPI(viewsets.ModelViewSet):
 
 # ----------------- UBICACION ----------------- #
 
-# class UbicacionListView(View):
-
-#     def __init__(self):
-#         self.template_name = 'ubicacion/lista.html'
-
-#     def get(self, request):
-
-#         formulario = UbicacionFiltersForm()
-
-#         contexto = {
-#             'form': formulario
-#         }
-
-#         return render(request, self.template_name, contexto)
-
-#     def post(self, request):
-#         return render(request, self.template_name, {})
-
-
 class UbicacionListView(TemplateView):
     template_name = 'ubicacion/lista.html'
 
 
 class UbicacionCreateView(CreateView):
     model = Ubicacion
-    form_class = UbicacionCreateForm
+    form_class = UbicacionForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos.ubicaciones_lista')
 
 
 class UbicacionUpdateView(UpdateView):
     model = Ubicacion
-    form_class = UbicacionCreateForm
+    form_class = UbicacionForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos.ubicaciones_lista')
 

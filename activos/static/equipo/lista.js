@@ -181,7 +181,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                 },                
             ],           
            title: " ",
-           width: "280px"
+           width: "260px"
         },
     ]
 }

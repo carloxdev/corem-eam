@@ -45,7 +45,7 @@ class EquipoFiltersForm(ModelForm):
         }
 
 
-class EquipoCreateForm(ModelForm):
+class EquipoForm(ModelForm):
 
     class Meta:
         model = Equipo
@@ -79,42 +79,10 @@ class EquipoCreateForm(ModelForm):
         }
 
 
-class EquipoUpdateForm(ModelForm):
-
-    class Meta:
-        model = Equipo
-        fields = '__all__'
-        exclude = ['tag']
-        widgets = {
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'serie': TextInput(attrs={'class': 'form-control'}),
-            'tipo': Select(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control select2'}),
-            'padre': Select(attrs={'class': 'form-control select2'}),
-            'empresa': Select(attrs={'class': 'form-control'}),
-            'sistema': TextInput(attrs={'class': 'form-control'}),
-            'ubicacion': Select(attrs={'class': 'form-control'}),
-            'cliente': TextInput(attrs={'class': 'form-control'}),
-            'responsable': TextInput(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            'descripcion': 'Descripción',
-            'serie': 'Serie',
-            'tipo': 'Tipo',
-            'estado': 'Estado',
-            'padre': 'Padre',
-            'empresa': 'Empresa',
-            'sistema': 'Sistema',
-            'ubicacion': 'Ubicación',
-            'cliente': 'Cliente',
-            'responsable': 'Responsable',
-        }
-
-
 # ----------------- UBICACION ----------------- #
 
 
-class UbicacionCreateForm(ModelForm):
+class UbicacionForm(ModelForm):
 
     class Meta:
         model = Ubicacion
