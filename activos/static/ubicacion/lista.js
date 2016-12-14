@@ -100,7 +100,7 @@ GridPrincipal.prototype.init = function () {
         columns: this.get_Columnas(),
         scrollable: true,
         noRecords: {
-            template: "<div class='grid-empy'> Sin Registros </div>"
+            template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
     })
 }

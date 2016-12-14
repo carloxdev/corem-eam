@@ -135,7 +135,7 @@ GridPrincipal.prototype.init = function () {
         scrollable: true,
         pageable: true,
         noRecords: {
-            template: "<div class='grid-empy'> Sin Registros </div>"
+            template: "<div class='grid-empy'> No se encontraron registros </div>"
         },        
     })
 }

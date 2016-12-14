@@ -19,6 +19,8 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
     empresa = serializers.SerializerMethodField()
     ubicacion = serializers.SerializerMethodField()
 
+    estado = serializers.SerializerMethodField()
+
     class Meta:
         model = Equipo
         fields = (
@@ -53,6 +55,12 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
 
         try:
             return obj.ubicacion.clave
+        except:
+            return ""
+
+    def get_estado(self, obj):
+        try:
+            return obj.get_estado_display()
         except:
             return ""
 

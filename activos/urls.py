@@ -52,17 +52,17 @@ urlpatterns = [
     # ----------------- ANEXOS ------------------ #
 
     url(
-        r'equipos/anexos/(?P<pk>\d+)/texto$/',
+        r'equipos/anexos/(?P<pk>\d+)/texto/$',
         AnexoTextoView.as_view(),
         name='activos.anexar_texto'
     ),
     url(
-        r'^equipos/anexos/(?P<pk>\d+)/imagen$/',
+        r'^equipos/anexos/(?P<pk>\d+)/imagen/$',
         AnexoImagenView.as_view(),
         name='activos.anexar_imagen'
     ),
     url(
-        r'^equipos/anexos/(?P<pk>\d+)/archivo$/',
+        r'^equipos/anexos/(?P<pk>\d+)/archivo/$',
         AnexoArchivoView.as_view(),
         name='activos.anexar_archivo'
     ),
@@ -80,7 +80,7 @@ urlpatterns = [
         name='activos.ubicaciones_nuevo'
     ),
     url(
-        r'^ubicaciones/editar/(?P<pk>\d+)$/',
+        r'^ubicaciones/editar/(?P<pk>\d+)/$',
         UbicacionUpdateView.as_view(),
         name='activos.ubicaciones_editar'
     ),
