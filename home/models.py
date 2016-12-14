@@ -15,6 +15,7 @@ class AnexoArchivo(models.Model):
 
 class AnexoTexto(models.Model):
     equipo = models.ForeignKey(Equipo)
+    titulo = models.CharField(max_length=30, blank=True)
     texto = models.CharField(max_length=255, null=True, blank=True)
 
 

@@ -96,13 +96,35 @@
 
 	            </form>
 	          </div>
+
 	          <!-- /.box -->			
-
 		</div>
-		<div id="grid_principal">
-			
+		<div class="row">
+		{% for anexo in anexos %}
+			<div class="col-md-4">
+          		<div class="box box-solid">
+            		<div class="box-header with-border">
+              			<div class="pull-right">
+              				<a href="#" class="btn btn-danger"><i class="fa fa-trash" title="Eliminar"></i></a>
+            				<a href="#" class="btn btn-primary"><i class="fa fa-download" title="Descargar"></i></a>
+            			</div>	
+            		
+              			<h3 class="box-title">{{ anexo.descripcion }}</h3>
+            		</div>
+            		<!-- /.box-header -->
+		            <div class="box-body">
+		            	<div align="center">
+		            	<img src="{{MEDIA_URL}}{{ anexo.ruta }}" alt="{{ anexo.descripcion }}" width="300px", height="200px" >   
+		            	</div>
+		            	
+		            </div>
+            		<!-- /.box-body -->
+          		</div>
+          <!-- /.box -->
+        	</div>
+        	{% endfor %}
+ 
 		</div>
-
 	</section>
 	<!-- /. Main content -->
 

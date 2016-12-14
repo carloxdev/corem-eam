@@ -15,12 +15,14 @@ class AnexoTextoForm(ModelForm):
 
     class Meta:
         model = AnexoTexto
-        fields = ['texto']
+        fields = ['titulo', 'texto']
         widgets = {
+            'titulo': TextInput(attrs={'class': 'form-control'}),
             'texto': Textarea(attrs={'class': 'textarea form-control'})
         }
         labels = {
-            'texto': 'Introduzca texto',
+            'titulo': 'Título',
+            'texto': 'Texto',
         }
 
 
