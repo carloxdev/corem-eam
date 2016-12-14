@@ -138,6 +138,7 @@ class EquipoUpdateView(View):
 
         formulario = EquipoForm(
             initial={
+                'tag': equipo.tag,
                 'descripcion': equipo.descripcion,
                 'serie': equipo.serie,
                 'tipo': equipo.tipo,
@@ -166,6 +167,7 @@ class EquipoUpdateView(View):
         if formulario.is_valid():
 
             datos_formulario = formulario.cleaned_data
+            equipo.tag = datos_formulario.get('tag')
             equipo.descripcion = datos_formulario.get('descripcion')
             equipo.serie = datos_formulario.get('serie')
             equipo.tipo = datos_formulario.get('tipo')

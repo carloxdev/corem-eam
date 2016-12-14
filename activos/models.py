@@ -59,7 +59,7 @@ class Equipo(models.Model):
     responsable = models.CharField(max_length=144, null=True, blank=True)
 
     def __str__(self):
-        return "{} - {}".format(self.tag, self.descripcion)
+        return "{} - {}".format(self.tag, self.descripcion).encode('utf-8')
 
 
 class Asignacion(models.Model):

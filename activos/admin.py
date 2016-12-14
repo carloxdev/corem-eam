@@ -46,7 +46,6 @@ class AdminEquipo(ImportExportModelAdmin, admin.ModelAdmin):
         'padre',
         'empresa',
         'sistema',
-        'imagen',
         'cliente',
         'responsable',
     )
