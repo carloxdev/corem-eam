@@ -3,7 +3,6 @@
 \*-----------------------------------------------*/
 
 var url_grid = window.location.origin + "/api/anexo/equipo/texto/?equipo="
-var targeta_filtros = null
 var targeta_resultados = null
 
 /*-----------------------------------------------*\
@@ -12,32 +11,8 @@ var targeta_resultados = null
 
 $(document).ready(function () {
 
-    targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
 })
-
-/*-----------------------------------------------*\
-            OBJETO: FILTROS
-\*-----------------------------------------------*/
-
-function TargetaFiltros() {
-
-    this.$descripcion = $('#id_descripcion');
-    this.$boton_buscar =  $('#boton_buscar');
-    
-    this.init()
-}
-TargetaFiltros.prototype.init = function () {
-
-    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-}
-TargetaFiltros.prototype.click_BotonBuscar = function(e) {
-
-    // alert("hola")
-
-    e.preventDefault()
-    targeta_resultados.grid.buscar()
-}
 
 /*-----------------------------------------------*\
             OBJETO: RESULTADOS
@@ -45,7 +20,6 @@ TargetaFiltros.prototype.click_BotonBuscar = function(e) {
 
 function TargetaResultados() {
 
-    this.toolbar = new Toolbar()
     this.grid = new GridPrincipal()
 }
 
@@ -95,20 +69,28 @@ GridPrincipal.prototype.get_Campos = function (e) {
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [      
-        { field: "equipo" , title: "Equipo" },
-        { field: "texto" , title: "Texto"},
+        { field: "equipo" , title: "Equipo", width: "120px" },
+        { field: "texto" , title: "Texto", width: "200px" },
         {
-           command: {
-               text: "Editar",
-               click: this.click_BotonEditar,
-               className: "boton_editar"
-           },
+           command: [
+                 {  
+                    text: "Editar",
+                    click: this.click_BotonEditar,
+                    className: "boton_editar"
+                },
+                {
+                    text: "Eliminar",
+                    click: this.click_BotonEliminar,
+                    className: "boton_eliminar"
+                },
+           ],
            title: " ",
            width: "90px"
         },
     ]
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
+    
     var id_equipo = $('#id_equipo').val()
 
     return {
@@ -141,50 +123,13 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
             }
         },
         error: function (e) {
-            // alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
             alert("Valio gaver")
         },
     }
 }
-GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.page(1)   
-}
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    console.log(fila);
-    window.location.href = url_editar + fila.pk;
-    e.preventDefault()
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.pk;
+    // TODO: Crear vista en el servidor para edición de anexos
+
 }
-
-
-/*-----------------------------------------------*\
-            OBJETO: TOOLBAR
-\*-----------------------------------------------*/
-
-function Toolbar() {
-
-    this.$boton_nuevo = $("#boton_nuevo")
-    this.$boton_exportar = $("#boton_exportar")
-
-    this.init()
-}
-Toolbar.prototype.init = function (e) {
-
-    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
-    this.$boton_exportar.on("click", this, this.click_BotonExportar)
-}
-Toolbar.prototype.click_BotonNuevo = function (e) {
-
-    e.preventDefault()
-    window.location.href = url_nuevo
-}
-Toolbar.prototype.click_BotonExportar = function(e) {
-    e.preventDefault()
-    return null
-}
-
-

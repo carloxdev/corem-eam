@@ -17,7 +17,7 @@ class AnexoTextoForm(ModelForm):
         model = AnexoTexto
         fields = ['texto']
         widgets = {
-            'texto': Textarea(attrs={'class': 'form-control'})
+            'texto': Textarea(attrs={'class': 'textarea form-control'})
         }
         labels = {
             'texto': 'Introduzca texto',
