@@ -239,21 +239,13 @@ class AnexoTextoView(View):
 
     def get(self, request, pk):
         id_equipo = pk
-        texto = AnexoTexto.objects.filter(equipo=id_equipo)
-        paginator = Paginator(texto, 5)
-        pagina = request.GET.get('page')
-        try:
-            anexos = paginator.page(pagina)
-        except PageNotAnInteger:
-            anexos = paginator.page(1)
-        except EmptyPage:
-            anexos = paginator.page(paginator.num_pages)
+        equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoTextoForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
-            'anexos': anexos,
+            'equipo': equipo,
         }
 
         return render(request, self.template_name, contexto)
@@ -266,7 +258,7 @@ class AnexoTextoView(View):
             texto.equipo_id = id_equipo
             texto.save()
 
-        return redirect(reverse_lazy('activos.equipos_lista'))
+        return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_equipo})
 
 
 class AnexoImagenView(View):
@@ -276,21 +268,13 @@ class AnexoImagenView(View):
 
     def get(self, request, pk):
         id_equipo = pk
-        imagen = AnexoImagen.objects.filter(equipo=id_equipo)
-        paginator = Paginator(imagen, 5)
-        pagina = request.GET.get('page')
-        try:
-            anexos = paginator.page(pagina)
-        except PageNotAnInteger:
-            anexos = paginator.page(1)
-        except EmptyPage:
-            anexos = paginator.page(paginator.num_pages)
+        equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoImagenForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
-            'anexos': anexos,
+            'equipo': equipo,
         }
 
         return render(request, self.template_name, contexto)
@@ -310,7 +294,7 @@ class AnexoImagenView(View):
             imagenAnexo.equipo_id = id_equipo
             imagenAnexo.save()
 
-        return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_equipo})
+        return render(request, 'equipo/anexos_imagen.html', {'form': form, 'id': id_equipo})
 
 
 class AnexoArchivoView(View):
@@ -320,21 +304,13 @@ class AnexoArchivoView(View):
 
     def get(self, request, pk):
         id_equipo = pk
-        archivo = AnexoArchivo.objects.filter(equipo=id_equipo)
-        paginator = Paginator(archivo, 5)
-        pagina = request.GET.get('page')
-        try:
-            anexos = paginator.page(pagina)
-        except PageNotAnInteger:
-            anexos = paginator.page(1)
-        except EmptyPage:
-            anexos = paginator.page(paginator.num_pages)
+        equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoArchivoForm()
 
         contexto = {
             'form': form,
             'id': id_equipo,
-            'anexos': anexos,
+            'equipo': equipo,
         }
 
         return render(request, self.template_name, contexto)

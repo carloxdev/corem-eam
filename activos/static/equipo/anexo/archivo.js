@@ -3,7 +3,6 @@
 \*-----------------------------------------------*/
 
 var url_grid = window.location.origin + "/api/anexo/equipo/archivo/?equipo="
-var targeta_filtros = null
 var targeta_resultados = null
 
 /*-----------------------------------------------*\
@@ -12,32 +11,8 @@ var targeta_resultados = null
 
 $(document).ready(function () {
 
-    targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
 })
-
-/*-----------------------------------------------*\
-            OBJETO: FILTROS
-\*-----------------------------------------------*/
-
-function TargetaFiltros() {
-
-    this.$descripcion = $('#id_descripcion');
-    this.$boton_buscar =  $('#boton_buscar');
-    
-    this.init()
-}
-TargetaFiltros.prototype.init = function () {
-
-    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-}
-TargetaFiltros.prototype.click_BotonBuscar = function(e) {
-
-    // alert("hola")
-
-    e.preventDefault()
-    targeta_resultados.grid.buscar()
-}
 
 /*-----------------------------------------------*\
             OBJETO: RESULTADOS
@@ -45,10 +20,8 @@ TargetaFiltros.prototype.click_BotonBuscar = function(e) {
 
 function TargetaResultados() {
 
-    this.toolbar = new Toolbar()
     this.grid = new GridPrincipal()
 }
-
 
 /*-----------------------------------------------*\
             OBJETO: GRID
@@ -87,25 +60,33 @@ GridPrincipal.prototype.init = function () {
 }
 GridPrincipal.prototype.get_Campos = function (e) {
 
-    return {
-        clave: { type: "string"},
-        descripcion: { type: "string" },
-    }
+
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [      
-        { field: "equipo" , title: "Equipo" },
-        { field: "texto" , title: "Texto"},
-        { field: "descripcion" , title: "Descripción"},
+        { field: "equipo" , title: "Equipo", width: "120px"},
+        { field: "descripcion" , title: "Descripción", width: "120px"},
         {
-           command: {
-               text: "Editar",
-               click: this.click_BotonEditar,
-               className: "boton_editar"
-           },
+           command: [
+               {
+                   text: "Editar",
+                   click: this.click_BotonEditar,
+                   className: "boton_editar"
+               },
+               {
+                    text: "Eliminar",
+                    click: this.click_BotonEliminar,
+                    className: "boton_eliminar"
+               },
+               {
+                    text: "Descargar",
+                    click: this.click_BotonDescargar,
+                    className: "boton_descargar"
+               }
+           ],
            title: " ",
-           width: "90px"
+           width: "120px"
         },
     ]
 }
@@ -142,7 +123,6 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
             }
         },
         error: function (e) {
-            // alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
             alert("Valio gaver")
         },
     }
@@ -160,32 +140,15 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk;
 }
-
-
-/*-----------------------------------------------*\
-            OBJETO: TOOLBAR
-\*-----------------------------------------------*/
-
-function Toolbar() {
-
-    this.$boton_nuevo = $("#boton_nuevo")
-    this.$boton_exportar = $("#boton_exportar")
-
-    this.init()
-}
-Toolbar.prototype.init = function (e) {
-
-    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
-    this.$boton_exportar.on("click", this, this.click_BotonExportar)
-}
-Toolbar.prototype.click_BotonNuevo = function (e) {
+GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
     e.preventDefault()
-    window.location.href = url_nuevo
 }
-Toolbar.prototype.click_BotonExportar = function(e) {
+GridPrincipal.prototype.click_BotonDescargar = function (e) {
+
     e.preventDefault()
-    return null
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    var archivo = fila.archivo
+    //alert(archivo)
+
 }
-
-
