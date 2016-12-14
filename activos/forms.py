@@ -123,13 +123,3 @@ class UbicacionCreateForm(ModelForm):
             'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
         }
-
-
-class UbicacionFiltersForm(ModelForm):
-
-    class Meta:
-        model = Ubicacion
-        fields = ['descripcion']
-        widgets = {
-            'descripcion': TextInput(attrs={'class': 'form-control'})
-        }

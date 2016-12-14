@@ -4,10 +4,12 @@
 
 $(document).ready(function () {
 
-	pagina = new Pagina()	    
+	pagina = new Pagina()
 
 })
 
+// Spinner en Ajax
+$(document).ajaxStart(function() { Pace.restart(); });
 
 /*-----------------------------------------------*\
             OBJETO: PAGINA

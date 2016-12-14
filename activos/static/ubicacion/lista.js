@@ -18,9 +18,6 @@ $(document).ready(function () {
     targeta_resultados = new TargetaResultados()
 })
 
-// Spinner en Ajax
-$(document).ajaxStart(function() { Pace.restart(); });
-
 // Asigna eventos a teclas
 $(document).keypress(function (e) {
 

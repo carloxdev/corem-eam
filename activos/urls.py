@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Librerias django:
+# Librerias Django:
 from django.conf.urls import url
 
 # Vistas:
@@ -84,5 +84,4 @@ urlpatterns = [
         UbicacionUpdateView.as_view(),
         name='activos.ubicaciones_editar'
     ),
-
 ]

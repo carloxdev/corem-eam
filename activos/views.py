@@ -34,7 +34,6 @@ from home.models import AnexoTexto
 from forms import EquipoFiltersForm
 from forms import EquipoCreateForm
 from forms import EquipoUpdateForm
-from forms import UbicacionFiltersForm
 from forms import UbicacionCreateForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
@@ -386,23 +385,27 @@ class AnexoImagenAPI(viewsets.ModelViewSet):
 
 # ----------------- UBICACION ----------------- #
 
-class UbicacionListView(View):
+# class UbicacionListView(View):
 
-    def __init__(self):
-        self.template_name = 'ubicacion/lista.html'
+#     def __init__(self):
+#         self.template_name = 'ubicacion/lista.html'
 
-    def get(self, request):
+#     def get(self, request):
 
-        formulario = UbicacionFiltersForm()
+#         formulario = UbicacionFiltersForm()
 
-        contexto = {
-            'form': formulario
-        }
+#         contexto = {
+#             'form': formulario
+#         }
 
-        return render(request, self.template_name, contexto)
+#         return render(request, self.template_name, contexto)
 
-    def post(self, request):
-        return render(request, self.template_name, {})
+#     def post(self, request):
+#         return render(request, self.template_name, {})
+
+
+class UbicacionListView(TemplateView):
+    template_name = 'ubicacion/lista.html'
 
 
 class UbicacionCreateView(CreateView):

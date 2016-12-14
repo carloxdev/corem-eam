@@ -5,7 +5,9 @@
 {% block title %} Editar Equipo {% endblock title %}
 
 {% block css %}
-	<link href="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.css' %}">
+
+<!-- Bootstrap TreeView -->
+<link href="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.css' %}">
 
 {% endblock css %}	
 
@@ -46,9 +48,10 @@
 
 {% block scripts %}
 
-	<!-- Kendo Js -->
+	<!-- Bootstrap TreeView -->
 	<script src="{% static 'libs/plugins/bootstrap-treeview/dist/bootstrap-treeview.min.js' %}"></script>
-	<script src="{% static 'equipo/tree.js' %}"></script>
 
+	<!-- CoreM -->
+	<script src="{% static 'equipo/tree.js' %}"></script>
 
 {% endblock scripts %}
