@@ -35,5 +35,13 @@ Pagina.prototype.set_PageActive = function () {
 		var $opcion = $("#opt_equipos")
 		$opcion.addClass("active")
 	}
+	else if ( this.$titulo.text() == "Ubicaciones") {
+		
+		var $arbol = $("#tree_activos")
+		$arbol.addClass("active")
+
+		var $opcion = $("#opt_ubicaciones")
+		$opcion.addClass("active")
+	}
 
 }

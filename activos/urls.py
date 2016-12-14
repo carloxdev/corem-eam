@@ -39,12 +39,12 @@ urlpatterns = [
         name='activos.equipos_editar'
     ),
     url(
-        r'equipos/arbol/$',
+        r'equipos/arbol/(?P<pk>\d+)/$',
         EquipoTreeListView.as_view(),
         name='activos.equipos_arbol'
     ),
     url(
-        r'^equipos/arbol/json/$',
+        r'^equipos/arbol/json/(?P<pk>\d+)/$',
         EquipoTreeAPI.as_view(),
         name='activos.equipos_api_tree'
     ),

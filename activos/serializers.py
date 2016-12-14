@@ -77,7 +77,7 @@ class EquipoTreeSerilizado(object):
         for hijo in _hijos:
 
             nodo = {}
-            nodo["text"] = hijo.descripcion
+            nodo["text"] = "{} : {}".format(hijo.tag, hijo.descripcion)
             # nodo["href"] = "#{}".format(hijo.id)
             # nodo["tag"] = ['0']
 
@@ -97,14 +97,21 @@ class EquipoTreeSerilizado(object):
         for daddy in _daddies:
 
             nodo = {}
-            nodo["text"] = daddy.descripcion
+            # nodo["text"] = daddy.descripcion
             # nodo["href"] = "#{}".format(daddy.id)
             # nodo["tag"] = ['0']
-
+            nodo["icon"] = "fa fa-sitemap"
             hijos = Equipo.objects.filter(padre=daddy)
 
             if len(hijos):
+                nodo["text"] = "Sub-Equipos:"
                 nodo["nodes"] = self.get_Descendencia(hijos, nodo)
+                nodo["backColor"] = "#307AAE"
+                nodo["color"] = "#FFFFFF"
+            else:
+                nodo["text"] = "Sin Sub-Equipos"
+                nodo["backColor"] = "#F2F2F2"
+                nodo["color"] = "#000000"
 
             self.lista.append(nodo)
 

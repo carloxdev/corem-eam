@@ -2,7 +2,7 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url_datos = window.location.origin + "/equipos/arbol/json"
+var url_datos = window.location.origin + "/equipos/arbol/json/"
 var tree = null
 
 
@@ -22,14 +22,17 @@ $(document).ready(function () {
 
 function Arbol() {
 
+    this.$equipo = $("#equipo_id")
     this.$id = $("#tree")
 
     this.init()
 }
 Arbol.prototype.init = function () {
 
+  var url = url_datos + this.$equipo.text() + "/"
+
   $.ajax({
-    url: url_datos,
+    url: url,
     data: {},
     dataType: "json",
     type: "GET",

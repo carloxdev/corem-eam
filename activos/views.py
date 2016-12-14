@@ -202,15 +202,27 @@ class EquipoAPI(viewsets.ModelViewSet):
     filter_class = EquipoFilter
 
 
-class EquipoTreeListView(TemplateView):
-    template_name = "equipo/arbol.html"
+class EquipoTreeListView(View):
+
+    def __init__(self):
+        self.template_name = "equipo/arbol.html"
+
+    def get(self, request, pk):
+
+        equipo = get_object_or_404(Equipo, pk=pk)
+
+        contexto = {
+            "equipo": equipo
+        }
+
+        return render(request, self.template_name, contexto)
 
 
 class EquipoTreeAPI(View):
 
-    def get(self, request):
+    def get(self, request, pk):
 
-        daddies = Equipo.objects.filter(padre=None)
+        daddies = Equipo.objects.filter(pk=pk)
 
         serializador = EquipoTreeSerilizado()
         lista_json = serializador.get_Json(daddies)

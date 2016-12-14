@@ -228,17 +228,18 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.pk;
+    window.location.href = url_editar + fila.pk + "/"
 }
 GridPrincipal.prototype.click_BotonAnexos = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_anexos + fila.pk + "/texto";
+    window.location.href = url_anexos + fila.pk + "/texto/"
 }
 GridPrincipal.prototype.click_BotonEstructura =  function (e) {
     e.preventDefault()
-    window.location.href = url_estructura
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_estructura + fila.pk + "/"
 }
 
 
