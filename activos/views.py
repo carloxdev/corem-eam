@@ -13,9 +13,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
 # Django Paginator
-from django.core.paginator import Paginator
-from django.core.paginator import EmptyPage
-from django.core.paginator import PageNotAnInteger
+# from django.core.paginator import Paginator
+# from django.core.paginator import EmptyPage
+# from django.core.paginator import PageNotAnInteger
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -239,6 +239,7 @@ class AnexoTextoView(View):
 
     def get(self, request, pk):
         id_equipo = pk
+        anexos = AnexoTexto.objects.filter(equipo=id_equipo)
         equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoTextoForm()
 
@@ -246,6 +247,7 @@ class AnexoTextoView(View):
             'form': form,
             'id': id_equipo,
             'equipo': equipo,
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)
@@ -268,6 +270,7 @@ class AnexoImagenView(View):
 
     def get(self, request, pk):
         id_equipo = pk
+        anexos = AnexoImagen.objects.filter(equipo=id_equipo)
         equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoImagenForm()
 
@@ -275,6 +278,7 @@ class AnexoImagenView(View):
             'form': form,
             'id': id_equipo,
             'equipo': equipo,
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)
@@ -383,3 +387,10 @@ class UbicacionAPI(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('clave', 'descripcion',)
+
+
+class AnexoTextoDeleteView(View):
+
+    #
+
+    pass
