@@ -13,7 +13,29 @@
 {% endblock css %}	
 
 {% block contenido %}
-
+	<div style="display: none; margin-top: 220px;" class="modal fade" id="modal_eliminar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Eliminar Anexo</h4>
+              </div>
+              <form action="" method="POST">
+              	<div class="modal-body">
+             		<p>¿Desea eliminar el anexo?</p>
+                	<input id="id_anexo" type="hidden">
+                </div>
+              	<div class="modal-footer">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+	                <button type="button" class="btn btn-danger">Eliminar</button>
+              	</div>
+              </form>
+             
+            </div>
+            <!-- /.modal-content -->
+        </div>
+	</div>
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
@@ -109,13 +131,14 @@
             		<div class="box-header with-border">
               			<i class="fa fa-text-width"></i>
 						<div class="pull-right">
-              				<a href="#" class="btn btn-danger"><i class="fa fa-trash" title="Eliminar"></i></a>
+              				<a href="#" id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></a>
             			</div>	
               			<h3 class="box-title">{{ anexo.titulo }}</h3>
             		</div>
             		<!-- /.box-header -->
 		            <div class="box-body">
-		              {{ anexo.texto }}
+
+		              {{ anexo.texto }}{{anexo.id}}
 		            </div>
             		<!-- /.box-body -->
           		</div>
@@ -145,9 +168,7 @@
 	  });
 	</script>
 	</script>
-	<script id="template" type="text/x-kendo-template">
-		<a class="k-button" href="\#" onclick="return targeta_resultados.grid_principal.nuevo()">Nuevo</a>
-	</script>
+	<script src="{% static 'equipo/anexo/texto_edit.js' %}"></script>
 	
 
 	<!-- CoreM -->

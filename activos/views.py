@@ -387,3 +387,10 @@ class UbicacionAPI(viewsets.ModelViewSet):
 
     filter_backends = (filters.SearchFilter,)
     search_fields = ('clave', 'descripcion',)
+
+
+class AnexoTextoDeleteView(View):
+
+    #
+
+    pass
