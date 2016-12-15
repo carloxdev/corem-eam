@@ -2,7 +2,6 @@
 
 # API REST:
 from rest_framework import serializers
-
 # Modelos:
 from .models import AnexoTexto
 from .models import AnexoArchivo
@@ -16,6 +15,7 @@ class AnexoTextoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AnexoTexto
         fields = (
+            'url',
             'pk',
             'equipo',
             'texto',
@@ -35,6 +35,7 @@ class AnexoArchivoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AnexoArchivo
         fields = (
+            'url',
             'pk',
             'equipo',
             'archivo',
@@ -55,6 +56,7 @@ class AnexoImagenSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AnexoImagen
         fields = (
+            'url',
             'pk',
             'equipo',
             'ruta',

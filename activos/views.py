@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import json
 # LIBRERIAS Django
 
 # Django Atajos:
@@ -13,9 +13,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
 # Django Paginator
-# from django.core.paginator import Paginator
-# from django.core.paginator import EmptyPage
-# from django.core.paginator import PageNotAnInteger
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -259,8 +259,10 @@ class AnexoTextoView(View):
             texto = form.save(commit=False)
             texto.equipo_id = id_equipo
             texto.save()
-
-        return render(request, 'equipo/anexos_texto.html', {'form': form, 'id': id_equipo})
+            anexos = AnexoTexto.objects.filter(equipo=id_equipo)
+            form = AnexoTextoForm()
+        return render(request, 'equipo/anexos_texto.html',
+                      {'form': form, 'id': id_equipo, 'anexos': anexos})
 
 
 class AnexoImagenView(View):
@@ -297,8 +299,12 @@ class AnexoImagenView(View):
                 imagenAnexo.save()
             imagenAnexo.equipo_id = id_equipo
             imagenAnexo.save()
-
-        return render(request, 'equipo/anexos_imagen.html', {'form': form, 'id': id_equipo})
+            anexos = AnexoImagen.objects.filter(equipo=id_equipo)
+            form = AnexoImagenForm()
+        else:
+            form = AnexoImagenForm()
+        return render(request, 'equipo/anexos_imagen.html',
+                      {'form': form, 'id': id_equipo, 'anexos': anexos})
 
 
 class AnexoArchivoView(View):
@@ -334,15 +340,14 @@ class AnexoArchivoView(View):
                 archivo.save()
             archivo.equipo_id = id_equipo
             archivo.save()
-        return render(request, 'equipo/anexos_archivo.html', {'form': form, 'id': id_equipo})
+        return render(request, 'equipo/anexos_archivo.html',
+                      {'form': form, 'id': id_equipo})
 
 
 class AnexoTextoAPI(viewsets.ModelViewSet):
     queryset = AnexoTexto.objects.all()
     serializer_class = AnexoTextoSerializer
     pagination_class = GenericPagination
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('equipo',)
 
 
 class AnexoArchivoAPI(viewsets.ModelViewSet):
@@ -389,8 +394,16 @@ class UbicacionAPI(viewsets.ModelViewSet):
     search_fields = ('clave', 'descripcion',)
 
 
-class AnexoTextoDeleteView(View):
+# class AnexoTextoDeleteView(APIView):
+# authentication_classes = (TokenAuthentication,)
+# permission_classes = (IsAuthenticated,)
 
-    #
+#  def delete(request, self, *args, **kwargs):
+#     response_data = {'exito': True}
+#     id_anexo = request.POST['id_anexo']
+#      print id_anexo
+#     anexo = AnexoTexto.objects.get(id=id_anexo)
+#     anexo.delete()
 
-    pass
+#      return HttpResponse(json.dumps(response_data),
+#                         content_type="application/json")
