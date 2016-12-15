@@ -43,6 +43,16 @@ class EquipoFiltersForm(ModelForm):
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
         }
+        labels = {
+            'tag': 'Tag',
+            'descripcion': 'Descripción',
+            'serie': 'Serie',
+            'estado': 'Estado',
+            'padre': 'Padre',
+            'empresa': 'Empresa',
+            'sistema': 'Sistema',
+            'ubicacion': 'Ubicación',
+        }
 
 
 class EquipoForm(ModelForm):
@@ -80,7 +90,6 @@ class EquipoForm(ModelForm):
 
 
 # ----------------- UBICACION ----------------- #
-
 
 class UbicacionForm(ModelForm):
 

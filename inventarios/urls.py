@@ -20,17 +20,17 @@ urlpatterns = [
     url(
         r'^almacenes/$',
         AlmacenListView.as_view(),
-        name='activos.almacenes_lista'
+        name='inventarios.almacenes_lista'
     ),
     url(
         r'^almacenes/nuevo/$',
         AlmacenCreateView.as_view(),
-        name='activos.almacenes_nuevo'
+        name='inventarios.almacenes_nuevo'
     ),
     url(
         r'^almacenes/editar/(?P<pk>.*)/$',
         AlmacenUpdateView.as_view(),
-        name='activos.almacenes_editar'
+        name='inventarios.almacenes_editar'
     ),
 
 
@@ -38,16 +38,16 @@ urlpatterns = [
     url(
         r'^articulos/$',
         ArticuloListView.as_view(),
-        name='activos.articulos_lista'
+        name='inventarios.articulos_lista'
     ),
     url(
         r'^articulos/nuevo/$',
         ArticuloCreateView.as_view(),
-        name='activos.articulos_nuevo'
+        name='inventarios.articulos_nuevo'
     ),
     url(
         r'^articulos/editar/(?P<pk>.*)/$',
         ArticuloUpdateView.as_view(),
-        name='activos.articulos_editar'
+        name='inventarios.articulos_editar'
     ),
 ]

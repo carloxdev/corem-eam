@@ -26,7 +26,7 @@ from .models import Almacen
 
 # Formularios:
 from forms import AlmacenForm
-from forms import ArticuloFiltersForm
+from forms import ArticuloFilterForm
 from forms import ArticuloForm
 
 # API Rest:
@@ -55,14 +55,36 @@ class AlmacenCreateView(CreateView):
     model = Almacen
     form_class = AlmacenForm
     template_name = 'almacen/formulario.html'
-    success_url = reverse_lazy('inventario.almacenes_lista')
+    success_url = reverse_lazy('inventarios.almacenes_lista')
+
+    def get_context_data(self, **kwargs):
+        context = super(AlmacenCreateView, self).get_context_data(**kwargs)
+
+        data = {
+            'operation': "Nuevo"
+        }
+
+        context.update(data)
+
+        return context
 
 
 class AlmacenUpdateView(UpdateView):
     model = Almacen
     form_class = AlmacenForm
     template_name = 'almacen/formulario.html'
-    success_url = reverse_lazy('inventario.almacenes_lista')
+    success_url = reverse_lazy('inventarios.almacenes_lista')
+
+    def get_context_data(self, **kwargs):
+        context = super(AlmacenUpdateView, self).get_context_data(**kwargs)
+
+        data = {
+            'operation': "Editar"
+        }
+
+        context.update(data)
+
+        return context
 
 
 class AlmacenAPI(viewsets.ModelViewSet):
@@ -82,7 +104,7 @@ class ArticuloListView(View):
 
     def get(self, request):
 
-        formulario = ArticuloFiltersForm()
+        formulario = ArticuloFilterForm()
 
         contexto = {
             'form': formulario
@@ -94,18 +116,40 @@ class ArticuloListView(View):
         return render(request, self.template_name, {})
 
 
-class ArticuloCreateView():
+class ArticuloCreateView(CreateView):
     model = Articulo
     form_class = ArticuloForm
     template_name = 'articulo/formulario.html'
-    success_url = reverse_lazy('inventario.articulos_lista')
+    success_url = reverse_lazy('inventarios.articulos_lista')
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticuloCreateView, self).get_context_data(**kwargs)
+
+        data = {
+            'operation': "Nuevo"
+        }
+
+        context.update(data)
+
+        return context
 
 
-class ArticuloUpdateView():
+class ArticuloUpdateView(UpdateView):
     model = Articulo
     form_class = ArticuloForm
     template_name = 'almacen/formulario.html'
-    success_url = reverse_lazy('inventario.articulos_lista')
+    success_url = reverse_lazy('inventarios.articulos_lista')
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticuloUpdateView, self).get_context_data(**kwargs)
+
+        data = {
+            'operation': "Nuevo"
+        }
+
+        context.update(data)
+
+        return context
 
 
 class ArticuloAPI():

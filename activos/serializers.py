@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# LIBRERIAS Python
+# Librerias Python:
 import json
 
 # API REST:

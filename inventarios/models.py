@@ -35,7 +35,10 @@ class Articulo(models.Model):
     udm = models.ForeignKey(Udm, null=True)
 
     def __str__(self):
-        return "{0} : {1}".format(self.clave_jde, self.descripcion)
+        return "{0} : {1}".format(
+            self.clave_jde,
+            self.descripcion
+        ).encode('utf-8')
 
     class Meta:
         verbose_name_plural = "Articulo"

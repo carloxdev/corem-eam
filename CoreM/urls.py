@@ -14,6 +14,7 @@ from activos.views import UbicacionAPI
 from activos.views import AnexoTextoAPI
 from activos.views import AnexoArchivoAPI
 from activos.views import AnexoImagenAPI
+
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
 from django.conf import settings
@@ -50,6 +51,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'', include('seguridad.urls')),
     url(r'', include('activos.urls')),
+    url(r'', include('inventarios.urls')),
 ]
 
 
