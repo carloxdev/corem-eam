@@ -24,7 +24,7 @@ class Udm(models.Model):
 
 
 class Articulo(models.Model):
-    clave_jde = models.CharField(max_length=144, null=True)
+    clave = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
     tipo = models.CharField(
         max_length=6,
@@ -33,6 +33,7 @@ class Articulo(models.Model):
         blank=True
     )
     udm = models.ForeignKey(Udm, null=True)
+    clave_jde = models.CharField(max_length=144, null=True)
 
     def __str__(self):
         return "{0} : {1}".format(

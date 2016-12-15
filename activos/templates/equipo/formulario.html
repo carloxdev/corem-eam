@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% block title %} Editar Equipo {% endblock title %}
+{% block title %} {{ operation }} Equipo {% endblock title %}
 
 {% block contenido %}
 
@@ -10,12 +10,12 @@
 	<section class="content-header">
 	  <h1>
 	    <span id="titulo">Equipos</span>
-	    <small>Editar</small>
+	    <small>{{ operation }}</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
 	    <li><a href="{% url 'activos.equipos_lista' %}">Equipos</a></li>
-	    <li class="active">Nuevo</li>
+	    <li class="active">{{ operation }}</li>
 	  </ol>
 	</section>
 
@@ -69,7 +69,7 @@
 		              	</div>
 		              </div>
 		              <!-- /.box-footer -->
-
+					</div>
 	            </form>
 	          </div>
 	          <!-- /.box -->

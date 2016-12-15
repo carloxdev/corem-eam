@@ -9,7 +9,7 @@
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    <span id="titulo">Articulo</span>
+	    <span id="titulo">Articulos</span>
 	    <small>{{ operation }}</small>
 	  </h1>
 	  <ol class="breadcrumb">
@@ -32,7 +32,6 @@
 	            </div>
 	            <!-- /.box-header -->
 					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-
 
 		              <div class="box-body">
 		              	{% for field in form %}

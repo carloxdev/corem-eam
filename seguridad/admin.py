@@ -3,15 +3,3 @@
 # Librerias Django:
 from django.contrib import admin
 
-# Modelos:
-from .models import Empresa
-
-
-@admin.register(Empresa)
-class AdminEmpresa(admin.ModelAdmin):
-    list_display = (
-        'id',
-        'clave',
-        'descripcion',
-        'logo',
-    )

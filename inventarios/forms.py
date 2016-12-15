@@ -35,14 +35,16 @@ class ArticuloFilterForm(ModelForm):
     class Meta:
         model = Articulo
         fields = [
-            'clave_jde',
+            'clave',
             'descripcion',
             'tipo',
+            'clave_jde',
         ]
         widgets = {
-            'clave_jde': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
             'tipo': Select(attrs={'class': 'form-control'}),
+            'clave_jde': TextInput(attrs={'class': 'form-control'}),
         }
 
 
@@ -51,16 +53,18 @@ class ArticuloForm(ModelForm):
     class Meta:
         model = Articulo
         fields = [
-            'clave_jde',
+            'clave',
             'descripcion',
             'tipo',
             'udm',
+            'clave_jde',
         ]
         widgets = {
-            'clave_jde': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
             'tipo': Select(attrs={'class': 'form-control'}),
             'udm': Select(attrs={'class': 'form-control'}),
+            'clave_jde': TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'clave_jde': 'Clave JDE',

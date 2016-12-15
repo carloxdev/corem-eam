@@ -45,5 +45,20 @@ Pagina.prototype.set_PageActive = function () {
 		var $opcion = $("#opt_ubicaciones")
 		$opcion.addClass("active")
 	}
+	else if ( this.$titulo.text() == "Almacenes") {
 
+		var $arbol = $("#tree_inventarios")
+		$arbol.addClass("active")
+
+		var $opcion = $("#opt_almacenes")
+		$opcion.addClass("active")
+	}
+	else if ( this.$titulo.text() == "Articulos") {
+
+		var $arbol = $("#tree_inventarios")
+		$arbol.addClass("active")
+
+		var $opcion = $("#opt_articulos")
+		$opcion.addClass("active")
+	}
 }

@@ -10,6 +10,11 @@ from .models import Articulo
 
 class ArticuloFilter(filters.FilterSet):
 
+    clave = CharFilter(
+        name="clave",
+        lookup_expr="contains"
+    )
+
     clave_jde = CharFilter(
         name="clave_jde",
         lookup_expr="contains"
@@ -23,7 +28,8 @@ class ArticuloFilter(filters.FilterSet):
     class Meta:
         model = Articulo
         fields = [
-            'clave_jde',
+            'clave',
             'descripcion',
             'tipo',
+            'clave_jde',
         ]

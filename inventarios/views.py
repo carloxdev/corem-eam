@@ -152,7 +152,7 @@ class ArticuloUpdateView(UpdateView):
         return context
 
 
-class ArticuloAPI():
+class ArticuloAPI(viewsets.ModelViewSet):
     queryset = Articulo.objects.all()
     serializer_class = ArticuloSerializer
     pagination_class = GenericPagination

@@ -29,20 +29,29 @@ class AlmacenSerializer(serializers.ModelSerializer):
 class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
 
     tipo = serializers.SerializerMethodField()
+    udm = serializers.SerializerMethodField()
 
     class Meta:
         model = Articulo
         fields = (
             'url',
             'pk',
-            'clave_jde',
+            'clave',
             'descripcion',
             'tipo',
             'udm',
+            'clave_jde',
         )
 
     def get_tipo(self, obj):
         try:
             return obj.get_tipo_display()
+        except:
+            return ""
+
+    def get_udm(self, obj):
+
+        try:
+            return obj.udm.descripcion
         except:
             return ""
