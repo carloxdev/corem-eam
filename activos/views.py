@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
+# import json
 # LIBRERIAS Django
 
 # Django Atajos:
@@ -13,9 +13,9 @@ from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
 # Django Paginator
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+# from rest_framework.authentication import TokenAuthentication
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.views import APIView
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -314,6 +314,7 @@ class AnexoArchivoView(View):
 
     def get(self, request, pk):
         id_equipo = pk
+        anexos = AnexoArchivo.objects.filter(equipo=id_equipo)
         equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoArchivoForm()
 
@@ -321,6 +322,7 @@ class AnexoArchivoView(View):
             'form': form,
             'id': id_equipo,
             'equipo': equipo,
+            'anexos': anexos,
         }
 
         return render(request, self.template_name, contexto)
@@ -340,8 +342,10 @@ class AnexoArchivoView(View):
                 archivo.save()
             archivo.equipo_id = id_equipo
             archivo.save()
+            anexos = AnexoArchivo.objects.filter(equipo=id_equipo)
+            form = AnexoImagenForm()
         return render(request, 'equipo/anexos_archivo.html',
-                      {'form': form, 'id': id_equipo})
+                      {'form': form, 'id': id_equipo, 'anexos': anexos})
 
 
 class AnexoTextoAPI(viewsets.ModelViewSet):
