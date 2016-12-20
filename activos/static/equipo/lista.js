@@ -38,6 +38,8 @@ $(document).keypress(function (e) {
 
 function TargetaFiltros() {
 
+    this.$id = $('#id_panel')
+
 	this.$tag = $('#id_tag')
 	this.$serie = $('#id_serie')
 	this.$estado = $('#id_estado')
@@ -54,6 +56,8 @@ function TargetaFiltros() {
 TargetaFiltros.prototype.init = function () {
     this.$padre.select2()
     this.$ubicacion.select2()
+
+    this.$id.addClass('collapsed-box')
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
@@ -136,7 +140,6 @@ GridPrincipal.prototype.init = function () {
         },        
     })
 }
-
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
@@ -219,7 +222,7 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.page(1)
+    this.kfuente_datos.page(1)
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 

@@ -34,12 +34,16 @@ $(document).keypress(function (e) {
 
 function TargetaFiltros() {
 
+    this.$id = $('#id_panel')
+
     this.$filtro = $('#filtro');
     this.$boton_buscar =  $('#boton_buscar');
     
     this.init()
 }
 TargetaFiltros.prototype.init = function () {
+
+    this.$id.addClass('collapsed-box')
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }

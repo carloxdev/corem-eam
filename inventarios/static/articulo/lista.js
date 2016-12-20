@@ -16,6 +16,8 @@ var targeta_resultados = null
 
 $(document).ready(function () {
 
+    this.$id = $('#id_filtros')
+
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
 })
@@ -37,6 +39,7 @@ $(document).keypress(function (e) {
 
 function TargetaFiltros() {
 
+    this.$id = $('#id_panel')
 
     this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
@@ -50,7 +53,10 @@ function TargetaFiltros() {
 	this.init()
 }
 TargetaFiltros.prototype.init = function () {
+    
     this.$udm.select2()
+
+    this.$id.addClass('collapsed-box')
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
@@ -214,7 +220,6 @@ GridPrincipal.prototype.click_BotonAnexos = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos + fila.pk + "/texto/"
 }
-
 
 
 
