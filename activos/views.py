@@ -255,6 +255,8 @@ class AnexoTextoView(View):
     def post(self, request, pk):
         id_equipo = pk
         form = AnexoTextoForm(request.POST)
+        anexos = AnexoTexto.objects.filter(equipo=id_equipo)
+
         if form.is_valid():
             texto = form.save(commit=False)
             texto.equipo_id = id_equipo
@@ -287,24 +289,29 @@ class AnexoImagenView(View):
 
     def post(self, request, pk):
         id_equipo = pk
-        form = AnexoImagenForm(request.POST)
+        form = AnexoImagenForm(request.POST, request.FILES)
+        anexos = AnexoImagen.objects.filter(equipo=id_equipo)
+
         if form.is_valid():
+
             imagenAnexo = AnexoImagen()
             imagenAnexo.descripcion = request.POST['descripcion']
             if 'ruta' in request.POST:
                 imagenAnexo.ruta = request.POST['ruta']
             else:
                 imagenAnexo.ruta = request.FILES['ruta']
-                imagenAnexo.equipo_id = id_equipo
-                imagenAnexo.save()
             imagenAnexo.equipo_id = id_equipo
             imagenAnexo.save()
+            form = AnexoImagenForm()
             anexos = AnexoImagen.objects.filter(equipo=id_equipo)
-            form = AnexoImagenForm()
-        else:
-            form = AnexoImagenForm()
-        return render(request, 'equipo/anexos_imagen.html',
-                      {'form': form, 'id': id_equipo, 'anexos': anexos})
+            return render(request, self.template_name,
+                          {'form': form, 'id': id_equipo, 'anexos': anexos})
+        contexto = {
+            'form': form,
+            'id': id_equipo,
+            'anexos': anexos,
+        }
+        return render(request, self.template_name, contexto)
 
 
 class AnexoArchivoView(View):
@@ -330,6 +337,7 @@ class AnexoArchivoView(View):
     def post(self, request, pk):
         id_equipo = pk
         form = AnexoArchivoForm(request.POST)
+        anexos = AnexoArchivo.objects.filter(equipo=id_equipo)
 
         if form.is_valid():
             archivo = AnexoArchivo()
