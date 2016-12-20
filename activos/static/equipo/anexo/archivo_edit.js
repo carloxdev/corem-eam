@@ -7,7 +7,7 @@ $(document).on('ready', function(){
 		$('#modal_eliminar').modal('show');
 		$('#boton_eliminar').on('click', function(){
 			$.ajax({
-			url: '/api/anexostexto/'+id_anexo,
+			url: '/api/anexosarchivo/'+id_anexo,
 			headers: { "X-CSRFToken": csrftoken },
 			method: "DELETE",
 			success: function (){
@@ -26,3 +26,4 @@ $(document).on('ready', function(){
 		
 	});
 });
+	

@@ -27,7 +27,7 @@
                 </div>
               	<div class="modal-footer">
 	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-	                <button type="button" class="btn btn-danger">Eliminar</button>
+	                <button type="button" id="boton_eliminar" class="btn btn-danger">Eliminar</button>
               	</div>
               </form>
              
@@ -127,7 +127,7 @@
           		<div class="box box-solid">
             		<div class="box-header with-border">
               			<div class="pull-right">
-              				<a href="#" id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></a>
+              				<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
             				<a href="{{MEDIA_URL}}{{ anexo.ruta }}" download class="btn btn-default descargar"><i class="fa fa-download" title="Descargar"></i></a>
             			</div>	
             		

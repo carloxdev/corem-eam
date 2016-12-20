@@ -21,16 +21,16 @@
                   <span aria-hidden="true">×</span></button>
                 <h4 class="modal-title">Eliminar Anexo</h4>
               </div>
-              <form action="" method="POST">
+               
               	<div class="modal-body">
              		<p>¿Desea eliminar el anexo?</p>
                 	<input id="id_anexo" type="hidden">
                 </div>
               	<div class="modal-footer">
 	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-	                <button type="button" class="btn btn-danger">Eliminar</button>
+	                <button type="button" class="btn btn-danger" id="boton_eliminar">Eliminar</button>
               	</div>
-              </form>
+              
              
             </div>
             <!-- /.modal-content -->
@@ -124,21 +124,22 @@
 	       		
 
 		</div>
-		<div class="row">
+		<div class="row" id="items_anexos">
 		{% for anexo in anexos %}
-			<div class="col-md-4">
+			<div class="col-md-4" id="selected-item">
           		<div class="box box-solid">
             		<div class="box-header with-border">
               			<i class="fa fa-text-width"></i>
 						<div class="pull-right">
-              				<a href="#" id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></a>
+              				<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
             			</div>	
               			<h3 class="box-title">{{ anexo.titulo }}</h3>
             		</div>
             		<!-- /.box-header -->
 		            <div class="box-body">
+						
+		              {{ anexo.texto|safe }}
 
-		              {{ anexo.texto }}{{anexo.id}}
 		            </div>
             		<!-- /.box-body -->
           		</div>

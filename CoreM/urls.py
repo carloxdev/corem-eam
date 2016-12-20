@@ -34,19 +34,19 @@ router.register(
     'ubicacion'
 )
 router.register(
-    r'anexo/equipo/texto',
+    r'anexostexto',
     AnexoTextoAPI,
-    'anexo_equipo_texto'
+    'anexotexto'
 )
 router.register(
-    r'anexo/equipo/archivo',
+    r'anexosarchivo',
     AnexoArchivoAPI,
-    'anexo_equipo_archivo'
+    'anexoarchivo'
 ),
 router.register(
-    r'anexo/equipo/imagen',
+    r'anexosimagen',
     AnexoImagenAPI,
-    'anexo_equipo_imagen'
+    'anexoimagen'
 )
 router.register(
     r'almacenes',
