@@ -256,6 +256,7 @@ class AnexoTextoView(View):
         id_equipo = pk
         form = AnexoTextoForm(request.POST)
         anexos = AnexoTexto.objects.filter(equipo=id_equipo)
+        equipo = Equipo.objects.get(id=id_equipo)
 
         if form.is_valid():
             texto = form.save(commit=False)
@@ -264,7 +265,8 @@ class AnexoTextoView(View):
             anexos = AnexoTexto.objects.filter(equipo=id_equipo)
             form = AnexoTextoForm()
         return render(request, 'equipo/anexos_texto.html',
-                      {'form': form, 'id': id_equipo, 'anexos': anexos})
+                      {'form': form, 'id': id_equipo, 'anexos': anexos,
+                       'equipo': equipo})
 
 
 class AnexoImagenView(View):
