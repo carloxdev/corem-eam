@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'', include('seguridad.urls')),
     url(r'', include('activos.urls')),
     url(r'', include('inventarios.urls')),
+    url(r'', include('trabajos.urls')),
 ]
 
 

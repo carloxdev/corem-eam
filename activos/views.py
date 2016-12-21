@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# import json
-# LIBRERIAS Django
 
 # Django Atajos:
 from django.shortcuts import render

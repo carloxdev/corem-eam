@@ -28,21 +28,19 @@ class OrdenTrabajo(models.Model):
         max_length=6,
         choices=ORDEN_TIPO,
         default="CORRE",
-        blank=True
     )
 
     estado = models.CharField(
         max_length=5,
         choices=EQUIPO_ESTADO,
         default="CAP",
-        blank=True
     )
 
     responsable = models.CharField(max_length=144, null=True, blank=True)
-    fecha_estimada_inicio = models.DateTimeField(null=True)
-    fecha_estimada_fin = models.DateTimeField(null=True)
-    fecha_real_inicio = models.DateTimeField(null=True)
-    fecha_real_fin = models.DateTimeField(null=True)
+    fecha_estimada_inicio = models.DateTimeField(null=True, blank=True)
+    fecha_estimada_fin = models.DateTimeField(null=True, blank=True)
+    fecha_real_inicio = models.DateTimeField(null=True, blank=True)
+    fecha_real_fin = models.DateTimeField(null=True, blank=True)
     observaciones = models.TextField(null=True, blank=True)
     es_template = models.BooleanField(default=False)
 
