@@ -48,12 +48,13 @@ function TargetaFiltros() {
 	this.$ubicacion = $('#id_ubicacion')
 	this.$descripcion = $('#id_descripcion')
 
-    this.$boton_buscar =  $('#boton_buscar');
-    this.$boton_limpiar =  $('#boton_limpiar');
+    this.$boton_buscar =  $('#boton_buscar')
+    this.$boton_limpiar =  $('#boton_limpiar')
 
 	this.init()
 }
 TargetaFiltros.prototype.init = function () {
+
     this.$padre.select2()
     this.$ubicacion.select2()
 

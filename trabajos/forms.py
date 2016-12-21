@@ -34,8 +34,10 @@ class OrdenTrabajoForm(ModelForm):
 
 
             'responsable': TextInput(attrs={'class': 'form-control select2'}),
-            'observaciones': Textarea(attrs={'class': 'form-control'}),
-
-
-
+            'observaciones': Textarea(
+                attrs={'class': 'form-control'}
+            ),
+        }
+        labels = {
+            'es_template': "Template"
         }

@@ -47,8 +47,8 @@ function TargetaFiltros() {
     this.$udm = $('#id_udm')
     this.$clave_jde = $('#id_clave_jde')
 
-    this.$boton_buscar =  $('#boton_buscar');
-    this.$boton_limpiar =  $('#boton_limpiar');
+    this.$boton_buscar =  $('#boton_buscar')
+    this.$boton_limpiar =  $('#boton_limpiar')
 
 	this.init()
 }
