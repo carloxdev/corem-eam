@@ -95,7 +95,7 @@ class EquipoCreateView(View):
 
     def post(self, request):
 
-        formulario = EquipoForm(request.POST)
+        formulario = EquipoForm(request.POST, request.FILES)
 
         if formulario.is_valid():
 
@@ -305,9 +305,9 @@ class AnexoImagenView(View):
             imagen_anexo.save()
             form = AnexoImagenForm()
             anexos = AnexoImagen.objects.filter(equipo=id_equipo)
-            return render(request, self.template_name,
-                          {'form': form, 'id': id_equipo, 'anexos': anexos,
-                           'equipo': equipo})
+            # return render(request, self.template_name,
+            #               {'form': form, 'id': id_equipo, 'anexos': anexos,
+            #                'equipo': equipo})
         contexto = {
             'form': form,
             'id': id_equipo,
@@ -339,7 +339,7 @@ class AnexoArchivoView(View):
 
     def post(self, request, pk):
         id_equipo = pk
-        equipo = Equipo.objects.get(pk=id_equipo)
+        equipo = Equipo.objects.get(id=id_equipo)
         form = AnexoArchivoForm(request.POST, request.FILES)
         anexos = AnexoArchivo.objects.filter(equipo=id_equipo)
 
@@ -362,7 +362,7 @@ class AnexoArchivoView(View):
             'anexos': anexos,
         }
 
-        return render(request, 'equipo/anexos_archivo.html', contexto)
+        return render(request, self.template_name, contexto)
 
 
 class AnexoTextoAPI(viewsets.ModelViewSet):
