@@ -235,7 +235,7 @@ class EquipoTreeAPI(View):
 class AnexoTextoView(View):
 
     def __init__(self):
-        self.template_name = 'equipo/anexos_texto.html'
+        self.template_name = 'equipo/anexos/anexos_texto.html'
 
     def get(self, request, pk):
         id_equipo = pk
@@ -264,7 +264,7 @@ class AnexoTextoView(View):
             texto.save()
             anexos = AnexoTexto.objects.filter(equipo=id_equipo)
             form = AnexoTextoForm()
-        return render(request, 'equipo/anexos_texto.html',
+        return render(request, 'equipo/anexos/anexos_texto.html',
                       {'form': form, 'id': id_equipo, 'anexos': anexos,
                        'equipo': equipo})
 
@@ -272,7 +272,7 @@ class AnexoTextoView(View):
 class AnexoImagenView(View):
 
     def __init__(self):
-        self.template_name = 'equipo/anexos_imagen.html'
+        self.template_name = 'equipo/anexos/anexos_imagen.html'
 
     def get(self, request, pk):
         id_equipo = pk
@@ -322,7 +322,7 @@ class AnexoImagenView(View):
 class AnexoArchivoView(View):
 
     def __init__(self):
-        self.template_name = 'equipo/anexos_archivo.html'
+        self.template_name = 'equipo/anexos/anexos_archivo.html'
 
     def get(self, request, pk):
         id_equipo = pk
