@@ -6,7 +6,7 @@ from django.db import models
 
 # Otros Modelos:
 from seguridad.models import Empresa
-from .validators import valid_extension
+from home.validators import valid_extension
 
 
 EQUIPO_ESTADO = (

@@ -3,9 +3,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
+# from django.core.exceptions import ValidationError
 
 from .validators import validate_image
-from .validators import valid_extension
+# from .validators import valid_extension
 # Otros modelos
 
 from activos.models import Equipo
@@ -27,5 +28,5 @@ class AnexoImagen(models.Model):
 
     equipo = models.ForeignKey(Equipo)
     ruta = models.ImageField(upload_to='equipos/img',
-                             validators=[validate_image, valid_extension])
+                             validators=[validate_image])
     descripcion = models.CharField(max_length=50)

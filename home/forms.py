@@ -40,6 +40,17 @@ class AnexoImagenForm(ModelForm):
             'descripcion': TextInput(attrs={'class': 'form-control'})
         }
 
+    def validar_extension(self):
+            diccionario = self.cleaned_data
+
+            imagen = diccionario.get('ruta')
+            if (not imagen.endswith('.png') and
+                not imagen.endswith('.jpg') and
+                    not imagen.endswith('.jpeg')):
+
+                raise forms.ValidationError("valio gaver")
+            else:
+                return imagen
     # def get_Imagen(self):
     #     datos_formulario = self.cleaned_data
     #     imagen = datos_formulario.get('ruta')
