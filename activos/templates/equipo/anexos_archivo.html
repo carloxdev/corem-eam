@@ -133,15 +133,21 @@
             				<a href="{{MEDIA_URL}}{{ anexo.archivo }}" download class="btn btn-default descargar"><i class="fa fa-download" title="Descargar"></i></a>
             			</div>	
             		
-              			<h3 class="box-title">{{ anexo.descripcion }}</h3>
+              			<h3 class="box-title">
+              			<i class="fa fa-file-o"></i>
+              			
+              			</h3>
             		</div>
             		<!-- /.box-header -->
 		            <div class="box-body">
 		            	<div align="center">
-		            		<iframe style="" src="{{MEDIA_URL}}{{ anexo.archivo }}" width="300" height="200"></iframe>
-		            	  
+		            	{% if anexo.descripcion  %}
+              			
+              			{{ anexo.descripcion }}
+              			{% else %}
+              			No hay descripción del archivo
+              			{% endif %}
 		            	</div>
-		            	
 		            </div>
             		<!-- /.box-body -->
           		</div>
@@ -159,6 +165,6 @@
 
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
-	<script src="{% static 'equipo/anexo/archivo_edit.js' %}"></script>
+	<script src="{% static 'equipo/anexo/archivo.js' %}"></script>
 
 {% endblock scripts %}
