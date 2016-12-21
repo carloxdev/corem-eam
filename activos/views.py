@@ -289,26 +289,29 @@ class AnexoImagenView(View):
 
     def post(self, request, pk):
         id_equipo = pk
-        form = AnexoImagenForm(request.POST, request.FILES)
         anexos = AnexoImagen.objects.filter(equipo=id_equipo)
+        equipo = Equipo.objects.get(id=id_equipo)
+        form = AnexoImagenForm(request.POST, request.FILES)
 
         if form.is_valid():
 
-            imagenAnexo = AnexoImagen()
-            imagenAnexo.descripcion = request.POST['descripcion']
+            imagen_anexo = AnexoImagen()
+            imagen_anexo.descripcion = request.POST['descripcion']
             if 'ruta' in request.POST:
-                imagenAnexo.ruta = request.POST['ruta']
+                imagen_anexo.ruta = request.POST['ruta']
             else:
-                imagenAnexo.ruta = request.FILES['ruta']
-            imagenAnexo.equipo_id = id_equipo
-            imagenAnexo.save()
+                imagen_anexo.ruta = request.FILES['ruta']
+            imagen_anexo.equipo_id = id_equipo
+            imagen_anexo.save()
             form = AnexoImagenForm()
             anexos = AnexoImagen.objects.filter(equipo=id_equipo)
             return render(request, self.template_name,
-                          {'form': form, 'id': id_equipo, 'anexos': anexos})
+                          {'form': form, 'id': id_equipo, 'anexos': anexos,
+                           'equipo': equipo})
         contexto = {
             'form': form,
             'id': id_equipo,
+            'equipo': equipo,
             'anexos': anexos,
         }
         return render(request, self.template_name, contexto)
@@ -336,24 +339,30 @@ class AnexoArchivoView(View):
 
     def post(self, request, pk):
         id_equipo = pk
-        form = AnexoArchivoForm(request.POST)
+        equipo = Equipo.objects.get(pk=id_equipo)
+        form = AnexoArchivoForm(request.POST, request.FILES)
         anexos = AnexoArchivo.objects.filter(equipo=id_equipo)
 
         if form.is_valid():
-            archivo = AnexoArchivo()
-            archivo.descripcion = request.POST['descripcion']
+            archivo_anexo = AnexoArchivo()
+            archivo_anexo.descripcion = request.POST['descripcion']
             if 'archivo' in request.POST:
-                archivo.archivo = request.POST['archivo']
+                archivo_anexo.archivo = request.POST['archivo']
             else:
-                archivo.archivo = request.FILES['archivo']
-                archivo.equipo_id = id_equipo
-                archivo.save()
-            archivo.equipo_id = id_equipo
-            archivo.save()
+                archivo_anexo.archivo = request.FILES['archivo']
+            archivo_anexo.equipo_id = id_equipo
+            archivo_anexo.save()
             anexos = AnexoArchivo.objects.filter(equipo=id_equipo)
-            form = AnexoImagenForm()
-        return render(request, 'equipo/anexos_archivo.html',
-                      {'form': form, 'id': id_equipo, 'anexos': anexos})
+            form = AnexoArchivoForm()
+
+        contexto = {
+            'form': form,
+            'id': id_equipo,
+            'equipo': equipo,
+            'anexos': anexos,
+        }
+
+        return render(request, 'equipo/anexos_archivo.html', contexto)
 
 
 class AnexoTextoAPI(viewsets.ModelViewSet):
