@@ -59,7 +59,9 @@ GridPrincipal.prototype.init = function () {
     this.kgrid.data("kendoGrid").resize()
 }
 GridPrincipal.prototype.get_Campos = function (e) {
-
+ return {
+       
+    }
 
 }
 GridPrincipal.prototype.get_Columnas = function (e) {

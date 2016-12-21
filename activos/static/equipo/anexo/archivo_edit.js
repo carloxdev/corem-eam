@@ -1,4 +1,21 @@
-$(document).on('ready', function(){
+var archivo = null;
+/*-----------------------------------------------*\
+            LOAD
+\*-----------------------------------------------*/
+
+$(document).ready(function(){
+	
+	archivo = new Archivo()
+	archivo.eliminar()
+
+
+})
+
+function Archivo(){
+
+	
+}
+Archivo.prototype.eliminar = function(){
 	$('.eliminar').on('click', function(){
 		id_anexo = $(this).attr('id');
 		console.log(id_anexo);
@@ -15,8 +32,8 @@ $(document).on('ready', function(){
 				$('#modal_eliminar').modal('hide');
 				location.reload();
 			},
-			error: function(){
-				console.log("Error");
+			error: function(e){
+				alert(e);
 				$('#modal_eliminar').modal('hide')
 			}
            
@@ -24,6 +41,5 @@ $(document).on('ready', function(){
         	});
 		});
 		
-	});
-});
-	
+	}); 
+}
