@@ -1,29 +1,31 @@
-var archivo = null;
+var imagen = null;
 /*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
 $(document).ready(function(){
 	
-	texto = new Texto()
-	texto.eliminar()
-	texto.init()
+	imagen = new Imagen()
+	imagen.eliminar()
+	imagen.init()
 
 
 })
 
-function Texto(){
+function Imagen(){
 
-	this.$textarea = $('#id_texto')
-
-}
-
-Texto.prototype.init = function (){
-
-	this.$textarea.wysihtml5();
+	this.$panel = $('#id_panel')
 
 }
-Texto.prototype.eliminar = function(){
+
+Imagen.prototype.init = function (){
+
+	
+	this.$panel.addClass('collapsed-box')
+
+
+}
+Imagen.prototype.eliminar = function(){
 	$('.eliminar').on('click', function(){
 		id_anexo = $(this).attr('id');
 		console.log(id_anexo);
@@ -32,7 +34,7 @@ Texto.prototype.eliminar = function(){
 		$('#modal_eliminar').modal('show');
 		$('#boton_eliminar').on('click', function(){
 			$.ajax({
-			url: '/api/anexostexto/'+id_anexo,
+			url: '/api/anexosimagen/'+id_anexo,
 			headers: { "X-CSRFToken": csrftoken },
 			method: "DELETE",
 			success: function (){

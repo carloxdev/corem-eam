@@ -55,7 +55,7 @@
 	        <div class="col-md-12">
 			<input id="id_equipo" type="hidden" value="{{ id }}">
 	          <!-- Filtros -->
-	          <div class="box box-primary">
+	          <div class="box box-info">
 	            <div class="box-header with-border">
 	            	<h4 class="pull-right">
 		            	<span>Id:</span>
@@ -74,53 +74,58 @@
 			            <i class="fa fa-file-o"></i> Archivo
 			        </a>
 	            </div>
+	            </div>
 	            <!-- /.box-header -->
-					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-		              <div class="box-body">
-		               {% for field in form %}
-					    <div class="row">
-					    	<div class="col-sm-10 col-md-offset-1">
-					    		<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
-					    			<div class="col-sm-12">
-					    				<label for="{{ field.label }}">{{ field.label_tag }}
-					       		 		{% if field.field.required %}<span class="">*</span>{% endif %}</label>
+				     <div class="box box-solid box-info" id="id_panel">
+		            <div class="box-header with-border">
+		            	<h3 class="box-title">Anexar Imagen</h3>
 
-					        			{{ field }}
-					        			
-					        			{% for error in field.errors %}
-		              					<div class="help-block text-right" id="{{ field.label }}-error">
-		              						{{ error }}
-		              					</div>
-		              					{% endfor %}
-					    			</div>
-					    		</div>
-					    		 
-					    	</div>
-					       
-					    </div>
-					    {% endfor %}
+			          	<div class="box-tools pull-right">
+			            	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+			          	</div>	              
+		            </div>
+	                <div class="box-body">
+						<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+		              		
+		               			{% for field in form %}
+					    		<div class="row">
+					    			<div class="col-sm-10 col-md-offset-1">
+					    				<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    					<div class="col-sm-12">
+					    						<label for="{{ field.label }}">{{ field.label_tag }}
+					       		 				{% if field.field.required %}<span class="">*</span>{% endif %}</label>
+
+					        					{{ field }}
+					        				</div>
+					        					{% for error in field.errors %}
+		              						<div class="help-block text-right" id="{{ field.label }}-error">
+		              							{{ error }}
+		              						</div>
+		              							{% endfor %}
+					    				</div>
+					   				</div>
+					   			</div>
+					   			{% endfor %}
+					   		
 		              	
-		              <!-- /.box-body -->
-
-		              <div class="box-footer">
-		              	<div class="row">
-		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="pull-right form-group">
-		              				<div class="col-sm-12">
-		    		              		
-		              					<button type="submit" class="btn btn-primary">Guardar</button>
-		              				</div>
-		              			</div>
-		              		</div>
-		              	</div>
-		              </div>
+		              <!-- /.box-body -->  
+		              
 		              <!-- /.box-footer -->
 
-	            </form>
-	          </div>
+	        	</div>
+	        		 <div class="box-footer">
+		        		 <div class="col-sm-10 col-md-offset-1">
 
+		        		 	 <button type="submit"  class="btn btn-success pull-right">Guardar</button>
+		        		 </div>
+	              	</div>
+
+	              </form>
+	    		</div> 	
 	          <!-- /.box -->			
+
 		</div>
+</div>
 		<div class="row">
 		{% for anexo in anexos %}
 			<div class="col-md-4">
@@ -159,7 +164,7 @@
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
-	<script src="{% static 'equipo/anexo/imagen.js' %}"></script>
+	<script src="{% static 'equipo/anexos/imagen.js' %}"></script>
 
 
 
