@@ -124,7 +124,11 @@ GridPrincipal.prototype.init = function () {
 
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
 
-    this.kGrid = this.$id.kendoGrid({
+    this.kGrid = this.$id.kendoGrid(this.get_Config())
+}
+GridPrincipal.prototype.get_Config = function () {
+
+    return {
         dataSource: this.kfuente_datos,
         columnMenu: false,
         groupable: false,
@@ -139,7 +143,7 @@ GridPrincipal.prototype.init = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },        
-    })
+    }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
 
@@ -217,8 +221,7 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
             }
         },
         error: function (e) {
-            alert("Este es un ejemplo")
-            // alertify.notify("Status: " + e.status + "; Error message: " + e.errorThrown)
+            alert("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
 }

@@ -2,10 +2,10 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url_grid = window.location.origin + "/api/articulos/"
-var url_nuevo = window.location.origin + "/articulos/nuevo/"
-var url_editar = window.location.origin + "/articulos/editar/"
-var url_anexos = window.location.origin + "/articulos/anexos/"
+var url_grid = window.location.origin + "/api/ordenes/"
+var url_nuevo = window.location.origin + "/ordenes/nuevo/"
+var url_editar = window.location.origin + "/ordenes/editar/"
+var url_anexos = window.location.origin + "/ordenes/anexos/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -44,8 +44,8 @@ function TargetaFiltros() {
     this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
     this.$tipo = $('#id_tipo')
-    this.$udm = $('#id_udm')
-    this.$clave_jde = $('#id_clave_jde')
+    this.$estado = $('#id_estado')
+    this.$responsable = $('#id_responsable')
 
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
@@ -54,7 +54,8 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
     
-    this.$udm.select2()
+    this.$tipo.select2()
+    this.$estado.select2()
 
     this.$id.addClass('collapsed-box')
 
@@ -70,8 +71,8 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
         clave: this.$clave.val(),
         descripcion: this.$descripcion.val(),
         tipo: this.$tipo.val(),
-        udm: this.$udm.val(),
-        clave_jde: this.$clave_jde.val(),
+        estado: this.$estado.val(),
+        responsable: this.$responsable.val(),
     }
 }
 TargetaFiltros.prototype.click_BotonBuscar = function(e) {
@@ -85,10 +86,9 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
     e.data.$clave.val("")
     e.data.$descripcion.val("")
-    e.data.$tipo.val("")
-    e.data.$udm.val("").trigger('change')
-    e.data.$clave_jde.val("")
-
+    e.data.$tipo.val("").trigger('change')
+    e.data.$estado.val("").trigger('change')
+    e.data.$responsable.val("")
 }
 
 /*-----------------------------------------------*\

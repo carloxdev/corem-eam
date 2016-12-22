@@ -12,4 +12,4 @@ class Empresa(models.Model):
     logo = models.ImageField(upload_to='empresas', blank=True, null=True)
 
     def __str__(self):
-        return self.clave
+        return self.clave.encode('utf-8')

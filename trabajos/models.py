@@ -45,7 +45,7 @@ class OrdenTrabajo(models.Model):
     es_template = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{0} : {1}".format(self.equipo, self.id)
+        return "{0} : {1}".format(self.equipo, self.id).encode('utf-8')
 
     class Meta:
         verbose_name_plural = "Ordenes de Trabajo"

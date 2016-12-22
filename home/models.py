@@ -29,4 +29,4 @@ class AnexoImagen(models.Model):
     equipo = models.ForeignKey(Equipo)
     ruta = models.ImageField(upload_to='equipos/img',
                              validators=[validate_image])
-    descripcion = models.CharField(max_length=50)
+    descripcion = models.CharField(max_length=50, null=True)

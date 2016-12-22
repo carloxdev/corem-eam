@@ -12,3 +12,14 @@
 	color: white;
 	background-color: #C3700E;
 }
+
+
+.boton_eliminar {
+	color: white;
+	background-color: #D53326;
+}
+
+.boton_eliminar:hover {
+	color: white;
+	background-color: #CE2215;
+}

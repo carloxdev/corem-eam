@@ -122,13 +122,20 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "clave" , title: "Clave" },
         { field: "descripcion" , title: "Descripcion"},
         {
-           command: {
-               text: "Editar",
-               click: this.click_BotonEditar,
-               className: "boton_editar"
-           },
+           command: [
+                {
+                   text: "Editar",
+                   click: this.click_BotonEditar,
+                   className: "boton_editar"
+                },
+                {
+                    text: "Eliminar",
+                    click: this.click_BotonEliminar,
+                    className: "boton_eliminar"
+                },
+            ],
            title: " ",
-           width: "90px"
+           width: "180px"
         },
     ]
 }
@@ -167,7 +174,14 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk;
 }
+GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+
+    alertify.confirm('Eliminar Registro','¿Desea Eliminar este registro?', function(){ alertify.success('Ok') }, null);
+    // window.location.href = url_editar + fila.pk;
+}
 
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR

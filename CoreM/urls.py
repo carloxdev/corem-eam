@@ -14,8 +14,11 @@ from activos.views import UbicacionAPI
 from activos.views import AnexoTextoAPI
 from activos.views import AnexoArchivoAPI
 from activos.views import AnexoImagenAPI
+
 from inventarios.views import AlmacenAPI
 from inventarios.views import ArticuloAPI
+
+from trabajos.views import OrdenTrabajoAPI
 
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
@@ -57,6 +60,11 @@ router.register(
     r'articulos',
     ArticuloAPI,
     'articulo'
+)
+router.register(
+    r'ordenes',
+    OrdenTrabajoAPI,
+    'orden'
 )
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

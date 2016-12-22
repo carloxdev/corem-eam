@@ -10,12 +10,25 @@ from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import View
 from django.views.generic import CreateView
 
-
 # Modelos:
 from .models import OrdenTrabajo
 
 # Formularios:
 from .forms import OrdenTrabajoForm
+
+# API Rest:
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+
+# API Rest - Serializadores:
+from .serializers import OrdenTrabajoSerializer
+
+# API Rest - Paginacion:
+from .pagination import GenericPagination
+
+# API Rest - Filtros:
+from .filters import OrdenTrabajoFilter
+
 
 # ----------------- ORDEN DE TRABAJO ----------------- #
 
@@ -49,3 +62,12 @@ class OrdenTrabajoCreateView(CreateView):
         context.update(data)
 
         return context
+
+
+class OrdenTrabajoAPI(viewsets.ModelViewSet):
+    queryset = OrdenTrabajo.objects.all()
+    serializer_class = OrdenTrabajoSerializer
+    pagination_class = GenericPagination
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = OrdenTrabajoFilter
