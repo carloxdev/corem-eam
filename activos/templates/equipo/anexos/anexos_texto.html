@@ -5,9 +5,14 @@
 {% block title %} Anexos Equipo {% endblock title %}
 
 {% block css %}
+
+	<!-- Kendo -->
+
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
+	
+	<!-- Bootstrap Wysihtml5 -->
 
 	<link rel="stylesheet" href="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
 
@@ -74,7 +79,7 @@
 			            </div>
 		        </div> 
 		    </div>
-     <div class="box box-solid box-primary" id="id_panel">
+     <div class="box box-solid box-primary collapsed-box" id="id_panel">
 		            <div class="box-header with-border">
 		            	<h3 class="box-title">Anexar Texto</h3>
 
@@ -165,8 +170,13 @@
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
-	<!-- CoreM -->
+	
+	<!-- Bootstrap Wysihtml5  -->
+
 	<script src="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+
+	<!-- CoreM -->
+
 	<script src="{% static 'equipo/anexos/texto.js' %}"></script>
 
 {% endblock scripts %}

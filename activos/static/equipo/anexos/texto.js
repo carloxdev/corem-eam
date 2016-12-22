@@ -15,14 +15,14 @@ $(document).ready(function(){
 function Texto(){
 
 	this.$textarea = $('#id_texto')
-	this.$panel = $('#id_panel')
+	//this.$panel = $('#id_panel')
 
 }
 
 Texto.prototype.init = function (){
 
 	this.$textarea.wysihtml5();
-	this.$panel.addClass('collapsed-box')
+	//this.$panel.addClass('collapsed-box')
 
 
 }

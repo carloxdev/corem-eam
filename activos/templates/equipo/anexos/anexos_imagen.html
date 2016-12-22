@@ -5,6 +5,9 @@
 {% block title %} Anexos Equipo {% endblock title %}
 
 {% block css %}
+
+	<!-- Kendo -->
+
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
@@ -75,7 +78,7 @@
 	            </div>
 	        </div>
 	            <!-- /.box-header -->
-				     <div class="box box-solid box-primary" id="id_panel">
+				     <div class="box box-solid box-primary collapsed-box" id="id_panel">
 		            <div class="box-header with-border">
 		            	<h3 class="box-title">Anexar Imagen</h3>
 
@@ -163,8 +166,12 @@
 
 {% block scripts %}
 
+	<!-- Kendo -->
+
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
+
+	<!-- CoreM -->
 
 	<script src="{% static 'equipo/anexos/imagen.js' %}"></script>
 

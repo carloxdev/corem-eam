@@ -7,19 +7,19 @@ $(document).ready(function(){
 	
 	archivo = new Archivo()
 	archivo.eliminar()
-	archivo.init()
+	//archivo.init()
 
 
 })
 
 function Archivo(){
 
-	this.$panel = $('#id_panel')
+	//this.$panel = $('#id_panel')
 	
 }
 Archivo.prototype.init = function () {
 
-	this.$panel.addClass('collapsed-box')
+	//this.$panel.addClass('collapsed-box')
 }
 Archivo.prototype.eliminar = function(){
 	$('.eliminar').on('click', function(){

@@ -7,21 +7,21 @@ $(document).ready(function(){
 	
 	imagen = new Imagen()
 	imagen.eliminar()
-	imagen.init()
+	//imagen.init()
 
 
 })
 
 function Imagen(){
 
-	this.$panel = $('#id_panel')
+	//this.$panel = $('#id_panel')
 
 }
 
 Imagen.prototype.init = function (){
 
 	
-	this.$panel.addClass('collapsed-box')
+	//this.$panel.addClass('collapsed-box')
 
 
 }
