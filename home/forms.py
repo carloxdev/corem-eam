@@ -79,7 +79,7 @@ class AnexoArchivoForm(ModelForm):
         fields = ['descripcion', 'archivo']
         labels = {
             'descripcion': 'Descripción',
-            'archivo': 'Subir archivo',
+            'archivo': 'Archivo',
         }
         widgets = {
             'descripcion': TextInput(attrs={'class': 'form-control'})

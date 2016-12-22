@@ -57,14 +57,11 @@
 				<input id="id_equipo" type="hidden" value="{{ id }}">
 		        <div class="box box-info">
 		            <div class="box-header with-border">
-		           		<h4 class="pull-right">
-			            	<span>Id:</span>
-						    <small>{{ equipo.id }}</small>
-						    <br>
-						    <span>Tag del Equipo: </span>
-						    <small>{{ equipo.tag }}</small>
-					    </h4>
-		            	<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
+		           		  <div class="box-header with-border">
+		              <h3 class="box-title">Equipo: <strong> {{ equipo.tag }}</strong></h3>
+		            </div>
+					<div class="box-body">
+						<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
 				           	<i class="fa fa-pencil"></i> Texto
 				        </a>
 				        <a href="/equipos/anexos/{{id}}/imagen" class="btn btn-app">
@@ -73,7 +70,9 @@
 				        <a class="btn btn-app btn-primary active">
 				            <i class="fa fa-file-o"></i> Archivo
 				        </a>
-		            </div>
+					</div>
+		        </div>	
+		            
 		            <!-- /.box-header -->	
 		        </div>
 		        <div class="box box-solid box-info" id="id_panel">
@@ -87,25 +86,29 @@
 	                <div class="box-body">
 						<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 		              		
-		               			{% for field in form %}
+		               			
 					    		<div class="row">
 					    			<div class="col-sm-10 col-md-offset-1">
+										{% for field in form %}
 					    				<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
-					    					<div class="col-sm-12">
-					    						<label for="{{ field.label }}">{{ field.label_tag }}
-					       		 				{% if field.field.required %}<span class="">*</span>{% endif %}</label>
+					    					
+					    						<label for="{{ field.label }}">
+					       		 				<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
+												{{ field.label_tag }}
+					       		 				</label>
 
 					        					{{ field }}
-					        				</div>
+					        				
 					        					{% for error in field.errors %}
 		              						<div class="help-block text-right" id="{{ field.label }}-error">
 		              							{{ error }}
 		              						</div>
 		              							{% endfor %}
 					    				</div>
+					    				{% endfor %}
 					   				</div>
 					   			</div>
-					   			{% endfor %}
+					   			
 					   		
 		              	
 		              <!-- /.box-body -->  
