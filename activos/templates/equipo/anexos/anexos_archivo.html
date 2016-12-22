@@ -58,9 +58,7 @@
 		        <div class="box box-info">
 		            <div class="box-header with-border">
 		           		  <div class="box-header with-border">
-		              <h3 class="box-title">Tag Equipo: <strong> {{ equipo.tag }}</strong></h3>
-		              <br>
-		              <h3 class="box-title">Descripción: <strong> {{ equipo.descripcion }}</strong></h3>
+		              <h3 class="box-title">Tag: <strong> {{ equipo.tag }}. {{ equipo.descripcion }}</strong></h3>
 		            </div>
 					<div class="box-body">
 						<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
@@ -77,7 +75,7 @@
 		            
 		            <!-- /.box-header -->	
 		        </div>
-		        <div class="box box-solid box-info" id="id_panel">
+		        <div class="box box-solid box-primary" id="id_panel">
 		            <div class="box-header with-border">
 		            	<h3 class="box-title">Anexar Archivo</h3>
 
@@ -144,20 +142,11 @@
             		
               			<h3 class="box-title">
               			<i class="fa fa-file-o"></i>
-              			
+              			{{ anexo.descripcion }}
               			</h3>
             		</div>
             		<!-- /.box-header -->
-		            <div class="box-body">
-		            	<div align="center">
-		            	{% if anexo.descripcion  %}
-              			
-              			{{ anexo.descripcion }}
-              			{% else %}
-              			No hay descripción del archivo
-              			{% endif %}
-		            	</div>
-		            </div>
+		            
             		<!-- /.box-body -->
           		</div>
           <!-- /.box -->
