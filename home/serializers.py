@@ -11,6 +11,7 @@ from .models import AnexoImagen
 class AnexoTextoSerializer(serializers.HyperlinkedModelSerializer):
 
     equipo = serializers.SerializerMethodField()
+    articulo = serializers.SerializerMethodField()
 
     class Meta:
         model = AnexoTexto
@@ -18,6 +19,7 @@ class AnexoTextoSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'pk',
             'equipo',
+            'articulo',
             'texto',
         )
 
@@ -27,10 +29,17 @@ class AnexoTextoSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
+    def get_articulo(self, obj):
+        try:
+            return obj.articulo.clave
+        except:
+            return ""
+
 
 class AnexoArchivoSerializer(serializers.HyperlinkedModelSerializer):
 
     equipo = serializers.SerializerMethodField()
+    articulo = serializers.SerializerMethodField()
 
     class Meta:
         model = AnexoArchivo
@@ -38,6 +47,7 @@ class AnexoArchivoSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'pk',
             'equipo',
+            'articulo',
             'archivo',
             'descripcion',
         )
@@ -48,10 +58,17 @@ class AnexoArchivoSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
+    def get_articulo(self, obj):
+        try:
+            return obj.articulo.clave
+        except:
+            return ""
+
 
 class AnexoImagenSerializer(serializers.HyperlinkedModelSerializer):
 
     equipo = serializers.SerializerMethodField()
+    articulo = serializers.SerializerMethodField()
 
     class Meta:
         model = AnexoImagen
@@ -59,6 +76,7 @@ class AnexoImagenSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'pk',
             'equipo',
+            'articulo',
             'ruta',
             'descripcion',
         )
@@ -66,5 +84,11 @@ class AnexoImagenSerializer(serializers.HyperlinkedModelSerializer):
     def get_equipo(self, obj):
         try:
             return obj.equipo.tag
+        except:
+            return ""
+
+    def get_articulo(self, obj):
+        try:
+            return obj.articulo.clave
         except:
             return ""

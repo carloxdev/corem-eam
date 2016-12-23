@@ -12,6 +12,10 @@ from .views import ArticuloListView
 from .views import ArticuloCreateView
 from .views import ArticuloUpdateView
 
+from .views import ArticuloAnexoTextoView
+from .views import ArticuloAnexoImagenView
+from .views import ArticuloAnexoArchivoView
+
 
 urlpatterns = [
 
@@ -49,5 +53,22 @@ urlpatterns = [
         r'^articulos/editar/(?P<pk>.*)/$',
         ArticuloUpdateView.as_view(),
         name='inventarios.articulos_editar'
+    ),
+
+    # ----------------- ARTICULOS - ANEXOS ----------------- #
+    url(
+        r'articulos/anexos/(?P<pk>\d+)/texto/$',
+        ArticuloAnexoTextoView.as_view(),
+        name='activos.anexar_texto'
+    ),
+    url(
+        r'^articulos/anexos/(?P<pk>\d+)/imagen/$',
+        ArticuloAnexoImagenView.as_view(),
+        name='activos.anexar_imagen'
+    ),
+    url(
+        r'^articulos/anexos/(?P<pk>\d+)/archivo/$',
+        ArticuloAnexoArchivoView.as_view(),
+        name='activos.anexar_archivo'
     ),
 ]

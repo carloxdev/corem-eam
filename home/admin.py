@@ -12,6 +12,7 @@ from .models import AnexoArchivo
 class Texto(admin.ModelAdmin):
     list_display = (
         'equipo',
+        'articulo',
         'texto',
     )
 
@@ -20,6 +21,7 @@ class Texto(admin.ModelAdmin):
 class ImagenAnexo(admin.ModelAdmin):
     list_display = (
         'equipo',
+        'articulo',
         'ruta',
         'descripcion',
     )
@@ -29,6 +31,7 @@ class ImagenAnexo(admin.ModelAdmin):
 class Archivo(admin.ModelAdmin):
     list_display = (
         'equipo',
+        'articulo',
         'archivo',
         'descripcion',
     )
