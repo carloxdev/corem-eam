@@ -206,7 +206,7 @@ class ArticuloAnexoTextoView(View):
             texto.save()
             anexos = AnexoTexto.objects.filter(articulo=id_articulo)
             form = AnexoTextoForm()
-        return render(request, 'equipo/anexos/anexos_texto.html',
+        return render(request, 'articulo/anexos/anexos_texto.html',
                       {'form': form, 'id': id_articulo, 'anexos': anexos,
                        'articulo': articulo})
 
