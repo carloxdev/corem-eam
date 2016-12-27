@@ -65,9 +65,9 @@ router.register(
     'articulo'
 )
 router.register(
-    r'ordenes',
+    r'ordenestrabajo',
     OrdenTrabajoAPI,
-    'orden'
+    'ordentrabajo'
 )
 router.register(
     r'articulosanexotexto',

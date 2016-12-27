@@ -2,7 +2,7 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
-var url_grid = window.location.origin + "/api/ordenes/"
+var url_grid = window.location.origin + "/api/ordenestrabajo/"
 var url_nuevo = window.location.origin + "/ordenes/nuevo/"
 var url_editar = window.location.origin + "/ordenes/editar/"
 var url_anexos = window.location.origin + "/ordenes/anexos/"
@@ -41,7 +41,7 @@ function TargetaFiltros() {
 
     this.$id = $('#id_panel')
 
-    this.$clave = $('#id_clave')
+    this.$equipo = $('#id_equipo')
     this.$descripcion = $('#id_descripcion')
     this.$tipo = $('#id_tipo')
     this.$estado = $('#id_estado')
@@ -54,8 +54,8 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
     
-    this.$tipo.select2()
-    this.$estado.select2()
+    /*this.$tipo.select2()
+    this.$estado.select2()*/
 
     this.$id.addClass('collapsed-box')
 
@@ -68,7 +68,7 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
         page: _page,
         pageSize: _pageSize,
 
-        clave: this.$clave.val(),
+        clave: this.$equipo.val(),
         descripcion: this.$descripcion.val(),
         tipo: this.$tipo.val(),
         estado: this.$estado.val(),
@@ -84,7 +84,7 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
     e.preventDefault()
 
-    e.data.$clave.val("")
+    e.data.$equipo.val("")
     e.data.$descripcion.val("")
     e.data.$tipo.val("").trigger('change')
     e.data.$estado.val("").trigger('change')
@@ -145,22 +145,26 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
-        clave: { type: "string" },
-        descripcion: { type: "string" },
+        equipo: { type: "string" },
         tipo: { type: "string" },
-        udm: { type: "string" },
-        clave_jde: { type: "string" },
+        estado: { type: "string" },
+        descripcion: { type: "string" },
+        responsable: { type: "string" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
 
-        { field: "clave", title: "Clave", width: "120px" },
+        { field: "equipo", title: "Equipo", width: "120px" },
         { field: "descripcion", title: "Descripcion", width: "250px" },
         { field: "tipo", title: "Tipo", width: "120px" },
-        { field: "udm", title: "UDM", width: "120px" },
-        { field: "clave_jde", title: "Clave JDE", width: "120px" },
+        { field: "estado", title: "Estado", width: "120px" },
+        { field: "responsable", title: "Responsable", width: "120px" },
+        { field: "fecha_estimada_inicio", title: "Fecha Estimada Inicio", width: "120px" },
+        { field: "fecha_estimada_fin", title: "Fecha Estimada Fin", width: "120px" },
+        { field: "fecha_real_inicio", title: "Fecha Real Inicio", width: "120px" },
+        { field: "fecha_real_fin", title: "Fecha Real Fin", width: "120px" },
         {
            command: [
                 {

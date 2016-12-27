@@ -29,7 +29,8 @@ from .pagination import GenericPagination
 # API Rest - Filtros:
 from .filters import OrdenTrabajoFilter
 
-
+# Formulario Filtros
+from .forms import OrdenTrabajoFiltersForm
 # ----------------- ORDEN DE TRABAJO ----------------- #
 
 
@@ -39,8 +40,11 @@ class OrdenTrabajoListView(View):
         self.template_name = 'orden_trabajo/lista.html'
 
     def get(self, _request):
-
-        return render(_request, self.template_name, {})
+        formulario = OrdenTrabajoFiltersForm()
+        contexto = {
+            'form': formulario
+        }
+        return render(_request, self.template_name, contexto)
 
 
 class OrdenTrabajoCreateView(CreateView):

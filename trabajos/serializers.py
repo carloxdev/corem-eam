@@ -34,9 +34,9 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
             'es_template',
         )
 
-        def get_equipo(self, obj):
+    def get_equipo(self, obj):
 
-            try:
-                return obj.equipo.descripcion
-            except:
-                return ""
+        try:
+            return obj.equipo.descripcion
+        except:
+            return ""
