@@ -165,6 +165,8 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "fecha_estimada_fin", title: "Fecha Estimada Fin", width: "120px" },
         { field: "fecha_real_inicio", title: "Fecha Real Inicio", width: "120px" },
         { field: "fecha_real_fin", title: "Fecha Real Fin", width: "120px" },
+        { field: "es_template", title: "Es Template", width: "120px" },
+
         {
            command: [
                 {
@@ -221,13 +223,13 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.pk + "/"
+    window.location.href = url_editar + fila.id + "/"
 }
 GridPrincipal.prototype.click_BotonAnexos = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_anexos + fila.pk + "/texto/"
+    window.location.href = url_anexos + fila.id + "/texto/"
 }
 
 
