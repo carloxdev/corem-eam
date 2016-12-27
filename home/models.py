@@ -25,14 +25,13 @@ class AnexoArchivo(models.Model):
 class AnexoTexto(models.Model):
     equipo = models.ForeignKey(Equipo, null=True, blank=True)
     articulo = models.ForeignKey(Articulo, null=True, blank=True)
-    titulo = models.CharField(max_length=10)
+    titulo = models.CharField(max_length=60)
     texto = models.CharField(max_length=255, null=True, blank=True)
 
 
 class AnexoImagen(models.Model):
-
     equipo = models.ForeignKey(Equipo, null=True, blank=True)
     articulo = models.ForeignKey(Articulo, null=True, blank=True)
     ruta = models.ImageField(upload_to=get_ImagePath,
                              validators=[validate_image])
-    descripcion = models.CharField(max_length=50, null=True)
+    descripcion = models.CharField(max_length=255, null=True)
