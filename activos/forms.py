@@ -4,7 +4,7 @@
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Select
-
+from django.forms import CheckboxInput
 # Modelos:
 from .models import Equipo
 from .models import Odometro
@@ -102,6 +102,12 @@ class OdometroForm(ModelForm):
             'udm',
             'esta_activo',
         ]
+        widgets = {
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'udm': TextInput(attrs={'class': 'form-control'}),
+            'esta_activo': CheckboxInput(),
+        }
         labels = {
             'clave': 'Clave',
             'descripcion': 'Descripción',

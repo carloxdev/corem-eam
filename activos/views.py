@@ -23,6 +23,7 @@ from django.views.generic import TemplateView
 
 # Modelos:
 from .models import Equipo
+from .models import Odometro
 from .models import Ubicacion
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
@@ -32,6 +33,7 @@ from home.models import AnexoTexto
 from forms import EquipoFiltersForm
 from forms import EquipoForm
 from forms import UbicacionForm
+from forms import OdometroForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -428,3 +430,32 @@ class UbicacionAPI(viewsets.ModelViewSet):
 
 #      return HttpResponse(json.dumps(response_data),
 #                         content_type="application/json")
+
+
+class OdometroView(View):
+    def __init__(self):
+        self.template_name = 'equipo/odometro_form.html'
+
+    def get(self, request, pk):
+        id_equipo = pk
+        equipo = Equipo.objects.get(id=id_equipo)
+        form = OdometroForm()
+
+        contexto = {
+            'form': form,
+            'id': id_equipo,
+            'equipo': equipo,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    # def post (self, request, pk):
+    #     id_equipo = pk
+    #     form = OdometroForm(request.POST)
+
+    #     if form.is_valid():
+    #         datos_formulario = form.cleaned_data
+    #         odometro = Odometro()
+
+
+
