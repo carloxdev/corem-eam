@@ -7,6 +7,7 @@ from django.forms import Select
 
 # Modelos:
 from .models import Equipo
+from .models import Odometro
 from .models import Ubicacion
 
 
@@ -88,8 +89,28 @@ class EquipoForm(ModelForm):
             'responsable': 'Responsable',
         }
 
+# ----------------- ODÓMETRO ----------------- #
+
+
+class OdometroForm(ModelForm):
+
+    class Meta:
+        model = Odometro
+        fields = [
+            'clave',
+            'descripcion',
+            'udm',
+            'esta_activo',
+        ]
+        labels = {
+            'clave': 'Clave',
+            'descripcion': 'Descripción',
+            'udm': 'UDM',
+            'esta_activo': 'Activo',
+        }
 
 # ----------------- UBICACION ----------------- #
+
 
 class UbicacionForm(ModelForm):
 
