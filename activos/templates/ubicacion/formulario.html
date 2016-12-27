@@ -39,9 +39,11 @@
 					    <div class="row">
 					    	<div class="col-sm-10 col-md-offset-1">
 					    		<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
-					    			<div class="col-sm-12">
-					    				<label for="{{ field.label }}">{{ field.label_tag }}
-					       		 		{% if field.field.required %}<span class="">*</span>{% endif %}</label>
+					    			
+					    			<label for="{{ field.label }}">
+					    			<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
+					    			{{ field.label_tag }}
+					       		 	</label>
 					        			{{ field }}
 					        			
 					        			{% for error in field.errors %}
@@ -49,7 +51,6 @@
 		              						{{ error }}
 		              					</div>
 		              					{% endfor %}
-					    			</div>
 					    		</div>
 					    	</div>
 					    </div>
