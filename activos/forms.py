@@ -65,7 +65,7 @@ class EquipoForm(ModelForm):
             'tag': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
             'serie': TextInput(attrs={'class': 'form-control'}),
-            'tipo': Select(attrs={'class': 'form-control'}),
+            'tipo': TextInput(attrs={'class': 'form-control'}),
             'estado': Select(attrs={'class': 'form-control'}),
             'padre': Select(attrs={'class': 'form-control'}),
             'empresa': Select(attrs={'class': 'form-control'}),
