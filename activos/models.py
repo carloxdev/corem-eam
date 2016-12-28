@@ -71,7 +71,7 @@ class Asignacion(models.Model):
     )
 
     def __str__(self):
-        return "{0} : {1}".format(self.equipo, self.ubicacion)
+        return "{0} : {1}".format(self.equipo, self.ubicacion).encode('utf-8')
 
     class Meta:
         unique_together = (('equipo', 'ubicacion'),)
@@ -86,7 +86,7 @@ class Odometro(models.Model):
     esta_activo = models.BooleanField(default=True)
 
     def __str__(self):
-        return "{0} : {1}".format(self.equipo, self.clave)
+        return "{0} : {1}".format(self.equipo, self.clave).encode('utf-8')
 
 
 class Medicion(models.Model):
@@ -95,7 +95,7 @@ class Medicion(models.Model):
     lectura = models.DecimalField(max_digits=20, decimal_places=4, default=0.0)
 
     def __str__(self):
-        return "{0} : {1}".format(self.odometro, self.fecha)
+        return "{0} : {1}".format(self.odometro, self.fecha).encode('utf-8')
 
     class Meta:
         verbose_name_plural = "Mediciones"

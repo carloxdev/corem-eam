@@ -10,6 +10,7 @@ from rest_framework import serializers
 from .models import Equipo
 from .models import Ubicacion
 from .models import Odometro
+from .models import Medicion
 
 
 # ----------------- EQUIPO ----------------- #
@@ -157,5 +158,45 @@ class OdometroSerializer(serializers.ModelSerializer):
 
         try:
             return obj.equipo.tag
+        except:
+            return ""
+
+# ----------------- MEDICION ------------------ #
+
+
+class MedicionSerializer(serializers.ModelSerializer):
+
+    odometro = serializers.SerializerMethodField()
+    equipo = serializers.SerializerMethodField()
+    udm = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Medicion
+        fields = (
+            'pk',
+            'url',
+            'odometro',
+            'equipo',
+            'udm',
+            'fecha',
+            'lectura',
+        )
+
+    def get_odometro(self, obj):
+
+        try:
+            return obj.odometro.clave
+        except:
+            return ""
+
+    def get_equipo(self, obj):
+        try:
+            return obj.odometro.equipo.tag
+        except:
+            return ""
+
+    def get_udm(self, obj):
+        try:
+            return obj.odometro.udm
         except:
             return ""
