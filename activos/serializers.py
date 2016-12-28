@@ -9,6 +9,7 @@ from rest_framework import serializers
 # Modelos:
 from .models import Equipo
 from .models import Ubicacion
+from .models import Odometro
 
 
 # ----------------- EQUIPO ----------------- #
@@ -132,3 +133,29 @@ class UbicacionSerializer(serializers.ModelSerializer):
             'clave',
             'descripcion'
         )
+
+# ----------------- ODOMETRO ------------------ #
+
+
+class OdometroSerializer(serializers.ModelSerializer):
+
+    equipo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Odometro
+        fields = (
+            'pk',
+            'url',
+            'equipo',
+            'clave',
+            'descripcion',
+            'udm',
+            'esta_activo',
+        )
+
+    def get_equipo(self, obj):
+
+        try:
+            return obj.equipo.tag
+        except:
+            return ""

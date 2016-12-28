@@ -10,11 +10,6 @@ from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
 
-# Django Paginator
-# from rest_framework.authentication import TokenAuthentication
-# from rest_framework.permissions import IsAuthenticated
-# from rest_framework.views import APIView
-
 # Django Generic Views
 from django.views.generic.base import View
 from django.views.generic import CreateView
@@ -34,6 +29,7 @@ from forms import EquipoFiltersForm
 from forms import EquipoForm
 from forms import UbicacionForm
 from forms import OdometroForm
+from forms import OdometroFiltersForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -48,6 +44,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import EquipoSerializer
 from .serializers import EquipoTreeSerilizado
 from .serializers import UbicacionSerializer
+from .serializers import OdometroSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoArchivoSerializer
 from home.serializers import AnexoImagenSerializer
@@ -57,6 +54,7 @@ from .pagination import GenericPagination
 
 # API Rest - Filtros:
 from .filters import EquipoFilter
+from .filters import OdometroFilter
 
 
 # ----------------- EQUIPO ----------------- #
@@ -416,46 +414,44 @@ class UbicacionAPI(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('clave', 'descripcion',)
 
-
-# class AnexoTextoDeleteView(APIView):
-# authentication_classes = (TokenAuthentication,)
-# permission_classes = (IsAuthenticated,)
-
-#  def delete(request, self, *args, **kwargs):
-#     response_data = {'exito': True}
-#     id_anexo = request.POST['id_anexo']
-#      print id_anexo
-#     anexo = AnexoTexto.objects.get(id=id_anexo)
-#     anexo.delete()
-
-#      return HttpResponse(json.dumps(response_data),
-#                         content_type="application/json")
+# ----------------- ODOMETRO ----------------- #
 
 
-class OdometroView(View):
+class OdometroListView(View):
     def __init__(self):
-        self.template_name = 'equipo/odometro_form.html'
+        self.template_name = 'odometro/lista.html'
 
-    def get(self, request, pk):
-        id_equipo = pk
-        equipo = Equipo.objects.get(id=id_equipo)
-        form = OdometroForm()
+    def get(self, request):
+
+        formulario = OdometroFiltersForm()
 
         contexto = {
-            'form': form,
-            'id': id_equipo,
-            'equipo': equipo,
+            'form': formulario
         }
 
         return render(request, self.template_name, contexto)
 
-    # def post (self, request, pk):
-    #     id_equipo = pk
-    #     form = OdometroForm(request.POST)
-
-    #     if form.is_valid():
-    #         datos_formulario = form.cleaned_data
-    #         odometro = Odometro()
+    def post(self, request):
+        return render(request, self.template_name, {})
 
 
+class OdometroCreateView(CreateView):
+    model = Odometro
+    form_class = OdometroForm
+    template_name = 'odometro/formulario.html'
+    success_url = reverse_lazy('activos.odometros_lista')
 
+
+class OdometroUpdateView(UpdateView):
+    model = Odometro
+    form_class = OdometroForm
+    template_name = 'odometro/formulario.html'
+    success_url = reverse_lazy('activos.odometros_lista')
+
+
+class OdometroAPI(viewsets.ModelViewSet):
+    queryset = Odometro.objects.all()
+    serializer_class = OdometroSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = OdometroFilter

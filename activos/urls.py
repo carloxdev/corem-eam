@@ -8,7 +8,9 @@ from .views import EquipoListView
 from .views import EquipoCreateView
 from .views import EquipoUpdateView
 from .views import EquipoTreeListView
-from .views import OdometroView
+from .views import OdometroListView
+from .views import OdometroCreateView
+from .views import OdometroUpdateView
 
 from .views import EquipoTreeAPI
 from .views import AnexoTextoView
@@ -85,9 +87,20 @@ urlpatterns = [
         UbicacionUpdateView.as_view(),
         name='activos.ubicaciones_editar'
     ),
+    # ----------------- ODOMETRO ----------------- #
     url(
-        r'^equipos/asignar_odometro/(?P<pk>\d+)/$',
-        OdometroView.as_view(),
-        name='activos.asignar_odometro'
+        r'^odometros/$',
+        OdometroListView.as_view(),
+        name='activos.odometros_lista'
+    ),
+    url(
+        r'^odometros/nuevo/$',
+        OdometroCreateView.as_view(),
+        name='activos.odometros_nuevo'
+    ),
+    url(
+        r'^odometros/editar/(?P<pk>.*)/$',
+        OdometroUpdateView.as_view(),
+        name='activos.odometros_lista'
     ),
 ]

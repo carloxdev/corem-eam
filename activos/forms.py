@@ -97,22 +97,49 @@ class OdometroForm(ModelForm):
     class Meta:
         model = Odometro
         fields = [
+            'equipo',
             'clave',
             'descripcion',
             'udm',
             'esta_activo',
         ]
         widgets = {
+            'equipo': Select(attrs={'class': 'form-control'}),
             'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'udm': TextInput(attrs={'class': 'form-control'}),
+            'udm': Select(attrs={'class': 'form-control'}),
             'esta_activo': CheckboxInput(),
         }
         labels = {
+            'equipo': 'Equipo',
             'clave': 'Clave',
             'descripcion': 'Descripción',
             'udm': 'UDM',
             'esta_activo': 'Activo',
+        }
+
+
+class OdometroFiltersForm(ModelForm):
+
+    class Meta:
+        model = Odometro
+        fields = [
+            'equipo',
+            'clave',
+            'descripcion',
+            'udm',
+        ]
+        widgets = {
+            'equipo': Select(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'udm': Select(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'equipo': 'Equipo',
+            'clave': 'Clave',
+            'descripcion': 'Descripción',
+            'udm': 'UDM',
         }
 
 # ----------------- UBICACION ----------------- #

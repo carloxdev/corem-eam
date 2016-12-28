@@ -6,6 +6,7 @@ from django_filters import CharFilter
 
 # Modelos
 from .models import Equipo
+from .models import Odometro
 
 
 class EquipoFilter(filters.FilterSet):
@@ -40,4 +41,29 @@ class EquipoFilter(filters.FilterSet):
             'sistema',
             'ubicacion',
             'descripcion',
+        ]
+
+
+class OdometroFilter(filters.FilterSet):
+
+    clave = CharFilter(
+        name="clave",
+        lookup_expr="contains"
+    )
+    descripcion = CharFilter(
+        name="descripcion",
+        lookup_expr="contains"
+    )
+    udm = CharFilter(
+        name="udm",
+        lookup_expr="contains"
+    )
+
+    class Meta:
+        model = Odometro
+        fields = [
+            'equipo',
+            'clave',
+            'descripcion',
+            'udm',
         ]
