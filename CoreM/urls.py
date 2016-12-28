@@ -23,6 +23,9 @@ from inventarios.views import ArticuloAnexoImagenAPI
 from inventarios.views import ArticuloAnexoArchivoAPI
 
 from trabajos.views import OrdenTrabajoAPI
+from trabajos.views import OrdenAnexoTextoAPI
+from trabajos.views import OrdenAnexoImagenAPI
+from trabajos.views import OrdenAnexoArchivoAPI
 
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
@@ -89,6 +92,21 @@ router.register(
     r'odometros',
     OdometroAPI,
     'odometro'
+)
+router.register(
+    r'ordenesanexotexto',
+    OrdenAnexoTextoAPI,
+    'ordenanexotexto'
+)
+router.register(
+    r'ordenesanexoimagen',
+    OrdenAnexoImagenAPI,
+    'ordenanexoimagen'
+)
+router.register(
+    r'ordenesanexoarchivo',
+    OrdenAnexoArchivoAPI,
+    'ordenanexoarchivo'
 )
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

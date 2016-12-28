@@ -13,6 +13,7 @@ class Texto(admin.ModelAdmin):
     list_display = (
         'equipo',
         'articulo',
+        'orden_trabajo',
         'texto',
     )
 
@@ -22,6 +23,7 @@ class ImagenAnexo(admin.ModelAdmin):
     list_display = (
         'equipo',
         'articulo',
+        'orden_trabajo',
         'ruta',
         'descripcion',
     )
@@ -32,6 +34,7 @@ class Archivo(admin.ModelAdmin):
     list_display = (
         'equipo',
         'articulo',
+        'orden_trabajo',
         'archivo',
         'descripcion',
     )

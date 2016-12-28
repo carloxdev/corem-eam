@@ -13,11 +13,13 @@ from .utilities import get_ImagePath
 
 from activos.models import Equipo
 from inventarios.models import Articulo
+from trabajos.models import OrdenTrabajo
 
 
 class AnexoArchivo(models.Model):
     equipo = models.ForeignKey(Equipo, null=True, blank=True)
     articulo = models.ForeignKey(Articulo, null=True, blank=True)
+    orden_trabajo = models.ForeignKey(OrdenTrabajo, null=True, blank=True)
     archivo = models.FileField(upload_to=get_FilePath)
     descripcion = models.CharField(max_length=255, null=True, blank=True)
 
@@ -25,6 +27,7 @@ class AnexoArchivo(models.Model):
 class AnexoTexto(models.Model):
     equipo = models.ForeignKey(Equipo, null=True, blank=True)
     articulo = models.ForeignKey(Articulo, null=True, blank=True)
+    orden_trabajo = models.ForeignKey(OrdenTrabajo, null=True, blank=True)
     titulo = models.CharField(max_length=60)
     texto = models.CharField(max_length=255, null=True, blank=True)
 
@@ -32,6 +35,7 @@ class AnexoTexto(models.Model):
 class AnexoImagen(models.Model):
     equipo = models.ForeignKey(Equipo, null=True, blank=True)
     articulo = models.ForeignKey(Articulo, null=True, blank=True)
+    orden_trabajo = models.ForeignKey(OrdenTrabajo, null=True, blank=True)
     ruta = models.ImageField(upload_to=get_ImagePath,
                              validators=[validate_image])
     descripcion = models.CharField(max_length=255, null=True)
