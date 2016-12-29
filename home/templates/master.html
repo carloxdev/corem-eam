@@ -353,22 +353,21 @@
 	        <li class="header">MENU</li>
 
 			<!-- Activos -->
-			<li id="opt_dashboard"><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+			<li id="opt_dashboard"><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-line-chart"></i> <span>Dashboard</span></a></li>
 
 	        <!-- Activos -->
 	        <li class="treeview" id="tree_activos">
 	          <a href="#">
-	            <i class="fa fa-puzzle-piece"></i>
+	            <i class="fa fa-cogs"></i>
 	            <span>Activos</span>
 	            <span class="pull-right-container">
 	              <i class="fa fa-angle-left pull-right"></i>
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li id="opt_equipos"><a href="{% url 'activos.equipos_lista' %}"><i class="fa fa-circle-o"></i> Equipos</a></li>
-	            <li id="opt_ubicaciones"><a href="{% url 'activos.ubicaciones_lista' %}"><i class="fa fa-circle-o"></i> Ubicaciones</a></li>
-	            <li id="opt_odometros"><a href="{% url 'activos.odometros_lista' %}"><i class="fa fa-circle-o"></i> Odometros</a></li>
-	            <li id="opt_odometros"><a href="{% url 'activos.mediciones_lista' %}"><i class="fa fa-circle-o"></i> Mediciones</a></li>
+	            <li id="opt_equipos"><a href="{% url 'activos.equipos_lista' %}"><i class="fa fa-cog"></i> Equipos</a></li>
+	            <li id="opt_ubicaciones"><a href="{% url 'activos.ubicaciones_lista' %}"><i class="fa fa-map-marker"></i> Ubicaciones</a></li>
+	            <li id="opt_odometros"><a href="{% url 'activos.odometros_lista' %}"><i class="fa fa-tachometer"></i> Odometros</a></li>
 	          </ul>
 	        </li> 
 
@@ -382,10 +381,10 @@
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li id="opt_almacenes"><a href="{% url 'inventarios.almacenes_lista' %}"><i class="fa fa-circle-o"></i> Almacenes</a></li>
-	            <li id="opt_articulos"><a href="{% url 'inventarios.articulos_lista' %}"><i class="fa fa-circle-o"></i> Articulos</a></li>
-	            <li id="opt_articulos"><a href="#"><i class="fa fa-circle-o"></i> Salidas</a></li>
-	            <li id="opt_articulos"><a href="#"><i class="fa fa-circle-o"></i> Entrada</a></li>
+	            <li id="opt_almacenes"><a href="{% url 'inventarios.almacenes_lista' %}"><i class="fa fa-cube"></i> Almacenes</a></li>
+	            <li id="opt_articulos"><a href="{% url 'inventarios.articulos_lista' %}"><i class="fa fa-barcode"></i> Articulos</a></li>
+	            <li id="opt_articulos"><a href="#"><i class="fa fa-mail-forward"></i> Salidas</a></li>
+	            <li id="opt_articulos"><a href="#"><i class="fa fa-mail-reply"></i> Entrada</a></li>
 	          </ul>
 	        </li> 
 
@@ -399,9 +398,9 @@
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li id="opt_ordenes"><a href="{% url 'trabajos:ordenes_lista' %}"><i class="fa fa-circle-o"></i> Ordenes Trabajo</a></li>
-	            <li id="opt_ordenes"><a href="#"><i class="fa fa-circle-o"></i> Recursos Materiales</a></li>
-	            <li id="opt_ordenes"><a href="#"><i class="fa fa-circle-o"></i> Hoja de tiempos </a></li>
+	            <li id="opt_ordenes"><a href="{% url 'trabajos:ordenes_lista' %}"><i class="fa fa-file-o"></i> Ordenes Trabajo</a></li>
+	            <li id="opt_ordenes"><a href="#"><i class="fa fa-tint"></i> Recursos Materiales</a></li>
+	            <li id="opt_ordenes"><a href="#"><i class="fa fa-users"></i> Hoja de tiempos </a></li>
 	          </ul>
 	        </li>
 
@@ -415,9 +414,9 @@
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li id="opt_a"><a href="#"><i class="fa fa-circle-o"></i>Programas </a></li>
-	            <li id="opt_a"><a href="#"><i class="fa fa-circle-o"></i>OT Pendientes </a></li>
-	            <li id="opt_b"><a href="#"><i class="fa fa-circle-o"></i>Reporte de Programaciones</a></li>
+	            <li id="opt_a"><a href="#"><i class="fa fa-calculator"></i>Programas </a></li>
+	            <li id="opt_a"><a href="#"><i class="fa fa-bell-o"></i>Ordenes Pendientes </a></li>
+	            <li id="opt_b"><a href="#"><i class="fa fa-clock-o"></i>Reporte de Programaciones</a></li>
 	          </ul>
 	        </li> 		        
 
