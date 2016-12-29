@@ -5,6 +5,7 @@
 var url_grid = window.location.origin + "/api/ubicaciones/"
 var url_nuevo = window.location.origin + "/ubicaciones/nuevo/"
 var url_editar = window.location.origin + "/ubicaciones/editar/"
+var url_eliminar = window.location.origin + "/api/ubicaciones/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -166,7 +167,8 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.read()
+    
+    this.kfuente_datos.read()
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
@@ -179,9 +181,32 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
 
-    alertify.confirm('Eliminar Registro','¿Desea Eliminar este registro?', function(){ alertify.success('Ok') }, null);
-    // window.location.href = url_editar + fila.pk;
+    alertify.confirm(
+        'Eliminar Registro',
+        '¿Desea Eliminar este registro?', 
+        function () {
+
+            var url = url_eliminar + fila.pk + "/"
+
+            $.ajax({
+                url: url,
+                method: "DELETE",
+                success: function () {
+                    targeta_resultados.grid.kfuente_datos.remove(fila)
+                    targeta_resultados.grid.kfuente_datos.sync()
+
+                    alertify.success("Se elimino registro correctamente")
+                },
+                error: function () {
+                    
+                    alertify.error("Ocurrio un error al eliminar")
+                }
+            })
+        }, 
+        null
+    )
 }
+
 
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR

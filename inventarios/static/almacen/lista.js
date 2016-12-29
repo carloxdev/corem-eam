@@ -91,7 +91,7 @@ GridPrincipal.prototype.init = function () {
 
     this.kgrid = this.$id.kendoGrid(this.get_Config())
 }
-GridPrincipal.prototype.get_Config() {
+GridPrincipal.prototype.get_Config = function () {
     return {
         dataSource: this.kfuente_datos,
         columnMenu: false,
