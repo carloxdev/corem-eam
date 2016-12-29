@@ -155,15 +155,9 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         {
            command: [
                 {
-<<<<<<< HEAD
-                   text: "Agregar Lectura",
-                   click: this.click_BotonLectura,
-                   className: "boton_default"
-=======
-                   text: "Accion",
-                   click: this.click_BotonAccion,
-                   className: "boton_lectura"
->>>>>>> avances mediciones
+                   text: "Eliminar",
+                   click: this.click_BotonEliminar,
+                   className: "boton_eliminar"
                 },              
             ],           
            title: " ",
@@ -205,6 +199,9 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 }
 GridPrincipal.prototype.buscar =  function() {
     this.kfuente_datos.page(1)
+}
+GridPrincipal.prototype.click_botonEliminar = function () {
+    e.preventDefault()
 }
 
 /*-----------------------------------------------*\
