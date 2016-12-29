@@ -1,0 +1,86 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block title %} {{ operation }} Mediciones {% endblock title %}
+
+{% block contenido %}
+
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+	  <h1>
+	    <span id="titulo">Mediciones</span>
+	    <small>{{ operation }}Nuevo</small>
+	  </h1>
+	  <ol class="breadcrumb">
+	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	    <li><a href="{% url 'activos.equipos_lista' %}">Mediciones</a></li>
+	    <li class="active">{{ operation }}</li>
+	  </ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content" id="contenido">
+
+		<div class="row">
+	        <div class="col-md-12">
+
+	          <!-- Filtros -->
+	          <div class="box box-primary">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">Favor de proporcionar los siguientes datos:</h3>
+	            </div>
+	            <!-- /.box-header -->
+					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+
+		              <div class="box-body">
+		              	{% for field in form %}
+					    <div class="row">
+					    	<div class="col-sm-10 col-md-offset-1">
+					    		<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    			
+					    			<label for="{{ field.label }}">
+									<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
+					    			{{ field.label_tag }}
+					       		 	
+					       		 	</label>
+					        		{{ field }}
+					        			
+					        		{% for error in field.errors %}
+		              				<div class="help-block text-right" id="{{ field.label }}error">
+		              					{{ error }}
+		              				</div>
+		              				{% endfor %}
+					    		</div>
+					    	</div>
+					    </div>
+					    {% endfor %}
+		              <!-- /.box-body -->
+
+		              <div class="box-footer">
+		              	<div class="row">
+		              		<div class="col-sm-10 col-md-offset-1">
+		              			<div class="pull-right form-group">
+		              				<div class="col-sm-12">
+		    		              		<a class="btn btn-default" href="{% url 'activos.equipos_lista' %}">Regresar</a>
+		              					<button type="submit" class="btn btn-success">Guardar</button>
+		              				</div>
+		              			</div>
+		              		</div>
+		              	</div>
+		              </div>
+		              <!-- /.box-footer -->
+					</div>
+	            </form>
+	          </div>
+	          <!-- /.box -->
+
+	        </div>			
+
+		</div>
+
+	</section>
+	<!-- /. Main content -->
+
+{% endblock contenido %}

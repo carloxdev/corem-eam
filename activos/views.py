@@ -32,6 +32,7 @@ from forms import UbicacionForm
 from forms import OdometroForm
 from forms import OdometroFiltersForm
 from forms import MedicionFiltersForm
+from forms import MedicionForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -478,8 +479,57 @@ class MedicionListView(View):
         return render(request, self.template_name, contexto)
 
 
+class MedicionOdometroView(View):
+
+    def __init__(self):
+        self.template_name = 'medicion/lista.html'
+
+    def get(self, request, pk):
+        id_odometro = pk
+        odometro = Odometro.objects.get(id=id_odometro)
+        formulario = MedicionFiltersForm()
+
+        contexto = {
+            'form': formulario,
+            'id_odometro': id_odometro,
+            'odometro': odometro,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
 class MedicionCreateView(View):
-    pass
+
+    def __init__(self):
+        self.template_name = 'medicion/formulario.html'
+
+    def get(self, request):
+
+        form = MedicionForm()
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        form = MedicionForm(request.POST)
+
+        if form.is_valid():
+            medicion = Medicion()
+            medicion.fecha = request.POST['fecha']
+            medicion.lectura = request.POST['lectura']
+            medicion.odometro_id = request.POST['odometro']
+            medicion.save()
+            form = AnexoArchivoForm()
+
+        contexto = {
+            'form': form
+        }
+
+        return render(request, self.template_name, contexto)
 
 
 class MedicionAPI(viewsets.ModelViewSet):

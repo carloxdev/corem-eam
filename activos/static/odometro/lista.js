@@ -5,6 +5,7 @@
 var url_grid = window.location.origin + "/api/odometros/"
 var url_nuevo = window.location.origin + "/odometros/nuevo/"
 var url_editar = window.location.origin + "/odometros/editar/"
+var url_medicion = window.location.origin + "/odometros/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -166,6 +167,11 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                    text: "Eliminar",
                    click: this.click_BotonEliminar,
                    className: "boton_eliminar"
+                },   
+                {
+                   text: "Medicion",
+                   click: this.click_BotonMedicion,
+                   className: "boton_medicion"
                 },               
             ],           
            title: " ",
@@ -214,7 +220,13 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk + "/"
 }
+GridPrincipal.prototype.click_BotonMedicion = function (e) {
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    var id_odometro = fila.pk
+    window.location.href = url_medicion+id_odometro+'/mediciones/'
 
+}
 
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR

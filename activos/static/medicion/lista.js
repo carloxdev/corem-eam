@@ -3,10 +3,10 @@
 \*-----------------------------------------------*/
 
 var url_grid = window.location.origin + "/api/mediciones/"
+var url_nuevo = window.location.origin + "/mediciones/nuevo"
 var targeta_filtros = null
 var targeta_resultados = null
-var id = null
-var lectura = null
+var url_actual = window.location.pathname
 
 /*-----------------------------------------------*\
             LOAD
@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
+    console.log(url_actual)
 })
 
 // Asigna eventos a teclas
@@ -38,7 +39,7 @@ function TargetaFiltros() {
     this.$id = $('#id_panel')
 
 	this.$odometro = $('#id_odometro')
-
+    this.$id_odometro = $('#id_odometro_requested')
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
@@ -54,11 +55,18 @@ TargetaFiltros.prototype.init = function () {
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
+    if (url_actual==='/mediciones/'){
+        id_odometro = this.$odometro.val()
+    }
+    else {
+        id_odometro = this.$id_odometro.val()
+    }
+    
 
     return {
         page: _page,
         pageSize: _pageSize,
-        odometro: this.$odometro.val(),
+        odometro: id_odometro,
         
     }
 }
@@ -147,9 +155,15 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         {
            command: [
                 {
+<<<<<<< HEAD
                    text: "Agregar Lectura",
                    click: this.click_BotonLectura,
                    className: "boton_default"
+=======
+                   text: "Accion",
+                   click: this.click_BotonAccion,
+                   className: "boton_lectura"
+>>>>>>> avances mediciones
                 },              
             ],           
            title: " ",
@@ -200,14 +214,21 @@ GridPrincipal.prototype.buscar =  function() {
 function Toolbar() {
 
     this.$boton_exportar = $("#boton_exportar")
+    this.$boton_nuevo = $("#boton_nuevo")
 
     this.init()
 }
 Toolbar.prototype.init = function (e) {
 
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
+    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
 }
 Toolbar.prototype.click_BotonExportar = function(e) {
     e.preventDefault()
     return null
+}
+Toolbar.prototype.click_BotonNuevo = function (e) {
+
+    e.preventDefault()
+    window.location.href = url_nuevo
 }

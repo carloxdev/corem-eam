@@ -24,31 +24,6 @@
 {% endblock css %}
 
 {% block contenido %}
-	<div style="display: none; margin-top: 220px;" class="modal fade" id="modal_guardar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-		<div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Agregar Lectura</h4>
-              </div>
-              <form action="" method="POST">{% csrf_token %}
-              	<div class="modal-body">
-             		<p></p>
-                	<input id="id_anexo" type="hidden">
-                	<label for="lectura">Lectura</label>
-                	<input type="text" id="id_lectura" class="form-control">
-                </div>
-              	<div class="modal-footer">
-	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-	                <button type="button" id="boton_guardar" class="btn btn-primary">Guardar</button>
-              	</div>
-              </form>
-             
-            </div>
-            <!-- /.modal-content -->
-        </div>
-	</div>
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
@@ -57,7 +32,7 @@
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-	    <li class="active">Medicioones</li>
+	    <li class="active">Mediciones</li>
 	  </ol>
 	</section>
 
@@ -68,17 +43,33 @@
 	        <div class="col-md-12">
 
 	          <!-- Filtros -->
-	          <div class="box box-solid box-info" id="id_panel">
-	            <div class="box-header with-border">
-	              <h3 class="box-title">Filtros</h3>
+	          	{% if id_odometro %}
+	          	<input type="hidden" id="id_odometro_requested" value="{{ id_odometro }}">
+	          	{% endif %}
 
+				{% if request.resolver_match.url_name == 'activos.mediciones_lista' %}
+	          <div class="box box-solid box-info" id="id_panel">
+	           
+	            <div class="box-header with-border">
+	           
+	              <h3 class="box-title">Filtros</h3>
+	
 		          <div class="box-tools pull-right">
 		            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 
-		          </div>	              
-	            </div>
-	            <!-- /.box-header -->
+		          </div>	
 
+	            </div>
+	             {% else %}
+					<div class="box box-solid " id="id_panel">
+		            <div class="box-header with-border">  
+		             	  	<h3 class="box-title">Odometro: <strong> {{ odometro.clave }} – {{ odometro.equipo.tag }}</strong></h3>
+		        	</div>	
+		             
+	            <!-- /.box-header -->
+				
+		            
+		         {% endif %}
 	              <div class="box-body">
 					<form role="form" action=""> {% csrf_token %}
 							<div class="input-group input-group-sm">	
@@ -92,8 +83,6 @@
 				
 	              </div>
 	              <!-- /.box-body -->
-
-	            </form>
 	          </div>
 	          <!-- /.box -->
 
@@ -106,11 +95,16 @@
         <div class="box-header">
           <h3 class="box-title">Registros</h3>
           <div class="box-tools pull-right">
-            <!--<button type="button" id="boton_nuevo" class="btn btn-primary btn-sm">
-				<i class="fa fa-plus"></i>
+            <button type="button" id="boton_nuevo" class="btn btn-primary btn-sm">
+				<i class="fa fa-plus-circle"></i>
             	Nuevo
+<<<<<<< HEAD
             </button>-->
 			<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
+=======
+            </button>
+			<button type="button" id="boton_exportar" class="btn btn-default btn-sm">
+>>>>>>> avances mediciones
 				<i class="fa fa-file-excel-o"></i>
             	Exportar
             </button>
