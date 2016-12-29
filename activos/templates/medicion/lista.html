@@ -43,11 +43,6 @@
 	        <div class="col-md-12">
 
 	          <!-- Filtros -->
-	          	{% if id_odometro %}
-	          	<input type="hidden" id="id_odometro_requested" value="{{ id_odometro }}">
-	          	{% endif %}
-
-				{% if request.resolver_match.url_name == 'activos.mediciones_lista' %}
 	          <div class="box box-solid box-info" id="id_panel">
 	           
 	            <div class="box-header with-border">
@@ -60,16 +55,9 @@
 		          </div>	
 
 	            </div>
-	             {% else %}
-					<div class="box box-solid " id="id_panel">
-		            <div class="box-header with-border">  
-		             	  	<h3 class="box-title">Odometro: <strong> {{ odometro.clave }} – {{ odometro.equipo.tag }}</strong></h3>
-		        	</div>	
-		             
+	             
 	            <!-- /.box-header -->
-				
-		            
-		         {% endif %}
+
 	              <div class="box-body">
 					<form role="form" action=""> {% csrf_token %}
 							<div class="input-group input-group-sm">	

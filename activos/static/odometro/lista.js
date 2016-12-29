@@ -5,7 +5,7 @@
 var url_grid = window.location.origin + "/api/odometros/"
 var url_nuevo = window.location.origin + "/odometros/nuevo/"
 var url_editar = window.location.origin + "/odometros/editar/"
-var url_medicion = window.location.origin + "/odometros/"
+var url_medicion = window.location.origin + "/mediciones/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -171,7 +171,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                 {
                    text: "Medicion",
                    click: this.click_BotonMedicion,
-                   className: "boton_medicion"
+                   className: "boton_default"
                 },               
             ],           
            title: " ",
