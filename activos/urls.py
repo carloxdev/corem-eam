@@ -22,6 +22,7 @@ from .views import UbicacionListView
 from .views import UbicacionUpdateView
 
 from .views import MedicionListView
+from .views import MedicionOdometroView
 
 
 urlpatterns = [
@@ -110,5 +111,10 @@ urlpatterns = [
         r'^mediciones/$',
         MedicionListView.as_view(),
         name='activos.mediciones_lista'
+    ),
+    url(
+        r'^odometros/(?P<pk>.*)/mediciones/$',
+        MedicionOdometroView.as_view(),
+        name='activos.odometros_mediciones'
     )
 ]

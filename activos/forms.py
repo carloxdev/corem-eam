@@ -160,6 +160,24 @@ class MedicionFiltersForm(ModelForm):
             'odometro': 'Odómetro',
         }
 
+
+class MedicionForm(ModelForm):
+
+    class Meta:
+        model = Medicion
+        fields = [
+            'fecha',
+            'lectura'
+        ]
+        widgets = {
+            'fecha': TextInput(attrs={'class': 'form-control'}),
+            'lectura': TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'fecha': 'Fecha',
+            'lectura': 'Lectura',
+        }
+
 # ----------------- UBICACION ----------------- #
 
 

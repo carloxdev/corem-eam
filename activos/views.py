@@ -478,6 +478,25 @@ class MedicionListView(View):
         return render(request, self.template_name, contexto)
 
 
+class MedicionOdometroView(View):
+
+    def __init__(self):
+        self.template_name = 'medicion/lista.html'
+
+    def get(self, request, pk):
+        id_odometro = pk
+        odometro = Odometro.objects.get(id=id_odometro)
+        formulario = MedicionFiltersForm()
+
+        contexto = {
+            'form': formulario,
+            'id_odometro': id_odometro,
+            'odometro': odometro,
+        }
+
+        return render(request, self.template_name, contexto)
+
+
 class MedicionCreateView(View):
     pass
 
