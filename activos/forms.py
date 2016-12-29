@@ -166,14 +166,17 @@ class MedicionForm(ModelForm):
     class Meta:
         model = Medicion
         fields = [
+            'odometro',
             'fecha',
             'lectura'
         ]
         widgets = {
+            'odometro': Select(attrs={'class': 'form-control'}),
             'fecha': TextInput(attrs={'class': 'form-control'}),
             'lectura': TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
+            'odometro': 'Odometro',
             'fecha': 'Fecha',
             'lectura': 'Lectura',
         }
