@@ -20,6 +20,7 @@ from django.views.generic import TemplateView
 from .models import Equipo
 from .models import Odometro
 from .models import Ubicacion
+from .models import Medicion
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
@@ -30,6 +31,7 @@ from forms import EquipoForm
 from forms import UbicacionForm
 from forms import OdometroForm
 from forms import OdometroFiltersForm
+from forms import MedicionFiltersForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -45,6 +47,7 @@ from .serializers import EquipoSerializer
 from .serializers import EquipoTreeSerilizado
 from .serializers import UbicacionSerializer
 from .serializers import OdometroSerializer
+from .serializers import MedicionSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoArchivoSerializer
 from home.serializers import AnexoImagenSerializer
@@ -455,3 +458,33 @@ class OdometroAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = OdometroFilter
+
+# ----------------- MEDICION ----------------- #
+
+
+class MedicionListView(View):
+
+    def __init__(self):
+        self.template_name = 'medicion/lista.html'
+
+    def get(self, request):
+
+        formulario = MedicionFiltersForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class MedicionCreateView(View):
+    pass
+
+
+class MedicionAPI(viewsets.ModelViewSet):
+    queryset = Medicion.objects.all().order_by('-fecha')
+    serializer_class = MedicionSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('odometro',)

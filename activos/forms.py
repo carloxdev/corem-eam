@@ -8,6 +8,7 @@ from django.forms import CheckboxInput
 # Modelos:
 from .models import Equipo
 from .models import Odometro
+from .models import Medicion
 from .models import Ubicacion
 
 
@@ -140,6 +141,23 @@ class OdometroFiltersForm(ModelForm):
             'clave': 'Clave',
             'descripcion': 'Descripción',
             'udm': 'UDM',
+        }
+
+# ----------------- MEDICION ----------------- #
+
+
+class MedicionFiltersForm(ModelForm):
+
+    class Meta:
+        model = Medicion
+        fields = [
+            'odometro',
+        ]
+        widgets = {
+            'odometro': Select(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'odometro': 'Odómetro',
         }
 
 # ----------------- UBICACION ----------------- #

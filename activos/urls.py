@@ -21,6 +21,8 @@ from .views import UbicacionCreateView
 from .views import UbicacionListView
 from .views import UbicacionUpdateView
 
+from .views import MedicionListView
+
 
 urlpatterns = [
 
@@ -103,4 +105,10 @@ urlpatterns = [
         OdometroUpdateView.as_view(),
         name='activos.odometros_lista'
     ),
+    # ----------------- MEDICION ----------------- #
+    url(
+        r'^mediciones/$',
+        MedicionListView.as_view(),
+        name='activos.mediciones_lista'
+    )
 ]
