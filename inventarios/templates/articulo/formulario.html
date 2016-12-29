@@ -37,7 +37,7 @@
 		              	{% for field in form %}
 					    <div class="row">
 					    	<div class="col-sm-10 col-md-offset-1">
-					    		<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    		<div class="form-group input-group-sm {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ field.label }}">
 					       		 	<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
