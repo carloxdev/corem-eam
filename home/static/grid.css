@@ -1,0 +1,54 @@
+.k-grid {
+	font-size: 12px;
+	border-radius: 0 !important;
+}
+
+    .k-grid .k-grid-header {
+    	font-family: Helvetica Neue !important;
+	}
+
+.grid-empy {
+	font-size: 32px;
+	text-align: center;
+	font-family: Helvetica Neue !important;
+}
+
+.boton_editar {
+	color: white;
+	background-color: #EE8A11;
+	border-color: #D97C06;
+	font-family: Helvetica Neue !important;
+}
+
+.boton_editar:hover {
+	color: white;
+	background-color: #D97C06;
+	font-family: Helvetica Neue !important;
+}
+
+.boton_eliminar {
+	color: white;
+	background-color: #D53326;
+	border-color: #CE2215;
+	font-family: Helvetica Neue !important;
+}
+
+.boton_eliminar:hover {
+	color: white;
+	background-color: #CE2215;
+	font-family: Helvetica Neue !important;
+}
+
+.boton_default {
+	color: white;
+	background-color: #2C78B0;
+	border-color: #286A9B;
+	font-family: Helvetica Neue !important;	
+}
+
+.boton_default:hover {
+	color: white;
+	background-color: #286A9B;
+	font-family: Helvetica Neue !important;
+}
+

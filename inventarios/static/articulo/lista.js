@@ -171,6 +171,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                 {
                     text: "Anexos",
                     click: this.click_BotonAnexos,
+                    className: "boton_default"
                 },                
             ],           
            title: " ",

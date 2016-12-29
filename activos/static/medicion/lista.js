@@ -149,7 +149,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                 {
                    text: "Agregar Lectura",
                    click: this.click_BotonLectura,
-                   className: "boton_lectura"
+                   className: "boton_default"
                 },              
             ],           
            title: " ",
