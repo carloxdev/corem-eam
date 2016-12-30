@@ -222,9 +222,7 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 }
 GridPrincipal.prototype.click_BotonMedicion = function (e) {
     e.preventDefault()
-    var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    var id_odometro = fila.pk
-    window.location.href = url_medicion+id_odometro+'/mediciones/'
+    window.location.href = url_medicion
 
 }
 

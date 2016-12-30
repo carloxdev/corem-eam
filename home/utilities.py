@@ -17,8 +17,6 @@ def get_FilePath(instance, filename):
     if (instance.equipo_id):
         upload_dir = os.path.join(
             'equipos', instance.equipo_id, 'anexos', 'files')
-        if not os.path.exists(upload_dir):
-            os.makedirs(upload_dir)
     elif (instance.articulo_id):
         upload_dir = os.path.join(
             'articulos', instance.articulo_id, 'anexos', 'files')

@@ -504,13 +504,13 @@ class MedicionCreateView(View):
             medicion.lectura = request.POST['lectura']
             medicion.odometro_id = request.POST['odometro']
             medicion.save()
-            form = AnexoArchivoForm()
+            form = MedicionForm()
 
         contexto = {
             'form': form
         }
 
-        return render(request, self.template_name, contexto)
+        return render(request, "medicion/lista.html", contexto)
 
 
 class MedicionAPI(viewsets.ModelViewSet):
