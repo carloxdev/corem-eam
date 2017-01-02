@@ -54,8 +54,9 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
     
-    /*this.$tipo.select2()
-    this.$estado.select2()*/
+    this.$equipo.select2()
+    this.$tipo.select2()
+    this.$estado.select2()
 
     this.$id.addClass('collapsed-box')
 
@@ -84,7 +85,7 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
     e.preventDefault()
 
-    e.data.$equipo.val("")
+    e.data.$equipo.val("").trigger('change')
     e.data.$descripcion.val("")
     e.data.$tipo.val("").trigger('change')
     e.data.$estado.val("").trigger('change')

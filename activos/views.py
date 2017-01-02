@@ -78,9 +78,6 @@ class EquipoListView(View):
 
         return render(request, self.template_name, contexto)
 
-    def post(self, request):
-        return render(request, self.template_name, {})
-
 
 class EquipoCreateView(View):
 

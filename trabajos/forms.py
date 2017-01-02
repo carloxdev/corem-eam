@@ -12,21 +12,12 @@ from django.forms import CharField
 
 
 # Modelos:
+from activos.models import Equipo
 from .models import OrdenTrabajo
-
+from .models import ORDEN_TIPO
+from .models import EQUIPO_ESTADO
 
 # ----------------- ORDEN DE TRABAJO ----------------- #
-ORDEN_TIPO = (
-    ('PREVE', 'PREVENTIVA'),
-    ('PREDI', 'PREDICTIVA'),
-    ('CORRE', 'CORRECTIVA'),
-)
-
-EQUIPO_ESTADO = (
-    ('CAP', 'CAPTURA'),
-    ('TER', 'TERMINADA'),
-    ('CER', 'CERRADA'),
-)
 
 
 class OrdenTrabajoForm(ModelForm):
@@ -60,14 +51,24 @@ class OrdenTrabajoForm(ModelForm):
 
 class OrdenTrabajoFiltersForm(Form):
 
-    tipo = ChoiceField(widget=Select(attrs={'class': 'form-control'}))
-    estado = ChoiceField(widget=Select(attrs={'class': 'form-control'}))
+    tipo = ChoiceField(widget=Select(attrs={'class': 'form-control  select2'}))
+    estado = ChoiceField(
+        widget=Select(
+            attrs={'class': 'form-control  select2'}
+        )
+    )
     descripcion = CharField(widget=TextInput(attrs={'class': 'form-control'}))
-    equipo = CharField(widget=TextInput(attrs={'class': 'form-control'}))
+    equipo = ChoiceField(
+        widget=Select(
+            attrs={'class': 'form-control  select2'}
+        )
+    )
     responsable = CharField(widget=TextInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
+
         super(OrdenTrabajoFiltersForm, self).__init__(*args, **kwargs)
+        self.fields['equipo'].choices = self.get_Equipos()
         self.fields['tipo'].choices = self.get_Tipos(ORDEN_TIPO)
         self.fields['estado'].choices = self.get_Estados(EQUIPO_ESTADO)
 
@@ -84,3 +85,22 @@ class OrdenTrabajoFiltersForm(Form):
         for registro in _opciones:
             opciones.append(registro)
         return opciones
+
+    def get_Equipos(self):
+
+        equipo = [('', '-------')]
+
+        registros = Equipo.objects.all()
+
+        for registro in registros:
+            equipo.append(
+                (
+                    registro.tag,
+                    "{} - {}".format(
+                        registro.tag.encode('utf-8'),
+                        registro.descripcion.encode('utf-8')
+                    )
+                )
+            )
+
+        return equipo
