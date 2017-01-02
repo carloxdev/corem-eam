@@ -65,42 +65,35 @@
 						<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 		              		
 		               			
-					    		<div class="row">
-					    			<div class="col-sm-10 col-md-offset-1">
-					    				{% for field in form %}
-					    				<div class="form-group input-group-sm {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    	<div class="row">
+					    		<div class="col-sm-10 col-md-offset-1">
+					    			{% for field in form %}
+					    			<div class="form-group input-group-sm {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
 					    					
-					    						<label for="{{ field.label }}">
-					       		 				<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
+					    				<label for="{{ field.label }}">
+					       		 			<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
 												{{ field.label_tag }}
-					       		 				</label>
+					       		 		</label>
 
-					        					{{ field }}
+					        			{{ field }}
 					        				
-					        					{% for error in field.errors %}
-		              						<div class="help-block text-right" id="{{ field.label }}-error">
+					        			{% for error in field.errors %}
+		              					<div class="help-block text-right" id="{{ field.label }}-error">
 		              							{{ error }}
 		              						</div>
-		              							{% endfor %}
+		              					{% endfor %}
 					    				</div>
-					    				{% endfor %}
-					   				</div>
-					   			</div>
-					   			
-					   		
-		              	
-		              <!-- /.box-body -->  
-		              
-		              <!-- /.box-footer -->
-
-	        	</div>
+					    			{% endfor %}
+					   		</div>
+					</div>
+					   			 <!-- /.box-body -->
 	        		 <div class="box-footer">
 		        		 <div class="col-sm-10 col-md-offset-1">
 
 		        		 	 <button type="submit"  class="btn btn-success pull-right">Guardar</button>
 		        		 </div>
 	              	</div>
-
+					<!-- /.box-footer -->
 	              </form>
 	    		</div> 	
 	          <!-- /.box -->			

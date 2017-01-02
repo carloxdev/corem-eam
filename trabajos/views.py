@@ -81,10 +81,8 @@ class OrdenTrabajoAPI(viewsets.ModelViewSet):
     queryset = OrdenTrabajo.objects.all()
     serializer_class = OrdenTrabajoSerializer
     pagination_class = GenericPagination
-
     filter_backends = (DjangoFilterBackend,)
     filter_class = OrdenTrabajoFilter
-
 
 # ----------------- ORDEN - ANEXO ----------------- #
 
@@ -168,8 +166,9 @@ class OrdenAnexoImagenView(View):
         contexto = {
             'form': form,
             'id': id_orden,
-            'orden_trabajo': orden_trabajo,
             'anexos': anexos,
+            'orden_trabajo': orden_trabajo,
+
         }
         return render(request, self.template_name, contexto)
 
