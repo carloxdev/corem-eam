@@ -73,19 +73,19 @@ class OdometroFilter(filters.FilterSet):
 
 
 class MedicionFilter(filters.FilterSet):
-    fecha_min = DateFilter(
+    fecha_inicio = DateFilter(
         name="fecha",
         lookup_expr="gte"
     )
-    fecha_max = DateFilter(
+    fecha_fin = DateFilter(
         name="fecha",
         lookup_expr="lte"
     )
-    lectura_min = NumberFilter(
+    lectura_minima = NumberFilter(
         name="lectura",
         lookup_expr="gte"
     )
-    lectura_max = NumberFilter(
+    lectura_maxima = NumberFilter(
         name="lectura",
         lookup_expr="lte"
     )

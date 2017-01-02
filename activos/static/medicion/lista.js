@@ -6,6 +6,8 @@ var url_grid = window.location.origin + "/api/mediciones/"
 var url_nuevo = window.location.origin + "/mediciones/nuevo"
 var targeta_filtros = null
 var targeta_resultados = null
+var fecha_inicio = null
+var fecha_fin = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -15,6 +17,7 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
+
 })
 
 // Asigna eventos a teclas
@@ -37,6 +40,9 @@ function TargetaFiltros() {
     this.$id = $('#id_panel')
 
 	this.$odometro = $('#id_odometro_requested') 
+    this.$lectura_minima = $('#lectura_minima')
+    this.$lectura_maxima = $('#lectura_maxima')
+    this.$datepicker = $('#fecha')
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
@@ -47,6 +53,49 @@ TargetaFiltros.prototype.init = function () {
     //this.$odometro.select2()
 
     this.$id.addClass('collapsed-box')
+    this.$datepicker.daterangepicker({
+             autoUpdateInput: false,
+             locale: {
+                format: 'YYYY-MM-DD',
+                applyLabel: "Seleccionar",
+                cancelLabel: "Cancelar",
+                fromLabel: "De",
+                toLabel: "A",
+                daysOfWeek: [
+                    "Do",
+                    "Lu",
+                    "Ma",
+                    "Mie",
+                    "Ju",
+                    "Vie",
+                    "Sa"
+                ],
+                monthNames: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                
+            }
+        }
+    )
+
+    this.$datepicker.on('apply.daterangepicker', function(ev, picker) {
+      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'))
+    })
+
+    this.$datepicker.on('cancel.daterangepicker', function(ev, picker) {
+      $(this).val('')
+    })
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
@@ -57,6 +106,10 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
         page: _page,
         pageSize: _pageSize,
         odometro: this.$odometro.val(),
+        fecha_inicio: this.$datepicker.val().substr(0, 10),
+        fecha_fin: this.$datepicker.val().substr(13, 20),
+        lectura_minima: this.$lectura_minima.val(),
+        lectura_maxima: this.$lectura_maxima.val(),
         
     }
 }
@@ -64,12 +117,16 @@ TargetaFiltros.prototype.click_BotonBuscar = function(e) {
 
     e.preventDefault()
     targeta_resultados.grid.buscar()
+    
 }
 TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
     e.preventDefault()
+    //e.data.$odometro.val("").trigger('change')
+    e.data.$lectura_minima.val("")
+    e.data.$lectura_maxima.val("")
+    e.data.$datepicker.val("")
 
-    e.data.$odometro.val("").trigger('change')
     
 }
 
