@@ -59,6 +59,7 @@ from .pagination import GenericPagination
 # API Rest - Filtros:
 from .filters import EquipoFilter
 from .filters import OdometroFilter
+from .filters import MedicionFilter
 
 
 # ----------------- EQUIPO ----------------- #
@@ -460,17 +461,20 @@ class OdometroAPI(viewsets.ModelViewSet):
 # ----------------- MEDICION ----------------- #
 
 
-class MedicionListView(View):
+class MedicionOdometroView(View):
 
     def __init__(self):
         self.template_name = 'medicion/lista.html'
 
-    def get(self, request):
-
+    def get(self, request, pk):
+        id_odometro = pk
+        odometro = Odometro.objects.get(id=id_odometro)
         formulario = MedicionFiltersForm()
 
         contexto = {
-            'form': formulario
+            'form': formulario,
+            'id_odometro': id_odometro,
+            'odometro': odometro,
         }
 
         return render(request, self.template_name, contexto)
@@ -515,4 +519,4 @@ class MedicionAPI(viewsets.ModelViewSet):
     serializer_class = MedicionSerializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('odometro',)
+    filter_class = MedicionFilter

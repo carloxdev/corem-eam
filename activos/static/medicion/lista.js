@@ -36,7 +36,7 @@ function TargetaFiltros() {
 
     this.$id = $('#id_panel')
 
-	this.$odometro = $('#id_odometro')
+	this.$odometro = $('#id_odometro_requested') 
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
@@ -44,7 +44,7 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
 
-    this.$odometro.select2()
+    //this.$odometro.select2()
 
     this.$id.addClass('collapsed-box')
 

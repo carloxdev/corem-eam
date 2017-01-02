@@ -36,8 +36,12 @@
 </section>
 <!-- Main content -->
 <section class="content" id="contenido">
+	
+	<input type="hidden" id="id_odometro_requested" value="{{ id_odometro }}">
+
 	<div class="row">
 		<div class="col-md-12">
+	        <h3><span>Equipo: {{ odometro.equipo.tag }}</span></h3>
 			<!-- Filtros -->
 			<div class="box box-solid box-info" id="id_panel">
 				<div class="box-header with-border">
@@ -50,7 +54,8 @@
 				<div class="box-body">
 					<form role="form" action=""> {% csrf_token %}
 						<div class="input-group input-group-sm">
-							{{ form.odometro }}
+							<label for="lectura_minima">Lectura Mínima</label>
+							<input type="text" id="lectura_minima" class="form-control">
 							<span class="input-group-btn">
 								<button type="button" id="boton_buscar" class="btn btn-info btn-flat">Buscar</button>
 							</span>

@@ -5,7 +5,7 @@
 var url_grid = window.location.origin + "/api/odometros/"
 var url_nuevo = window.location.origin + "/odometros/nuevo/"
 var url_editar = window.location.origin + "/odometros/editar/"
-var url_medicion = window.location.origin + "/mediciones/"
+var url_medicion = window.location.origin + "/odometros/"
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -39,15 +39,15 @@ function TargetaFiltros() {
 
     this.$id = $('#id_panel')
 
-	this.$equipo = $('#id_equipo')
-	this.$clave = $('#id_clave')
-	this.$descripcion = $('#id_descripcion')
-	this.$udm = $('#id_udm')
+    this.$equipo = $('#id_equipo')
+    this.$clave = $('#id_clave')
+    this.$descripcion = $('#id_descripcion')
+    this.$udm = $('#id_udm')
 
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
-	this.init()
+    this.init()
 }
 TargetaFiltros.prototype.init = function () {
 
@@ -102,7 +102,7 @@ function TargetaResultados() {
 
 function GridPrincipal() {
 
-	this.$id = $("#grid_principal")
+    this.$id = $("#grid_principal")
     this.kfuente_datos = null
     this.kgrid = null
 
@@ -110,7 +110,7 @@ function GridPrincipal() {
 }
 GridPrincipal.prototype.init = function () {
 
-	kendo.culture("es-MX")
+    kendo.culture("es-MX")
 
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
 
@@ -169,7 +169,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                    className: "boton_eliminar"
                 },   
                 {
-                   text: "Medicion",
+                   text: "Mediciones",
                    click: this.click_BotonMedicion,
                    className: "boton_default"
                 },               
@@ -222,7 +222,9 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 }
 GridPrincipal.prototype.click_BotonMedicion = function (e) {
     e.preventDefault()
-    window.location.href = url_medicion
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    var id_odometro = fila.pk
+    window.location.href = url_medicion+id_odometro+'/mediciones/'
 
 }
 

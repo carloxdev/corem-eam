@@ -3,10 +3,13 @@
 # Django API REST
 from rest_framework import filters
 from django_filters import CharFilter
+from django_filters import DateFilter
+from django_filters import NumberFilter
 
 # Modelos
 from .models import Equipo
 from .models import Odometro
+from .models import Medicion
 
 
 class EquipoFilter(filters.FilterSet):
@@ -66,4 +69,29 @@ class OdometroFilter(filters.FilterSet):
             'clave',
             'descripcion',
             'udm',
+        ]
+
+
+class MedicionFilter(filters.FilterSet):
+    fecha_min = DateFilter(
+        name="fecha",
+        lookup_expr="gte"
+    )
+    fecha_max = DateFilter(
+        name="fecha",
+        lookup_expr="lte"
+    )
+    lectura_min = NumberFilter(
+        name="lectura",
+        lookup_expr="gte"
+    )
+    lectura_max = NumberFilter(
+        name="lectura",
+        lookup_expr="lte"
+    )
+
+    class Meta:
+        model = Medicion
+        fields = [
+            'odometro',
         ]
