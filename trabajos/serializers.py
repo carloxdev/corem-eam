@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Librerias Python:
-import json
-
 # API REST:
 from rest_framework import serializers
 
@@ -15,6 +12,9 @@ from .models import OrdenTrabajo
 class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
 
     equipo = serializers.SerializerMethodField()
+
+    tipo = serializers.SerializerMethodField()
+    estado = serializers.SerializerMethodField()
 
     class Meta:
         model = OrdenTrabajo
@@ -38,5 +38,17 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
 
         try:
             return obj.equipo.descripcion
+        except:
+            return ""
+
+    def get_tipo(self, obj):
+        try:
+            return obj.get_tipo_display()
+        except:
+            return ""
+
+    def get_estado(self, obj):
+        try:
+            return obj.get_estado_display()
         except:
             return ""

@@ -162,11 +162,11 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "tipo", title: "Tipo", width: "120px" },
         { field: "estado", title: "Estado", width: "120px" },
         { field: "responsable", title: "Responsable", width: "120px" },
-        { field: "fecha_estimada_inicio", title: "Fecha Estimada Inicio", width: "120px" },
-        { field: "fecha_estimada_fin", title: "Fecha Estimada Fin", width: "120px" },
+        { field: "fecha_estimada_inicio", title: "Fecha Estimada Inicio", width: "140px" },
+        { field: "fecha_estimada_fin", title: "Fecha Estimada Fin", width: "140px" },
         { field: "fecha_real_inicio", title: "Fecha Real Inicio", width: "120px" },
         { field: "fecha_real_fin", title: "Fecha Real Fin", width: "120px" },
-        { field: "es_template", title: "Es Template", width: "120px" },
+        { field: "es_template", title: "¿Template?", width: "120px", template: "#= targeta_resultados.grid.change_IsTemplate(es_template) #" },
 
         {
            command: [
@@ -232,6 +232,17 @@ GridPrincipal.prototype.click_BotonAnexos = function (e) {
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos + fila.id + "/texto/"
+}
+GridPrincipal.prototype.change_IsTemplate = function (_value) {
+
+    if (_value == "True") {
+        return "SI"    
+    }
+    else {
+        return "NO"
+    }
+
+    
 }
 
 
