@@ -12,6 +12,7 @@ ARTICULO_TIPO = (
     ('INS', 'INSUMO'),
     ('HER', 'HERRAMIENTA'),
     ('ACT', 'ACTIVO'),
+    ('REF', 'REFACCION'),
 )
 
 

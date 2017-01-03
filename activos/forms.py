@@ -72,8 +72,8 @@ class EquipoForm(ModelForm):
             'empresa': Select(attrs={'class': 'form-control'}),
             'sistema': TextInput(attrs={'class': 'form-control'}),
             'ubicacion': Select(attrs={'class': 'form-control'}),
-            'cliente': Select(attrs={'class': 'form-control'}),
-            'responsable': Select(attrs={'class': 'form-control'}),
+            'cliente': TextInput(attrs={'class': 'form-control'}),
+            'responsable': TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'tag': 'Tag',
