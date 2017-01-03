@@ -53,7 +53,7 @@ class Equipo(models.Model):
     imagen = models.ImageField(
         upload_to='equipos/img',
         blank=True,
-        validators=(valid_extension)
+        validators=[valid_extension]
     )
     cliente = models.CharField(max_length=144, null=True, blank=True)
     responsable = models.CharField(max_length=144, null=True, blank=True)
