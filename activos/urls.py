@@ -24,7 +24,6 @@ from .views import UbicacionUpdateView
 from .views import MedicionCreateView
 from .views import MedicionOdometroView
 
-
 urlpatterns = [
 
 

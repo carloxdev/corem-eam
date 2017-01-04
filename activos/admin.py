@@ -71,6 +71,7 @@ class AdminAsignacion(admin.ModelAdmin):
 @admin.register(Odometro)
 class Odometro(admin.ModelAdmin):
     list_display = (
+        'id',
         'equipo',
         'clave',
         'descripcion',

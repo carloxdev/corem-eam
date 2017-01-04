@@ -43,6 +43,7 @@ function TargetaFiltros() {
     this.$lectura_minima = $('#lectura_minima')
     this.$lectura_maxima = $('#lectura_maxima')
     this.$datepicker = $('#fecha')
+    this.$datepicker_formulario = $('#id_fecha')
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
@@ -53,6 +54,7 @@ TargetaFiltros.prototype.init = function () {
     //this.$odometro.select2()
 
     this.$id.addClass('collapsed-box')
+    //this.$datepicker_formulario.datepicker()
     this.$datepicker.daterangepicker({
              autoUpdateInput: false,
              locale: {
@@ -259,6 +261,10 @@ function Toolbar() {
 
     this.$boton_exportar = $("#boton_exportar")
     this.$boton_nuevo = $("#boton_nuevo")
+    this.$id_odometro = $("#id_odometro")
+    this.$fecha_medicion = $('#id_fecha')
+    this.$lectura_medicion = $('#id_lectura')
+    this.$boton_guardar = $("#boton_guardar")
 
     this.init()
 }
@@ -266,6 +272,7 @@ Toolbar.prototype.init = function (e) {
 
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
     this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
+    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
 }
 Toolbar.prototype.click_BotonExportar = function(e) {
     e.preventDefault()
@@ -274,5 +281,40 @@ Toolbar.prototype.click_BotonExportar = function(e) {
 Toolbar.prototype.click_BotonNuevo = function (e) {
 
     e.preventDefault()
-    window.location.href = url_nuevo
+    $('#modal_nuevo').modal('show');
+}
+Toolbar.prototype.click_BotonGuardar = function (e) {
+
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+    e.preventDefault()
+    odometro = e.data.$id_odometro.val()
+    fecha = e.data.$fecha_medicion.val()
+    lectura = e.data.$lectura_medicion.val()
+
+    $.ajax({
+            url: url_grid,
+            method: "POST",
+            data: {
+                odometro: odometro,
+                lectura: lectura,
+                fecha: "2017-01-04T15:41:25" ,
+            },
+            success: function (){
+                console.log("exito");
+                $('#modal_nuevo').modal('hide');
+                location.reload();
+            },
+            error: function(e){
+                alert(e);
+                $('#modal_nuevo').modal('hide')
+            }
+           
+                    
+            });
+    //$('#modal_nuevo').modal('hide');
+    //location.reload();
+}
+
+function Modal() {
+
 }

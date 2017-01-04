@@ -19,6 +19,10 @@
 
 <!-- daterange picker -->
 <link rel="stylesheet" href="{% static 'libs/plugins/daterangepicker/daterangepicker.css' %}">
+
+<!-- bootstrap datepicker -->
+<script src="{% static 'libs/plugins/datepicker/bootstrap-datepicker.js' %}"></script>
+
 <!-- CoreM -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -26,6 +30,30 @@
 
 {% block contenido %}
 <!-- Content Header (Page header) -->
+
+<div style="display: none; margin-top: 220px;" class="modal fade" id="modal_nuevo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog modal-default">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Nueva Medición</h4>
+            </div>
+            
+            <div class="modal-body">
+             		{{ formulario_crear.as_p }}
+                	
+            </div>
+
+            <div class="modal-footer">
+	            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+	            <button type="button" id="boton_guardar" class="btn btn-success">Guardar</button>
+            </div>
+        </div>
+            <!-- /.modal-content -->
+    </div>
+</div>
+
 <section class="content-header">
 	<h1>
 	<span id="titulo">Mediciones</span>
@@ -135,6 +163,9 @@
 
 <!-- Pace -->
 <script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
+
+<!-- bootstrap datepicker -->
+<script src="{% static 'libs/plugins/datepicker/bootstrap-datepicker.js' %}"></script>
 
 <!-- date-range-picker -->
 <script src="{% static 'libs/plugins/daterangepicker/moment.js' %}"></script>
