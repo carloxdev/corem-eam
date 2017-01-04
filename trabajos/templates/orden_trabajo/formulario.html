@@ -29,6 +29,7 @@
 	<!-- Main content -->
 	<section class="content" id="contenido">
 
+		
 		<div class="row">
 	        <div class="col-md-12">
 
@@ -65,19 +66,20 @@
 				<!-- /.box-body -->
 				</div>
 
-	          <!-- Custom Tabs -->
+	          <!-- Custom Tabs (Informacion de la Orden) -->
 	          <div class="nav-tabs-custom">
 	            <ul class="nav nav-tabs">
 	              <li class="active"><a href="#tab_1" data-toggle="tab">Generales</a></li>
-	              <li><a href="#" data-toggle="tab">Actividades</a></li>
-	              <li><a href="#" data-toggle="tab">Materiales</a></li>
-	              <li><a href="#" data-toggle="tab">Servicios</a></li>
-	              <li><a href="#" data-toggle="tab">Mano Obra</a></li>
+	              <li><a href="#" id="tab_actividades" data-toggle="tab">Actividades</a></li>
+	              <li><a href="#" id="tab_materiales" data-toggle="tab">Materiales</a></li>
+	              <li><a href="#" id="tab_servicios" data-toggle="tab">Servicios</a></li>
+	              <li><a href="#" id="tab_mano_obra" data-toggle="tab">Mano Obra</a></li>
 	              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
 	            </ul>
 	            <div class="tab-content">
 	              	<div class="tab-pane active" id="tab_1">
 
+						<!-- Equipo y Tipo -->
 						<div class="row">
 							<div class="col-sm-8">
 
@@ -114,8 +116,10 @@
 							</div>						
 						</div>
 
+						<!-- Fechas Estimadas -->
 						<div class="row">
 							
+							<!-- Fecha Estimada Inicio -->
 							<div class="col-sm-6">
 
 								<div class="form-group input-group-sm {% if form.fecha_estimada_inicio.field.required %} has-warning {% endif %} {% if form.fecha_estimada_inicio.errors %} has-error {% endif %}">
@@ -133,6 +137,7 @@
 
 							</div>
 
+							<!-- Fecha Estimada Final -->
 							<div class="col-sm-6">
 
 								<div class="form-group input-group-sm {% if form.fecha_estimada_fin.field.required %} has-warning {% endif %} {% if form.fecha_estimada_fin.errors %} has-error {% endif %}">
@@ -151,8 +156,10 @@
 							</div>
 						</div>
 
+						<!-- Fechas Reales -->
 						<div class="row">
 							
+							<!-- Fecha Real Inicio -->
 							<div class="col-sm-6">
 
 								<div class="form-group input-group-sm {% if form.fecha_real_inicio.field.required %} has-warning {% endif %} {% if form.fecha_real_inicio.errors %} has-error {% endif %}">
@@ -169,6 +176,7 @@
 								</div>
 							</div>
 
+							<!-- Fecha Real Final -->
 							<div class="col-sm-6">
 
 								<div class="form-group input-group-sm {% if form.fecha_real_fin.field.required %} has-warning {% endif %} {% if form.fecha_real_fin.errors %} has-error {% endif %}">
@@ -186,8 +194,10 @@
 							</div>
 						</div>
 
+						<!-- Estado y Responsable -->
 						<div class="row">
 							
+							<!-- Estado -->
 							<div class="col-sm-6">
 
 								<div class="form-group input-group-sm {% if form.estado.field.required %} has-warning {% endif %} {% if form.estado.errors %} has-error {% endif %}">
@@ -204,6 +214,7 @@
 								</div>
 							</div>
 
+							<!-- Responsable -->
 							<div class="col-sm-6">
 
 								<div class="form-group input-group-sm {% if form.responsable.field.required %} has-warning {% endif %} {% if form.responsable.errors %} has-error {% endif %}">
@@ -221,8 +232,10 @@
 							</div>
 						</div>
 
+						<!-- Observaciones y Template -->
 						<div class="row">
 
+							<!-- Observaciones -->
 							<div class="col-sm-12">
 
 								<div class="form-group {% if form.observaciones.field.required %} has-warning {% endif %} {% if form.observaciones.errors %} has-error {% endif %}">
@@ -239,6 +252,7 @@
 								</div>
 							</div>
 
+							<!-- Es Template -->
 							<div class="col-sm-12">
 
 								<div class="form-group input-group-sm {% if form.es_template.field.required %} has-warning {% endif %} {% if form.es_template.errors %} has-error {% endif %}">
@@ -266,6 +280,7 @@
 
 				</div>				
 			</div>
+	
 	</section>
 	<!-- /. Main content -->
 

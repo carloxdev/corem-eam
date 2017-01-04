@@ -166,7 +166,7 @@ class OdometroSerializer(serializers.ModelSerializer):
 
 class MedicionSerializer(serializers.ModelSerializer):
 
-    odometro = serializers.SerializerMethodField()
+    odometro_clave = serializers.SerializerMethodField()
     equipo = serializers.SerializerMethodField()
     udm = serializers.SerializerMethodField()
 
@@ -176,13 +176,14 @@ class MedicionSerializer(serializers.ModelSerializer):
             'pk',
             'url',
             'odometro',
+            'odometro_clave',
             'equipo',
             'udm',
             'fecha',
             'lectura',
         )
 
-    def get_odometro(self, obj):
+    def get_odometro_clave(self, obj):
 
         try:
             return obj.odometro.clave

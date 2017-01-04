@@ -1,4 +1,9 @@
 /*-----------------------------------------------*\
+            GLOBAL VARIABLES
+\*-----------------------------------------------*/
+pagina = null
+
+/*-----------------------------------------------*\
             LOAD
 \*-----------------------------------------------*/
 
@@ -60,5 +65,28 @@ Pagina.prototype.set_PageActive = function () {
 
 		var $opcion = $("#opt_articulos")
 		$opcion.addClass("active")
+	}
+}
+Pagina.prototype.init_Alertify = function () {
+
+    alertify.set('notifier', 'position', 'top-right')
+    alertify.set('notifier', 'delay', 10)	
+
+	alertify.defaults.theme.ok = "btn btn-primary";
+	alertify.defaults.theme.cancel = "btn btn-danger";
+	alertify.defaults.theme.input = "form-control";
+}
+Pagina.prototype.get_DatePickerConfig = function () {
+
+	return {
+	    autoSize: true,
+	    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+	    dayNamesMin: ['Dom', 'Lu', 'Ma', 'Mi', 'Je', 'Vi', 'Sa'],
+	    firstDay: 1,
+	    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+	    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+	    dateFormat: 'yy-mm-dd',
+	    changeMonth: true,
+	    changeYear: true,
 	}
 }

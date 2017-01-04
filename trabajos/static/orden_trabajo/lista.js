@@ -157,7 +157,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
 
-        { field: "equipo", title: "Equipo", width: "120px" },
+        { field: "equipo", title: "Equipo", width: "200px" },
         { field: "descripcion", title: "Descripcion", width: "250px" },
         { field: "tipo", title: "Tipo", width: "120px" },
         { field: "estado", title: "Estado", width: "120px" },

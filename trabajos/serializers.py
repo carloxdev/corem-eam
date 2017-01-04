@@ -37,7 +37,10 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
     def get_equipo(self, obj):
 
         try:
-            return obj.equipo.descripcion
+            return "{} - {}".format(
+                obj.equipo.tag,
+                obj.equipo.descripcion
+            )
         except:
             return ""
 

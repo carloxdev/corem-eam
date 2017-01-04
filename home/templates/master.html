@@ -30,11 +30,12 @@
 	<!-- Pace -->
 	<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="{% static 'libs/plugins/alertifyjs/css/alertify.min.css' %}"/>
+	<!-- Alertifyjs --> 
+	<link rel="stylesheet" href="{% static 'libs/plugins/alertifyjs/css/alertify.min.css' %}" />
+	<link rel="stylesheet" href="{% static 'libs/plugins/alertifyjs/css/themes/bootstrap.min.css' %}" />	
 
-	<!-- Bootstrap theme -->
-	<link rel="stylesheet" href="{% static 'libs/plugins/alertifyjs/css/themes/default.min.css' %}"/>
+	<!-- jQuery UI --> 
+	<link rel="stylesheet" href="{% static 'libs/plugins/jQueryUI/jquery-ui.min.css' %}"/>	
 	
 	<!-- CoreM -->
 	<link rel="stylesheet" href="{% static 'master.css' %}"/>
@@ -451,7 +452,7 @@
 	<script src="{% static 'libs/plugins/jQuery/jquery-2.2.3.min.js' %}"></script>
 
 	<!-- jQuery UI 1.11.4 -->
-	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="{% static 'libs/plugins/jQueryUI/jquery-ui.min.js' %}"></script>
 
 	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 	<script>
