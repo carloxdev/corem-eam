@@ -1,6 +1,10 @@
 {% extends 'master.html' %}
 {% load static from staticfiles %}
 {% block title %} {{ operation }} Equipo {% endblock title %}
+{% block css %}
+<!-- Select2 -->
+<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
+{% endblock %}
 {% block contenido %}
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -70,3 +74,13 @@
 </section>
 <!-- /. Main content -->
 {% endblock contenido %}
+
+{% block scripts %}
+<!-- Select2 -->
+<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
+<script>
+	
+	$('#id_padre').select2()
+	
+</script>
+{% endblock %}

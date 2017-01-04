@@ -36,7 +36,7 @@ class Ubicacion(models.Model):
 
 
 class Equipo(models.Model):
-    tag = models.CharField(max_length=144, null=True)
+    tag = models.CharField(max_length=144, null=True, blank=True)
     descripcion = models.CharField(max_length=144, null=True)
     serie = models.CharField(max_length=144, null=True, blank=True)
     tipo = models.CharField(max_length=144, null=True, blank=True)
