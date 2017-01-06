@@ -20,6 +20,10 @@
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{% static 'libs/plugins/datepicker/datepicker3.css' %}">
 
+<!-- bootstrap timepicker -->
+<link rel="stylesheet" href="{% static 'libs/plugins/timepicker/bootstrap-timepicker.css' %}">
+
+
 <!-- CoreM -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -27,8 +31,7 @@
 
 {% block contenido %}
 <!-- Content Header (Page header) -->
-
-<div style="display: none; margin-top: 150px;" class="modal fade" id="modal_nuevo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div style="display: none;" class="modal fade" id="modal_nuevo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog modal-default">
         <div class="modal-content">
             <div class="modal-header">
@@ -40,21 +43,50 @@
             <div class="modal-body">
             	<div class="row">
             	{% csrf_token %}
-            		<div class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12">
-					    <label>Fecha</label>
-					    <div class="input-group">
-					        <div class="input-group-addon">
-					            <i class="fa fa-calendar"></i>
-					        </div>
-					        {{ formulario_medicion.fecha }}
-					    </div>
-					                <!-- /.input group -->
-					</div>
+	            	<div class="col-sm-10 col-md-offset-1">
+	            		<div id="fecha_contenedor" class="form-group input-group-sm has-warning">
+						    <label for="fecha">
+								<i class="fa fa-asterisk"></i>
+								<label for="id_fecha">Fecha</label>
+							</label>
+						    <div class="input-group">
+						        <div class="input-group-addon">
+						            <i class="fa fa-calendar"></i>
+						        </div>
+						        <input type="text" id="id_fecha" data-date-format="yyyy-mm-dd" class="form-control pull-right">
+						        
+						    </div>
+						    <span class="help-block hidden" id="fecha_mensaje">Este campo es requerido.</span>
+						    <!-- /.input group -->
+						</div>
+	            	</div>
+            	</div>
+            	<div class="row">
+            		<div class="col-sm-10 col-md-offset-1">
+            			<div id="hora_contenedor" class="form-group input-group-sm has-warning">
+						    <label for="hora">
+								<i class="fa fa-asterisk"></i>
+								<label for="id_hora">Hora</label>
+							</label>
+	            			<div class="input-group bootstrap-timepicker timepicker">
+	            				<span class="input-group-addon">
+					                <i class="glyphicon glyphicon-time"></i>
+					            </span>
+					            <input id="id_hora" type="text" class="form-control input-small pull-right">
+	        				</div>
+	        			</div>
+            		</div>
             	</div>
 				<div class="row">
-					<div class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12">
-						<label>Lectura</label>
-						{{ formulario_medicion.lectura }}
+					<div class="col-sm-10 col-md-offset-1">
+						<div id="lectura_contenedor" class="form-group input-group-sm has-warning">
+							<label for="lectura">
+								<i class="fa fa-asterisk"></i>
+								<label for="id_lectura">Lectura</label>
+							</label>
+							<input type="text" id="id_lectura" class="form-control">
+							<span class="help-block hidden" id="lectura_mensaje">Este campo es requerido.</span>
+						</div>
 					</div>
 				</div>
             </div>
@@ -67,7 +99,6 @@
             <!-- /.modal-content -->
     </div>
 </div>
-
 <section class="content-header">
 	<h1>
 	<span id="titulo">Mediciones</span>
@@ -181,6 +212,9 @@
 <script src="{% static 'libs/plugins/datepicker/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'libs/plugins/datepicker/locales/bootstrap-datepicker.es.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+
+<!-- bootstrap timepicker -->
+<script src="{% static 'libs/plugins/timepicker/bootstrap-timepicker.js' %}"></script>
 
 <!-- CoreM -->
 <script src="{% static 'medicion/lista.js' %}"></script>

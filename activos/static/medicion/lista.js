@@ -196,6 +196,8 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
                 url: url_grid,
                 type: "GET",
                 dataType: "json",
+                cache: false
+
             },
             parameterMap: function (data, action) {
                 if (action === "read") {
@@ -287,9 +289,14 @@ function Modal() {
 
     this.$odometro_medicion = $("#id_odometro_requested")
     this.$fecha_medicion = $("#id_fecha")
+    this.$hora_medicion =$("#id_hora")
     this.$lectura_medicion = $("#id_lectura")
     this.$boton_guardar = $("#boton_guardar")
-
+    this.$fecha_contenedor = $("#fecha_contenedor")
+    this.$fecha_mensaje = $("#fecha_mensaje")
+    this.$lectura_contenedor = $("#lectura_contenedor")
+    this.$lectura_mensaje = $("#lectura_mensaje")
+    
     this.init()
 }
 
@@ -301,41 +308,89 @@ Modal.prototype.init = function (e) {
             language: 'es'
         }
     )
+    this.$hora_medicion.timepicker(
+        {
+            minuteStep: 1,
+            template: 'modal',
+            appendWidgetTo: 'body',
+            showSeconds: true,
+            showMeridian: false,
+            defaultTime: false
+        }
+    )
+    
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+    modal.clear_Estilos()
     
 }
 
-Modal.prototype.click_BotonGuardar = function(e) {
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
-    e.preventDefault()
-    odometro_medicion = e.data.$odometro_medicion.val()
-    fecha_medicion = e.data.$fecha_medicion.val()
-    lectura_medicion = e.data.$lectura_medicion.val()
-    console.log(odometro_medicion)
-    console.log(fecha_medicion)
-    console.log(lectura_medicion)
-    $.ajax({
-            url: url_grid,
-            headers: { "X-CSRFToken": csrftoken },
-            method: "POST",
-            data: {
-                odometro: odometro_medicion,
-                lectura: lectura_medicion,
-                fecha: "2017-01-04T15:41:25" ,
-            },
-            success: function (){
-                $('#modal_nuevo').modal('hide');
-                alertify.success("Se registró medición correctamente")
-                targeta_resultados.grid.kfuente_datos.sync()
-                
-               
-            },
-            error: function(e){
+Modal.prototype.clear_Estilos = function () {
+    
+    this.$fecha_contenedor.removeClass("has-error")
+    
+    if(this.$fecha_mensaje.hasClass('hidden') != null) { 
+        this.$fecha_mensaje.addClass('hidden')
+    } 
 
-                alertify.error("Error "+ e.status + " . No se guardó el registro")
-                $('#modal_nuevo').modal('hide')
-            }
-           
-                    
-        });
+    this.$lectura_medicion.removeClass("has-error")  
+
+    if(this.$lectura_mensaje.hasClass('hidden') != null) { 
+        this.$lectura_mensaje.addClass('hidden')
+    } 
+}
+
+Modal.prototype.validar = function () {
+
+    var bandera = true
+
+    if ( this.$fecha_medicion.val() == "") {
+        this.$fecha_contenedor.addClass("has-error")
+        this.$fecha_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
+    if ( this.$lectura_medicion.val() == "") {
+        this.$lectura_contenedor.addClass("has-error")
+        this.$lectura_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
+    return bandera
+}
+
+Modal.prototype.click_BotonGuardar = function(e) {
+    if (e.data.validar()){
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+        e.preventDefault()
+        odometro_medicion = e.data.$odometro_medicion.val()
+        fecha_medicion = e.data.$fecha_medicion.val()
+        lectura_medicion = e.data.$lectura_medicion.val()
+        console.log(odometro_medicion)
+        console.log(fecha_medicion)
+        console.log(lectura_medicion)
+        $.ajax({
+                url: url_grid,
+                headers: { "X-CSRFToken": csrftoken },
+                method: "POST",
+                data: {
+                    odometro: odometro_medicion,
+                    lectura: lectura_medicion,
+                    fecha: fecha_medicion+"T15:41:25" ,
+                },
+                success: function (){
+                    $('#modal_nuevo').modal('hide');
+                    alertify.success("Se registró medición correctamente")
+                    targeta_resultados.grid.kfuente_datos.read();
+
+                   
+                },
+                error: function(e){
+
+                    alertify.error("Error "+ e.status + " . No se guardó el registro")
+                    $('#modal_nuevo').modal('hide')
+                }
+               
+                        
+            });
+    } 
 }
