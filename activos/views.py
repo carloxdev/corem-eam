@@ -467,13 +467,13 @@ class MedicionOdometroView(View):
         self.template_name = 'medicion/lista.html'
 
     def get(self, request, pk):
-        formulario_crear = MedicionForm()
+        formulario_medicion = MedicionForm()
         id_odometro = pk
         odometro = Odometro.objects.get(id=id_odometro)
         formulario = MedicionFiltersForm()
 
         contexto = {
-            'formulario_crear': formulario_crear,
+            'formulario_medicion': formulario_medicion,
             'form': formulario,
             'id_odometro': id_odometro,
             'odometro': odometro,

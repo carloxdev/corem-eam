@@ -3,11 +3,9 @@
 \*-----------------------------------------------*/
 
 var url_grid = window.location.origin + "/api/mediciones/"
-var url_nuevo = window.location.origin + "/mediciones/nuevo"
 var targeta_filtros = null
 var targeta_resultados = null
-var fecha_inicio = null
-var fecha_fin = null
+var modal= null
 
 /*-----------------------------------------------*\
             LOAD
@@ -17,6 +15,8 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
+    modal = new Modal()
+
 
 })
 
@@ -42,7 +42,8 @@ function TargetaFiltros() {
 	this.$odometro = $('#id_odometro_requested') 
     this.$lectura_minima = $('#lectura_minima')
     this.$lectura_maxima = $('#lectura_maxima')
-    this.$datepicker = $('#fecha')
+    this.$fecha_inicio = $('#fecha_inicio')
+    this.$fecha_fin = $('#fecha_fin')
     this.$datepicker_formulario = $('#id_fecha')
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
@@ -54,50 +55,18 @@ TargetaFiltros.prototype.init = function () {
     //this.$odometro.select2()
 
     this.$id.addClass('collapsed-box')
-    //this.$datepicker_formulario.datepicker()
-    this.$datepicker.daterangepicker({
-             autoUpdateInput: false,
-             locale: {
-                format: 'YYYY-MM-DD',
-                applyLabel: "Seleccionar",
-                cancelLabel: "Cancelar",
-                fromLabel: "De",
-                toLabel: "A",
-                daysOfWeek: [
-                    "Do",
-                    "Lu",
-                    "Ma",
-                    "Mie",
-                    "Ju",
-                    "Vie",
-                    "Sa"
-                ],
-                monthNames: [
-                    "Enero",
-                    "Febrero",
-                    "Marzo",
-                    "Abril",
-                    "Mayo",
-                    "Junio",
-                    "Julio",
-                    "Agosto",
-                    "Septiembre",
-                    "Octubre",
-                    "Noviembre",
-                    "Diciembre"
-                ],
-                
-            }
+    this.$fecha_inicio.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
         }
     )
-
-    this.$datepicker.on('apply.daterangepicker', function(ev, picker) {
-      $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'))
-    })
-
-    this.$datepicker.on('cancel.daterangepicker', function(ev, picker) {
-      $(this).val('')
-    })
+    this.$fecha_fin.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
@@ -108,8 +77,8 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
         page: _page,
         pageSize: _pageSize,
         odometro: this.$odometro.val(),
-        fecha_inicio: this.$datepicker.val().substr(0, 10),
-        fecha_fin: this.$datepicker.val().substr(13, 20),
+        fecha_inicio: this.$fecha_inicio.val(),
+        fecha_fin: this.$fecha_fin.val(),
         lectura_minima: this.$lectura_minima.val(),
         lectura_maxima: this.$lectura_maxima.val(),
         
@@ -127,7 +96,8 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     //e.data.$odometro.val("").trigger('change')
     e.data.$lectura_minima.val("")
     e.data.$lectura_maxima.val("")
-    e.data.$datepicker.val("")
+    e.data.$fecha_inicio.val("")
+    e.data.$fecha_fin.val("")
 
     
 }
@@ -249,8 +219,36 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 GridPrincipal.prototype.buscar =  function() {
     this.kfuente_datos.page(1)
 }
-GridPrincipal.prototype.click_botonEliminar = function () {
+
+GridPrincipal.prototype.click_BotonEliminar = function (e) {
     e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+
+    alertify.confirm(
+        'Eliminar Registro',
+        '¿Desea Eliminar este registro?', 
+
+        function () {
+
+            var url = url_grid + fila.pk + "/"
+
+            $.ajax({
+                url: url,
+                method: "DELETE",
+                success: function () {
+                    targeta_resultados.grid.kfuente_datos.remove(fila)
+                    targeta_resultados.grid.kfuente_datos.sync()
+
+                    alertify.success("Se eliminó registro correctamente")
+                },
+                error: function () {
+                    
+                    alertify.error("Ocurrió un error al eliminar")
+                }
+            })
+        }, 
+        null
+    )
 }
 
 /*-----------------------------------------------*\
@@ -261,10 +259,6 @@ function Toolbar() {
 
     this.$boton_exportar = $("#boton_exportar")
     this.$boton_nuevo = $("#boton_nuevo")
-    this.$id_odometro = $("#id_odometro")
-    this.$fecha_medicion = $('#id_fecha')
-    this.$lectura_medicion = $('#id_lectura')
-    this.$boton_guardar = $("#boton_guardar")
 
     this.init()
 }
@@ -272,7 +266,6 @@ Toolbar.prototype.init = function (e) {
 
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
     this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
-    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
 }
 Toolbar.prototype.click_BotonExportar = function(e) {
     e.preventDefault()
@@ -283,38 +276,62 @@ Toolbar.prototype.click_BotonNuevo = function (e) {
     e.preventDefault()
     $('#modal_nuevo').modal('show');
 }
-Toolbar.prototype.click_BotonGuardar = function (e) {
 
+/*-----------------------------------------------*\
+            OBJETO: MODAL
+\*-----------------------------------------------*/
+
+function Modal() {
+
+    this.$odometro_medicion = $("#id_odometro_requested")
+    this.$fecha_medicion = $("#id_fecha")
+    this.$lectura_medicion = $("#id_lectura")
+    this.$boton_guardar = $("#boton_guardar")
+
+    this.init()
+}
+
+Modal.prototype.init = function (e) {
+
+    this.$fecha_medicion.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )
+    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+    
+}
+
+Modal.prototype.click_BotonGuardar = function(e) {
     var csrftoken = $("[name=csrfmiddlewaretoken]").val()
     e.preventDefault()
-    odometro = e.data.$id_odometro.val()
-    fecha = e.data.$fecha_medicion.val()
-    lectura = e.data.$lectura_medicion.val()
-
+    odometro_medicion = e.data.$odometro_medicion.val()
+    fecha_medicion = e.data.$fecha_medicion.val()
+    lectura_medicion = e.data.$lectura_medicion.val()
+    console.log(odometro_medicion)
+    console.log(fecha_medicion)
+    console.log(lectura_medicion)
     $.ajax({
             url: url_grid,
+            headers: { "X-CSRFToken": csrftoken },
             method: "POST",
             data: {
-                odometro: odometro,
-                lectura: lectura,
+                odometro: odometro_medicion,
+                lectura: lectura_medicion,
                 fecha: "2017-01-04T15:41:25" ,
             },
             success: function (){
-                console.log("exito");
+                alertify.success("Se registró medición correctamente")
                 $('#modal_nuevo').modal('hide');
                 location.reload();
             },
             error: function(e){
-                alert(e);
+
+                alertify.error("Error "+ e.status + " . No se guardó el registro")
                 $('#modal_nuevo').modal('hide')
             }
            
                     
-            });
-    //$('#modal_nuevo').modal('hide');
-    //location.reload();
-}
-
-function Modal() {
-
+        });
 }
