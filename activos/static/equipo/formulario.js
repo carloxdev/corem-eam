@@ -20,6 +20,10 @@ $(document).ready(function () {
 function TargetaFormulario() {
 
     this.$padre = $('#id_padre')
+    this.$ubicacion = $("#id_ubicacion")
+
+    this.$boton_editar_ubicacion = $("#btn_edit_ubicacion")
+
     this.modal_ubicacion = new VentanaUbicacion()
 
 	this.init()
@@ -28,10 +32,26 @@ TargetaFormulario.prototype.init = function () {
 
     this.$padre.select2()
 
-    
+    this.validar_Ubicacion()
+    this.$ubicacion.on("change", this, this.change_Ubicacion)
+}
+TargetaFormulario.prototype.change_Ubicacion = function (e) {
 
-    // this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-    // this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
+	if (e.data.$ubicacion.val() == "") {
+		e.data.$boton_editar_ubicacion.addClass("disabled")
+	}
+	else {
+		e.data.$boton_editar_ubicacion.removeClass("disabled")
+	}
+}
+TargetaFormulario.prototype.validar_Ubicacion = function () {
+
+	if (this.$ubicacion.val() == "") {
+		this.$boton_editar_ubicacion.addClass("disabled")
+	}
+	else {
+		this.$boton_editar_ubicacion.removeClass("disabled")
+	}
 }
 
 
@@ -57,32 +77,54 @@ function VentanaUbicacion() {
 }
 VentanaUbicacion.prototype.init = function () {
 
-	this.$id.on('show.bs.modal', function (event) {
+	// Se asoscia eventos al abrir el modal
+	this.$id.on('show.bs.modal', this, this.load)
+}
+VentanaUbicacion.prototype.load = function (e) {
 
-		var button = $(event.relatedTarget)
+	var event_owner = $(e.relatedTarget)
 
-		var modal = $(this)
+	// Se eliminan eventos viejos
+	e.data.$boton_guardar.off("click")
 
-		formulario.modal_ubicacion.$boton_guardar.off("click")
-		formulario.modal_ubicacion.clear_Estilos()
+	// Se limpian estilos
+	e.data.clear_Estilos()
 
-		if (button.context.id == "btn_new_ubicacion") {
-			modal.find('.modal-title').text('Nueva Ubicacion')
-			formulario.modal_ubicacion.$boton_guardar.on(
-				"click", 
-				formulario.modal_ubicacion, 
-				formulario.modal_ubicacion.nuevo
-			)
-		}
-		else if (button.context.id == "btn_edit_ubicacion") {
-  			modal.find('.modal-title').text('Editar Ubicacion')
-  			formulario.modal_ubicacion.$boton_guardar.on(
-  				"click", 
-  				formulario.modal_ubicacion, 
-  				formulario.modal_ubicacion.editar
-  			)
-		}
-	})
+	// Asosciar Eventos segun corresponda
+	if (event_owner.context.id == "btn_new_ubicacion") {
+
+		// Se limpiar el formulario
+		e.data.clear()
+
+		// Se modifica el titulo
+		e.data.$id.find('.modal-title').text('Nueva Ubicacion')
+		
+		// Se asoscia el evento que se utilizara para guardar
+		e.data.$boton_guardar.on(
+			"click", 
+			e.data, 
+			e.data.nuevo
+		)
+	}
+	else if (event_owner.context.id == "btn_edit_ubicacion") {
+
+		// Se llenan los controles
+
+		// Se modifica el titulo
+		e.data.$id.find('.modal-title').text('Editar Ubicacion')
+
+		// Se asoscia el evento que se utilizara para guardar
+		e.data.$boton_guardar.on(
+			"click", 
+			e.data, 
+			e.data.editar
+		)
+	}
+}
+VentanaUbicacion.prototype.clear = function () {
+
+	this.$clave.val("")
+	this.$descripcion.val("")
 }
 VentanaUbicacion.prototype.clear_Estilos = function () {
 	
@@ -122,7 +164,6 @@ VentanaUbicacion.prototype.nuevo = function (e) {
 		e.data.$id.modal('hide')
 		alert("Guardar")	
 	}
-	
 }
 VentanaUbicacion.prototype.editar = function (e) {
 
