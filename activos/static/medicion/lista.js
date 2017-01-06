@@ -223,7 +223,7 @@ GridPrincipal.prototype.buscar =  function() {
 GridPrincipal.prototype.click_BotonEliminar = function (e) {
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
     alertify.confirm(
         'Eliminar Registro',
         '¿Desea Eliminar este registro?', 
@@ -234,12 +234,14 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
             $.ajax({
                 url: url,
+                headers: { "X-CSRFToken": csrftoken },
                 method: "DELETE",
                 success: function () {
+                    alertify.success("Se eliminó registro correctamente")
                     targeta_resultados.grid.kfuente_datos.remove(fila)
                     targeta_resultados.grid.kfuente_datos.sync()
 
-                    alertify.success("Se eliminó registro correctamente")
+                    
                 },
                 error: function () {
                     
@@ -322,9 +324,11 @@ Modal.prototype.click_BotonGuardar = function(e) {
                 fecha: "2017-01-04T15:41:25" ,
             },
             success: function (){
-                alertify.success("Se registró medición correctamente")
                 $('#modal_nuevo').modal('hide');
-                location.reload();
+                alertify.success("Se registró medición correctamente")
+                targeta_resultados.grid.kfuente_datos.sync()
+                
+               
             },
             error: function(e){
 
