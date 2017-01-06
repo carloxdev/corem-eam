@@ -56,6 +56,7 @@ TargetaFormulario.prototype.init = function () {
 }
 TargetaFormulario.prototype.click_Tab_Activiades = function(e) {
 	e.preventDefault()
+	alertify.
 }
 TargetaFormulario.prototype.click_Tab_Materiales = function(e) {
 	e.preventDefault()

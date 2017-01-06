@@ -16,3 +16,8 @@
 .box-title {
 	font-size: 16px !important;
 }
+
+.app-image {
+	height: 400px;
+	width: 400px;
+}

@@ -147,6 +147,7 @@ class EquipoUpdateView(View):
                 'empresa': equipo.empresa,
                 'sistema': equipo.sistema,
                 'ubicacion': equipo.ubicacion,
+                'imagen': equipo.imagen,
             }
         )
 
@@ -176,6 +177,7 @@ class EquipoUpdateView(View):
             equipo.empresa = datos_formulario.get('empresa')
             equipo.sistema = datos_formulario.get('sistema')
             equipo.ubicacion = datos_formulario.get('ubicacion')
+            equipo.imagen = datos_formulario.get('imagen')
 
             equipo.save()
 
