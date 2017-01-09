@@ -165,12 +165,10 @@ GridPrincipal.prototype.get_Campos = function (e) {
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "odometro" , title: "Odometro", width: "120px" },
-        { field: "udm" , title: "Unidad de Medida", width: "120px" },
-        { field: "equipo" , title: "Equipo", width: "120px" },
         { field: "fecha" , title: "Fecha", width: "120px" },
         { field: "lectura" , title: "Lectura", width: "120px" },
-        
+        { field: "udm" , title: "Unidad de Medida", width: "120px" },
+
         {
            command: [
                 {
@@ -294,6 +292,8 @@ function Modal() {
     this.$boton_guardar = $("#boton_guardar")
     this.$fecha_contenedor = $("#fecha_contenedor")
     this.$fecha_mensaje = $("#fecha_mensaje")
+    this.$hora_contenedor = $("#hora_contenedor")
+    this.$hora_mensaje = $("#hora_mensaje")
     this.$lectura_contenedor = $("#lectura_contenedor")
     this.$lectura_mensaje = $("#lectura_mensaje")
     
@@ -301,13 +301,20 @@ function Modal() {
 }
 
 Modal.prototype.init = function (e) {
-
+    
     this.$fecha_medicion.datepicker(
+            
         {
             autoclose: true,
             language: 'es',
-            
+            todayHighlight: true,
+            clearBtn: true,
+            todayBtn: true,
+            startDate: '2017-01-01',
         }
+    )
+    this.$fecha_medicion.datepicker(
+        "setDate", new Date()
     )
 
     this.$hora_medicion.timepicker(
@@ -346,6 +353,12 @@ Modal.prototype.validar = function () {
         bandera = false
     }
 
+    if ( this.$hora_medicion.val() == "") {
+        this.$hora_contenedor.addClass("has-error")
+        this.$hora_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
     if ( this.$lectura_medicion.val() == "") {
         this.$lectura_contenedor.addClass("has-error")
         this.$lectura_mensaje.removeClass("hidden")
@@ -361,7 +374,7 @@ Modal.prototype.get_Hora = function (_hora){
     if(this.hora.indexOf('AM') != -1 && horas == 12) {
         this.hora = this.hora.replace('12', '0');
     }
-    if(this.hora.indexOf('PM')  != -1 && horas < 12) {
+    if(this.hora.indexOf('PM')  != -1 && horas < 1) {
         this.hora = this.hora.replace(horas, (horas + 12));
     }
     return this.hora.replace(/(AM|PM)/, '');
@@ -394,8 +407,6 @@ Modal.prototype.click_BotonGuardar = function(e) {
                     $('#modal_nuevo').modal('hide');
                     alertify.success("Se registró medición correctamente")
                     targeta_resultados.grid.kfuente_datos.read();
-                    e.data.$fecha_medicion.val("")
-                    e.data.$hora_medicion.val("")
                     e.data.$lectura_medicion.val("")
                    
                 },

@@ -43,7 +43,7 @@
             	<div class="row">
             	{% csrf_token %}
 	            	<div class="col-sm-10 col-md-offset-1">
-	            		<div id="fecha_contenedor" class="form-group input-group-sm has-warning">
+	            		<div id="fecha_contenedor" class="form-group has-warning">
 						    <label for="fecha">
 								<i class="fa fa-asterisk"></i>
 								<label for="id_fecha">Fecha</label>
@@ -62,7 +62,7 @@
             	</div>
             	<div class="row">
             		<div class="col-sm-10 col-md-offset-1">
-            			<div id="hora_contenedor" class="form-group input-group-sm has-warning">
+            			<div id="hora_contenedor" class="form-group has-warning">
 						    <label for="hora">
 								<i class="fa fa-asterisk"></i>
 								<label for="id_hora">Hora</label>
@@ -73,12 +73,13 @@
 					            </span>
 					            <input id="id_hora" type="text" class="form-control input-small pull-right">
 	        				</div>
+	        				<span class="help-block hidden" id="hora_mensaje">Este campo es requerido.</span>
 	        			</div>
             		</div>
             	</div>
 				<div class="row">
 					<div class="col-sm-10 col-md-offset-1">
-						<div id="lectura_contenedor" class="form-group input-group-sm has-warning">
+						<div id="lectura_contenedor" class="form-group has-warning">
 							<label for="lectura">
 								<i class="fa fa-asterisk"></i>
 								<label for="id_lectura">Lectura</label>
@@ -116,7 +117,8 @@
 
 	<div class="row">
 		<div class="col-md-12">
-	        <h3><span>Equipo: {{ odometro.equipo.tag }}</span></h3>
+	        <h3 class="box-title"><span>Equipo: <b>{{ odometro.equipo.tag }}.</b> Odómetro: <b>{{odometro.clave}} – {{ odometro.descripcion }}</b></span></h3>
+	        
 			<!-- Filtros -->
 			<div class="box box-solid box-info" id="id_panel">
 				<div class="box-header with-border">
@@ -129,18 +131,20 @@
 				<div class="box-body">
 				                  
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
-				                <label>De:</label>
-
-				                <div class="input-group">
+							
+							<div class="form-group col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
+				                
+								<label>De:</label>
+				                <div class="form-group input-group">
 				                  <div class="input-group-addon">
 				                    <i class="fa fa-calendar"></i>
 				                  </div>
+
 				                  <input type="text" class="form-control pull-right js-datepicker" id="fecha_inicio" data-date-format="yyyy-mm-dd">
 				                </div>
 				                <!-- /.input group -->
-				              </div>
-				              <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
+				            </div>
+				             <div class="form-group col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
 				                <label>A:</label>
 
 				                <div class="input-group">
@@ -150,16 +154,16 @@
 				                  <input type="text" class="form-control pull-right js-datepicker" id="fecha_fin" data-date-format="yyyy-mm-dd">
 				                </div>
 				                <!-- /.input group -->
-				              </div>
+				            </div>
 						</div>
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
+							<div class="form-group col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
 								<label for="lectura_minima">Lectura Mínima</label>
-								<input type="text" class="form-control" id="lectura_minima">
+								<input type="number" class="form-control" id="lectura_minima">
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
+							<div class="form-group col-sx-12 col-sm-4 col-md-4 col-md-offset-1">
 								<label for="lectura_maxima">Lectura Máxima</label>
-								<input type="text" class="form-control" id="lectura_maxima">
+								<input type="number" class="form-control" id="lectura_maxima">
 							</div>
 						</div>
 				</div>
