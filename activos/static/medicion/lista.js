@@ -305,17 +305,14 @@ Modal.prototype.init = function (e) {
     this.$fecha_medicion.datepicker(
         {
             autoclose: true,
-            language: 'es'
+            language: 'es',
+            
         }
     )
+
     this.$hora_medicion.timepicker(
         {
-            minuteStep: 1,
-            template: 'modal',
-            appendWidgetTo: 'body',
-            showSeconds: true,
-            showMeridian: false,
-            defaultTime: false
+            showInputs: false
         }
     )
     
@@ -358,16 +355,32 @@ Modal.prototype.validar = function () {
     return bandera
 }
 
+Modal.prototype.get_Hora = function (_hora){
+    this.hora = _hora
+    var horas = parseInt(this.hora.substr(0, 2));
+    if(this.hora.indexOf('AM') != -1 && horas == 12) {
+        this.hora = this.hora.replace('12', '0');
+    }
+    if(this.hora.indexOf('PM')  != -1 && horas < 12) {
+        this.hora = this.hora.replace(horas, (horas + 12));
+    }
+    return this.hora.replace(/(AM|PM)/, '');
+}
+
 Modal.prototype.click_BotonGuardar = function(e) {
     if (e.data.validar()){
         var csrftoken = $("[name=csrfmiddlewaretoken]").val()
         e.preventDefault()
         odometro_medicion = e.data.$odometro_medicion.val()
         fecha_medicion = e.data.$fecha_medicion.val()
+        hora_medicion = e.data.$hora_medicion.val()
+        hora_medicion =e.data.get_Hora(hora_medicion).trim()
+        hora_medicion = "T"+hora_medicion+":00"
         lectura_medicion = e.data.$lectura_medicion.val()
         console.log(odometro_medicion)
         console.log(fecha_medicion)
         console.log(lectura_medicion)
+        console.log(hora_medicion)
         $.ajax({
                 url: url_grid,
                 headers: { "X-CSRFToken": csrftoken },
@@ -375,13 +388,15 @@ Modal.prototype.click_BotonGuardar = function(e) {
                 data: {
                     odometro: odometro_medicion,
                     lectura: lectura_medicion,
-                    fecha: fecha_medicion+"T15:41:25" ,
+                    fecha: fecha_medicion+hora_medicion,
                 },
                 success: function (){
                     $('#modal_nuevo').modal('hide');
                     alertify.success("Se registró medición correctamente")
                     targeta_resultados.grid.kfuente_datos.read();
-
+                    e.data.$fecha_medicion.val("")
+                    e.data.$hora_medicion.val("")
+                    e.data.$lectura_medicion.val("")
                    
                 },
                 error: function(e){
