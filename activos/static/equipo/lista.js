@@ -142,7 +142,8 @@ GridPrincipal.prototype.get_Config = function () {
         pageable: true,
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
-        },        
+        },
+        dataBound: this.set_Icons
     }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
@@ -175,25 +176,40 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         {
            command: [
                 {
-                   text: "Editar",
+                   text: " Editar",
                    click: this.click_BotonEditar,
-                   className: "boton_editar"
+                   className: "boton_editar fa fa-pencil"
                 },
                 {
-                    text: "Estructura",
+                    text: " Estructura",
                     click: this.click_BotonEstructura,
-                    className: "boton_default"
+                    className: "boton_default fa fa-sitemap"
                 },
                 {
-                    text: "Anexos",
+                    text: " Anexos",
                     click: this.click_BotonAnexos,
-                    className: "boton_default"
+                    className: "boton_default fa fa-paperclip"
                 },                
             ],           
            title: " ",
-           width: "260px"
-        },
+           width: "285px"
+        },        
     ]
+}
+GridPrincipal.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-sitemap").each(function(idx, element){
+        $(element).removeClass("fa fa-sitemap").find("span").addClass("fa fa-sitemap")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-paperclip").each(function(idx, element){
+        $(element).removeClass("fa fa-paperclip").find("span").addClass("fa fa-paperclip")
+    })        
+
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 

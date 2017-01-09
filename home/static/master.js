@@ -50,6 +50,22 @@ Pagina.prototype.set_PageActive = function () {
 		var $opcion = $("#opt_ubicaciones")
 		$opcion.addClass("active")
 	}
+	else if ( this.$titulo.text() == "Odómetros") {
+		
+		var $arbol = $("#tree_activos")
+		$arbol.addClass("active")
+
+		var $opcion = $("#opt_odometros")
+		$opcion.addClass("active")
+	}	
+	else if ( this.$titulo.text() == "Mediciones") {
+		
+		var $arbol = $("#tree_activos")
+		$arbol.addClass("active")
+
+		var $opcion = $("#opt_odometros")
+		$opcion.addClass("active")
+	}		
 	else if ( this.$titulo.text() == "Almacenes") {
 
 		var $arbol = $("#tree_inventarios")
