@@ -29,7 +29,10 @@ class Ubicacion(models.Model):
     descripcion = models.CharField(max_length=144, null=True)
 
     def __str__(self):
-        return self.clave.encode('utf-8')
+        return "{} - {}".format(
+            self.clave.encode('utf-8'),
+            self.descripcion.encode('utf-8')
+        )
 
     class Meta:
         verbose_name_plural = "Ubicaciones"

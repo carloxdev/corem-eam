@@ -2,10 +2,13 @@
             GLOBAL VARS
 \*-----------------------------------------------*/
 
+// URLS
 var url_grid = window.location.origin + "/api/ubicaciones/"
 var url_nuevo = window.location.origin + "/ubicaciones/nuevo/"
 var url_editar = window.location.origin + "/ubicaciones/editar/"
 var url_eliminar = window.location.origin + "/api/ubicaciones/"
+
+// OBJS
 var targeta_filtros = null
 var targeta_resultados = null
 

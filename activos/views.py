@@ -418,6 +418,14 @@ class UbicacionAPI(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('clave', 'descripcion',)
 
+
+class UbicacionAPI2(viewsets.ModelViewSet):
+    queryset = Ubicacion.objects.all()
+    serializer_class = UbicacionSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id',)
+
+
 # ----------------- ODOMETRO ----------------- #
 
 

@@ -11,6 +11,7 @@ from rest_framework import routers
 # API Rest - Views:
 from activos.views import EquipoAPI
 from activos.views import UbicacionAPI
+from activos.views import UbicacionAPI2
 from activos.views import AnexoTextoAPI
 from activos.views import AnexoArchivoAPI
 from activos.views import AnexoImagenAPI
@@ -43,6 +44,11 @@ router.register(
     r'ubicaciones',
     UbicacionAPI,
     'ubicacion'
+)
+router.register(
+    r'ubicaciones2',
+    UbicacionAPI2,
+    'ubicacion2'
 )
 router.register(
     r'anexostexto',

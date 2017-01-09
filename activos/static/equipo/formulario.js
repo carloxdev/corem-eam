@@ -1,6 +1,11 @@
 /*-----------------------------------------------*\
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
+
+// URLS
+var url_ubicaciones = window.location.origin + "/api/ubicaciones2/"
+
+// OBJS
 var formulario = null
 
 /*-----------------------------------------------*\
@@ -14,7 +19,7 @@ $(document).ready(function () {
 
 
 /*-----------------------------------------------*\
-            OBJETO: Targeta Filtros
+            OBJETO: Targeta Formulario
 \*-----------------------------------------------*/
 
 function TargetaFormulario() {
@@ -53,7 +58,25 @@ TargetaFormulario.prototype.validar_Ubicacion = function () {
 		this.$boton_editar_ubicacion.removeClass("disabled")
 	}
 }
+TargetaFormulario.prototype.modify_Ubicacion = function (_clave, _descripcion) {
 
+	var new_value = _clave + " - " + _descripcion
+
+	// Modificar texto
+	this.$ubicacion.find(":selected").text(new_value)
+}
+TargetaFormulario.prototype.add_Ubicacion = function (_pk, _clave, _descripcion) {
+	var new_value = _clave + " - " + _descripcion
+
+	this.$ubicacion.append(
+		$('<option>', {
+	    	value: _pk,
+	    	text: new_value
+		})
+	)
+
+	this.$ubicacion.val(_pk)
+}
 
 
 /*-----------------------------------------------*\
@@ -65,6 +88,7 @@ function VentanaUbicacion() {
 	this.$id = $('#win_ubicacion')
 	this.$boton_guardar = $('#bnt_ubi-save')
 
+	this.$pk = $("#ubi_id")
 	this.$clave = $('#ubi_clave')
 	this.$clave_contenedor = $('#ubi_clave_contenedor')
 	this.$clave_mensaje =  $('#ubi_clave_mensaje')
@@ -90,11 +114,11 @@ VentanaUbicacion.prototype.load = function (e) {
 	// Se limpian estilos
 	e.data.clear_Estilos()
 
+	// Se limpiar el formulario
+	e.data.clear()	
+
 	// Asosciar Eventos segun corresponda
 	if (event_owner.context.id == "btn_new_ubicacion") {
-
-		// Se limpiar el formulario
-		e.data.clear()
 
 		// Se modifica el titulo
 		e.data.$id.find('.modal-title').text('Nueva Ubicacion')
@@ -109,6 +133,24 @@ VentanaUbicacion.prototype.load = function (e) {
 	else if (event_owner.context.id == "btn_edit_ubicacion") {
 
 		// Se llenan los controles
+		var url = url_ubicaciones + "?id=" + formulario.$ubicacion.val()
+
+		modal = e.data
+
+        $.ajax({
+            url: url,
+            method: "GET",
+            success: function (response) {
+
+            	modal.$pk.val(response[0].pk)
+                modal.$clave.val(response[0].clave)
+                modal.$descripcion.val(response[0].descripcion)
+            },
+            error: function (response) {
+                
+                alertify.error("Ocurrio error al consultar")
+            }
+        })
 
 		// Se modifica el titulo
 		e.data.$id.find('.modal-title').text('Editar Ubicacion')
@@ -161,15 +203,52 @@ VentanaUbicacion.prototype.validar = function () {
 VentanaUbicacion.prototype.nuevo = function (e) {
 
 	if (e.data.validar()) {
-		e.data.$id.modal('hide')
-		alert("Guardar")	
+
+        $.ajax({
+            url: url_ubicaciones,
+            method: "POST",
+            data: {
+            	"clave" : e.data.$clave.val(),
+            	"descripcion" : e.data.$descripcion.val()
+            },
+            success: function (response) {
+
+            	alertify.success("Ubicacion creada")
+            	e.data.$id.modal('hide')
+            	formulario.add_Ubicacion(response.pk, response.clave, response.descripcion)
+            },
+            error: function (response) {
+
+                alertify.error("Ocurrio error al modificar Ubicacion")
+            }
+        })
+		
 	}
 }
 VentanaUbicacion.prototype.editar = function (e) {
 
 	if (e.data.validar()) {
-		e.data.$id.modal('hide')
-		alert("Editar")
+
+		var url_update = url_ubicaciones + e.data.$pk.val() + "/"
+
+        $.ajax({
+            url: url_update,
+            method: "PUT",
+            data: {
+            	"clave" : e.data.$clave.val(),
+            	"descripcion" : e.data.$descripcion.val()
+            },
+            success: function (response) {
+
+            	alertify.success("Ubicacion modificada")
+            	e.data.$id.modal('hide')
+            	formulario.modify_Ubicacion(e.data.$clave.val(), e.data.$descripcion.val())
+            },
+            error: function (response) {
+
+                alertify.error("Ocurrio error al modificar Ubicacion")
+            }
+        })
 	}
 }
 

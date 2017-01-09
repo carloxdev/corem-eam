@@ -274,7 +274,6 @@
 		<!-- /.box -->
 	</div>
 
-
 	<!-- PopUp -->
 	<div class="modal fade" tabindex="-1" role="dialog" id="win_ubicacion">
 	  <div class="modal-dialog" role="document">
@@ -285,6 +284,8 @@
 	      </div>
 	      <div class="modal-body">
 
+				<input class="hidden" id="ubi_id" type="text" />
+
 				<div class="row">
 					<div class="col-sm-10 col-md-offset-1">
 						<div class="form-group input-group-sm has-warning" id="ubi_clave_contenedor">
@@ -292,7 +293,7 @@
 								<i class="fa  fa-asterisk  "></i>
 								<label for="ubi_clave">Clave:</label>
 							</label>
-							<input class="form-control" id="ubi_clave" maxlength="144" name="clave" type="text" />
+							<input class="form-control" id="ubi_clave" maxlength="144" type="text" />
 							<span class="help-block hidden" id="ubi_clave_mensaje">Este campo es requerido.</span>
 						</div>
 					</div>
@@ -305,7 +306,7 @@
 								<i class="fa  fa-asterisk  "></i>
 								<label for="ubi_descripcion">Descripcion:</label>
 							</label>
-							<input class="form-control" id="ubi_descripcion" maxlength="144" name="descripcion" type="text" />
+							<input class="form-control" id="ubi_descripcion" maxlength="144" type="text" />
 							<span class="help-block hidden" id="ubi_desc_mensaje">Este campo es requerido.</span>
 						</div>
 					</div>
