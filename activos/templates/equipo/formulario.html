@@ -21,10 +21,11 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="{% url 'activos.equipos_lista' %}">Equipos</a></li>
+		<li><a href="{% url 'activos:equipos_lista' %}">Equipos</a></li>
 		<li class="active">{{ operation }}</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content" id="contenido">
 
@@ -265,13 +266,12 @@
 								    {% endfor %}
 								</div>
 							</div>
-
 						</div>	
 
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer">
-						<a class="btn btn-default" href="{% url 'activos.equipos_lista' %}">Regresar</a>
+						<a class="btn btn-default" href="{% url 'activos:equipos_lista' %}">Regresar</a>
 						<button type="submit" class="btn btn-success pull-right">Guardar</button>
 					</div>
 					<!-- /.box-footer -->

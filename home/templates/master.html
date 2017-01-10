@@ -59,7 +59,7 @@
 
 	  <header class="main-header">
 	    <!-- Logo -->
-	    <a href="index2.html" class="logo">
+	    <a href="{% url 'seguridad.dashboard' %}" class="logo">
 	      <!-- mini logo for sidebar mini 50x50 pixels -->
 	      <span class="logo-mini"><b>C</b>M</span>
 	      <!-- logo for regular state and mobile devices -->
@@ -366,9 +366,10 @@
 	            </span>
 	          </a>
 	          <ul class="treeview-menu">
-	            <li id="opt_equipos"><a href="{% url 'activos.equipos_lista' %}"><i class="fa fa-cog"></i> Equipos</a></li>
-	            <li id="opt_ubicaciones"><a href="{% url 'activos.ubicaciones_lista' %}"><i class="fa fa-map-marker"></i> Ubicaciones</a></li>
-	            <li id="opt_odometros"><a href="{% url 'activos.odometros_lista' %}"><i class="fa fa-tachometer"></i> Odometros</a></li>
+	            <li id="opt_equipos"><a href="{% url 'activos:equipos_lista' %}"><i class="fa fa-cog"></i> Equipos</a></li>
+	            <li id="opt_ubicaciones"><a href="{% url 'activos:ubicaciones_lista' %}"><i class="fa fa-map-marker"></i> Ubicaciones</a></li>
+	            <li id="opt_odometros"><a href="{% url 'activos:odometros_lista' %}"><i class="fa fa-tachometer"></i> Odometros</a></li>
+				<li id="opt_odometros_udm"><a href="#"><i class="fa fa-balance-scale"></i> Unidades Medida</a></li>			
 	          </ul>
 	        </li> 
 
@@ -420,7 +421,6 @@
 	            <li id="opt_b"><a href="#"><i class="fa fa-clock-o"></i>Reporte de Programaciones</a></li>
 	          </ul>
 	        </li> 		        
-
 
 	      </ul>
 	    </section>

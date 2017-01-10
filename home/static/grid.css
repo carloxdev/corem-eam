@@ -52,3 +52,20 @@
 	font-family: Helvetica Neue !important;
 }
 
+.cell--activo {
+	background-color: #149948;
+	color: white;
+	text-align: center;	
+}
+
+.cell--deshabilitado {
+	background-color: #F2F2F2;
+	color: black;
+	text-align: center;	
+}
+
+.cell--reparacion {
+	background-color: #EE8A11;
+	color: white;
+	text-align: center;	
+}

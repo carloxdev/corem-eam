@@ -81,11 +81,19 @@ class Asignacion(models.Model):
         verbose_name_plural = "Asignaciones"
 
 
+class Udm(models.Model):
+    clave = models.CharField(max_length=144, unique=True)
+    descripcion = models.CharField(max_length=144, null=True)
+
+    def __str__(self):
+        return self.clave
+
+
 class Odometro(models.Model):
     equipo = models.ForeignKey(Equipo)
     clave = models.CharField(max_length=144)
     descripcion = models.CharField(max_length=144, null=True)
-    udm = models.CharField(max_length=3, choices=ODOMETRO_UDM, null=True)
+    udm = models.ForeignKey(Udm, null=True)
     esta_activo = models.BooleanField(default=True)
 
     def __str__(self):

@@ -117,7 +117,7 @@ class EquipoCreateView(View):
             equipo.save()
 
             return redirect(
-                reverse('activos.equipos_lista')
+                reverse('activos:equipos_lista')
             )
 
         contexto = {
@@ -182,7 +182,7 @@ class EquipoUpdateView(View):
             equipo.save()
 
             return redirect(
-                reverse('activos.equipos_lista')
+                reverse('activos:equipos_lista')
             )
 
         contexto = {
@@ -193,7 +193,7 @@ class EquipoUpdateView(View):
 
 
 class EquipoAPI(viewsets.ModelViewSet):
-    queryset = Equipo.objects.all()
+    queryset = Equipo.objects.all().order_by("tag")
     serializer_class = EquipoSerializer
     pagination_class = GenericPagination
 
@@ -401,14 +401,14 @@ class UbicacionCreateView(CreateView):
     model = Ubicacion
     form_class = UbicacionForm
     template_name = 'ubicacion/formulario.html'
-    success_url = reverse_lazy('activos.ubicaciones_lista')
+    success_url = reverse_lazy('activos:ubicaciones_lista')
 
 
 class UbicacionUpdateView(UpdateView):
     model = Ubicacion
     form_class = UbicacionForm
     template_name = 'ubicacion/formulario.html'
-    success_url = reverse_lazy('activos.ubicaciones_lista')
+    success_url = reverse_lazy('activos:ubicaciones_lista')
 
 
 class UbicacionAPI(viewsets.ModelViewSet):
@@ -451,14 +451,14 @@ class OdometroCreateView(CreateView):
     model = Odometro
     form_class = OdometroForm
     template_name = 'odometro/formulario.html'
-    success_url = reverse_lazy('activos.odometros_lista')
+    success_url = reverse_lazy('activos:odometros_lista')
 
 
 class OdometroUpdateView(UpdateView):
     model = Odometro
     form_class = OdometroForm
     template_name = 'odometro/formulario.html'
-    success_url = reverse_lazy('activos.odometros_lista')
+    success_url = reverse_lazy('activos:odometros_lista')
 
 
 class OdometroAPI(viewsets.ModelViewSet):

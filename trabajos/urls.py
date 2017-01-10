@@ -9,7 +9,9 @@ from .views import OrdenTrabajoCreateView
 from .views import OrdenAnexoTextoView
 from .views import OrdenAnexoImagenView
 from .views import OrdenAnexoArchivoView
+
 app_name = 'trabajos'
+
 urlpatterns = [
 
     # ----------------- ORDEN DE TRABAJO ----------------- #

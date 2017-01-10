@@ -31,58 +31,53 @@ Pagina.prototype.set_PageActive = function () {
 
 	// Se marca la pagina activa en el menu
 	if ( this.$titulo.text() == "Dashboard") {
-
-		var $opcion = $("#opt_dashboard")
-		$opcion.addClass("active")
+		
+		this.activar_Opcion("opt_dashboard")
 	}
 	else if ( this.$titulo.text() == "Equipos") {
 
-		var $arbol = $("#tree_activos")
-		$arbol.addClass("active")
-
-		var $opcion = $("#opt_equipos")
-		$opcion.addClass("active")
+		this.activar_Arbol("tree_activos")
+		this.activar_Opcion("opt_equipos")
 	}
 	else if ( this.$titulo.text() == "Ubicaciones") {
 		
-		var $arbol = $("#tree_activos")
-		$arbol.addClass("active")
-
-		var $opcion = $("#opt_ubicaciones")
-		$opcion.addClass("active")
+		this.activar_Arbol("tree_activos")
+		this.activar_Opcion("opt_ubicaciones")
 	}
 	else if ( this.$titulo.text() == "Odómetros") {
 		
-		var $arbol = $("#tree_activos")
-		$arbol.addClass("active")
-
-		var $opcion = $("#opt_odometros")
-		$opcion.addClass("active")
+		this.activar_Arbol("tree_activos")
+		this.activar_Opcion("opt_odometros")
 	}	
 	else if ( this.$titulo.text() == "Mediciones") {
 		
-		var $arbol = $("#tree_activos")
-		$arbol.addClass("active")
-
-		var $opcion = $("#opt_odometros")
-		$opcion.addClass("active")
+		this.activar_Arbol("tree_activos")
+		this.activar_Opcion("opt_odometros")
+	}
+	else if ( this.$titulo.text() == "Unidades de Medida") {
+		
+		this.activar_Arbol("tree_activos")
+		this.activar_Opcion("opt_odometros_udm")
 	}		
 	else if ( this.$titulo.text() == "Almacenes") {
 
-		var $arbol = $("#tree_inventarios")
-		$arbol.addClass("active")
-
-		var $opcion = $("#opt_almacenes")
-		$opcion.addClass("active")
+		this.activar_Arbol("tree_inventarios")
+		this.activar_Opcion("opt_almacenes")
 	}
 	else if ( this.$titulo.text() == "Articulos") {
 
-		var $arbol = $("#tree_inventarios")
-		$arbol.addClass("active")
-
-		var $opcion = $("#opt_articulos")
-		$opcion.addClass("active")
+		this.activar_Opcion("opt_articulos")
 	}
+}
+Pagina.prototype.activar_Arbol = function (_tree) {
+
+	var $arbol = $("#" + _tree)
+	$arbol.addClass("active")
+}
+Pagina.prototype.activar_Opcion = function (_option) {
+
+	var $opcion = $("#" + _option)
+	$opcion.addClass("active")
 }
 Pagina.prototype.init_Alertify = function () {
 

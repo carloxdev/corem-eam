@@ -23,7 +23,7 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="{% url 'activos.equipos_lista' %}">Equipos</a></li>
+		<li><a href="{% url 'activos:equipos_lista' %}">Equipos</a></li>
 		<li class="active">Odómetros</li>
 	</ol>
 </section>
@@ -65,7 +65,7 @@
 								<div class="col-sm-10 col-md-offset-1">
 									<div class="pull-right form-group">
 										<div class="col-sm-12">
-											<a class="btn btn-default" href="{% url 'activos.odometros_lista' %}">Regresar</a>
+											<a class="btn btn-default" href="{% url 'activos:odometros_lista' %}">Regresar</a>
 											<button type="submit" class="btn btn-success">Guardar</button>
 										</div>
 									</div>

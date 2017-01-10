@@ -42,7 +42,11 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
     def get_padre(self, obj):
 
         try:
-            return obj.padre.tag
+            return "({}) {}".format(
+                obj.padre.tag,
+                obj.padre.descripcion
+            )
+
         except:
             return ""
 
@@ -56,7 +60,10 @@ class EquipoSerializer(serializers.HyperlinkedModelSerializer):
     def get_ubicacion(self, obj):
 
         try:
-            return obj.ubicacion.clave
+            return "({}) {}".format(
+                obj.ubicacion.clave.encode("utf-8"),
+                obj.ubicacion.descripcion.encode("utf-8")
+            )
         except:
             return ""
 

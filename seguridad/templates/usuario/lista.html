@@ -7,8 +7,8 @@
 
 {% block css %}
 
-<!-- APP -->
-<link rel="stylesheet" href="{% static 'empresa/empresa_lista.css' %}" />
+<!-- CoreM -->
+<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}
 
@@ -32,16 +32,16 @@
 		<div class="row">
 	        <div class="col-md-12">
 
-	          <div class="box">
+	          <div class="box box-info">
 	            <div class="box-header">
 	              <h3 class="box-title">Registros</h3>
 		          <div class="box-tools pull-right">
 
-		            <a id="boton_nuevo" class="btn btn-primary btn-sm" href="{% url 'seguridad.usuarios_nuevo' %}">
-						<i class="fa fa-plus"></i>
+		            <a id="boton_nuevo" class="btn bg-purple btn-sm" href="{% url 'seguridad.usuarios_nuevo' %}">
+						<i class="fa fa-plus-circle"></i>
 		            	Nuevo
 		            </a>
-					<button type="button" id="boton_exportar" class="btn btn-default btn-sm">
+					<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
 						<i class="fa fa-file-excel-o"></i>
 		            	Exportar
 		            </button>
@@ -103,7 +103,7 @@
 				</div>
 
 				{% else %}
-				<h3 class="sin-resultados">No se encontraron usuarios</h3>
+				<h3 class="grid-empy">No se encontraron usuarios</h3>
 				{% endif %}
 
 	          </div>

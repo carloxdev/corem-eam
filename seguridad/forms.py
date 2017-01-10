@@ -33,6 +33,15 @@ class UsuarioCreateForm(ModelForm):
             'email': EmailInput(attrs={'class': 'form-control'}),
             'password': TextInput(attrs={'class': 'form-control'}),
         }
+        labels = {
+            'username': 'Clave:',
+            'first_name': 'Nombre:',
+            'last_name': 'Apellidos:',
+            'email': 'Email:',
+            'password': 'Contraseña:',
+            'is_active': 'Activo:',
+            'is_staff': 'Administrador:',
+        }
 
 
 class UsuarioEditForm(ModelForm):
@@ -56,4 +65,13 @@ class UsuarioEditForm(ModelForm):
             'last_name': TextInput(attrs={'class': 'form-control'}),
             'email': EmailInput(attrs={'class': 'form-control'}),
             'password': TextInput(attrs={'class': 'form-control'}),
+        }
+        labels = {
+            'username': 'Clave:',
+            'first_name': 'Nombre:',
+            'last_name': 'Apellidos:',
+            'email': 'Email:',
+            'password': 'Contraseña:',
+            'is_active': 'Activo:',
+            'is_staff': 'Administrador:',
         }

@@ -145,7 +145,7 @@ GridPrincipal.prototype.get_Config = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
-        dataBound: this.set_Icons
+        dataBound: this.apply_Estilos
     }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
@@ -170,10 +170,10 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "serie" , title: "Serie", width: "120px" },
         { field: "tipo" , title: "Tipo", width: "120px" },
         { field: "estado" , title: "Estado", width: "120px" },
-        { field: "padre" , title: "Padre (Tag)", width: "100px" },
+        { field: "padre" , title: "Padre", width: "370px" },
         { field: "empresa" , title: "Empresa", hidden: "true" },
         { field: "sistema" , title: "Sistema", width: "100px" },
-        { field: "ubicacion" , title: "Ubicacion", width: "100px" },
+        { field: "ubicacion" , title: "Ubicacion", width: "200px" },
         
         {
            command: [
@@ -198,8 +198,9 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         },        
     ]
 }
-GridPrincipal.prototype.set_Icons = function (e) {
+GridPrincipal.prototype.apply_Estilos = function (e) {
 
+    // Aplicar iconos
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })
@@ -211,6 +212,20 @@ GridPrincipal.prototype.set_Icons = function (e) {
     e.sender.tbody.find(".k-button.fa.fa-paperclip").each(function(idx, element){
         $(element).removeClass("fa fa-paperclip").find("span").addClass("fa fa-paperclip")
     })        
+
+    // Aplicar formato a columna:
+    $('td').each( function () {
+        if($(this).text()=='ACTIVO'){ 
+
+            $(this).addClass('cell--activo')
+        }
+        else if($(this).text()=='DESHABILITADO'){ 
+            $(this).addClass('cell--deshabilitado')
+        }
+        else if($(this).text()=='EN REPARACION'){ 
+            $(this).addClass('cell--reparacion')
+        }
+    })
 
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
@@ -265,8 +280,6 @@ GridPrincipal.prototype.click_BotonEstructura =  function (e) {
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_estructura + fila.pk + "/"
 }
-
-
 
 
 /*-----------------------------------------------*\

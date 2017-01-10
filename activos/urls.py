@@ -24,34 +24,36 @@ from .views import UbicacionUpdateView
 from .views import MedicionCreateView
 from .views import MedicionOdometroView
 
-urlpatterns = [
 
+app_name = "activos"
+
+urlpatterns = [
 
     # ----------------- EQUIPO ----------------- #
     url(
         r'^equipos/$',
         EquipoListView.as_view(),
-        name='activos.equipos_lista'
+        name='equipos_lista'
     ),
     url(
         r'^equipos/nuevo/$',
         EquipoCreateView.as_view(),
-        name='activos.equipos_nuevo'
+        name='equipos_nuevo'
     ),
     url(
         r'^equipos/editar/(?P<pk>.*)/$',
         EquipoUpdateView.as_view(),
-        name='activos.equipos_editar'
+        name='equipos_editar'
     ),
     url(
         r'equipos/arbol/(?P<pk>\d+)/$',
         EquipoTreeListView.as_view(),
-        name='activos.equipos_arbol'
+        name='equipos_arbol'
     ),
     url(
         r'^equipos/arbol/json/(?P<pk>\d+)/$',
         EquipoTreeAPI.as_view(),
-        name='activos.equipos_api_tree'
+        name='equipos_api_tree'
     ),
 
     # ----------------- ANEXOS ------------------ #
@@ -59,17 +61,17 @@ urlpatterns = [
     url(
         r'equipos/anexos/(?P<pk>\d+)/texto/$',
         AnexoTextoView.as_view(),
-        name='activos.anexar_texto'
+        name='anexar_texto'
     ),
     url(
         r'^equipos/anexos/(?P<pk>\d+)/imagen/$',
         AnexoImagenView.as_view(),
-        name='activos.anexar_imagen'
+        name='anexar_imagen'
     ),
     url(
         r'^equipos/anexos/(?P<pk>\d+)/archivo/$',
         AnexoArchivoView.as_view(),
-        name='activos.anexar_archivo'
+        name='anexar_archivo'
     ),
 
     # ----------------- UBICACION ----------------- #
@@ -77,33 +79,34 @@ urlpatterns = [
     url(
         r'ubicaciones/$',
         UbicacionListView.as_view(),
-        name='activos.ubicaciones_lista'
+        name='ubicaciones_lista'
     ),
     url(
         r'^ubicaciones/nuevo/$',
         UbicacionCreateView.as_view(),
-        name='activos.ubicaciones_nuevo'
+        name='ubicaciones_nuevo'
     ),
     url(
         r'^ubicaciones/editar/(?P<pk>\d+)/$',
         UbicacionUpdateView.as_view(),
-        name='activos.ubicaciones_editar'
+        name='ubicaciones_editar'
     ),
+
     # ----------------- ODOMETRO ----------------- #
     url(
         r'^odometros/$',
         OdometroListView.as_view(),
-        name='activos.odometros_lista'
+        name='odometros_lista'
     ),
     url(
         r'^odometros/nuevo/$',
         OdometroCreateView.as_view(),
-        name='activos.odometros_nuevo'
+        name='odometros_nuevo'
     ),
     url(
         r'^odometros/editar/(?P<pk>.*)/$',
         OdometroUpdateView.as_view(),
-        name='activos.odometros_lista'
+        name='odometros_lista'
     ),
 
     # ----------------- MEDICION ----------------- #
@@ -111,11 +114,19 @@ urlpatterns = [
     url(
         r'^mediciones/nuevo',
         MedicionCreateView.as_view(),
-        name='activos.mediciones_nuevo'
+        name='mediciones_nuevo'
     ),
     url(
         r'^odometros/(?P<pk>.*)/mediciones/$',
         MedicionOdometroView.as_view(),
-        name='activos.odometros_mediciones'
-    )
+        name='odometros_mediciones'
+    ),
+
+    # ----------------- MEDICION ----------------- #
+    url(
+        r'^udm/$',
+        OdometroListView.as_view(),
+        name='udm_lista'
+    ),
+
 ]
