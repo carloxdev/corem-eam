@@ -8,6 +8,7 @@ from .models import UdmArticulo
 from .models import Articulo
 from .models import Almacen
 from .models import Stock
+from .models import EntradaCabecera
 
 
 @admin.register(UdmArticulo)
@@ -53,4 +54,14 @@ class AdminStock(admin.ModelAdmin):
         'cantidad',
         'created_date',
         'updated_date',
+    )
+
+
+@admin.register(EntradaCabecera)
+class AdminStock(admin.ModelAdmin):
+    list_display = (
+        'clave',
+        'fecha',
+        'descripcion',
+        'almacen',
     )

@@ -26,6 +26,8 @@ from django.views.generic import TemplateView
 from .models import Articulo
 from .models import Almacen
 from .models import Stock
+from .models import EntradaCabecera
+from .models import SalidaCabecera
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
@@ -36,6 +38,7 @@ from home.models import AnexoTexto
 from forms import AlmacenForm
 from forms import ArticuloFilterForm
 from forms import ArticuloForm
+from forms import EntradaCabeceraFilterForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -49,6 +52,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 # API Rest - Serializadores:
 from .serializers import AlmacenSerializer
 from .serializers import ArticuloSerializer
+from .serializers import EntradaCabeceraSerializer
+from .serializers import SalidaCabeceraSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoImagenSerializer
 from home.serializers import AnexoArchivoSerializer
@@ -58,6 +63,7 @@ from .pagination import GenericPagination
 
 # API Rest - Filtros:
 from .filters import ArticuloFilter
+from .filters import EntradaCabeceraFilter
 
 # ----------------- ALMACEN ----------------- #
 
@@ -363,3 +369,50 @@ class ArticuloAnexoArchivoAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('articulo',)
+
+
+# -----------------  ENTRADAS  ----------------- #
+
+
+class EntradaListView(View):
+    def __init__(self):
+        self.template_name = 'entrada/lista.html'
+
+    def get(self, request):
+
+        formulario = EntradaCabeceraFilterForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class EntradaCreateView(View):
+    def __init__(self):
+        self.template_name = 'entrada/formulario.html'
+
+    def get(self, request):
+
+        formulario = EntradaCabeceraFilterForm()
+
+        contexto = {
+            'form': formulario,
+        }
+
+        return render(render, self.template_name, contexto)
+
+    def post(self, request):
+        pass
+
+
+class EntradaAPI(viewsets.ModelViewSet):
+    queryset = EntradaCabecera.objects.all()
+    serializer_class = EntradaCabeceraSerializer
+    pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = EntradaCabeceraFilter
+
+
+# -----------------  SALIDAS  ----------------- #

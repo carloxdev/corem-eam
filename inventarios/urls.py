@@ -16,6 +16,8 @@ from .views import ArticuloAnexoTextoView
 from .views import ArticuloAnexoImagenView
 from .views import ArticuloAnexoArchivoView
 
+from .views import EntradaListView
+
 
 urlpatterns = [
 
@@ -70,5 +72,12 @@ urlpatterns = [
         r'^articulos/anexos/(?P<pk>\d+)/archivo/$',
         ArticuloAnexoArchivoView.as_view(),
         name='activos.anexar_archivo'
+    ),
+
+     # ----------------- ENTRADAS ----------------- #
+    url(
+        r'entradas/$',
+        EntradaListView.as_view(),
+        name='inventarios.entradas_lista'
     ),
 ]

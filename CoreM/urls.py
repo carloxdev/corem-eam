@@ -25,6 +25,7 @@ from inventarios.views import ArticuloAPI
 from inventarios.views import ArticuloAnexoTextoAPI
 from inventarios.views import ArticuloAnexoImagenAPI
 from inventarios.views import ArticuloAnexoArchivoAPI
+from inventarios.views import EntradaAPI
 
 from trabajos.views import OrdenTrabajoAPI
 from trabajos.views import OrdenAnexoTextoAPI
@@ -156,7 +157,6 @@ router.register(
     'ordentrabajo'
 )
 
-
 # ----------------- ORDENES DE TRABAJO - ANEXOS ----------------- #
 
 router.register(
@@ -175,6 +175,13 @@ router.register(
     'ordenanexoarchivo'
 )
 
+# ----------------- ENTRADAS  ----------------- #
+
+router.register(
+    r'entradas',
+    EntradaAPI,
+    'entradacabecera'
+)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

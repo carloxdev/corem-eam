@@ -8,6 +8,7 @@ from django.forms import Select
 # Modelos:
 from .models import Almacen
 from .models import Articulo
+from .models import EntradaCabecera
 
 
 # ----------------- ALMACEN ----------------- #
@@ -70,4 +71,23 @@ class ArticuloForm(ModelForm):
         }
         labels = {
             'clave_jde': 'Clave JDE',
+        }
+
+
+# ----------------- ARTICULO ----------------- #
+
+class EntradaCabeceraFilterForm(ModelForm):
+
+    class Meta:
+        model = EntradaCabecera
+        fields = [
+            'clave',
+            'descripcion',
+            'almacen',
+        ]
+        widgets = {
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'almacen': Select(attrs={'class': 'form-control'}),
+
         }

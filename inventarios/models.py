@@ -145,3 +145,37 @@ class Stock(models.Model):
 
     class Meta:
         unique_together = (('almacen', 'articulo'),)
+
+
+class EntradaCabecera(models.Model):
+    clave = models.CharField(max_length=30)
+    fecha = models.DateTimeField()
+    descripcion = models.CharField(max_length=144)
+    almacen = models.ForeignKey(Almacen, null=True)
+
+    def __str__(self):
+        return "{0} - {1}".format(self.clave, self.descripcion)
+
+
+class EntradaDetalle(models.Model):
+    cantidad = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0)
+    articulo = models.ManyToManyField(Articulo)
+    cabecera = models.ForeignKey(EntradaCabecera)
+
+
+class SalidaCabecera(models.Model):
+    clave = models.CharField(max_length=30)
+    fecha = models.DateTimeField()
+    descripcion = models.CharField(max_length=144)
+    almacen = models.ForeignKey(Almacen, blank=True)
+
+    def __str__(self):
+        return "{0} - {1}".format(self.clave, self.descripcion)
+
+
+class SalidaDetalle(models.Model):
+    cantidad = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0)
+    articulo = models.ManyToManyField(Articulo)
+    cabecera = models.ForeignKey(SalidaCabecera)
