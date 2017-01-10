@@ -198,6 +198,6 @@ class MedicionSerializer(serializers.ModelSerializer):
 
     def get_udm(self, obj):
         try:
-            return obj.odometro.udm
+            return obj.odometro.get_udm_display()
         except:
             return ""
