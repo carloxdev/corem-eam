@@ -2,10 +2,13 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+// URLS
 var url_grid = window.location.origin + "/api/odometros/"
 var url_nuevo = window.location.origin + "/odometros/nuevo/"
 var url_editar = window.location.origin + "/odometros/editar/"
 var url_medicion = window.location.origin + "/odometros/"
+
+// OBJS
 var targeta_filtros = null
 var targeta_resultados = null
 

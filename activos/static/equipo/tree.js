@@ -2,9 +2,11 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+// URLS
 var url_datos = window.location.origin + "/equipos/arbol/json/"
-var tree = null
 
+// OBJS
+var tree = null
 
 /*-----------------------------------------------*\
             LOAD
@@ -46,7 +48,7 @@ Arbol.prototype.init = function () {
      
     },
     error: function (_respuesta) {
-      alert("Fallo")
+      alertify.error("Fallo")
     }
     // this.FailRequest   //--- Fallo peticion al servidor
   })         

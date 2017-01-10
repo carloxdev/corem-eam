@@ -145,12 +145,12 @@
 </div>
 		<div class="row" id="items_anexos">
 		{% for anexo in anexos %}
-			<div class="col-md-4" id="selected-item">
+			<div class="col-md-4" id="{{ anexo.id }}">
           		<div class="box box-solid">
             		<div class="box-header with-border">
               			<i class="fa fa-text-width"></i>
 						<div class="pull-right">
-              				<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
+              				<button data-action="{{ anexo.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
             			</div>	
               			<h3 class="box-title">{{ anexo.titulo }}</h3>
             		</div>

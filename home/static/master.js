@@ -25,6 +25,7 @@ function Pagina() {
 	this.$titulo = $('#titulo')
 
 	this.set_PageActive()
+	this.init_Alertify()
 }
 Pagina.prototype.set_PageActive = function () {
 
@@ -88,8 +89,8 @@ Pagina.prototype.init_Alertify = function () {
     alertify.set('notifier', 'position', 'top-right')
     alertify.set('notifier', 'delay', 10)	
 
-	alertify.defaults.theme.ok = "btn btn-primary";
-	alertify.defaults.theme.cancel = "btn btn-danger";
+	alertify.defaults.theme.ok = "btn btn-success";
+	alertify.defaults.theme.cancel = "btn btn-default";
 	alertify.defaults.theme.input = "form-control";
 }
 Pagina.prototype.get_DatePickerConfig = function () {

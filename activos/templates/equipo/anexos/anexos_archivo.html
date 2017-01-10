@@ -93,11 +93,11 @@
 <div class="row">
 	<div class="box box-solid">
 		{% for anexo in anexos %}
-			<div class="col-md-4">
+			<div class="col-md-4" id="{{ anexo.id }}">
 				<div class="box box-solid">
 					<div class="box-header with-border">
 						<div class="pull-right">
-							<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
+							<button data-action="{{ anexo.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
 						</div>
 						<h3 class="box-title">
 						<i class="fa fa-file-o"></i>

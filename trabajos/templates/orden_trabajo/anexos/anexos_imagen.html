@@ -8,29 +8,8 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.default.min.css' %}"/>
 {% endblock css %}
 {% block contenido %}
-<div style="display: none; margin-top: 220px;" class="modal fade" id="modal_eliminar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">×</span></button>
-				<h4 class="modal-title">Eliminar Anexo</h4>
-			</div>
-			<form action="" method="POST">
-				<div class="modal-body">
-					<p>¿Desea eliminar el anexo?</p>
-					<input id="id_anexo" type="hidden">
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-					<button type="button" id="boton_eliminar" class="btn btn-danger">Eliminar</button>
-				</div>
-			</form>
-			
-		</div>
-		<!-- /.modal-content -->
-	</div>
-</div>
+
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
@@ -43,6 +22,7 @@
 		<li class="active">Anexos</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content" id="contenido">
 	<div class="row">
@@ -117,12 +97,13 @@
 </div>
 	<div class="row">
 		{% for anexo in anexos %}
-			<div class="col-md-4">
+		
+			<div class="col-md-4" id="{{ anexo.id }}">
 				<div class="box box-solid">
 					<div class="box-header with-border">
 						<i class="fa fa-file-image-o"></i>
 						<div class="pull-right">
-							<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
+							<button data-action="{{ anexo.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
 							<a href="{{MEDIA_URL}}{{ anexo.ruta }}" download class="btn btn-default descargar"><i class="fa fa-download" title="Descargar"></i></a>
 						</div>
 						

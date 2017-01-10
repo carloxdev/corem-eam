@@ -134,26 +134,27 @@
 		<div class="row">
 			<div class="box box-solid">
 				{% for anexo in anexos %}
-			<div class="col-md-4">
-          		<div class="box box-solid">
-            		<div class="box-header with-border">
-              			<div class="pull-right">
-              				<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
-            			</div>	
-            		
-              			<h3 class="box-title">
-              			<i class="fa fa-file-o"></i>
-              			{{ anexo.descripcion }}
-              			</h3>
-            		</div>
-            		<!-- /.box-header -->
-		            <div class="box-body">
-		            	<a href="{{MEDIA_URL}}{{ anexo.archivo }}" download=""><p align="center"><strong align="center">{{ anexo.archivo|filename }}</strong></p></a>
-		            </div>
-            		<!-- /.box-body -->
-          		</div>
+				
+					<div class="col-md-4" id="{{ anexo.id }}">
+		          		<div class="box box-solid">
+		            		<div class="box-header with-border">
+		              			<div class="pull-right">
+		              				<button data-action="{{ anexo.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
+		            			</div>	
+		            		
+		              			<h3 class="box-title">
+		              			<i class="fa fa-file-o"></i>
+		              			{{ anexo.descripcion }}
+		              			</h3>
+		            		</div>
+		            		<!-- /.box-header -->
+				            <div class="box-body">
+				            	<a href="{{MEDIA_URL}}{{ anexo.archivo }}" download=""><p align="center"><strong align="center">{{ anexo.archivo|filename }}</strong></p></a>
+				            </div>
+		            		<!-- /.box-body -->
+		          		</div>
           <!-- /.box -->
-        	</div>
+        			</div>
         	{% endfor %}
  
 		</div>

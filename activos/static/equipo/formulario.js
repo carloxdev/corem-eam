@@ -14,7 +14,7 @@ var formulario = null
 
 $(document).ready(function () {
 
-    formulario = new TargetaFormulario()
+    formulario = new TargetaFormulario() 
 })
 
 

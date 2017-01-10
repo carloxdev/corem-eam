@@ -134,12 +134,12 @@
 </div>
 		<div class="row">
 		{% for anexo in anexos %}
-			<div class="col-md-4">
+			<div class="col-md-4" id="{{ anexo.id }}">
           		<div class="box box-solid">
             		<div class="box-header with-border">
             		<i class="fa fa-file-image-o"></i>
               			<div class="pull-right">
-              				<button id="{{ anexo.id }}" class="btn btn-danger eliminar"><i class="fa fa-trash" title="Eliminar"></i></button>
+              				<button data-action="{{ anexo.id }}" class="btn btn-danger btn-sm"><i class="fa fa-trash" title="Eliminar"></i></button>
             				<a href="{{MEDIA_URL}}{{ anexo.ruta }}" download class="btn btn-default descargar"><i class="fa fa-download" title="Descargar"></i></a>
             			</div>	
             		
