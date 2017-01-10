@@ -21,6 +21,7 @@ class AdminUdm(admin.ModelAdmin):
 @admin.register(Articulo)
 class AdminArticulo(admin.ModelAdmin):
     list_display = (
+        'clave',
         'clave_jde',
         'descripcion',
         'tipo',

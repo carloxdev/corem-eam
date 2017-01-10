@@ -2,13 +2,16 @@
 
 # LIBRERIAS Django
 
+# Django DB
+from django.db import transaction
+
 # Django Atajos:
 from django.shortcuts import render
 # from django.shortcuts import get_object_or_404
-# from django.shortcuts import redirect
+from django.shortcuts import redirect
 
 # Django Urls:
-# from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
 # from django.http import HttpResponse
 
@@ -22,6 +25,7 @@ from django.views.generic import TemplateView
 # from .models import Udm
 from .models import Articulo
 from .models import Almacen
+from .models import Stock
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
@@ -127,22 +131,48 @@ class ArticuloListView(View):
         return render(request, self.template_name, {})
 
 
-class ArticuloCreateView(CreateView):
-    model = Articulo
-    form_class = ArticuloForm
-    template_name = 'articulo/formulario.html'
-    success_url = reverse_lazy('inventarios.articulos_lista')
+class ArticuloCreateView(View):
+    def __init__(self):
+        self.template_name = 'articulo/formulario.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(ArticuloCreateView, self).get_context_data(**kwargs)
-
-        data = {
+    def get(self, request):
+        formulario = ArticuloForm()
+        contexto = {
+            'form': formulario,
             'operation': "Nuevo"
         }
+        return render(request, self.template_name, contexto)
 
-        context.update(data)
+    @transaction.atomic
+    def post(self, request):
+        punto_transaccion = transaction.savepoint()
+        formulario = ArticuloForm(request.POST)
+        almacenes = request.POST.get('almacenes', 0)
+        almacenes = Almacen.objects.filter(id=almacenes)
 
-        return context
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            articulo = Articulo()
+            articulo.clave = datos_formulario.get('clave')
+            articulo.descripcion = datos_formulario.get('descripcion')
+            articulo.tipo = datos_formulario.get('tipo')
+            articulo.udm = datos_formulario.get('udm')
+            articulo.clave_jde = datos_formulario.get('clave_jde')
+            articulo.save()
+
+            for almacen in almacenes:
+                Stock.objects.create(articulo=articulo, almacen=almacen)
+            if punto_transaccion:
+                transaction.savepoint_commit(punto_transaccion)
+
+            return redirect(
+                reverse('inventarios.articulos_lista')
+            )
+        contexto = {
+            'form': formulario,
+        }
+
+        return render(request, self.template_name, contexto)
 
 
 class ArticuloUpdateView(UpdateView):

@@ -66,7 +66,7 @@ class Almacen(models.Model):
 class Stock(models.Model):
     almacen = models.ForeignKey(Almacen)
     articulo = models.ForeignKey(Articulo)
-    cantidad = models.CharField(max_length=140)
+    cantidad = models.CharField(max_length=140, null=True)
 
     def __str__(self):
         return "{0} - {1}".format(self.almacen, self.articulo)
