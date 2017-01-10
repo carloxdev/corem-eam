@@ -147,8 +147,8 @@ class ArticuloCreateView(View):
     def post(self, request):
         punto_transaccion = transaction.savepoint()
         formulario = ArticuloForm(request.POST)
-        almacenes = request.POST.get('almacenes', 0)
-        almacenes = Almacen.objects.filter(id=almacenes)
+
+        almacenes = request.POST.getlist('almacenes')
 
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
@@ -161,9 +161,13 @@ class ArticuloCreateView(View):
             articulo.save()
 
             for almacen in almacenes:
-                Stock.objects.create(articulo=articulo, almacen=almacen)
+                obj_almacen = Almacen.objects.get(id=almacen)
+                Stock.objects.create(articulo=articulo, almacen=obj_almacen)
+
             if punto_transaccion:
                 transaction.savepoint_commit(punto_transaccion)
+            else:
+                transaction.savepoint_rollback(punto_transaccion)
 
             return redirect(
                 reverse('inventarios.articulos_lista')

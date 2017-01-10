@@ -6,8 +6,8 @@
 
 {% block css %}
 
-<!-- Select2 -->
-<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.css' %}"/>
 
 {% endblock %}
 
@@ -119,10 +119,10 @@
 					    </div>
 					    <div class="row">
 					    	<div class="col-sm-10 col-md-offset-1">
-					    		<div class="form-group input-group-sm {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
+					    		<div class="form-group input-group-sm {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.clave_jde.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.clave_jde.label }}">
-					       		 	<i class="fa {% if form.tipo.field.required %} fa-asterisk {% endif %} {% if form.clave_jde.field.errors %} fa-times-circle-o {% endif %}"></i>
+					       		 	<i class="fa {% if form.clave_jde.field.required %} fa-asterisk {% endif %} {% if form.clave_jde.field.errors %} fa-times-circle-o {% endif %}"></i>
 					       		 	{{ form.clave_jde.label_tag }}
 					       		 	</label>
 					        		{{ form.clave_jde }}
@@ -180,7 +180,9 @@
 {% block scripts %}
 
 <!-- Select2 -->
-<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
+<script src="{% static 'libs/plugins/select2/select2.js' %}"></script>
+<script src="{% static 'libs/plugins/select2/i18n/es.js' %}"></script>
+
 
 <!-- CoreM -->
 <script src="{% static 'articulo/formulario.js' %}"></script>

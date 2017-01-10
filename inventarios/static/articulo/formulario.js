@@ -28,7 +28,7 @@ TargetaFormulario.prototype.init = function () {
     this.$almacenes.select2(
     	{ 
     		language: "es",
-    		
+    		//minimumInputLength: 1,
 		}
 	)
 
