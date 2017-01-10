@@ -157,15 +157,16 @@ GridPrincipal.prototype.get_Campos = function (e) {
     return {
         odometro: { type: "string" },
         udm: { type: "string" },
-        equipo: { type: "string" },
-        fecha: { type: "string" },
+        equipo: { type: "string"},
+        fecha: { type: "datetime"},
         lectura: { type: "string" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "fecha" , title: "Fecha", width: "120px" },
+        { field: "fecha" , title: "Fecha", width: "120px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy HH:mm') #"
+},
         { field: "lectura" , title: "Lectura", width: "120px" },
         { field: "udm" , title: "Unidad de Medida", width: "120px" },
 
@@ -178,7 +179,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                 },              
             ],           
            title: " ",
-           width: "120px"
+           width: "30px"
         },
     ]
 }
@@ -370,14 +371,33 @@ Modal.prototype.validar = function () {
 
 Modal.prototype.get_Hora = function (_hora){
     this.hora = _hora
-    var horas = parseInt(this.hora.substr(0, 2));
-    if(this.hora.indexOf('AM') != -1 && horas == 12) {
-        this.hora = this.hora.replace('12', '0');
+    var horas = parseInt(this.hora.substr(0, 2))
+
+    if(this.hora.indexOf('am') != -1) {
+        this.hora = this.hora.replace('12', '0')
+        
     }
-    if(this.hora.indexOf('PM')  != -1 && horas < 1) {
-        this.hora = this.hora.replace(horas, (horas + 12));
+    if(this.hora.indexOf('pm')  != -1) {
+        if(horas<10){
+            
+            this.hora = this.hora.replace(horas, (horas + 12))
+            this.hora = this.hora.substr(1, 5)
+
+        }
+        else if(horas==12){
+
+            this.hora = this.hora
+        }
+        else{
+
+            this.hora = this.hora.replace(horas, (horas + 12))
+            
+        }
+           
     }
-    return this.hora.replace(/(AM|PM)/, '');
+        this.hora = this.hora.replace(/(am|pm)/, '')
+        return this.hora
+        
 }
 
 Modal.prototype.click_BotonGuardar = function(e) {
@@ -386,7 +406,7 @@ Modal.prototype.click_BotonGuardar = function(e) {
         e.preventDefault()
         odometro_medicion = e.data.$odometro_medicion.val()
         fecha_medicion = e.data.$fecha_medicion.val()
-        hora_medicion = e.data.$hora_medicion.val()
+        hora_medicion = e.data.$hora_medicion.val().toLowerCase()
         hora_medicion =e.data.get_Hora(hora_medicion).trim()
         hora_medicion = "T"+hora_medicion+":00"
         lectura_medicion = e.data.$lectura_medicion.val()
