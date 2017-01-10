@@ -6,7 +6,7 @@
 var url_eliminar = window.location.origin + "/api/anexosarchivo/"
 
 // OBJS
-var formulario = null;
+var item = null
 
 
 /*-----------------------------------------------*\
@@ -15,25 +15,8 @@ var formulario = null;
 
 $(document).ready(function(){
 	
-	formulario = new TargetaFormulario()
 	item = new TargetaItem()
 })
-
-
-/*-----------------------------------------------*\
-            OBJETO: Targeta Formulario
-\*-----------------------------------------------*/
-
-function TargetaFormulario() {
-
-	this.$textarea = $('#id_texto')
-
-	this.init()
-}
-TargetaFormulario.prototype.init = function () {
-
-	this.$textarea.wysihtml5();	
-}
 
 
 

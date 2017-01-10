@@ -6,7 +6,8 @@
 var url_eliminar = window.location.origin + "/api/anexostexto/"
 
 // OBJS
-var formulario = null;
+var formulario = null
+var item = null
 
 
 /*-----------------------------------------------*\
