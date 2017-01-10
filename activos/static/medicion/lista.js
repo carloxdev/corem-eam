@@ -150,6 +150,7 @@ GridPrincipal.prototype.get_Config = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },        
+        dataBound: this.set_Icons,
     }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
@@ -173,15 +174,21 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         {
            command: [
                 {
-                   text: "Eliminar",
+                   text: " Eliminar",
                    click: this.click_BotonEliminar,
-                   className: "boton_eliminar"
+                   className: "boton_eliminar fa fa-trash-o"
                 },              
             ],           
            title: " ",
-           width: "30px"
+           width: "40px"
         },
     ]
+}
+GridPrincipal.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
+        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
+    })
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 

@@ -19,29 +19,7 @@
 {% endblock css %}	
 
 {% block contenido %}
-	<div style="display: none; margin-top: 220px;" class="modal fade" id="modal_eliminar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-		<div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Eliminar Anexo</h4>
-              </div>
-               
-              	<div class="modal-body">
-             		<p>¿Desea eliminar el anexo?</p>
-                	<input id="id_anexo" type="hidden">
-                </div>
-              	<div class="modal-footer">
-	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-	                <button type="button" class="btn btn-danger" id="boton_eliminar">Eliminar</button>
-              	</div>
-              
-             
-            </div>
-            <!-- /.modal-content -->
-        </div>
-	</div>
+
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
@@ -49,7 +27,7 @@
 	    <small>Anexos</small>
 	  </h1>
 	  <ol class="breadcrumb">
-	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
 	    <li><a href="{% url 'inventarios.articulos_lista' %}">Articulos</a></li>
 	    <li class="active">Anexos</li>
 	  </ol>

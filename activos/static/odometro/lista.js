@@ -11,6 +11,7 @@ var url_medicion = window.location.origin + "/odometros/"
 // OBJS
 var targeta_filtros = null
 var targeta_resultados = null
+var pagina = null
 
 
 /*-----------------------------------------------*\
@@ -21,6 +22,9 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
+
+    pagina = new Pagina()
+    pagina.init_Alertify()    
 })
 
 // Asigna eventos a teclas
@@ -135,7 +139,8 @@ GridPrincipal.prototype.get_Config = function () {
         pageable: true,
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
-        },        
+        },  
+        dataBound: this.set_Icons,      
     }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
@@ -155,32 +160,43 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "clave" , title: "Clave", width: "120px" },
         { field: "descripcion" , title: "Descripción", width: "250px" },
         { field: "udm" , title: "UDM", width: "120px" },
-        { field: "esta_activo" , title: "Activo", width: "120px" },
-
-       
-        
+        { field: "esta_activo" , title: "Activo", width: "120px" }, 
         {
            command: [
                 {
-                   text: "Editar",
+                   text: " Editar",
                    click: this.click_BotonEditar,
-                   className: "boton_editar"
+                   className: "boton_editar fa fa-pencil"
                 }, 
                 {
-                   text: "Eliminar",
+                   text: " Eliminar",
                    click: this.click_BotonEliminar,
-                   className: "boton_eliminar"
+                   className: "boton_eliminar fa fa-trash-o"
                 },   
                 {
-                   text: "Mediciones",
+                   text: " Mediciones",
                    click: this.click_BotonMedicion,
-                   className: "boton_default"
+                   className: "boton_default fa fa-heartbeat"
                 },               
             ],           
            title: " ",
-           width: "260px"
+           width: "285px"
         },
     ]
+}
+GridPrincipal.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
+        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-heartbeat").each(function(idx, element){
+        $(element).removeClass("fa fa-heartbeat").find("span").addClass("fa fa-heartbeat")
+    })    
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
