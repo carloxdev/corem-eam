@@ -2,19 +2,19 @@
 
 {% load static from staticfiles %}
 
-{% block title %} Nueva Ubicación {% endblock title %}
+{% block title %} {{ operation }} Ubicación {% endblock title %}
 
 {% block contenido %}
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
 	<span id="titulo">Ubicaciones</span>
-	<small>Nueva</small>
+	<small>{{ operation }}</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
 		<li><a href="{% url 'activos:ubicaciones_lista' %}">Ubicaciones</a></li>
-		<li class="active">Nuevo</li>
+		<li class="active"> {{ operation }} </li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -41,7 +41,7 @@
 
 								  	<label class="control-label">
 								  		<i class="fa {% if form.clave.field.required %} fa-asterisk {% endif %} {% if form.clave.errors %} fa-times-circle-o {% endif %}"></i> 
-								  		{{ form.clave.label_tag }} 
+								  		{{ form.clave.label }} 
 								 	</label>
 								    {{ form.clave }}
 								  
@@ -58,7 +58,7 @@
 
 								  	<label class="control-label">
 								  		<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-times-circle-o {% endif %}"></i> 
-								  		{{ form.descripcion.label_tag }} 
+								  		{{ form.descripcion.label }} 
 								 	</label>
 								    {{ form.descripcion }}
 								  
@@ -74,8 +74,14 @@
 					<!-- /.box-body -->
 					<div class="box-footer">
 
-						<a class="btn btn-default" href="{% url 'activos:ubicaciones_lista' %}">Regresar</a>
-						<button type="submit" class="btn btn-success pull-right">Guardar</button>
+						<a class="btn btn-default" href="{% url 'activos:ubicaciones_lista' %}">
+							<i class="fa fa-arrow-circle-left"></i>
+							Regresar
+						</a>
+						<button type="submit" class="btn btn-success pull-right">
+							<i class="fa fa-save"></i>
+							Guardar
+						</button>
 					</div>
 					<!-- /.box-footer -->
 				</form>

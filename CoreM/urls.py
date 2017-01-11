@@ -16,6 +16,8 @@ from activos.views import AnexoTextoAPI
 from activos.views import AnexoArchivoAPI
 from activos.views import AnexoImagenAPI
 from activos.views import OdometroAPI
+from activos.views import UdmOdometroAPI
+from activos.views import UdmOdometroAPI2
 from activos.views import MedicionAPI
 
 from inventarios.views import AlmacenAPI
@@ -35,21 +37,19 @@ from django.conf import settings
 
 
 router = routers.DefaultRouter()
+
+
+# ----------------- EQUIPOS ----------------- #
+
 router.register(
     r'equipos',
     EquipoAPI,
     'equipo'
 )
-router.register(
-    r'ubicaciones',
-    UbicacionAPI,
-    'ubicacion'
-)
-router.register(
-    r'ubicaciones2',
-    UbicacionAPI2,
-    'ubicacion2'
-)
+
+
+# ----------------- EQUIPOS - ANEXOS ----------------- #
+
 router.register(
     r'anexostexto',
     AnexoTextoAPI,
@@ -65,21 +65,72 @@ router.register(
     AnexoImagenAPI,
     'anexoimagen'
 )
+
+# ----------------- UBICACIONES ----------------- #
+
+router.register(
+    r'ubicaciones',
+    UbicacionAPI,
+    'ubicacion'
+)
+router.register(
+    r'ubicaciones2',
+    UbicacionAPI2,
+    'ubicacion2'
+)
+
+
+# ----------------- ODOMETROS ----------------- #
+
+router.register(
+    r'odometros',
+    OdometroAPI,
+    'odometro'
+)
+
+# ----------------- UDMS - ODOMETRO ----------------- #
+
+router.register(
+    r'udmodometro',
+    UdmOdometroAPI,
+    'udmodometro'
+)
+router.register(
+    r'udmodometro2',
+    UdmOdometroAPI2,
+    'udmodometro'
+)
+
+
+# ----------------- MEDICIONES ----------------- #
+
+router.register(
+    r'mediciones',
+    MedicionAPI,
+    'medicion'
+)
+
+
+# ----------------- ALMACENES ----------------- #
+
 router.register(
     r'almacenes',
     AlmacenAPI,
     'almacen'
 )
+
+
+# ----------------- ARTICULOS ----------------- #
+
 router.register(
     r'articulos',
     ArticuloAPI,
     'articulo'
 )
-router.register(
-    r'ordenestrabajo',
-    OrdenTrabajoAPI,
-    'ordentrabajo'
-)
+
+
+# ----------------- ARTICULOS - ANEXOS ----------------- #
+
 router.register(
     r'articulosanexotexto',
     ArticuloAnexoTextoAPI,
@@ -95,11 +146,19 @@ router.register(
     ArticuloAnexoArchivoAPI,
     'articuloanexoarchivo'
 )
+
+
+# ----------------- ORDENES DE TRABAJO ----------------- #
+
 router.register(
-    r'odometros',
-    OdometroAPI,
-    'odometro'
+    r'ordenestrabajo',
+    OrdenTrabajoAPI,
+    'ordentrabajo'
 )
+
+
+# ----------------- ORDENES DE TRABAJO - ANEXOS ----------------- #
+
 router.register(
     r'ordenesanexotexto',
     OrdenAnexoTextoAPI,
@@ -115,11 +174,8 @@ router.register(
     OrdenAnexoArchivoAPI,
     'ordenanexoarchivo'
 )
-router.register(
-    r'mediciones',
-    MedicionAPI,
-    'medicion'
-)
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),

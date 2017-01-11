@@ -18,13 +18,13 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-	<span id="titulo">Equipos</span>
-	<small>Odómetros</small>
+	<span id="titulo">Odómetros</span>
+	<small>{{ operation }}</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="{% url 'activos:equipos_lista' %}">Equipos</a></li>
-		<li class="active">Odómetros</li>
+		<li><a href="{% url 'activos:equipos_lista' %}">Odometros</a></li>
+		<li class="active"> {{ operation }}</li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -39,38 +39,127 @@
 				<!-- /.box-header -->
 				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 					<div class="box-body">
+
+
+						<!-- Clave y Descripcion -->
 						<div class="row">
-							<div class="col-sm-10 col-md-offset-1">
-								{% for field in form %}
-									<div class="form-group input-group-sm {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
-									
-									<label for="{{ field.label }}">
-										<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
-										{{ field.label_tag }}
-									</label>
-									{{ field }}
-									
-									{% for error in field.errors %}
-										<div class="help-block text-right" id="{{ field.label }}-error">
-											{{ error }}
-										</div>
-									{% endfor %}
+							<div class="col-sm-4">
+
+								<div class="form-group input-group-sm {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
+
+								  	<label class="control-label">
+								  		<i class="fa {% if form.clave.field.required %} fa-asterisk {% endif %} {% if form.clave.errors %} fa-asterisk {% endif %}"></i> 
+								  		{{ form.clave.label }} 
+								 	</label>
+								    {{ form.clave }}
+								  
+								    {% for error in form.clave.errors %}
+								    <span class="help-block">{{ error }}</span>
+								    {% endfor %}
 								</div>
-								{% endfor %}
 							</div>
+
+							<div class="col-sm-8">
+
+								<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+
+								  	<label class="control-label">
+								  		<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-asterisk {% endif %}"></i> 
+								  		{{ form.descripcion.label }} 
+								 	</label>
+								    {{ form.descripcion }}
+								  
+								    {% for error in form.descripcion.errors %}
+								    <span class="help-block">{{ error }}</span>
+								    {% endfor %}
+								</div>
+							</div>	
+						</div>	
+
+						<!-- Equipo, UDM y Activo -->
+						<div class="row">
+							<div class="col-sm-6">
+
+								<div class="form-group input-group-sm {% if form.equipo.field.required %} has-warning {% endif %} {% if form.equipo.errors %} has-error {% endif %}">
+
+								  	<label class="control-label">
+								  		<i class="fa {% if form.equipo.field.required %} fa-asterisk {% endif %} {% if form.equipo.errors %} fa-asterisk {% endif %}"></i> 
+								  		{{ form.equipo.label }} 
+								 	</label>
+								    {{ form.equipo }}
+								  
+								    {% for error in form.equipo.errors %}
+								    <span class="help-block">{{ error }}</span>
+								    {% endfor %}
+								</div>
+							</div>
+
+							<div class="col-sm-6">
+
+								<div class="form-group input-group-sm {% if form.udm.field.required %} has-warning {% endif %} {% if form.udm.errors %} has-error {% endif %}">
+
+								  	<label class="control-label">
+								  		<i class="fa {% if form.udm.field.required %} fa-asterisk {% endif %} {% if form.udm.errors %} fa-asterisk {% endif %}"></i> 
+								  		{{ form.udm.label }} 
+								 	</label>
+								    
+
+								 	<div class="row">
+										<div class="col-xs-9 col-sm-9 col-md-9 input-group-sm">
+											{{ form.udm }}
+										</div>
+										<div class="col-xs-3 col-sm-3 col-md-3">
+											<div class="btn-group">
+												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_edit_ubicacion">
+													<i class="glyphicon glyphicon-pencil"></i>
+												</a>
+												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_new_ubicacion">
+													<i class="glyphicon glyphicon-plus-sign"></i>
+												</a>
+											</div>
+										</div>
+								 	</div>								    
+								  
+								    {% for error in form.udm.errors %}
+								    <span class="help-block">{{ error }}</span>
+								    {% endfor %}
+								</div>
+							</div>
+
+									
+						</div>	
+
+						<div class="row">
+							
+							<div class="col-sm-12">
+
+								<div class="form-group input-group-sm {% if form.esta_activo.field.required %} has-warning {% endif %} {% if form.esta_activo.errors %} has-error {% endif %}">
+
+								  	<label class="control-label">
+								  		<i class="fa {% if form.esta_activo.field.required %} fa-asterisk {% endif %} {% if form.esta_activo.errors %} fa-asterisk {% endif %}"></i> 
+								  		<div>{{ form.esta_activo.label }} </div>
+								 	</label>
+								    {{ form.esta_activo }}
+								  
+								    {% for error in form.esta_activo.errors %}
+								    <span class="help-block">{{ error }}</span>
+								    {% endfor %}
+								</div>
+
+							</div>							
+
 						</div>
+
 						<!-- /.box-body -->
 						<div class="box-footer">
-							<div class="row">
-								<div class="col-sm-10 col-md-offset-1">
-									<div class="pull-right form-group">
-										<div class="col-sm-12">
-											<a class="btn btn-default" href="{% url 'activos:odometros_lista' %}">Regresar</a>
-											<button type="submit" class="btn btn-success">Guardar</button>
-										</div>
-									</div>
-								</div>
-							</div>
+							<a class="btn btn-default" href="{% url 'activos:odometros_lista' %}">
+								<i class="fa fa-arrow-circle-left"></i>
+								Regresar
+							</a>
+							<button type="submit" class="btn btn-success pull-right">
+								<i class="fa fa-save"></i>
+								Guardar
+							</button>						
 						</div>
 						<!-- /.box-footer -->
 					</div>

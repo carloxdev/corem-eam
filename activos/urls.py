@@ -21,6 +21,10 @@ from .views import UbicacionCreateView
 from .views import UbicacionListView
 from .views import UbicacionUpdateView
 
+from .views import UdmOdometroCreateView
+from .views import UdmOdometroListView
+from .views import UdmOdometroUpdateView
+
 from .views import MedicionCreateView
 from .views import MedicionOdometroView
 
@@ -92,6 +96,25 @@ urlpatterns = [
         name='ubicaciones_editar'
     ),
 
+
+    # ----------------- UDM ODOMETRO ----------------- #
+
+    url(
+        r'udms/$',
+        UdmOdometroListView.as_view(),
+        name='udms_odometro_lista'
+    ),
+    url(
+        r'udms/nuevo/$',
+        UdmOdometroCreateView.as_view(),
+        name='udms_odometro_nuevo'
+    ),
+    url(
+        r'udms/editar/(?P<pk>\d+)/$',
+        UdmOdometroUpdateView.as_view(),
+        name='udms_odometro_editar'
+    ),
+
     # ----------------- ODOMETRO ----------------- #
     url(
         r'^odometros/$',
@@ -120,13 +143,6 @@ urlpatterns = [
         r'^odometros/(?P<pk>.*)/mediciones/$',
         MedicionOdometroView.as_view(),
         name='odometros_mediciones'
-    ),
-
-    # ----------------- MEDICION ----------------- #
-    url(
-        r'^udm/$',
-        OdometroListView.as_view(),
-        name='udm_lista'
     ),
 
 ]

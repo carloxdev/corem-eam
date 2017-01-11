@@ -4,13 +4,13 @@
 from django.contrib import admin
 
 # Modelos:
-from .models import Udm
+from .models import UdmArticulo
 from .models import Articulo
 from .models import Almacen
 from .models import Stock
 
 
-@admin.register(Udm)
+@admin.register(UdmArticulo)
 class AdminUdm(admin.ModelAdmin):
     list_display = (
         'clave',

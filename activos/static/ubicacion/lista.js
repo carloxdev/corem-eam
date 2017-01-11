@@ -51,7 +51,7 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
 
-    this.$id.addClass('collapsed-box')
+    // this.$id.addClass('collapsed-box')
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
@@ -210,10 +210,11 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
                 url: url,
                 method: "DELETE",
                 success: function () {
+                    alertify.success("Se elimino registro correctamente")
+                    
                     targeta_resultados.grid.kfuente_datos.remove(fila)
                     targeta_resultados.grid.kfuente_datos.sync()
 
-                    alertify.success("Se elimino registro correctamente")
                 },
                 error: function () {
                     

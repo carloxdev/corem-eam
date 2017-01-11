@@ -49,10 +49,25 @@ class Equipo(models.Model):
         default="ACT",
         blank=True
     )
-    padre = models.ForeignKey('self', null=True, blank=True)
-    empresa = models.ForeignKey(Empresa, null=True, blank=True)
+    padre = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
+    empresa = models.ForeignKey(
+        Empresa,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
     sistema = models.CharField(max_length=144, null=True, blank=True)
-    ubicacion = models.ForeignKey(Ubicacion, null=True, blank=True)
+    ubicacion = models.ForeignKey(
+        Ubicacion,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
     imagen = models.ImageField(
         upload_to='equipos/img',
         blank=True,
@@ -81,7 +96,7 @@ class Asignacion(models.Model):
         verbose_name_plural = "Asignaciones"
 
 
-class Udm(models.Model):
+class UdmOdometro(models.Model):
     clave = models.CharField(max_length=144, unique=True)
     descripcion = models.CharField(max_length=144, null=True)
 
@@ -93,7 +108,7 @@ class Odometro(models.Model):
     equipo = models.ForeignKey(Equipo)
     clave = models.CharField(max_length=144)
     descripcion = models.CharField(max_length=144, null=True)
-    udm = models.ForeignKey(Udm, null=True)
+    udm = models.ForeignKey(UdmOdometro, null=True, on_delete=models.PROTECT)
     esta_activo = models.BooleanField(default=True)
 
     def __str__(self):

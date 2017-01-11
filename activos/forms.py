@@ -5,11 +5,13 @@ from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Select
 from django.forms import CheckboxInput
+
 # Modelos:
 from .models import Equipo
 from .models import Odometro
 from .models import Medicion
 from .models import Ubicacion
+from .models import UdmOdometro
 
 
 # ----------------- EQUIPO ----------------- #
@@ -90,8 +92,8 @@ class EquipoForm(ModelForm):
             'responsable': 'Responsable',
         }
 
-# ----------------- ODÓMETRO ----------------- #
 
+# ----------------- ODÓMETRO ----------------- #
 
 class OdometroForm(ModelForm):
 
@@ -143,8 +145,21 @@ class OdometroFiltersForm(ModelForm):
             'udm': 'UDM',
         }
 
-# ----------------- MEDICION ----------------- #
 
+# ----------------- UDM ODOMETRO ----------------- #
+
+class UdmOdometroForm(ModelForm):
+
+    class Meta:
+        model = UdmOdometro
+        fields = '__all__'
+        widgets = {
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+# ----------------- MEDICION ----------------- #
 
 class MedicionFiltersForm(ModelForm):
 
@@ -179,8 +194,8 @@ class MedicionForm(ModelForm):
             'lectura': 'Lectura',
         }
 
-# ----------------- UBICACION ----------------- #
 
+# ----------------- UBICACION ----------------- #
 
 class UbicacionForm(ModelForm):
 

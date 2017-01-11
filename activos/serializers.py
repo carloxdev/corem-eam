@@ -11,6 +11,7 @@ from .models import Equipo
 from .models import Ubicacion
 from .models import Odometro
 from .models import Medicion
+from .models import UdmOdometro
 
 
 # ----------------- EQUIPO ----------------- #
@@ -142,8 +143,22 @@ class UbicacionSerializer(serializers.ModelSerializer):
             'descripcion'
         )
 
-# ----------------- ODOMETRO ------------------ #
 
+# ----------------- UDM ----------------- #
+
+class UdmOdometroSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UdmOdometro
+        fields = (
+            'pk',
+            'url',
+            'clave',
+            'descripcion'
+        )
+
+
+# ----------------- ODOMETRO ------------------ #
 
 class OdometroSerializer(serializers.ModelSerializer):
 
@@ -168,8 +183,8 @@ class OdometroSerializer(serializers.ModelSerializer):
         except:
             return ""
 
-# ----------------- MEDICION ------------------ #
 
+# ----------------- MEDICION ------------------ #
 
 class MedicionSerializer(serializers.ModelSerializer):
 

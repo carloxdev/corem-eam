@@ -73,7 +73,7 @@
 									
 									<label for="{{ form.titulo.label }}">
 										<i class="fa {% if form.titulo.field.required %} fa-asterisk {% endif %} {% if titulo.field.errors %} fa-times-circle-o {% endif %}"></i>
-										{{ form.titulo.label_tag }}
+										{{ form.titulo.label }}
 									</label>
 									{{ form.titulo }}
 									
@@ -88,7 +88,7 @@
 									
 									<label for="{{ form.texto.label }}">
 										<i class="fa {% if form.texto.field.required %} fa-asterisk {% endif %} {% if texto.field.errors %} fa-times-circle-o {% endif %}"></i>
-										{{ form.texto.label_tag }}
+										{{ form.texto.label }}
 									</label>
 									{{ form.texto }}
 									
@@ -107,7 +107,10 @@
 
 					<div class="box-footer">
 						<div class="col-xs-12">
-							<button type="submit"  class="btn btn-success pull-right">Guardar</button>
+							<button type="submit"  class="btn btn-success pull-right">
+								<i class="fa fa-save"></i>
+								Guardar
+							</button>
 						</div>
 					</div>
 					<!-- /.box-footer -->

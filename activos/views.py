@@ -21,18 +21,20 @@ from .models import Equipo
 from .models import Odometro
 from .models import Ubicacion
 from .models import Medicion
+from .models import UdmOdometro
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
 
 # Formularios:
-from forms import EquipoFiltersForm
-from forms import EquipoForm
-from forms import UbicacionForm
-from forms import OdometroForm
-from forms import OdometroFiltersForm
-from forms import MedicionFiltersForm
-from forms import MedicionForm
+from .forms import EquipoFiltersForm
+from .forms import EquipoForm
+from .forms import UbicacionForm
+from .forms import OdometroForm
+from .forms import OdometroFiltersForm
+from .forms import MedicionFiltersForm
+from .forms import MedicionForm
+from .forms import UdmOdometroForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -49,6 +51,7 @@ from .serializers import EquipoTreeSerilizado
 from .serializers import UbicacionSerializer
 from .serializers import OdometroSerializer
 from .serializers import MedicionSerializer
+from .serializers import UdmOdometroSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoArchivoSerializer
 from home.serializers import AnexoImagenSerializer
@@ -402,6 +405,12 @@ class UbicacionCreateView(CreateView):
     form_class = UbicacionForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos:ubicaciones_lista')
+    operation = "Nueva"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(UbicacionCreateView, self).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
 
 
 class UbicacionUpdateView(UpdateView):
@@ -409,6 +418,12 @@ class UbicacionUpdateView(UpdateView):
     form_class = UbicacionForm
     template_name = 'ubicacion/formulario.html'
     success_url = reverse_lazy('activos:ubicaciones_lista')
+    operation = "Editar"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(UbicacionUpdateView, self).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
 
 
 class UbicacionAPI(viewsets.ModelViewSet):
@@ -427,7 +442,6 @@ class UbicacionAPI2(viewsets.ModelViewSet):
 
 
 # ----------------- ODOMETRO ----------------- #
-
 
 class OdometroListView(View):
     def __init__(self):
@@ -452,6 +466,12 @@ class OdometroCreateView(CreateView):
     form_class = OdometroForm
     template_name = 'odometro/formulario.html'
     success_url = reverse_lazy('activos:odometros_lista')
+    operation = "Nuevo"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(OdometroCreateView, self).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
 
 
 class OdometroUpdateView(UpdateView):
@@ -459,6 +479,12 @@ class OdometroUpdateView(UpdateView):
     form_class = OdometroForm
     template_name = 'odometro/formulario.html'
     success_url = reverse_lazy('activos:odometros_lista')
+    operation = "Editar"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(OdometroUpdateView, self).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
 
 
 class OdometroAPI(viewsets.ModelViewSet):
@@ -467,6 +493,60 @@ class OdometroAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = OdometroFilter
+
+
+# ----------------- UDM ODOMETRO ----------------- #
+
+class UdmOdometroListView(TemplateView):
+    template_name = 'udm_odometro/lista.html'
+
+
+class UdmOdometroCreateView(CreateView):
+    model = UdmOdometro
+    form_class = UdmOdometroForm
+    template_name = 'udm_odometro/formulario.html'
+    success_url = reverse_lazy('activos:udm_lista')
+    operation = "Nueva"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(
+            UdmOdometroCreateView,
+            self
+        ).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
+
+
+class UdmOdometroUpdateView(UpdateView):
+    model = UdmOdometro
+    form_class = UdmOdometroForm
+    template_name = 'udm_odometro/formulario.html'
+    success_url = reverse_lazy('activos:udm_lista')
+    operation = "Editar"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(
+            UdmOdometroUpdateView,
+            self
+        ).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
+
+
+class UdmOdometroAPI(viewsets.ModelViewSet):
+    queryset = UdmOdometro.objects.all()
+    serializer_class = UdmOdometroSerializer
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('clave', 'descripcion',)
+
+
+class UdmOdometroAPI2(viewsets.ModelViewSet):
+    queryset = UdmOdometro.objects.all()
+    serializer_class = UdmOdometroSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id',)
+
 
 # ----------------- MEDICION ----------------- #
 

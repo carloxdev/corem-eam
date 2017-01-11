@@ -16,7 +16,7 @@ ARTICULO_TIPO = (
 )
 
 
-class Udm(models.Model):
+class UdmArticulo(models.Model):
     clave = models.CharField(max_length=144, unique=True)
     descripcion = models.CharField(max_length=144, null=True)
 
@@ -33,7 +33,10 @@ class Articulo(models.Model):
         default="CORRE",
         blank=True
     )
-    udm = models.ForeignKey(Udm)
+    udm = models.ForeignKey(
+        UdmArticulo,
+        on_delete=models.PROTECT
+    )
     clave_jde = models.CharField(max_length=144, blank=True, null=True)
 
     def __str__(self):

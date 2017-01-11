@@ -40,18 +40,17 @@
 						<h3 class="box-title">Equipo: <strong> {{ equipo.tag }} - {{ equipo.descripcion }}</strong></h3>
 					</div>
 
-					<div class="box-body">
-						<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
-				           	<i class="fa fa-text-width"></i> Texto
-				        </a>
-				        <a href="/equipos/anexos/{{id}}/imagen" class="btn btn-app">
-				        	<i class="fa fa-file-image-o"></i> Imagen
-				        </a>
-				        <a class="btn btn-app btn-primary active">
-				            <i class="fa fa-file-o"></i> Archivo
-				        </a>
-
-					</div>
+		            <div class="box-body">
+		            	<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
+			           	<i class="fa fa-text-width"></i> Texto
+			        </a>
+			        <a class="btn btn-app btn-primary active">
+			        	<i class="fa fa-file-image-o"></i> Imagen
+			        </a>
+			        <a href="/equipos/anexos/{{id}}/archivo" class="btn btn-app">
+			            <i class="fa fa-file-o"></i> Archivo
+			        </a>
+		            </div>
 				</div>
 				<!-- /.box-header -->
 			</div>
@@ -75,7 +74,7 @@
 					    			<div class="form-group input-group-sm {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
 					    					
 					    				<label for="{{ field.label }}">
-					       		 			<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
+					       		 			<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-asterisk {% endif %}"></i>
 												{{ field.label }}
 					       		 		</label>
 
@@ -88,19 +87,19 @@
 		              					{% endfor %}
 					    				</div>
 					    			{% endfor %}
-					   		</div>
-					</div>
-					   			 <!-- /.box-body -->
+					   			</div>
+							</div>
+							<!-- /.box-body -->
+	    			</div> 
 	        		 <div class="box-footer">
-		        		 <div class="col-sm-10 col-md-offset-1">
+		        		 <div class="col-xs-12">
 		        		 	 <button type="submit"  class="btn btn-success pull-right">
 		        		 	 	<i class="fa fa-save"></i>
 		        		 	 	Guardar
 		        		 	 </button>
 		        		 </div>
 	              	</div>
-					<!-- /.box-footer -->
-	    		</div> 	
+					<!-- /.box-footer -->	    			
 	    		</form>
 	          <!-- /.box -->			
 
