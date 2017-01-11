@@ -67,7 +67,6 @@ class UsuarioEditForm(ModelForm):
             'password': TextInput(attrs={'class': 'form-control'}),
         }
         labels = {
-            'username': 'Clave:',
             'first_name': 'Nombre:',
             'last_name': 'Apellidos:',
             'email': 'Email:',

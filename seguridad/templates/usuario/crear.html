@@ -42,7 +42,7 @@
 									<div class="form-group input-group-sm {% if form.username.field.required %} has-warning {% endif %} {% if form.username.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.username.field.required %} fa-asterisk {% endif %} {% if form.username.errors %} fa-asterisk {% endif %}"></i> 
 									  		{{ form.username.label }}
 									 	</label>
 									    {{ form.username }}
@@ -59,7 +59,7 @@
 									<div class="form-group input-group-sm {% if form.password.field.required %} has-warning {% endif %} {% if form.password.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.password.field.required %} fa-asterisk {% endif %} {% if form.password.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.password.field.required %} fa-asterisk {% endif %} {% if form.password.errors %} fa-asterisk {% endif %}"></i> 
 									  		{{ form.password.label }}
 									 	</label>
 									    {{ form.password }}
@@ -79,7 +79,7 @@
 									<div class="form-group input-group-sm {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-asterisk {% endif %}"></i> 
 									  		{{ form.first_name.label }}
 									 	</label>
 									    {{ form.first_name }}
@@ -96,7 +96,7 @@
 									<div class="form-group input-group-sm {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-asterisk {% endif %}"></i> 
 									  		{{ form.last_name.label }} 
 									 	</label>
 									    {{ form.last_name }}
@@ -112,13 +112,12 @@
 							<!-- Email, Activi, Estaff -->
 							<div class="row">
 
-
 								<div class="col-sm-8">
 
 									<div class="form-group input-group-sm {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
 									  		{{ form.email.label }} 
 									 	</label>
 									    {{ form.email }}
@@ -135,7 +134,7 @@
 									<div class="form-group input-group-sm {% if form.is_active.field.required %} has-warning {% endif %} {% if form.is_active.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.is_active.field.required %} fa-asterisk {% endif %} {% if form.is_active.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.is_active.field.required %} fa-asterisk {% endif %} {% if form.is_active.errors %} fa-asterisk {% endif %}"></i> 
 									  		<div>{{ form.is_active.label }} </div>
 									 	</label>
 									    {{ form.is_active }}
@@ -152,7 +151,7 @@
 									<div class="form-group input-group-sm {% if form.is_staff.field.required %} has-warning {% endif %} {% if form.is_staff.errors %} has-error {% endif %}">
 
 									  	<label class="control-label">
-									  		<i class="fa {% if form.is_staff.field.required %} fa-asterisk {% endif %} {% if form.is_staff.errors %} fa-times-circle-o {% endif %}"></i> 
+									  		<i class="fa {% if form.is_staff.field.required %} fa-asterisk {% endif %} {% if form.is_staff.errors %} fa-asterisk {% endif %}"></i> 
 									  		<div>{{ form.is_staff.label }} </div>
 									 	</label>
 									    {{ form.is_staff }}
@@ -169,12 +168,17 @@
 					  </div>
 		              <div class="box-footer">
 
-	              		<a class="btn btn-default" href="{% url 'seguridad.usuarios_lista' %}">Regresar</a>
-      					<button type="submit" class="btn btn-success pull-right">Guardar</button>
-		              </div>
-		              <!-- /.box-footer -->
+	              		<a class="btn btn-default" href="{% url 'seguridad.usuarios_lista' %}">
+	              			<i class="fa fa-arrow-circle-left"></i>
+	              			Regresar
+	              		</a>
 
-					
+      					<button type="submit" class="btn btn-success pull-right">
+      						<i class="fa fa-save"></i>
+      						Guardar
+      					</button>
+		              </div>
+		              <!-- /.box-footer -->					
 
 	            </form>
 	          </div>

@@ -104,7 +104,7 @@ class UsuarioListView(ListView):
 class UsuarioCreateView(View):
 
     def __init__(self):
-        self.template_name = 'usuario/formulario.html'
+        self.template_name = 'usuario/crear.html'
 
     def get(self, request):
         formulario = UsuarioCreateForm()
@@ -156,7 +156,7 @@ class UsuarioCreateView(View):
 class UsuarioEditView(View):
 
     def __init__(self):
-        self.template_name = 'usuario/formulario.html'
+        self.template_name = 'usuario/modificar.html'
         self.cuenta = ''
 
     def get(self, request, pk):
@@ -166,10 +166,12 @@ class UsuarioEditView(View):
 
         formulario = UsuarioEditForm(
             initial={
+                'username': usuario.username,
                 'first_name': usuario.first_name,
                 'last_name': usuario.last_name,
                 'email': usuario.email,
                 'is_staff': usuario.is_staff,
+                'is_active': usuario.is_active,
             }
         )
 
@@ -193,6 +195,7 @@ class UsuarioEditView(View):
             usuario.last_name = datos_formulario.get('last_name')
             usuario.email = datos_formulario.get('email')
             usuario.is_staff = datos_formulario.get('is_staff')
+            usuario.is_active = datos_formulario.get('is_active')
 
             if datos_formulario.get('is_staff'):
                 usuario.is_superuser = True

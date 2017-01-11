@@ -1,0 +1,179 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block title %} {{ operation }} Usuario {% endblock title %}
+
+{% block contenido %}
+
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+	  <h1>
+	    <span id="titulo">Usuarios</span>
+	    <small>{{ operation }}</small>
+	  </h1>
+	  <ol class="breadcrumb">
+	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+	    <li><a href="{% url 'seguridad.usuarios_lista' %}">Usuarios</a></li>
+	    <li class="active">{{ operation }}</li>
+	  </ol>
+	</section>
+
+	<!-- Main content -->
+	<section class="content" id="contenido">
+
+		<div class="row">
+	        <div class="col-md-12">
+
+	          <!-- Filtros -->
+	          <div class="box box-primary">
+		            <div class="box-header with-border">
+		              <h3 class="box-title">Modifcar datos del usuario: <strong>{{ cuenta }}</strong></h3>
+		            </div>
+	            	
+	            	<!-- /.box-header -->
+					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+		              <div class="box-body">
+
+							<!-- Nombre y Apellido -->
+							<div class="row">
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.first_name.field.required %} has-warning {% endif %} {% if form.first_name.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.first_name.field.required %} fa-asterisk {% endif %} {% if form.first_name.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.first_name.label }}
+									 	</label>
+									    {{ form.first_name }}
+									  
+									    {% for error in form.first_name.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.last_name.field.required %} has-warning {% endif %} {% if form.last_name.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.last_name.field.required %} fa-asterisk {% endif %} {% if form.last_name.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.last_name.label }} 
+									 	</label>
+									    {{ form.last_name }}
+									  
+									    {% for error in form.last_name.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>						
+							</div>
+
+
+							<!-- Contrasena y Email -->
+							<div class="row">
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.email.field.required %} has-warning {% endif %} {% if form.email.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.email.field.required %} fa-asterisk {% endif %} {% if form.email.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.email.label }} 
+									 	</label>
+									    {{ form.email }}
+									  
+									    {% for error in form.email.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>								
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.password.field.required %} has-warning {% endif %} {% if form.password.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.password.field.required %} fa-asterisk {% endif %} {% if form.password.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.password.label }}
+									 	</label>
+									    {{ form.password }}
+									  
+									    {% for error in form.password.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>											
+							</div>
+
+							<!-- Email, Activi, Estaff -->
+							<div class="row">
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.is_active.field.required %} has-warning {% endif %} {% if form.is_active.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.is_active.field.required %} fa-asterisk {% endif %} {% if form.is_active.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.is_active.label }}
+									 	</label>
+									    {{ form.is_active }}
+									  
+									    {% for error in form.is_active.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>	
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.is_staff.field.required %} has-warning {% endif %} {% if form.is_staff.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.is_staff.field.required %} fa-asterisk {% endif %} {% if form.is_staff.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.is_staff.label }}
+									 	</label>
+									    {{ form.is_staff }}
+									  
+									    {% for error in form.is_staff.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>	
+							</div>
+
+		              <!-- /.box-body -->
+					  </div>
+		              <div class="box-footer">
+
+	              		<a class="btn btn-default" href="{% url 'seguridad.usuarios_lista' %}">
+	              			<i class="fa fa-arrow-circle-left"></i>
+	              			Regresar
+	              		</a>
+
+      					<button type="submit" class="btn btn-success pull-right">
+      						<i class="fa fa-save"></i>
+      						Guardar
+      					</button>
+		              </div>
+		              <!-- /.box-footer -->					
+
+	            </form>
+	          </div>
+	          <!-- /.box -->
+
+	        </div>			
+
+		</div>
+
+	</section>
+	<!-- /. Main content -->
+
+{% endblock contenido %}

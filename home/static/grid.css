@@ -13,6 +13,11 @@
 	font-family: Helvetica Neue !important;
 }
 
+.grid-header {
+	font-family: Helvetica Neue;
+	font-size: 12px;
+}
+
 .boton_editar {
 	color: white;
 	background-color: #EE8A11;

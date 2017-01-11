@@ -34,7 +34,7 @@ class Articulo(models.Model):
         blank=True
     )
     udm = models.ForeignKey(Udm)
-    clave_jde = models.CharField(max_length=144, null=True)
+    clave_jde = models.CharField(max_length=144, blank=True, null=True)
 
     def __str__(self):
         return "{0} : {1}".format(
@@ -66,7 +66,7 @@ class Almacen(models.Model):
 class Stock(models.Model):
     almacen = models.ForeignKey(Almacen)
     articulo = models.ForeignKey(Articulo)
-    cantidad = models.CharField(max_length=140, null=True)
+    cantidad = models.CharField(max_length=140, default=0)
 
     def __str__(self):
         return "{0} - {1}".format(self.almacen, self.articulo)

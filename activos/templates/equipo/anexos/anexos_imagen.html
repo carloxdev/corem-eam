@@ -14,6 +14,7 @@
 {% endblock css %}
 
 {% block contenido %}
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
@@ -26,34 +27,37 @@
 		<li class="active">Anexos</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content" id="contenido">
 	<div class="row">
 		<div class="col-md-12">
 			<input id="id_equipo" type="hidden" value="{{ id }}">
 
-	          <!-- Filtros -->
-	          <div class="box box-info">
-	            <div class="box-header with-border">
-	            	<div class="box-header with-border">
-		             <h3 class="box-title">Equipo: <strong> {{ equipo.tag }} - {{ equipo.descripcion }}</strong></h3>
-		            </div>
-		            <div class="box-body">
-		            	<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
-			           	<i class="fa fa-text-width"></i> Texto
-			        </a>
-			        <a class="btn btn-app btn-primary active">
-			        	<i class="fa fa-file-image-o"></i> Imagen
-			        </a>
-			        <a href="/equipos/anexos/{{id}}/archivo" class="btn btn-app">
-			            <i class="fa fa-file-o"></i> Archivo
-			        </a>
-		            </div>
-	            	
-	            </div>
-	        </div>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<div class="box-header with-border">
+						<h3 class="box-title">Equipo: <strong> {{ equipo.tag }} - {{ equipo.descripcion }}</strong></h3>
+					</div>
+
+					<div class="box-body">
+						<a href= "/equipos/anexos/{{id}}/texto" class="btn btn-app">
+				           	<i class="fa fa-text-width"></i> Texto
+				        </a>
+				        <a href="/equipos/anexos/{{id}}/imagen" class="btn btn-app">
+				        	<i class="fa fa-file-image-o"></i> Imagen
+				        </a>
+				        <a class="btn btn-app btn-primary active">
+				            <i class="fa fa-file-o"></i> Archivo
+				        </a>
+
+					</div>
+				</div>
+				<!-- /.box-header -->
+			</div>
+
 	            <!-- /.box-header -->
-				     <div class="box box-solid box-primary collapsed-box" id="id_panel">
+			<div class="box box-solid box-primary collapsed-box" id="id_panel">
 		            <div class="box-header with-border">
 		            	<h3 class="box-title">Anexar Imagen</h3>
 
@@ -61,10 +65,10 @@
 			            	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 			          	</div>	              
 		            </div>
+
+		            <form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 	                <div class="box-body">
-						<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-		              		
-		               			
+
 					    	<div class="row">
 					    		<div class="col-sm-10 col-md-offset-1">
 					    			{% for field in form %}
@@ -72,7 +76,7 @@
 					    					
 					    				<label for="{{ field.label }}">
 					       		 			<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-times-circle-o {% endif %}"></i>
-												{{ field.label_tag }}
+												{{ field.label }}
 					       		 		</label>
 
 					        			{{ field }}
@@ -89,13 +93,15 @@
 					   			 <!-- /.box-body -->
 	        		 <div class="box-footer">
 		        		 <div class="col-sm-10 col-md-offset-1">
-
-		        		 	 <button type="submit"  class="btn btn-success pull-right">Guardar</button>
+		        		 	 <button type="submit"  class="btn btn-success pull-right">
+		        		 	 	<i class="fa fa-save"></i>
+		        		 	 	Guardar
+		        		 	 </button>
 		        		 </div>
 	              	</div>
 					<!-- /.box-footer -->
-	              </form>
 	    		</div> 	
+	    		</form>
 	          <!-- /.box -->			
 
 		</div>
