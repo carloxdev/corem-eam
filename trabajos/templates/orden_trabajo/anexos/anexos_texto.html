@@ -61,7 +61,7 @@
 								<div class="form-group input-group-sm {% if form.titulo.field.required %} has-warning {% endif %} {% if titulo.field.errors %} has-error {% endif %}">
 									<label for="{{ form.titulo.label }}">
 										<i class="fa {% if form.titulo.field.required %} fa-asterisk {% endif %} {% if titulo.field.errors %} fa-asterisk {% endif %}"></i>
-										{{ form.titulo.label_tag }}
+										{{ form.titulo.label }}
 									</label>
 										{{ form.titulo }}
 										{% for error in titulo.field.errors %}
@@ -73,7 +73,7 @@
 								<div class="form-group {% if form.texto.field.required %} has-warning {% endif %} {% if texto.field.errors %} has-error {% endif %}">
 									<label for="{{ form.texto.label }}">
 										<i class="fa {% if form.texto.field.required %} fa-asterisk {% endif %} {% if texto.field.errors %} fa-asterisk {% endif %}"></i>
-										{{ form.texto.label_tag }}
+										{{ form.texto.label }}
 									</label>
 									{{ form.texto }}
 									{% for error in texto.field.errors %}
