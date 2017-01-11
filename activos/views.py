@@ -572,40 +572,6 @@ class MedicionOdometroView(View):
         return render(request, self.template_name, contexto)
 
 
-class MedicionCreateView(View):
-
-    def __init__(self):
-        self.template_name = 'medicion/formulario.html'
-
-    def get(self, request):
-
-        form = MedicionForm()
-
-        contexto = {
-            'form': form
-        }
-
-        return render(request, self.template_name, contexto)
-
-    def post(self, request):
-
-        form = MedicionForm(request.POST)
-
-        if form.is_valid():
-            medicion = Medicion()
-            medicion.fecha = request.POST['fecha']
-            medicion.lectura = request.POST['lectura']
-            medicion.odometro_id = request.POST['odometro']
-            medicion.save()
-            form = MedicionForm()
-
-        contexto = {
-            'form': form
-        }
-
-        return render(request, "medicion/lista.html", contexto)
-
-
 class MedicionAPI(viewsets.ModelViewSet):
     queryset = Medicion.objects.all().order_by('-fecha')
     serializer_class = MedicionSerializer
