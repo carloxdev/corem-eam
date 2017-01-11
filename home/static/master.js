@@ -54,7 +54,7 @@ Pagina.prototype.set_PageActive = function () {
 		this.activar_Arbol("tree_activos")
 		this.activar_Opcion("opt_odometros")
 	}
-	else if ( this.$titulo.text() == "Unidades de Medida") {
+	else if ( this.$titulo.text() == "UDM de Odometro") {
 		
 		this.activar_Arbol("tree_activos")
 		this.activar_Opcion("opt_odometros_udm")

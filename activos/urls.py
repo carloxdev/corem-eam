@@ -100,17 +100,17 @@ urlpatterns = [
     # ----------------- UDM ODOMETRO ----------------- #
 
     url(
-        r'udms/$',
+        r'udmodometro/$',
         UdmOdometroListView.as_view(),
         name='udms_odometro_lista'
     ),
     url(
-        r'udms/nuevo/$',
+        r'udmodometro/nuevo/$',
         UdmOdometroCreateView.as_view(),
         name='udms_odometro_nuevo'
     ),
     url(
-        r'udms/editar/(?P<pk>\d+)/$',
+        r'udmodometro/editar/(?P<pk>\d+)/$',
         UdmOdometroUpdateView.as_view(),
         name='udms_odometro_editar'
     ),

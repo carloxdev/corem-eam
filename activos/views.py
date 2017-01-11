@@ -505,7 +505,7 @@ class UdmOdometroCreateView(CreateView):
     model = UdmOdometro
     form_class = UdmOdometroForm
     template_name = 'udm_odometro/formulario.html'
-    success_url = reverse_lazy('activos:udm_lista')
+    success_url = reverse_lazy('activos:udms_odometro_lista')
     operation = "Nueva"
 
     def get_context_data(self, **kwargs):
@@ -521,7 +521,7 @@ class UdmOdometroUpdateView(UpdateView):
     model = UdmOdometro
     form_class = UdmOdometroForm
     template_name = 'udm_odometro/formulario.html'
-    success_url = reverse_lazy('activos:udm_lista')
+    success_url = reverse_lazy('activos:udms_odometro_lista')
     operation = "Editar"
 
     def get_context_data(self, **kwargs):

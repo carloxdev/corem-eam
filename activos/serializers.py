@@ -163,6 +163,7 @@ class UdmOdometroSerializer(serializers.ModelSerializer):
 class OdometroSerializer(serializers.ModelSerializer):
 
     equipo = serializers.SerializerMethodField()
+    udm = serializers.SerializerMethodField()
 
     class Meta:
         model = Odometro
@@ -179,7 +180,20 @@ class OdometroSerializer(serializers.ModelSerializer):
     def get_equipo(self, obj):
 
         try:
-            return obj.equipo.tag
+            return "({}) {}".format(
+                obj.equipo.tag,
+                obj.equipo.descripcion
+            )
+        except:
+            return ""
+
+    def get_udm(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.udm.clave,
+                obj.udm.descripcion
+            )
         except:
             return ""
 

@@ -1,18 +1,17 @@
 /*-----------------------------------------------*\
-            GLOBAL VARIABLES
+            GLOBAL VARS
 \*-----------------------------------------------*/
 
 // URLS
-var url_grid = window.location.origin + "/api/odometros/"
-var url_nuevo = window.location.origin + "/odometros/nuevo/"
-var url_editar = window.location.origin + "/odometros/editar/"
-var url_medicion = window.location.origin + "/odometros/"
+var url_grid = window.location.origin + "/api/udmodometro/"
+var url_nuevo = window.location.origin + "/udmodometro/nuevo/"
+var url_editar = window.location.origin + "/udmodometro/editar/"
+var url_eliminar = window.location.origin + "/api/udmodometro/"
 
 // OBJS
 var targeta_filtros = null
 var targeta_resultados = null
 var pagina = null
-
 
 /*-----------------------------------------------*\
             LOAD
@@ -24,7 +23,7 @@ $(document).ready(function () {
     targeta_resultados = new TargetaResultados()
 
     pagina = new Pagina()
-    pagina.init_Alertify()    
+    pagina.init_Alertify()
 })
 
 // Asigna eventos a teclas
@@ -37,59 +36,36 @@ $(document).keypress(function (e) {
     }
 })
 
-
 /*-----------------------------------------------*\
-            OBJETO: Targeta Filtros
+            OBJETO: FILTROS
 \*-----------------------------------------------*/
 
 function TargetaFiltros() {
 
     this.$id = $('#id_panel')
 
-    this.$equipo = $('#id_equipo')
-    this.$clave = $('#id_clave')
-    this.$descripcion = $('#id_descripcion')
-    this.$udm = $('#id_udm')
-
-    this.$boton_buscar =  $('#boton_buscar')
-    this.$boton_limpiar =  $('#boton_limpiar')
-
+    this.$filtro = $('#filtro');
+    this.$boton_buscar =  $('#boton_buscar');
+    
     this.init()
 }
 TargetaFiltros.prototype.init = function () {
 
-    this.$equipo.select2()
-    this.$udm.select2()
-
-    this.$id.addClass('collapsed-box')
+    // this.$id.addClass('collapsed-box')
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
-    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
-}
-TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
-
-    return {
-        page: _page,
-        pageSize: _pageSize,
-        equipo: this.$equipo.val(),
-        clave: this.$clave.val(),
-        descripcion: this.$descripcion.val(),
-        udm: this.$udm.val(),
-    }
 }
 TargetaFiltros.prototype.click_BotonBuscar = function(e) {
 
     e.preventDefault()
     targeta_resultados.grid.buscar()
 }
-TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
+TargetaFiltros.prototype.get_Filtros = function () {
 
-    e.preventDefault()
-
-    e.data.$equipo.val("").trigger('change')
-    e.data.$clave.val("")
-    e.data.$descripcion.val("")
-    e.data.$udm.val("").trigger('change')
+    return {
+        search: this.$filtro.val()
+        
+    }
 }
 
 /*-----------------------------------------------*\
@@ -121,7 +97,7 @@ GridPrincipal.prototype.init = function () {
 
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
 
-    this.kGrid = this.$id.kendoGrid(this.get_Config())
+    this.kgrid = this.$id.kendoGrid(this.get_Config())
 }
 GridPrincipal.prototype.get_Config = function () {
 
@@ -136,80 +112,55 @@ GridPrincipal.prototype.get_Config = function () {
         scrollable: false,
         columns: this.get_Columnas(),
         scrollable: true,
-        pageable: true,
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
-        },  
-        dataBound: this.apply_Estilos,      
+        },
+        dataBound: this.set_Icons,
     }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
-        equipo: { type: "string" },
-        clave: { type: "string" },
+        clave: { type: "string"},
         descripcion: { type: "string" },
-        udm: { type: "string" },
-        
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
-    return [
-        { field: "clave" , title: "Clave", width: "120px" },
-        { field: "descripcion" , title: "Descripción", width: "250px" },
-        { field: "udm" , title: "UDM", width: "120px" },
-        { field: "esta_activo" , title: "Activo", width: "120px" }, 
-        { field: "equipo" , title: "Equipo", width: "370px" },
+    return [      
+        { field: "clave" , title: "Clave" },
+        { field: "descripcion" , title: "Descripcion"},
         {
            command: [
                 {
                    text: " Editar",
                    click: this.click_BotonEditar,
                    className: "boton_editar fa fa-pencil"
-                }, 
+                },
                 {
-                   text: " Mediciones",
-                   click: this.click_BotonMedicion,
-                   className: "boton_default fa fa-heartbeat"
-                },               
-            ],           
+                    text: " Eliminar",
+                    click: this.click_BotonEliminar,
+                    className: "boton_eliminar fa fa-trash-o"
+                },
+            ],
            title: " ",
-           width: "210px"
+           width: "190px"
         },
     ]
 }
-GridPrincipal.prototype.apply_Estilos = function (e) {
+GridPrincipal.prototype.set_Icons = function (e) {
 
-    // Aplicar iconos
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })
 
-    e.sender.tbody.find(".k-button.fa.fa-heartbeat").each(function(idx, element){
-        $(element).removeClass("fa fa-heartbeat").find("span").addClass("fa fa-heartbeat")
-    })    
-
-    // Aplicar formato a columna:
-    $('td').each( function () {
-        if($(this).text()=='true'){ 
-
-            $(this).addClass('cell--activo')
-            $(this).text("Activo")
-        }
-        else if($(this).text()=='false'){ 
-            $(this).addClass('cell--deshabilitado')
-            $(this).text("Deshabilitado")
-        }
-
-    })    
+    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
+        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
+    })
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
     return {
-
-        serverPaging: true,
-        pageSize: 10,
         transport: {
             read: {
 
@@ -219,14 +170,11 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
             },
             parameterMap: function (data, action) {
                 if (action === "read") {
-
-                    return targeta_filtros.get_Filtros(data.page, data.pageSize)
+                    return targeta_filtros.get_Filtros()
                 }
             }
         },
         schema: {
-            data: "results",
-            total: "count",
             model: {
                 fields: this.get_Campos()
             }
@@ -237,21 +185,47 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-    this.kfuente_datos.page(1)
+    
+    this.kfuente_datos.read()
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.pk + "/"
+    window.location.href = url_editar + fila.pk;
 }
-GridPrincipal.prototype.click_BotonMedicion = function (e) {
+GridPrincipal.prototype.click_BotonEliminar = function (e) {
+
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    var id_odometro = fila.pk
-    window.location.href = url_medicion+id_odometro+'/mediciones/'
 
+    alertify.confirm(
+        'Eliminar Registro',
+        '¿Desea Eliminar este registro?', 
+        function () {
+
+            var url = url_eliminar + fila.pk + "/"
+
+            $.ajax({
+                url: url,
+                method: "DELETE",
+                success: function () {
+                    alertify.success("Se elimino registro correctamente")
+                    
+                    targeta_resultados.grid.kfuente_datos.remove(fila)
+                    targeta_resultados.grid.kfuente_datos.sync()
+
+                },
+                error: function () {
+                    
+                    alertify.error("Ocurrio un error al eliminar")
+                }
+            })
+        }, 
+        null
+    )
 }
+
 
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR
@@ -278,3 +252,5 @@ Toolbar.prototype.click_BotonExportar = function(e) {
     e.preventDefault()
     return null
 }
+
+

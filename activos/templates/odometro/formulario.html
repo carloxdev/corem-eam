@@ -6,15 +6,13 @@
 
 {% block css %}
 
-<!-- Select2 -->
-<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
-
-<!-- CoreM -->
-<link rel="stylesheet" href="{% static 'odometro/formulario.css' %}"/>
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
 {% endblock %}
 
 {% block contenido %}
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
@@ -27,6 +25,7 @@
 		<li class="active"> {{ operation }}</li>
 	</ol>
 </section>
+
 <!-- Main content -->
 <section class="content" id="contenido">
 	<div class="row">
@@ -110,10 +109,10 @@
 										</div>
 										<div class="col-xs-3 col-sm-3 col-md-3">
 											<div class="btn-group">
-												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_edit_ubicacion">
+												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_edit_udm">
 													<i class="glyphicon glyphicon-pencil"></i>
 												</a>
-												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_new_ubicacion">
+												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_new_udm">
 													<i class="glyphicon glyphicon-plus-sign"></i>
 												</a>
 											</div>
@@ -125,7 +124,6 @@
 								    {% endfor %}
 								</div>
 							</div>
-
 									
 						</div>	
 
@@ -159,7 +157,7 @@
 							<button type="submit" class="btn btn-success pull-right">
 								<i class="fa fa-save"></i>
 								Guardar
-							</button>						
+							</button>
 						</div>
 						<!-- /.box-footer -->
 					</div>
@@ -167,6 +165,55 @@
 			</div>
 		<!-- /.box -->
 	</div>
+
+	<!-- PopUp -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="win_udm">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title"></h4>
+	      </div>
+	      <div class="modal-body">
+
+				<input class="hidden" id="ubi_id" type="text" />
+
+				<div class="row">
+					<div class="col-sm-10 col-md-offset-1">
+						<div class="form-group input-group-sm has-warning" id="ubi_clave_contenedor">
+							<label for="Clave">
+								<i class="fa  fa-asterisk  "></i>
+								<label for="ubi_clave">Clave:</label>
+							</label>
+							<input class="form-control" id="ubi_clave" maxlength="144" type="text" />
+							<span class="help-block hidden" id="ubi_clave_mensaje">Este campo es requerido.</span>
+						</div>
+					</div>
+				</div>
+		
+				<div class="row">
+					<div class="col-sm-10 col-md-offset-1">
+						<div class="form-group input-group-sm has-warning" id="ubi_desc_contenedor">
+							<label for="Descripcion">
+								<i class="fa fa-asterisk"></i>
+								<label for="ubi_descripcion">Descripcion:</label>
+							</label>
+							<input class="form-control" id="ubi_descripcion" maxlength="144" type="text" />
+							<span class="help-block hidden" id="ubi_desc_mensaje">Este campo es requerido.</span>
+						</div>
+					</div>
+				</div>
+
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+	        <button type="button" class="btn btn-success" id="bnt_ubi-save">Guardar</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
 </section>
 <!-- /. Main content -->
 {% endblock contenido %}
