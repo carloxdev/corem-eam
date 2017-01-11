@@ -21,3 +21,9 @@
 	height: 400px;
 	width: 400px;
 }
+
+.box-header-border {
+
+	border-left: 1px solid #C1C1C1;
+	border-right: 1px solid #C1C1C1;
+}

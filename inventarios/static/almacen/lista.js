@@ -43,7 +43,7 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
 
-    this.$id.addClass('collapsed-box')
+    // this.$id.addClass('collapsed-box')
 
     this.$boton_buscar.on("click", this, this.click_BotonBuscar)
 }
