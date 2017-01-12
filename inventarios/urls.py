@@ -16,7 +16,8 @@ from .views import ArticuloAnexoTextoView
 from .views import ArticuloAnexoImagenView
 from .views import ArticuloAnexoArchivoView
 
-from .views import EntradaListView
+from .views import EntradaCabeceraListView
+from .views import EntradaCabeceraCreateView
 
 
 urlpatterns = [
@@ -74,10 +75,15 @@ urlpatterns = [
         name='activos.anexar_archivo'
     ),
 
-     # ----------------- ENTRADAS ----------------- #
+    # ----------------- ENTRADAS ----------------- #
     url(
         r'entradas/$',
-        EntradaListView.as_view(),
+        EntradaCabeceraListView.as_view(),
         name='inventarios.entradas_lista'
+    ),
+    url(
+        r'entradas/nuevo/$',
+        EntradaCabeceraCreateView.as_view(),
+        name='inventarios.entradas_nuevo'
     ),
 ]

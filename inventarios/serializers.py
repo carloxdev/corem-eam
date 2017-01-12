@@ -7,6 +7,7 @@ from rest_framework import serializers
 from .models import Almacen
 from .models import Articulo
 from .models import EntradaCabecera
+from .models import EntradaDetalle
 from .models import SalidaCabecera
 
 
@@ -86,7 +87,6 @@ class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'almacen'
         )
 
-
     def get_almacen(self, obj):
 
         try:
@@ -98,7 +98,33 @@ class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             return ""
 
 
-# ----------------- ENTRADA ----------------- #
+class EntradaDetalleSerializer(serializers.ModelSerializer):
+
+    articulo = ArticuloSerializer(many=True)
+    cabecera = serializers.SerializerMethodField()
+
+    class Meta:
+        model = EntradaDetalle
+        fields = (
+            'url',
+            'pk',
+            'cantidad',
+            'articulo',
+            'cabecera',
+        )
+
+    def get_cabecera(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.cabecera.clave.encode("utf-8"),
+                obj.cabecera.descripcion.encode("utf-8")
+            )
+        except:
+            return ""
+
+
+# ----------------- SALIDA ----------------- #
 
 
 class SalidaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
@@ -115,7 +141,6 @@ class SalidaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'descripcion',
             'almacen'
         )
-
 
     def get_almacen(self, obj):
 

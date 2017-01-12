@@ -30,11 +30,13 @@
 <section class="content-header">
 	<h1>
 	<span id="titulo">Entradas</span>
-	<small>Consulta</small>
+	<small>Nuevo</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li class="active">Entradas</li>
+		<li>Entradas</li>
+		<li class="active">Nuevo</li>
+
 	</ol>
 </section>
 <!-- Main content -->
@@ -50,55 +52,53 @@
 					</div>
 				</div>
 				<!-- /.box-header -->
-				<form method="post">
-					<div class="box-body">
-						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
-								<label for="{{ form.clave.id_for_label }}">Clave</label>
-								{{ form.clave }}
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-								<label for="{{ form.descripcion.id_for_label }}">Descripción</label>
-								{{ form.descripcion }}
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-								<label for="{{ form.almacen.id_for_label }}">Almacen</label>
-								{{ form.almacen }}
-							</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
+							<label for="{{ form.clave.id_for_label }}">Clave</label>
+							{{ form.clave }}
 						</div>
-						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
-								<label for="fecha_inicio">De:</label>
-								<div class="form-group input-group">
-					                <div class="input-group-addon">
-					                	<i class="fa fa-calendar"></i>
-					                </div>
-					                <input type="text" class="form-control pull-right" id="fecha_inicio" data-date-format="yyyy-mm-dd">
-					            </div>
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
-								<label for="fecha_fin">A:</label>
-								<div class="form-group input-group">
-					            	<div class="input-group-addon">
-					                	<i class="fa fa-calendar"></i>
-					            	</div>
-					                <input type="text" class="form-control pull-right" id="fecha_fin" data-date-format="yyyy-mm-dd">
-					            </div>						
-					        </div>
+						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+							<label for="{{ form.descripcion.id_for_label }}">Descripción</label>
+							{{ form.descripcion }}
+						</div>
+						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+							<label for="{{ form.almacen.id_for_label }}">Almacen</label>
+							{{ form.almacen }}
 						</div>
 					</div>
-					<!-- /.box-body -->
-					<div class="box-footer">
-						<button type="button" id="boton_limpiar" class="btn btn-default">
-							<i class="fa fa-eraser"></i>
-							Limpiar
-						</button>
-						<button type="button" id="boton_buscar" class="btn btn-info pull-right">
-							<i class="fa fa-search"></i>
-							Buscar
-						</button>
+					<div class="row">
+						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
+							<label for="fecha_inicio">De:</label>
+							<div class="form-group input-group">
+				                <div class="input-group-addon">
+				                	<i class="fa fa-calendar"></i>
+				                </div>
+				                <input type="text" class="form-control pull-right" id="fecha_inicio" data-date-format="yyyy-mm-dd">
+				            </div>
+						</div>
+						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
+							<label for="fecha_fin">A:</label>
+							<div class="form-group input-group">
+				            	<div class="input-group-addon">
+				                	<i class="fa fa-calendar"></i>
+				            	</div>
+				                <input type="text" class="form-control pull-right" id="fecha_fin" data-date-format="yyyy-mm-dd">
+				            </div>						
+				        </div>
 					</div>
-				</form>
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<button type="button" id="boton_limpiar" class="btn btn-default">
+						<i class="fa fa-eraser"></i>
+						Limpiar
+					</button>
+					<button type="button" id="boton_buscar" class="btn btn-info pull-right">
+						<i class="fa fa-search"></i>
+						Buscar
+					</button>
+				</div>
 			</div>
 			<!-- /.box -->
 			<div class="box box-info">

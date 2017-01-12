@@ -27,7 +27,9 @@ from .models import Articulo
 from .models import Almacen
 from .models import Stock
 from .models import EntradaCabecera
+from .models import EntradaDetalle
 from .models import SalidaCabecera
+from .models import SalidaDetalle
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
@@ -39,6 +41,7 @@ from forms import AlmacenForm
 from forms import ArticuloFilterForm
 from forms import ArticuloForm
 from forms import EntradaCabeceraFilterForm
+from forms import EntradaCabeceraForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -53,6 +56,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import AlmacenSerializer
 from .serializers import ArticuloSerializer
 from .serializers import EntradaCabeceraSerializer
+from .serializers import EntradaDetalleSerializer
 from .serializers import SalidaCabeceraSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoImagenSerializer
@@ -374,7 +378,7 @@ class ArticuloAnexoArchivoAPI(viewsets.ModelViewSet):
 # -----------------  ENTRADAS  ----------------- #
 
 
-class EntradaListView(View):
+class EntradaCabeceraListView(View):
     def __init__(self):
         self.template_name = 'entrada/lista.html'
 
@@ -389,22 +393,37 @@ class EntradaListView(View):
         return render(request, self.template_name, contexto)
 
 
-class EntradaCreateView(View):
+class EntradaCabeceraCreateView(View):
     def __init__(self):
         self.template_name = 'entrada/formulario.html'
 
     def get(self, request):
 
-        formulario = EntradaCabeceraFilterForm()
+        formulario = EntradaCabeceraForm()
 
         contexto = {
             'form': formulario,
         }
 
-        return render(render, self.template_name, contexto)
+        return render(request, self.template_name, contexto)
 
     def post(self, request):
-        pass
+
+        formulario = EntradaCabeceraForm(request.POST)
+
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            entrada_cabecera = EntradaCabecera()
+            entrada_cabecera.clave = datos_formulario.get('clave')
+            entrada_cabecera.descripcion = datos_formulario.get('descripcion')
+            entrada_cabecera.fecha = datos_formulario.get('fecha')
+            entrada_cabecera.almacen = datos_formulario.get('almacen')
+            entrada_cabecera.save()
+
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
 
 
 class EntradaAPI(viewsets.ModelViewSet):
@@ -413,6 +432,12 @@ class EntradaAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = EntradaCabeceraFilter
+
+
+class EntradaDetalleAPI(viewsets.ModelViewSet):
+    queryset = EntradaDetalle.objects.all()
+    serializer_class = EntradaDetalleSerializer
+    pagination_class = GenericPagination
 
 
 # -----------------  SALIDAS  ----------------- #

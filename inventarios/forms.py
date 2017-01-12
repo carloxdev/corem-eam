@@ -91,3 +91,23 @@ class EntradaCabeceraFilterForm(ModelForm):
             'almacen': Select(attrs={'class': 'form-control'}),
 
         }
+
+
+class EntradaCabeceraForm(ModelForm):
+
+    class Meta:
+        model = EntradaCabecera
+        fields = [
+            'clave',
+            'fecha',
+            'descripcion',
+            'almacen',
+        ]
+        widgets = {
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'fecha': TextInput(attrs={'class': 'form-control',
+                                      'data-date-format': 'yyyy-mm-dd'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'almacen': Select(attrs={'class': 'form-control'}),
+
+        }
