@@ -42,6 +42,7 @@ from forms import ArticuloFilterForm
 from forms import ArticuloForm
 from forms import EntradaCabeceraFilterForm
 from forms import EntradaCabeceraForm
+from forms import EntradaDetalleForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -388,8 +389,11 @@ class EntradaCabeceraCreateView(View):
     def get(self, request):
 
         formulario = EntradaCabeceraForm()
+        formulario_detalle = EntradaDetalleForm()
+
         contexto = {
             'form': formulario,
+            'form_detalle': formulario_detalle
         }
 
         return render(request, self.template_name, contexto)
@@ -397,7 +401,7 @@ class EntradaCabeceraCreateView(View):
     def post(self, request):
 
         formulario = EntradaCabeceraForm(request.POST)
-
+        # formulario_detalle = EntradaDetalleForm(request.POST)
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
             entrada_cabecera = EntradaCabecera()

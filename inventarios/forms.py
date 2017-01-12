@@ -9,6 +9,7 @@ from django.forms import Select
 from .models import Almacen
 from .models import Articulo
 from .models import EntradaCabecera
+from .models import EntradaDetalle
 
 
 # ----------------- ALMACEN ----------------- #
@@ -110,4 +111,19 @@ class EntradaCabeceraForm(ModelForm):
             'descripcion': TextInput(attrs={'class': 'form-control'}),
             'almacen': Select(attrs={'class': 'form-control'}),
 
+        }
+
+
+class EntradaDetalleForm(ModelForm):
+
+    class Meta:
+        model = EntradaDetalle
+        fields = [
+            'articulo',
+            'cantidad',
+        ]
+
+        widgets = {
+            'articulo': Select(attrs={'class': 'form-control'}),
+            'cantidad': TextInput(attrs={'class': 'form-control'}),
         }

@@ -46,7 +46,7 @@
 			<!-- Formulario -->
 			<div class="box box-solid box-primary" id="id_panel">
 				<div class="box-header with-border">
-					<h3 class="box-title">Entrada</h3>
+					<h3 class="box-title">Cabecera</h3>
 					<div class="box-tools pull-right">
 						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div>
@@ -109,7 +109,7 @@
 							<i class="fa fa-arrow-circle-left"></i>
 							Regresar
 						</a>
-						<button type="submit" id="boton_guardar" class="btn btn-success pull-right">
+						<button type="button" id="boton_guardar" class="btn btn-success pull-right">
 							<i class="fa fa-save"></i>
 							Guardar
 						</button>
@@ -117,7 +117,49 @@
 				</form>
 			</div>
 			<!-- /.box -->
-			<div class="box box-info">
+
+			<div id="formulario_detalle" style = "display:none;" class="box box-solid box-primary" id="id_panel">
+				<div class="box-header with-border">
+					<h3 class="box-title">Detalle</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+					<div class="box-body">
+						<div class="row">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
+								<label for="{{ form.fecha.id_for_label}}">
+								<i class="fa fa-asterisk"></i>
+								Articulo</label>
+								<div class="form-group input-group">
+					                {{ form_detalle.articulo }}
+					            </div>
+					            {% for error in form.fecha.errors %}
+								    <span class="help-block">{{ error }}</span>
+									{% endfor %}						
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 {% if form.almacen.field.required %} has-warning {% endif %} {% if form.almacen.errors %} has-error {% endif %}">
+								<label for="{{ form.almacen.id_for_label }}">
+								<i class="fa {% if form.almacen.field.required %} fa-asterisk {% endif %} {% if form.almacen.errors %} fa-circle-o {% endif %}"></i>
+								Cantidad</label>
+								{{ form_detalle.cantidad }}
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						
+						<button type="button" id="boton_guardar_detalle" class="btn btn-success pull-right">
+							<i class="fa fa-save"></i>
+							Guardar
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Articulos</h3>
             </div>
@@ -128,14 +170,8 @@
                 		<tr>
 		                	<th style="width: 40%">Articulo</th>
 		                	<th style="width: 40%">Cantidad</th>
-		                	<th style="width: 20%"></th>
+		                	<th style="width: 20%">Eliminar</th>
                 		</tr>
-		                <tr>
-		                	<td>Aceite</td>
-		                	<td>24</td>
-		                	<td><button class="btn btn-danger">Eliminar</button></td>
-		                </tr>
-          
               		</tbody>
               	</table>
             </div>
