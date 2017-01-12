@@ -216,7 +216,6 @@ VentanaUdm.prototype.nuevo = function (e) {
             },
             success: function (response) {
 
-            	alertify.success("Ubicacion creada")
             	e.data.$id.modal('hide')
             	formulario.add_Udm(response.pk, response.clave, response.descripcion)
             },
@@ -243,7 +242,6 @@ VentanaUdm.prototype.editar = function (e) {
             },
             success: function (response) {
 
-            	alertify.success("Ubicacion modificada")
             	e.data.$id.modal('hide')
             	formulario.modify_Udm(e.data.$clave.val(), e.data.$descripcion.val())
             },

@@ -33,7 +33,7 @@
 			<!-- Filtros -->
 			<div class="box box-primary">
 				<div class="box-header with-border">
-					<h3 class="box-title">Favor de proporcionar los siguientes datos:</strong></h3>
+					<h3 class="box-title">Favor de proporcionar los siguientes datos:</h3>
 				</div>
 				<!-- /.box-header -->
 				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
@@ -124,7 +124,6 @@
 								    {% endfor %}
 								</div>
 							</div>
-									
 						</div>	
 
 						<div class="row">
@@ -145,22 +144,22 @@
 								</div>
 
 							</div>							
-
 						</div>
 
-						<!-- /.box-body -->
-						<div class="box-footer">
-							<a class="btn btn-default" href="{% url 'activos:odometros_lista' %}">
-								<i class="fa fa-arrow-circle-left"></i>
-								Regresar
-							</a>
-							<button type="submit" class="btn btn-success pull-right">
-								<i class="fa fa-save"></i>
-								Guardar
-							</button>
-						</div>
-						<!-- /.box-footer -->
 					</div>
+					<!-- /.box-body -->
+
+					<div class="box-footer">
+						<a class="btn btn-default" href="{% url 'activos:odometros_lista' %}">
+							<i class="fa fa-arrow-circle-left"></i>
+							Regresar
+						</a>
+						<button type="submit" class="btn btn-success pull-right">
+							<i class="fa fa-save"></i>
+							Guardar
+						</button>
+					</div>
+					<!-- /.box-footer -->
 				</form>
 			</div>
 		<!-- /.box -->

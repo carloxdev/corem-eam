@@ -27,6 +27,18 @@ ODOMETRO_UDM = (
 class Ubicacion(models.Model):
     clave = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{} - {}".format(
@@ -75,6 +87,18 @@ class Equipo(models.Model):
     )
     cliente = models.CharField(max_length=144, null=True, blank=True)
     responsable = models.CharField(max_length=144, null=True, blank=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} - {1}".format(self.tag, self.descripcion).encode('utf-8')
@@ -99,6 +123,18 @@ class Asignacion(models.Model):
 class UdmOdometro(models.Model):
     clave = models.CharField(max_length=144, unique=True)
     descripcion = models.CharField(max_length=144, null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.clave
@@ -110,6 +146,18 @@ class Odometro(models.Model):
     descripcion = models.CharField(max_length=144, null=True)
     udm = models.ForeignKey(UdmOdometro, null=True, on_delete=models.PROTECT)
     esta_activo = models.BooleanField(default=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(self.equipo, self.clave).encode('utf-8')
@@ -119,6 +167,18 @@ class Medicion(models.Model):
     odometro = models.ForeignKey(Odometro)
     fecha = models.DateTimeField(auto_now=False, auto_now_add=False)
     lectura = models.DecimalField(max_digits=20, decimal_places=4, default=0.0)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(self.odometro, self.fecha).encode('utf-8')

@@ -49,6 +49,8 @@ class AdminEquipo(ImportExportModelAdmin, admin.ModelAdmin):
         'sistema',
         'cliente',
         'responsable',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -57,6 +59,8 @@ class AdminUbicacion(admin.ModelAdmin):
     list_display = (
         'clave',
         'descripcion',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -65,15 +69,8 @@ class AdminUdmOdometro(admin.ModelAdmin):
     list_display = (
         'clave',
         'descripcion',
-    )
-
-
-@admin.register(Asignacion)
-class AdminAsignacion(admin.ModelAdmin):
-    list_display = (
-        'equipo',
-        'ubicacion',
-        'fecha',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -86,6 +83,8 @@ class Odometro(admin.ModelAdmin):
         'descripcion',
         'udm',
         'esta_activo',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -95,4 +94,6 @@ class Medicion(admin.ModelAdmin):
         'odometro',
         'fecha',
         'lectura',
+        'created_date',
+        'updated_date',
     )

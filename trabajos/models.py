@@ -43,6 +43,18 @@ class OrdenTrabajo(models.Model):
     fecha_real_fin = models.DateTimeField(null=True, blank=True)
     observaciones = models.TextField(null=True, blank=True)
     es_template = models.BooleanField(default=False)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(self.equipo, self.id).encode('utf-8')
@@ -64,6 +76,18 @@ class Actividad(models.Model):
         max_digits=7,
         decimal_places=2,
         default=0.0
+    )
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
     )
 
     def __str__(self):
@@ -89,6 +113,18 @@ class ManoObra(models.Model):
         decimal_places=2,
         default=0.0
     )
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.empleado)
@@ -110,6 +146,18 @@ class Material(models.Model):
         decimal_places=2,
         default=0.0
     )
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.articulo)
@@ -122,6 +170,18 @@ class ServicioExterno(models.Model):
     orden = models.ForeignKey(OrdenTrabajo)
     clave_jde = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.clave_jde)

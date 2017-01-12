@@ -213,7 +213,6 @@ VentanaUbicacion.prototype.nuevo = function (e) {
             },
             success: function (response) {
 
-            	alertify.success("Ubicacion creada")
             	e.data.$id.modal('hide')
             	formulario.add_Ubicacion(response.pk, response.clave, response.descripcion)
             },
@@ -240,7 +239,6 @@ VentanaUbicacion.prototype.editar = function (e) {
             },
             success: function (response) {
 
-            	alertify.success("Ubicacion modificada")
             	e.data.$id.modal('hide')
             	formulario.modify_Ubicacion(e.data.$clave.val(), e.data.$descripcion.val())
             },

@@ -15,10 +15,32 @@ ARTICULO_TIPO = (
     ('REF', 'REFACCION'),
 )
 
+ARTICULO_ESTADO = (
+    ('ACT', 'ACTIVO'),
+    ('DES', 'DESHABILITADO'),
+)
+
+ALMACEN_ESTADO = (
+    ('ACT', 'ACTIVO'),
+    ('DES', 'DESHABILITADO'),
+)
+
 
 class UdmArticulo(models.Model):
     clave = models.CharField(max_length=144, unique=True)
     descripcion = models.CharField(max_length=144, null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.clave
@@ -27,6 +49,12 @@ class UdmArticulo(models.Model):
 class Articulo(models.Model):
     clave = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
+    estado = models.CharField(
+        max_length=4,
+        choices=ARTICULO_ESTADO,
+        default="ACT",
+        blank=True
+    )
     tipo = models.CharField(
         max_length=6,
         choices=ARTICULO_TIPO,
@@ -38,6 +66,18 @@ class Articulo(models.Model):
         on_delete=models.PROTECT
     )
     clave_jde = models.CharField(max_length=144, blank=True, null=True)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} : {1}".format(
@@ -53,9 +93,27 @@ class Almacen(models.Model):
     empresa = models.ForeignKey(Empresa, null=True, blank=True)
     clave = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
+    estado = models.CharField(
+        max_length=4,
+        choices=ALMACEN_ESTADO,
+        default="ACT",
+        blank=True
+    )
     articulos = models.ManyToManyField(
         Articulo,
         through="Stock",
+        blank=True
+    )
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
         blank=True
     )
 
@@ -70,6 +128,18 @@ class Stock(models.Model):
     almacen = models.ForeignKey(Almacen)
     articulo = models.ForeignKey(Articulo)
     cantidad = models.CharField(max_length=140, default=0)
+    created_date = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True,
+        null=True,
+        blank=True
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=False,
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return "{0} - {1}".format(self.almacen, self.articulo)

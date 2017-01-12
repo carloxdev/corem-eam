@@ -14,7 +14,9 @@ from .models import Stock
 class AdminUdm(admin.ModelAdmin):
     list_display = (
         'clave',
-        'descripcion'
+        'descripcion',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -26,6 +28,8 @@ class AdminArticulo(admin.ModelAdmin):
         'descripcion',
         'tipo',
         'udm',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -35,6 +39,8 @@ class AdminAlmacen(admin.ModelAdmin):
         'empresa',
         'clave',
         'descripcion',
+        'created_date',
+        'updated_date',
     )
 
 
@@ -44,4 +50,6 @@ class AdminStock(admin.ModelAdmin):
         'almacen',
         'articulo',
         'cantidad',
+        'created_date',
+        'updated_date',
     )
