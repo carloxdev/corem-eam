@@ -61,6 +61,7 @@ class AdminStock(admin.ModelAdmin):
 @admin.register(EntradaCabecera)
 class AdminEntradaCabecera(admin.ModelAdmin):
     list_display = (
+        'pk',
         'clave',
         'fecha',
         'descripcion',
@@ -71,6 +72,7 @@ class AdminEntradaCabecera(admin.ModelAdmin):
 @admin.register(EntradaDetalle)
 class AdminEntradaDetalle(admin.ModelAdmin):
     list_display = (
+        'pk',
         'articulo',
         'cantidad',
         'cabecera',

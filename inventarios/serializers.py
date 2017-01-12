@@ -79,8 +79,8 @@ class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = EntradaCabecera
         fields = (
-            'url',
             'pk',
+            'url',
             'clave',
             'fecha',
             'descripcion',
@@ -98,22 +98,22 @@ class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             return ""
 
 
-class EntradaDetalleSerializer(serializers.HyperlinkedModelSerializer):
+class EntradaDetalleSerializer(serializers.ModelSerializer):
 
-    articulo = serializers.SerializerMethodField()
-    cabecera = serializers.SerializerMethodField()
+    articulo_clave = serializers.SerializerMethodField()
 
     class Meta:
         model = EntradaDetalle
         fields = (
-            'url',
             'pk',
+            'url',
             'cantidad',
             'articulo',
             'cabecera',
+            'articulo_clave',
         )
 
-    def get_articulo(self, obj):
+    def get_articulo_clave(self, obj):
 
         try:
             return "({}) {}".format(
@@ -122,17 +122,6 @@ class EntradaDetalleSerializer(serializers.HyperlinkedModelSerializer):
             )
         except:
             return ""
-
-    def get_cabecera(self, obj):
-
-        try:
-            return "({}) {}".format(
-                obj.cabecera.clave.encode("utf-8"),
-                obj.cabecera.descripcion.encode("utf-8")
-            )
-        except:
-            return ""
-
 
 # ----------------- SALIDA ----------------- #
 

@@ -388,7 +388,6 @@ class EntradaCabeceraCreateView(View):
     def get(self, request):
 
         formulario = EntradaCabeceraForm()
-
         contexto = {
             'form': formulario,
         }
@@ -407,9 +406,15 @@ class EntradaCabeceraCreateView(View):
             entrada_cabecera.fecha = datos_formulario.get('fecha')
             entrada_cabecera.almacen = datos_formulario.get('almacen')
             entrada_cabecera.save()
-            id_entrada = entrada_cabecera.id
-            print id_entrada
 
+            id_cabecera = entrada_cabecera.id
+            print id_cabecera
+
+            contexto = {
+                'form': formulario,
+                'id_cabecera': id_cabecera,
+            }
+            return render(request, self.template_name, contexto)
         contexto = {
             'form': formulario,
         }

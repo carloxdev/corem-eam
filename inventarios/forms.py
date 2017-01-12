@@ -74,7 +74,7 @@ class ArticuloForm(ModelForm):
         }
 
 
-# ----------------- ARTICULO ----------------- #
+# ----------------- ENTRADAS ----------------- #
 
 class EntradaCabeceraFilterForm(ModelForm):
 
