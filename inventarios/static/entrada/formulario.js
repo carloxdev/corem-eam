@@ -19,8 +19,9 @@ var pagina = null
 
 $(document).ready(function () {
 
-    targeta_formulario = new TargetaFormulario()
-    targeta_detalle = new TargetaFormularioDetalle()
+    targeta_filtros = new TargetaFormulario()
+    targeta_resultados = new TargetaResultados()
+
     pagina = new Pagina()
     pagina.init_Alertify()    
 })
@@ -52,7 +53,6 @@ function TargetaFormulario() {
 
     this.init()
 }
-
 TargetaFormulario.prototype.init = function () {
 
     this.$almacen.select2()
@@ -63,33 +63,177 @@ TargetaFormulario.prototype.init = function () {
         }
     )
 
-    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-}
-
-TargetaFormulario.prototype.click_BotonGuardar = function (e){
-    e.preventDefault()
-    e.data.$clave.attr("disabled", true)
-    e.data.$descripcion.attr("disabled", true)
-    e.data.$fecha.attr("disabled", true)
-    e.data.$almacen.attr("disabled", true)
-    e.data.$boton_guardar.attr("disabled", true)
-    targeta_detalle.$formulario_detalle.show()
+    if(this.$cabecera.val() != 0){
+        this.$clave.attr("disabled", true)
+        this.$descripcion.attr("disabled", true)
+        this.$fecha.attr("disabled", true)
+        this.$almacen.attr("disabled", true)
+        this.$boton_guardar.attr("disabled", true)
+    }
     
+}
+TargetaFormulario.prototype.get_Filtros = function (_page, _pageSize) {
+
+    return {
+        page: _page,
+        pageSize: _pageSize,
+        cabecera: this.$cabecera.val(),
+
+    }
 }
 
 /*-----------------------------------------------*\
-            OBJETO: DETALLE
+            OBJETO: RESULTADOS
 \*-----------------------------------------------*/
 
-function TargetaFormularioDetalle(){
-    this.$formulario_detalle = $('#formulario_detalle')
-    this.$articulo = $('#id_articulo')
-    this.$cantidad = $('#id_cantidad')
-    this.$boton_guardar = $('#boton_guardar_detalle')
+function TargetaResultados() {
+
+    this.toolbar = new Toolbar()
+    this.grid = new GridPrincipal()
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: GRID
+\*-----------------------------------------------*/
+
+function GridPrincipal() {
+
+    this.$id = $("#grid_principal")
+    this.kfuente_datos = null
+    this.kgrid = null
 
     this.init()
 }
+GridPrincipal.prototype.init = function () {
 
-TargetaFormularioDetalle.prototype.init = function(){
-    this.$articulo.select2()
+    kendo.culture("es-MX")
+
+    this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
+
+    this.kGrid = this.$id.kendoGrid(this.get_Config())
+}
+GridPrincipal.prototype.get_Config = function () {
+
+    return {
+        dataSource: this.kfuente_datos,
+        columnMenu: false,
+        groupable: false,
+        sortable: false,
+        editable: false,
+        resizable: true,
+        selectable: true,
+        scrollable: false,
+        columns: this.get_Columnas(),
+        scrollable: true,
+        pageable: true,
+        noRecords: {
+            template: "<div class='grid-empy'> No se encontraron registros </div>"
+        },  
+        dataBound: this.set_Icons,      
+    }
+}
+GridPrincipal.prototype.get_Campos = function (e) {
+
+    return {
+        articulo_clave: { type: "string" },
+        cantidad: { type: "string" },
+        
+    }
+}
+GridPrincipal.prototype.get_Columnas = function (e) {
+
+    return [
+        { field: "articulo_clave" , title: "Articulo", width: "120px" },
+        { field: "cantidad" , title: "Cantidad", width: "120px" },
+        
+        
+        {
+           command: [ 
+                {
+                   text: " Eliminar",
+                   click: this.click_BotonEliminar,
+                   className: "boton_eliminar fa fa-trash-o"
+                },   
+                             
+            ],           
+           title: " ",
+           width: "40px"
+        },
+    ]
+}
+GridPrincipal.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
+        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
+    })
+    
+}
+GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
+
+    return {
+
+        serverPaging: true,
+        pageSize: 10,
+        transport: {
+            read: {
+
+                url: url_grid,
+                type: "GET",
+                dataType: "json",
+            },
+            parameterMap: function (data, action) {
+                if (action === "read") {
+
+                    return targeta_filtros.get_Filtros(data.page, data.pageSize)
+                }
+            }
+        },
+        schema: {
+            data: "results",
+            total: "count",
+            model: {
+                fields: this.get_Campos()
+            }
+        },
+        error: function (e) {
+            alert("Status: " + e.status + "; Error message: " + e.errorThrown)
+        },
+    }
+}
+GridPrincipal.prototype.buscar =  function() {
+    this.kfuente_datos.page(1)
+}
+GridPrincipal.prototype.click_BotonEditar = function (e) {
+
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_editar + fila.pk + "/"
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: TOOLBAR
+\*-----------------------------------------------*/
+
+function Toolbar() {
+
+    this.$boton_nuevo = $("#boton_nuevo")
+    this.$boton_exportar = $("#boton_exportar")
+
+    this.init()
+}
+Toolbar.prototype.init = function (e) {
+
+    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
+    this.$boton_exportar.on("click", this, this.click_BotonExportar)
+}
+Toolbar.prototype.click_BotonNuevo = function (e) {
+
+    e.preventDefault()
+    window.location.href = url_nuevo
+}
+Toolbar.prototype.click_BotonExportar = function(e) {
+    e.preventDefault()
+    return null
 }
