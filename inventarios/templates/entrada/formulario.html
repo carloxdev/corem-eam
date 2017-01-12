@@ -34,7 +34,7 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li>Entradas</li>
+		<li><a href="{% url 'inventarios.entradas_lista' %}">Entradas</a></li>
 		<li class="active">Nuevo</li>
 
 	</ol>
@@ -44,61 +44,74 @@
 	<div class="row">
 		<div class="col-md-12">
 			<!-- Filtros -->
-			<div class="box box-solid box-info" id="id_panel">
+			<div class="box box-solid box-primary" id="id_panel">
 				<div class="box-header with-border">
-					<h3 class="box-title">Filtros</h3>
+					<h3 class="box-title">Entrada</h3>
 					<div class="box-tools pull-right">
 						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div>
 				</div>
 				<!-- /.box-header -->
-				<div class="box-body">
-					<div class="row">
-						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
-							<label for="{{ form.clave.id_for_label }}">Clave</label>
-							{{ form.clave }}
+				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+					<div class="box-body">
+						<div class="row">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
+								<label for="{{ form.clave.id_for_label }}">
+								<i class="fa {% if form.clave.field.required %} fa-asterisk {% endif %} {% if form.clave.errors %} fa-circle-o {% endif %}"></i>
+								Clave</label>
+								{{ form.clave }}
+								{% for error in form.clave.errors %}
+								<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+								<label for="{{ form.descripcion.id_for_label }}">
+								<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-circle-o {% endif %}"></i>
+								Descripción</label>
+								{{ form.descripcion }}
+								{% for error in form.descripcion.errors %}
+								<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.almacen.field.required %} has-warning {% endif %} {% if form.almacen.errors %} has-error {% endif %}">
+								<label for="{{ form.almacen.id_for_label }}">
+								<i class="fa {% if form.almacen.field.required %} fa-asterisk {% endif %} {% if form.almacen.errors %} fa-circle-o {% endif %}"></i>
+								Almacen</label>
+								{{ form.almacen }}
+								{% for error in form.almacen.errors %}
+								<span class="help-block">{{ error }}</span>
+								{% endfor %}
+							</div>
 						</div>
-						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-							<label for="{{ form.descripcion.id_for_label }}">Descripción</label>
-							{{ form.descripcion }}
-						</div>
-						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-							<label for="{{ form.almacen.id_for_label }}">Almacen</label>
-							{{ form.almacen }}
+						<div class="row">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
+								<label for="{{ form.fecha.id_for_label}}">
+								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
+								Fecha</label>
+								<div class="form-group input-group">
+					            	<div class="input-group-addon">
+					                	<i class="fa fa-calendar"></i>
+					            	</div>
+					                {{ form.fecha }}
+					                {% for error in form.fecha.errors %}
+								    <span class="help-block">{{ error }}</span>
+									{% endfor %}
+					            </div>						
+					        </div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
-							<label for="fecha_inicio">De:</label>
-							<div class="form-group input-group">
-				                <div class="input-group-addon">
-				                	<i class="fa fa-calendar"></i>
-				                </div>
-				                <input type="text" class="form-control pull-right" id="fecha_inicio" data-date-format="yyyy-mm-dd">
-				            </div>
-						</div>
-						<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
-							<label for="fecha_fin">A:</label>
-							<div class="form-group input-group">
-				            	<div class="input-group-addon">
-				                	<i class="fa fa-calendar"></i>
-				            	</div>
-				                <input type="text" class="form-control pull-right" id="fecha_fin" data-date-format="yyyy-mm-dd">
-				            </div>						
-				        </div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<!--<button type="button" id="boton_limpiar" class="btn btn-default">
+							<i class="fa fa-eraser"></i>
+							Limpiar
+						</button>-->
+						<button type="submit" id="boton_buscar" class="btn btn-success pull-right">
+							<i class="fa fa-save"></i>
+							Guardar
+						</button>
 					</div>
-				</div>
-				<!-- /.box-body -->
-				<div class="box-footer">
-					<button type="button" id="boton_limpiar" class="btn btn-default">
-						<i class="fa fa-eraser"></i>
-						Limpiar
-					</button>
-					<button type="button" id="boton_buscar" class="btn btn-info pull-right">
-						<i class="fa fa-search"></i>
-						Buscar
-					</button>
-				</div>
+				</form>
 			</div>
 			<!-- /.box -->
 			<div class="box box-info">
@@ -146,6 +159,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 
 <!-- CoreM -->
-<script src="{% static 'entrada/lista.js' %}"></script>
+<script src="{% static 'entrada/formulario.js' %}"></script>
 
 {% endblock scripts %}

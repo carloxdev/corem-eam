@@ -71,6 +71,7 @@ class AdminEntradaCabecera(admin.ModelAdmin):
 @admin.register(EntradaDetalle)
 class AdminEntradaDetalle(admin.ModelAdmin):
     list_display = (
+        'articulo',
         'cantidad',
         'cabecera',
     )

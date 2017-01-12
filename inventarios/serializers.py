@@ -98,9 +98,9 @@ class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             return ""
 
 
-class EntradaDetalleSerializer(serializers.ModelSerializer):
+class EntradaDetalleSerializer(serializers.HyperlinkedModelSerializer):
 
-    articulo = ArticuloSerializer(many=True)
+    articulo = serializers.SerializerMethodField()
     cabecera = serializers.SerializerMethodField()
 
     class Meta:
@@ -112,6 +112,16 @@ class EntradaDetalleSerializer(serializers.ModelSerializer):
             'articulo',
             'cabecera',
         )
+
+    def get_articulo(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.articulo.clave.encode("utf-8"),
+                obj.articulo.descripcion.encode("utf-8")
+            )
+        except:
+            return ""
 
     def get_cabecera(self, obj):
 

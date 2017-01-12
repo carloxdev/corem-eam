@@ -153,12 +153,9 @@ class ArticuloCreateView(View):
         }
         return render(request, self.template_name, contexto)
 
-    @transaction.atomic
     def post(self, request):
-        punto_transaccion = transaction.savepoint()
-        formulario = ArticuloForm(request.POST)
 
-        almacenes = request.POST.getlist('almacenes')
+        formulario = ArticuloForm(request.POST)
 
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
@@ -169,15 +166,6 @@ class ArticuloCreateView(View):
             articulo.udm = datos_formulario.get('udm')
             articulo.clave_jde = datos_formulario.get('clave_jde')
             articulo.save()
-
-            for almacen in almacenes:
-                obj_almacen = Almacen.objects.get(id=almacen)
-                Stock.objects.create(articulo=articulo, almacen=obj_almacen)
-
-            if punto_transaccion:
-                transaction.savepoint_commit(punto_transaccion)
-            else:
-                transaction.savepoint_rollback(punto_transaccion)
 
             return redirect(
                 reverse('inventarios.articulos_lista')
@@ -419,6 +407,8 @@ class EntradaCabeceraCreateView(View):
             entrada_cabecera.fecha = datos_formulario.get('fecha')
             entrada_cabecera.almacen = datos_formulario.get('almacen')
             entrada_cabecera.save()
+            id_entrada = entrada_cabecera.id
+            print id_entrada
 
         contexto = {
             'form': formulario,
@@ -438,6 +428,8 @@ class EntradaDetalleAPI(viewsets.ModelViewSet):
     queryset = EntradaDetalle.objects.all()
     serializer_class = EntradaDetalleSerializer
     pagination_class = GenericPagination
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('cabecera',)
 
 
 # -----------------  SALIDAS  ----------------- #

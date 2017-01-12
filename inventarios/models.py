@@ -160,7 +160,7 @@ class EntradaCabecera(models.Model):
 class EntradaDetalle(models.Model):
     cantidad = models.DecimalField(
         max_digits=20, decimal_places=4, default=0.0)
-    articulo = models.ManyToManyField(Articulo)
+    articulo = models.ForeignKey(Articulo)
     cabecera = models.ForeignKey(EntradaCabecera)
 
 
@@ -177,5 +177,5 @@ class SalidaCabecera(models.Model):
 class SalidaDetalle(models.Model):
     cantidad = models.DecimalField(
         max_digits=20, decimal_places=4, default=0.0)
-    articulo = models.ManyToManyField(Articulo)
+    articulo = models.ForeignKey(Articulo)
     cabecera = models.ForeignKey(SalidaCabecera)
