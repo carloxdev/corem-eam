@@ -20,11 +20,13 @@ class AlmacenForm(ModelForm):
             # 'empresa',
             'clave',
             'descripcion',
+            'estado',
         ]
         widgets = {
             # 'empresa': TextInput(attrs={'class': 'form-control'}),
             'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'estado': Select(attrs={'class': 'form-control'}),
         }
 
 

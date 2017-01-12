@@ -54,7 +54,7 @@
 
 								</div>
 
-								<div class="col-sm-9">
+								<div class="col-sm-6">
 
 									<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 
@@ -69,7 +69,24 @@
 									    {% endfor %}
 									</div>
 
-								</div>						
+								</div>
+
+								<div class="col-sm-3">
+
+									<div class="form-group input-group-sm {% if form.estado.field.required %} has-warning {% endif %} {% if form.estado.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.estado.field.required %} fa-asterisk {% endif %} {% if form.estado.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.estado.label }} 
+									 	</label>
+									    {{ form.estado }}
+									  
+									    {% for error in form.estado.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>														
 							</div>
 
 

@@ -39,6 +39,7 @@ class AdminAlmacen(admin.ModelAdmin):
         'empresa',
         'clave',
         'descripcion',
+        'estado',
         'created_date',
         'updated_date',
     )

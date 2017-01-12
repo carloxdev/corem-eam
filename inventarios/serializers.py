@@ -12,15 +12,24 @@ from .models import Articulo
 
 class AlmacenSerializer(serializers.ModelSerializer):
 
+    estado = serializers.SerializerMethodField()
+
     class Meta:
         model = Almacen
         fields = (
             'url',
             'pk',
-            'empresa',
             'clave',
             'descripcion',
+            'estado',
+            'empresa',
         )
+
+    def get_estado(self, obj):
+        try:
+            return obj.get_estado_display()
+        except:
+            return ""
 
 
 # ----------------- ARTICULO ----------------- #

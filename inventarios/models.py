@@ -53,7 +53,6 @@ class Articulo(models.Model):
         max_length=4,
         choices=ARTICULO_ESTADO,
         default="ACT",
-        blank=True
     )
     tipo = models.CharField(
         max_length=6,

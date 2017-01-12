@@ -106,6 +106,7 @@ GridPrincipal.prototype.get_Config = function () {
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
         },
+        dataBound: this.apply_Estilos,
     }
 }
 GridPrincipal.prototype.get_Campos = function (e) {
@@ -113,6 +114,7 @@ GridPrincipal.prototype.get_Campos = function (e) {
     return {
         clave: { type: "string"},
         descripcion: { type: "string" },
+        descripcion: { type: "estado" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
@@ -120,16 +122,35 @@ GridPrincipal.prototype.get_Columnas = function (e) {
     return [      
         { field: "clave" , title: "Clave" },
         { field: "descripcion" , title: "Descripcion"},
+        { field: "estado" , title: "Estado", width: "100px"},
         {
            command: {
-               text: "Editar",
+               text: " Editar",
                click: this.click_BotonEditar,
-               className: "boton_editar"
+               className: "boton_editar fa fa-pencil"
            },
            title: " ",
-           width: "90px"
+           width: "110px"
         },
     ]
+}
+GridPrincipal.prototype.apply_Estilos = function (e) {
+
+    // Aplicar iconos
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })
+
+    // Aplicar formato a columna:
+    $('td').each( function () {
+        if($(this).text()=='ACTIVO'){ 
+
+            $(this).addClass('cell--activo')
+        }
+        else if($(this).text()=='DESHABILITADO'){ 
+            $(this).addClass('cell--deshabilitado')
+        }
+    })
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
@@ -158,7 +179,7 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.read()
+    this.kfuente_datos.read()
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
