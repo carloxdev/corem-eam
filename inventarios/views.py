@@ -224,6 +224,7 @@ class ArticuloCreateView(View):
             articulo.descripcion = datos_formulario.get('descripcion')
             articulo.tipo = datos_formulario.get('tipo')
             articulo.udm = datos_formulario.get('udm')
+            articulo.estado = datos_formulario.get('estado')
             articulo.clave_jde = datos_formulario.get('clave_jde')
             articulo.save()
 
@@ -232,6 +233,7 @@ class ArticuloCreateView(View):
             )
         contexto = {
             'form': formulario,
+            'operation': "Nuevo"
         }
 
         return render(request, self.template_name, contexto)
@@ -247,7 +249,7 @@ class ArticuloUpdateView(UpdateView):
         context = super(ArticuloUpdateView, self).get_context_data(**kwargs)
 
         data = {
-            'operation': "Nuevo"
+            'operation': "Editar"
         }
 
         context.update(data)
