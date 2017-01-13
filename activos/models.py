@@ -144,7 +144,7 @@ class UdmOdometro(models.Model):
 
 
 class Odometro(models.Model):
-    equipo = models.ForeignKey(Equipo)
+    equipo = models.ForeignKey(Equipo, on_delete=models.PROTECT)
     clave = models.CharField(max_length=144)
     descripcion = models.CharField(max_length=144, null=True)
     udm = models.ForeignKey(UdmOdometro, null=True, on_delete=models.PROTECT)
@@ -167,7 +167,7 @@ class Odometro(models.Model):
 
 
 class Medicion(models.Model):
-    odometro = models.ForeignKey(Odometro)
+    odometro = models.ForeignKey(Odometro, on_delete=models.PROTECT)
     fecha = models.DateTimeField(auto_now=False, auto_now_add=False)
     lectura = models.DecimalField(max_digits=20, decimal_places=4, default=0.0)
     created_date = models.DateTimeField(

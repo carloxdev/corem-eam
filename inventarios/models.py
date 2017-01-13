@@ -92,7 +92,11 @@ class Articulo(models.Model):
 
 
 class Almacen(models.Model):
-    empresa = models.ForeignKey(Empresa, null=True, blank=True)
+    empresa = models.ForeignKey(
+        Empresa, null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
     clave = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
     estado = models.CharField(
@@ -127,8 +131,8 @@ class Almacen(models.Model):
 
 
 class Stock(models.Model):
-    almacen = models.ForeignKey(Almacen)
-    articulo = models.ForeignKey(Articulo)
+    almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
+    articulo = models.ForeignKey(Articulo, on_delete=models.PROTECT)
     cantidad = models.CharField(max_length=140, default=0)
     created_date = models.DateTimeField(
         auto_now=False,
