@@ -43,7 +43,7 @@
 <section class="content" id="contenido">
 	<div class="row">
 		<div class="col-md-12">
-			<!-- Filtros -->
+			<!-- Formulario -->
 			<div class="box box-solid box-primary" id="id_panel">
 				<div class="box-header with-border">
 					<h3 class="box-title">Entrada</h3>
@@ -54,8 +54,11 @@
 				<!-- /.box-header -->
 				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 					<div class="box-body">
+						
+						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %}>
+						
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
 								<label for="{{ form.clave.id_for_label }}">
 								<i class="fa {% if form.clave.field.required %} fa-asterisk {% endif %} {% if form.clave.errors %} fa-circle-o {% endif %}"></i>
 								Clave</label>
@@ -64,7 +67,7 @@
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1{% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 								<label for="{{ form.descripcion.id_for_label }}">
 								<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-circle-o {% endif %}"></i>
 								Descripción</label>
@@ -73,7 +76,23 @@
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.almacen.field.required %} has-warning {% endif %} {% if form.almacen.errors %} has-error {% endif %}">
+						</div>
+						<div class="row">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
+								<label for="{{ form.fecha.id_for_label}}">
+								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
+								Fecha</label>
+								<div class="form-group input-group">
+					            	<div class="input-group-addon">
+					                	<i class="fa fa-calendar"></i>
+					            	</div>
+					                {{ form.fecha }}
+					            </div>
+					            {% for error in form.fecha.errors %}
+								    <span class="help-block">{{ error }}</span>
+									{% endfor %}						
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 {% if form.almacen.field.required %} has-warning {% endif %} {% if form.almacen.errors %} has-error {% endif %}">
 								<label for="{{ form.almacen.id_for_label }}">
 								<i class="fa {% if form.almacen.field.required %} fa-asterisk {% endif %} {% if form.almacen.errors %} fa-circle-o {% endif %}"></i>
 								Almacen</label>
@@ -83,30 +102,15 @@
 								{% endfor %}
 							</div>
 						</div>
-						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
-								<label for="{{ form.fecha.id_for_label}}">
-								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
-								Fecha</label>
-								<div class="form-group input-group">
-					            	<div class="input-group-addon">
-					                	<i class="fa fa-calendar"></i>
-					            	</div>
-					                {{ form.fecha }}
-					                {% for error in form.fecha.errors %}
-								    <span class="help-block">{{ error }}</span>
-									{% endfor %}
-					            </div>						
-					        </div>
-						</div>
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer">
-						<!--<button type="button" id="boton_limpiar" class="btn btn-default">
-							<i class="fa fa-eraser"></i>
-							Limpiar
-						</button>-->
-						<button type="submit" id="boton_buscar" class="btn btn-success pull-right">
+						<a class="btn btn-default" href="{% url 'inventarios.entradas_lista' %}">
+							<i class="fa fa-arrow-circle-left"></i>
+							Regresar
+						</a>
+
+						<button type="submit" id="boton_guardar" class="btn btn-success pull-right">
 							<i class="fa fa-save"></i>
 							Guardar
 						</button>
@@ -114,23 +118,74 @@
 				</form>
 			</div>
 			<!-- /.box -->
-			<div class="box box-info">
-				<div class="box-header">
-					<h3 class="box-title">Registros</h3>
+			{% if form_detalle %}
+			<div id="formulario_detalle" class="box box-solid box-primary" id="id_panel">
+				<div class="box-header with-border">
+					<h3 class="box-title">Detalle</h3>
 					<div class="box-tools pull-right">
-						<button type="button" id="boton_nuevo" class="btn bg-purple btn-sm">
-						<i class="fa fa-plus-circle"></i>
-						Nuevo
-						</button>
-						<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
-						<i class="fa fa-file-excel-o"></i>
-						Exportar
-						</button>
+						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 					</div>
 				</div>
-				<div id="grid_principal">
-				</div>
+				<!-- /.box-header -->
+				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+					<div class="box-body">
+						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %} name="cabecera">
+						<div class="row">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
+								<label for="{{ form.fecha.id_for_label}}">
+								<i class="fa fa-asterisk"></i>
+								Articulo</label>
+								<div class="form-group input-group">
+					                {{ form_detalle.articulo }}
+					            </div>
+					            {% for error in form.fecha.errors %}
+								    <span class="help-block">{{ error }}</span>
+									{% endfor %}						
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 {% if form.almacen.field.required %} has-warning {% endif %} {% if form.almacen.errors %} has-error {% endif %}">
+								<label for="{{ form.almacen.id_for_label }}">
+								<i class="fa {% if form.almacen.field.required %} fa-asterisk {% endif %} {% if form.almacen.errors %} fa-circle-o {% endif %}"></i>
+								Cantidad</label>
+								{{ form_detalle.cantidad }}
+							</div>
+						</div>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<button type="submit" id="boton_guardar_detalle" class="btn btn-success pull-right">
+							<i class="fa fa-save"></i>
+							Guardar
+						</button>
+					</div>
+				</form>
 			</div>
+			{% endif %}
+			<div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Articulos</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            	<table class="table table-bordered">
+                	<tbody>
+                		<tr>
+		                	<th style="width: 40%">Articulo</th>
+		                	<th style="width: 40%">Cantidad</th>
+		                	<th style="width: 20%"></th>
+                		</tr>
+                		{% for detalle in detalles %}
+		                <tr>
+		                	<td>{{ detalle.articulo }}</td>
+		                	<td>{{ detalle.cantidad }}</td>
+		                	<td><button class="btn btn-danger">Eliminar</button></td>
+		                </tr>
+		                {% endfor %}
+          
+              		</tbody>
+              	</table>
+            </div>
+            <!-- /.box-body -->
+          </div>
 			<!-- /.box -->
 		</div>
 	</div>

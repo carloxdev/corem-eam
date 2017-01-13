@@ -13,6 +13,7 @@ from django.forms import Form
 from .models import Almacen
 from .models import Articulo
 from .models import EntradaCabecera
+from .models import EntradaDetalle
 
 
 # ----------------- ALMACEN ----------------- #
@@ -122,7 +123,7 @@ class StockFilterForm(Form):
         return articulo
 
 
-# ----------------- ARTICULO ----------------- #
+# ----------------- ENTRADAS ----------------- #
 
 class EntradaCabeceraFilterForm(ModelForm):
 
@@ -158,4 +159,19 @@ class EntradaCabeceraForm(ModelForm):
             'descripcion': TextInput(attrs={'class': 'form-control'}),
             'almacen': Select(attrs={'class': 'form-control'}),
 
+        }
+
+
+class EntradaDetalleForm(ModelForm):
+
+    class Meta:
+        model = EntradaDetalle
+        fields = [
+            'articulo',
+            'cantidad',
+        ]
+
+        widgets = {
+            'articulo': Select(attrs={'class': 'form-control'}),
+            'cantidad': TextInput(attrs={'class': 'form-control'}),
         }

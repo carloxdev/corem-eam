@@ -44,12 +44,12 @@ $(document).keypress(function (e) {
 function TargetaFormulario() {
 
     this.$id = $('#id_panel')
-
+    this.$cabecera = $('#id_cabecera')
     this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
     this.$fecha = $('#id_fecha')
     this.$almacen = $('#id_almacen')
-
+    this.$boton_guardar = $('#boton_guardar')
 
     this.init()
 }
@@ -62,22 +62,25 @@ TargetaFormulario.prototype.init = function () {
             language: 'es'
         }
     )
-    //this.$id.addClass('collapsed-box')
 
+    if(this.$cabecera.val() != 0){
+        this.$clave.attr("disabled", true)
+        this.$descripcion.attr("disabled", true)
+        this.$fecha.attr("disabled", true)
+        this.$almacen.attr("disabled", true)
+        this.$boton_guardar.attr("disabled", true)
+    }
+    
 }
 TargetaFormulario.prototype.get_Filtros = function (_page, _pageSize) {
 
     return {
         page: _page,
         pageSize: _pageSize,
-        clave: this.$clave.val(),
-        descripcion: this.$descripcion.val(),
-        almacen: this.$almacen.val(),
-        fecha: this.$fecha.val()
+        cabecera: this.$cabecera.val(),
 
     }
 }
-
 
 /*-----------------------------------------------*\
             OBJETO: RESULTADOS
@@ -133,7 +136,7 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
-        articulo: { type: "string" },
+        articulo_clave: { type: "string" },
         cantidad: { type: "string" },
         
     }
@@ -141,7 +144,7 @@ GridPrincipal.prototype.get_Campos = function (e) {
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "articulo" , title: "Articulo", width: "120px" },
+        { field: "articulo_clave" , title: "Articulo", width: "120px" },
         { field: "cantidad" , title: "Cantidad", width: "120px" },
         
         
@@ -155,7 +158,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                              
             ],           
            title: " ",
-           width: "120px"
+           width: "40px"
         },
     ]
 }
