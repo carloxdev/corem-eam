@@ -41,11 +41,9 @@ from forms import ArticuloFilterForm
 from forms import ArticuloForm
 from forms import EntradaCabeceraFilterForm
 from forms import EntradaCabeceraForm
-<<<<<<< HEAD
 from forms import StockFilterForm
-=======
 from forms import EntradaDetalleForm
->>>>>>> origin/develop
+
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
