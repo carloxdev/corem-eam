@@ -14,7 +14,7 @@
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-	    <li><a href="{% url 'inventarios.articulos_lista' %}">Articulos</a></li>
+	    <li><a href="{% url 'inventarios:articulos_lista' %}">Articulos</a></li>
 	    <li class="active">{{ operation }}</li>
 	  </ol>
 	</section>
@@ -35,7 +35,7 @@
 
 		              <div class="box-body">
 		      			<div class="row">
-					    	<div class="col-sm-10 col-md-offset-1">
+					    	<div class="col-sm-4">
 					    		<div class="form-group input-group-sm {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.clave.label }}">
@@ -52,9 +52,8 @@
 					    			
 					    		</div>
 					    	</div>
-					    </div>
-					    <div class="row">
-					    	<div class="col-sm-10 col-md-offset-1">
+
+					    	<div class="col-sm-8">
 					    		<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.descripcion.label }}">
@@ -70,10 +69,40 @@
 		              				{% endfor %}
 					    			
 					    		</div>
-					    	</div>
+					    	</div>					    	
 					    </div>
+
 					    <div class="row">
-					    	<div class="col-sm-10 col-md-offset-1">
+					    	<div class="col-sm-3">
+					    		<div class="form-group {% if form.udm.field.required %} has-warning {% endif %} {% if form.udm.errors %} has-error {% endif %}">
+					    			
+					    			<label for="{{ form.udm.label }}">
+					       		 	<i class="fa {% if form.udm.field.required %} fa-asterisk {% endif %} {% if form.udm.field.errors %} fa-asterisk {% endif %}"></i>
+					       		 	{{ form.udm.label }}
+					       		 	</label>
+					        			
+									<div class="input-group input-group-sm">
+									  	{{ form.udm }}
+									  	<div class="input-group-btn input_icons">
+											<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_edit_udm">
+												<i class="glyphicon glyphicon-pencil"></i>
+											</a>
+											<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_new_udm">
+												<i class="glyphicon glyphicon-plus-sign"></i>
+											</a>
+										</div>
+									</div>		
+					        			
+					        		{% for error in form.udm.errors %}
+		              				<div class="help-block text-right" id="{{ form.udm.label }}error">
+		              					{{ error }}
+		              				</div>
+		              				{% endfor %}
+					    			
+					    		</div>					    		
+					    	</div>
+
+					    	<div class="col-sm-6">
 					    		<div class="form-group input-group-sm {% if form.tipo.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.tipo.label }}">
@@ -89,29 +118,9 @@
 		              				{% endfor %}
 					    			
 					    		</div>
-					    	</div>
-					    </div>
-					    <div class="row">
-					    	<div class="col-sm-10 col-md-offset-1">
-					    		<div class="form-group input-group-sm {% if form.udm.field.required %} has-warning {% endif %} {% if form.udm.errors %} has-error {% endif %}">
-					    			
-					    			<label for="{{ form.udm.label }}">
-					       		 	<i class="fa {% if form.udm.field.required %} fa-asterisk {% endif %} {% if form.udm.field.errors %} fa-asterisk {% endif %}"></i>
-					       		 	{{ form.udm.label }}
-					       		 	</label>
-					        		{{ form.udm }}
-					        			
-					        		{% for error in form.udm.errors %}
-		              				<div class="help-block text-right" id="{{ form.udm.label }}error">
-		              					{{ error }}
-		              				</div>
-		              				{% endfor %}
-					    			
-					    		</div>
-					    	</div>
-					    </div>
-					    <div class="row">
-					    	<div class="col-sm-10 col-md-offset-1">
+					    	</div>					    	
+
+					    	<div class="col-sm-3">
 					    		<div class="form-group input-group-sm {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.clave_jde.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.clave_jde.label }}">
@@ -127,22 +136,21 @@
 		              				{% endfor %}
 					    			
 					    		</div>
-					    	</div>
+					    	</div>					    	
 					    </div>
 
+					</div>
 		              <!-- /.box-body -->
 
 		              <div class="box-footer">
-		              	<div class="row">
-		              		<div class="col-sm-10 col-md-offset-1">
-		              			<div class="pull-right form-group">
-		              				<div class="col-sm-12">
-		    		              		<a class="btn btn-default" href="{% url 'inventarios.articulos_lista' %}">Regresar</a>
-		              					<button type="submit" class="btn btn-success">Guardar</button>
-		              				</div>
-		              			</div>
-		              		</div>
-		              	</div>
+		              		<a class="btn btn-default" href="{% url 'inventarios:articulos_lista' %}">
+		              			<i class="fa fa-arrow-circle-left"></i>
+		              			Regresar
+		              		</a>
+          					<button type="submit" class="btn btn-success pull-right">
+								<i class="fa fa-save"></i>
+          						Guardar
+          					</button>		              
 		              </div>
 		              <!-- /.box-footer -->
 

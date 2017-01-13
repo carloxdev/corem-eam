@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 # Modelos:
 from .models import Almacen
+from .models import Stock
 from .models import Articulo
 from .models import EntradaCabecera
 from .models import EntradaDetalle
@@ -34,6 +35,53 @@ class AlmacenSerializer(serializers.ModelSerializer):
         except:
             return ""
 
+
+# ----------------- STOCK ----------------- #
+
+class StockSerializer(serializers.ModelSerializer):
+
+    estado = serializers.SerializerMethodField()
+    almacen = serializers.SerializerMethodField()
+    articulo = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Stock
+        fields = (
+            'url',
+            'pk',
+            'almacen',
+            'estado',
+            'articulo',
+            'cantidad',
+        )
+
+    def get_estado(self, obj):
+        try:
+            return obj.get_estado_display()
+        except:
+            return ""
+
+    def get_almacen(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.almacen.clave,
+                obj.almacen.descripcion
+            )
+
+        except:
+            return ""
+
+    def get_articulo(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.articulo.clave,
+                obj.articulo.descripcion
+            )
+
+        except:
+            return ""
 
 # ----------------- ARTICULO ----------------- #
 
@@ -135,7 +183,6 @@ class EntradaDetalleSerializer(serializers.HyperlinkedModelSerializer):
 
 
 # ----------------- SALIDA ----------------- #
-
 
 class SalidaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 

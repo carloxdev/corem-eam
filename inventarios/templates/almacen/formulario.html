@@ -14,7 +14,7 @@
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-	    <li><a href="{% url 'inventarios.almacenes_lista' %}">Almacenes</a></li>
+	    <li><a href="{% url 'inventarios:almacenes_lista' %}">Almacenes</a></li>
 	    <li class="active">{{ operation }}</li>
 	  </ol>
 	</section>
@@ -95,7 +95,7 @@
 
 		              <div class="box-footer">
 
-		              		<a class="btn btn-default" href="{% url 'inventarios.almacenes_lista' %}">
+		              		<a class="btn btn-default" href="{% url 'inventarios:almacenes_lista' %}">
 		              			<i class="fa fa-arrow-circle-left"></i>
 		              			Regresar
 		              		</a>

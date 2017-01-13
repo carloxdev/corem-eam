@@ -1,0 +1,254 @@
+/*-----------------------------------------------*\
+            GLOBAL VARIABLES
+\*-----------------------------------------------*/
+
+
+// URLS
+var url_udm = window.location.origin + "/api/udmodometro2/"
+
+// OBJS
+var formulario = null
+
+
+/*-----------------------------------------------*\
+            LOAD
+\*-----------------------------------------------*/
+
+$(document).ready(function () {
+
+    formulario = new TargetaFormulario() 
+})
+
+
+
+/*-----------------------------------------------*\
+            OBJETO: Targeta Formulario
+\*-----------------------------------------------*/
+
+function TargetaFormulario() {
+
+    this.$equipo = $('#id_equipo')
+    this.$udm = $("#id_udm")
+
+    this.$boton_editar_udm = $("#btn_edit_udm")
+
+    this.modal_udm = new VentanaUdm()
+
+	this.init()
+}
+TargetaFormulario.prototype.init = function () {
+
+    this.$equipo.select2()
+
+    this.validar_Udm()
+    this.$udm.on("change", this, this.change_Udm)
+}
+TargetaFormulario.prototype.change_Udm = function (e) {
+
+	if (e.data.$udm.val() == "") {
+		e.data.$boton_editar_udm.addClass("disabled")
+	}
+	else {
+		e.data.$boton_editar_udm.removeClass("disabled")
+	}
+}
+TargetaFormulario.prototype.validar_Udm = function () {
+
+	if (this.$udm.val() == "") {
+		this.$boton_editar_udm.addClass("disabled")
+	}
+	else {
+		this.$boton_editar_udm.removeClass("disabled")
+	}
+}
+TargetaFormulario.prototype.modify_Udm = function (_clave, _descripcion) {
+
+	var new_value = _clave + " - " + _descripcion
+
+	// Modificar texto
+	this.$udm.find(":selected").text(new_value)
+}
+TargetaFormulario.prototype.add_Udm = function (_pk, _clave, _descripcion) {
+	var new_value = _clave + " - " + _descripcion
+
+	this.$udm.append(
+		$('<option>', {
+	    	value: _pk,
+	    	text: new_value
+		})
+	)
+
+	this.$udm.val(_pk)
+}
+
+
+/*-----------------------------------------------*\
+            OBJETO: Ventana Ubicacion
+\*-----------------------------------------------*/
+
+function VentanaUdm() {
+
+	this.$id = $('#win_udm')
+	this.$boton_guardar = $('#bnt_ubi-save')
+
+	this.$pk = $("#ubi_id")
+	this.$clave = $('#ubi_clave')
+	this.$clave_contenedor = $('#ubi_clave_contenedor')
+	this.$clave_mensaje =  $('#ubi_clave_mensaje')
+
+	this.$descripcion =  $('#ubi_descripcion')
+	this.$desc_contenedor =  $('#ubi_desc_contenedor')
+	this.$desc_mensaje =  $('#ubi_desc_mensaje')
+
+	this.init()
+}
+VentanaUdm.prototype.init = function () {
+
+	// Se asoscia eventos al abrir el modal
+	this.$id.on('show.bs.modal', this, this.load)
+}
+VentanaUdm.prototype.load = function (e) {
+
+	var event_owner = $(e.relatedTarget)
+
+	// Se eliminan eventos viejos
+	e.data.$boton_guardar.off("click")
+
+	// Se limpian estilos
+	e.data.clear_Estilos()
+
+	// Se limpiar el formulario
+	e.data.clear()	
+
+	// Asosciar Eventos segun corresponda
+	if (event_owner.context.id == "btn_new_udm") {
+
+		// Se modifica el titulo
+		e.data.$id.find('.modal-title').text('Nueva Ubicacion')
+		
+		// Se asoscia el evento que se utilizara para guardar
+		e.data.$boton_guardar.on(
+			"click", 
+			e.data, 
+			e.data.nuevo
+		)
+	}
+	else if (event_owner.context.id == "btn_edit_udm") {
+
+		// Se llenan los controles
+		var url = url_udm + "?id=" + formulario.$udm.val()
+
+		modal = e.data
+
+        $.ajax({
+            url: url,
+            method: "GET",
+            success: function (response) {
+
+            	modal.$pk.val(response[0].pk)
+                modal.$clave.val(response[0].clave)
+                modal.$descripcion.val(response[0].descripcion)
+            },
+            error: function (response) {
+                
+                alertify.error("Ocurrio error al consultar")
+            }
+        })
+
+		// Se modifica el titulo
+		e.data.$id.find('.modal-title').text('Editar Ubicacion')
+
+		// Se asoscia el evento que se utilizara para guardar
+		e.data.$boton_guardar.on(
+			"click", 
+			e.data, 
+			e.data.editar
+		)
+	}
+}
+VentanaUdm.prototype.clear = function () {
+
+	this.$clave.val("")
+	this.$descripcion.val("")
+}
+VentanaUdm.prototype.clear_Estilos = function () {
+	
+	this.$clave_contenedor.removeClass("has-error")
+	
+	if(this.$clave_mensaje.hasClass('hidden') != null) { 
+		this.$clave_mensaje.addClass('hidden')
+	} 
+
+	this.$desc_contenedor.removeClass("has-error")	
+
+	if(this.$desc_mensaje.hasClass('hidden') != null) { 
+		this.$desc_mensaje.addClass('hidden')
+	} 
+}
+VentanaUdm.prototype.validar = function () {
+
+	var bandera = true
+
+	if ( this.$clave.val() == "") {
+		this.$clave_contenedor.addClass("has-error")
+		this.$clave_mensaje.removeClass("hidden")
+		bandera = false
+	}
+
+	if ( this.$descripcion.val() == "") {
+		this.$desc_contenedor.addClass("has-error")
+		this.$desc_mensaje.removeClass("hidden")
+		bandera = false
+	}
+
+	return bandera
+}
+VentanaUdm.prototype.nuevo = function (e) {
+
+	if (e.data.validar()) {
+
+        $.ajax({
+            url: url_udm,
+            method: "POST",
+            data: {
+            	"clave" : e.data.$clave.val(),
+            	"descripcion" : e.data.$descripcion.val()
+            },
+            success: function (response) {
+
+            	e.data.$id.modal('hide')
+            	formulario.add_Udm(response.pk, response.clave, response.descripcion)
+            },
+            error: function (response) {
+
+                alertify.error("Ocurrio error al modificar Ubicacion")
+            }
+        })
+		
+	}
+}
+VentanaUdm.prototype.editar = function (e) {
+
+	if (e.data.validar()) {
+
+		var url_update = url_udm + e.data.$pk.val() + "/"
+
+        $.ajax({
+            url: url_update,
+            method: "PUT",
+            data: {
+            	"clave" : e.data.$clave.val(),
+            	"descripcion" : e.data.$descripcion.val()
+            },
+            success: function (response) {
+
+            	e.data.$id.modal('hide')
+            	formulario.modify_Udm(e.data.$clave.val(), e.data.$descripcion.val())
+            },
+            error: function (response) {
+
+                alertify.error("Ocurrio error al modificar Ubicacion")
+            }
+        })
+	}
+}

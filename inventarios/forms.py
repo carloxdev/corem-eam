@@ -4,6 +4,10 @@
 from django.forms import ModelForm
 from django.forms import TextInput
 from django.forms import Select
+from django.forms import ChoiceField
+from django.forms import CharField
+from django.forms import Form
+
 
 # Modelos:
 from .models import Almacen
@@ -72,6 +76,50 @@ class ArticuloForm(ModelForm):
         labels = {
             'clave_jde': 'Clave JDE',
         }
+
+
+# ----------------- STOCK ----------------- #
+
+class StockFilterForm(Form):
+
+    articulo = ChoiceField(
+        widget=Select(
+            attrs={'class': 'form-control'}
+        )
+    )
+
+    cantidad_menorque = CharField(
+        widget=TextInput(
+            attrs={'class': 'form-control'})
+    )
+
+    cantidad_mayorque = CharField(
+        widget=TextInput(
+            attrs={'class': 'form-control'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(StockFilterForm, self).__init__(*args, **kwargs)
+        self.fields['articulo'].choices = self.obtener_Articulos()
+
+    def obtener_Articulos(self):
+
+        articulo = [('', 'Todos'), ]
+
+        registros = Articulo.objects.all()
+
+        for registro in registros:
+            articulo.append(
+                (
+                    registro.clave,
+                    "{} - {}".format(
+                        registro.clave,
+                        registro.descripcion
+                    )
+                )
+            )
+
+        return articulo
 
 
 # ----------------- ARTICULO ----------------- #

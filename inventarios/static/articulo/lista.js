@@ -2,10 +2,13 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+// URLS
 var url_grid = window.location.origin + "/api/articulos/"
 var url_nuevo = window.location.origin + "/articulos/nuevo/"
 var url_editar = window.location.origin + "/articulos/editar/"
 var url_anexos = window.location.origin + "/articulos/anexos/"
+
+// OBJS
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -15,8 +18,6 @@ var targeta_resultados = null
 \*-----------------------------------------------*/
 
 $(document).ready(function () {
-
-    this.$id = $('#id_filtros')
 
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
@@ -138,7 +139,8 @@ GridPrincipal.prototype.get_Config = function () {
         pageable: true,
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
-        },        
+        },
+        dataBound: this.apply_Estilos,
     }
 
 }
@@ -166,18 +168,50 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                 {
                    text: "Editar",
                    click: this.click_BotonEditar,
-                   className: "boton_editar"
+                   className: "boton_editar fa fa-pencil"
+                },
+                {
+                   text: " Stock",
+                   click: this.click_BotonStock,
+                   className: "boton_default fa fa-th-large"
                 },
                 {
                     text: "Anexos",
                     click: this.click_BotonAnexos,
-                    className: "boton_default"
+                    className: "boton_default fa fa-paperclip"
                 },                
             ],           
            title: " ",
            width: "200px"
         },
     ]
+}
+GridPrincipal.prototype.apply_Estilos = function (e) {
+
+    // Aplicar iconos
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-paperclip").each(function(idx, element){
+        $(element).removeClass("fa fa-paperclip").find("span").addClass("fa fa-paperclip")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-th-large").each(function(idx, element){
+        $(element).removeClass("fa fa-th-large").find("span").addClass("fa fa-th-large")
+    })        
+
+    // Aplicar formato a columna:
+    $('td').each( function () {
+        if($(this).text()=='ACTIVO'){ 
+
+            $(this).addClass('cell--activo')
+        }
+        else if($(this).text()=='DESHABILITADO'){ 
+            $(this).addClass('cell--deshabilitado')
+        }
+    })
+
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
@@ -225,6 +259,12 @@ GridPrincipal.prototype.click_BotonAnexos = function (e) {
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos + fila.pk + "/texto/"
+}
+GridPrincipal.prototype.click_BotonStock = function (e) {
+
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    // window.location.href = url_stock + fila.pk + "/"
 }
 
 

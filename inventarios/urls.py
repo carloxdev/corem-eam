@@ -8,6 +8,8 @@ from .views import AlmacenListView
 from .views import AlmacenCreateView
 from .views import AlmacenUpdateView
 
+from .views import StockListView
+
 from .views import ArticuloListView
 from .views import ArticuloCreateView
 from .views import ArticuloUpdateView
@@ -19,71 +21,86 @@ from .views import ArticuloAnexoArchivoView
 from .views import EntradaCabeceraListView
 from .views import EntradaCabeceraCreateView
 
+app_name = "inventarios"
 
 urlpatterns = [
 
-
     # ----------------- ALMACEN ----------------- #
+
     url(
         r'^almacenes/$',
         AlmacenListView.as_view(),
-        name='inventarios.almacenes_lista'
+        name='almacenes_lista'
     ),
     url(
         r'^almacenes/nuevo/$',
         AlmacenCreateView.as_view(),
-        name='inventarios.almacenes_nuevo'
+        name='almacenes_nuevo'
     ),
     url(
         r'^almacenes/editar/(?P<pk>.*)/$',
         AlmacenUpdateView.as_view(),
-        name='inventarios.almacenes_editar'
+        name='almacenes_editar'
     ),
 
 
     # ----------------- ARTICULOS ----------------- #
+
     url(
         r'^articulos/$',
         ArticuloListView.as_view(),
-        name='inventarios.articulos_lista'
+        name='articulos_lista'
     ),
     url(
         r'^articulos/nuevo/$',
         ArticuloCreateView.as_view(),
-        name='inventarios.articulos_nuevo'
+        name='articulos_nuevo'
     ),
     url(
         r'^articulos/editar/(?P<pk>.*)/$',
         ArticuloUpdateView.as_view(),
-        name='inventarios.articulos_editar'
+        name='articulos_editar'
     ),
 
+
     # ----------------- ARTICULOS - ANEXOS ----------------- #
+
     url(
         r'articulos/anexos/(?P<pk>\d+)/texto/$',
         ArticuloAnexoTextoView.as_view(),
-        name='activos.anexar_texto'
+        name='anexar_texto'
     ),
     url(
         r'^articulos/anexos/(?P<pk>\d+)/imagen/$',
         ArticuloAnexoImagenView.as_view(),
-        name='activos.anexar_imagen'
+        name='anexar_imagen'
     ),
     url(
         r'^articulos/anexos/(?P<pk>\d+)/archivo/$',
         ArticuloAnexoArchivoView.as_view(),
-        name='activos.anexar_archivo'
+        name='anexar_archivo'
     ),
 
+
+    # ----------------- STOCK ----------------- #
+
+    url(
+        r'^stock/(?P<pk>\d+)/$',
+        StockListView.as_view(),
+        name='stock_lista'
+    ),
+
+
     # ----------------- ENTRADAS ----------------- #
+
     url(
         r'entradas/$',
         EntradaCabeceraListView.as_view(),
-        name='inventarios.entradas_lista'
+        name='entradas_lista'
     ),
     url(
         r'entradas/nuevo/$',
         EntradaCabeceraCreateView.as_view(),
-        name='inventarios.entradas_nuevo'
+        name='entradas_nuevo'
     ),
 ]

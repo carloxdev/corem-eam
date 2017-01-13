@@ -34,7 +34,6 @@ from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
 
-# from .models import Stock
 
 # Formularios:
 from forms import AlmacenForm
@@ -42,19 +41,21 @@ from forms import ArticuloFilterForm
 from forms import ArticuloForm
 from forms import EntradaCabeceraFilterForm
 from forms import EntradaCabeceraForm
+from forms import StockFilterForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
-
 
 # API Rest:
 from rest_framework import viewsets
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
+
 # API Rest - Serializadores:
 from .serializers import AlmacenSerializer
 from .serializers import ArticuloSerializer
+from .serializers import StockSerializer
 from .serializers import EntradaCabeceraSerializer
 from .serializers import EntradaDetalleSerializer
 from .serializers import SalidaCabeceraSerializer
@@ -68,6 +69,7 @@ from .pagination import GenericPagination
 # API Rest - Filtros:
 from .filters import ArticuloFilter
 from .filters import EntradaCabeceraFilter
+from .filters import StockFilter
 
 # ----------------- ALMACEN ----------------- #
 
@@ -80,7 +82,7 @@ class AlmacenCreateView(CreateView):
     model = Almacen
     form_class = AlmacenForm
     template_name = 'almacen/formulario.html'
-    success_url = reverse_lazy('inventarios.almacenes_lista')
+    success_url = reverse_lazy('inventarios:almacenes_lista')
 
     def get_context_data(self, **kwargs):
         context = super(AlmacenCreateView, self).get_context_data(**kwargs)
@@ -168,7 +170,7 @@ class ArticuloCreateView(View):
             articulo.save()
 
             return redirect(
-                reverse('inventarios.articulos_lista')
+                reverse('inventarios:articulos_lista')
             )
         contexto = {
             'form': formulario,
@@ -181,7 +183,7 @@ class ArticuloUpdateView(UpdateView):
     model = Articulo
     form_class = ArticuloForm
     template_name = 'almacen/formulario.html'
-    success_url = reverse_lazy('inventarios.articulos_lista')
+    success_url = reverse_lazy('inventarios:articulos_lista')
 
     def get_context_data(self, **kwargs):
         context = super(ArticuloUpdateView, self).get_context_data(**kwargs)
@@ -203,8 +205,8 @@ class ArticuloAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = ArticuloFilter
 
-# ----------------- ARTICULO - ANEXOS ----------------- #
 
+# ----------------- ARTICULO - ANEXOS ----------------- #
 
 class ArticuloAnexoTextoView(View):
 
@@ -362,6 +364,33 @@ class ArticuloAnexoArchivoAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('articulo',)
 
+
+# ----------------- STOCK ----------------- #
+
+class StockListView(View):
+    template_name = 'stock/lista.html'
+
+    def get(self, request, pk):
+
+        formulario = StockFilterForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        return render(request, self.template_name, {})
+
+
+class StockAPI(viewsets.ModelViewSet):
+    queryset = Stock.objects.all()
+    serializer_class = StockSerializer
+    pagination_class = GenericPagination
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = StockFilter
 
 # -----------------  ENTRADAS  ----------------- #
 

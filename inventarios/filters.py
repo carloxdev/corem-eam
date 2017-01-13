@@ -9,6 +9,7 @@ from django_filters import DateFilter
 # Modelos
 from .models import Articulo
 from .models import EntradaCabecera
+from .models import Stock
 
 
 class ArticuloFilter(filters.FilterSet):
@@ -38,7 +39,29 @@ class ArticuloFilter(filters.FilterSet):
         ]
 
 
+class StockFilter(filters.FilterSet):
+
+    cantidad_mayorque = CharFilter(
+        name="cantidad",
+        lookup_expr="gte"
+    )
+
+    cantidad_menorque = CharFilter(
+        name="cantidad",
+        lookup_expr="lte"
+    )
+
+    class Meta:
+        model = Stock
+        fields = [
+            'articulo',
+            'cantidad_mayorque',
+            'cantidad_menorque',
+        ]
+
+
 class EntradaCabeceraFilter(filters.FilterSet):
+
     fecha_inicio = DateFilter(
         name="fecha",
         lookup_expr="gte"

@@ -213,8 +213,6 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
                     alertify.success("Se elimino registro correctamente")
                     
                     targeta_resultados.grid.kfuente_datos.remove(fila)
-                    targeta_resultados.grid.kfuente_datos.sync()
-
                 },
                 error: function () {
                     

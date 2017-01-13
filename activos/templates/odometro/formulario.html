@@ -102,22 +102,17 @@
 								  		{{ form.udm.label }} 
 								 	</label>
 								    
-
-								 	<div class="row">
-										<div class="col-xs-9 col-sm-9 col-md-9 input-group-sm">
-											{{ form.udm }}
+									<div class="input-group input-group-sm">
+										{{ form.udm }}
+									  	<div class="input-group-btn input_icons">
+											<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_edit_udm">
+												<i class="glyphicon glyphicon-pencil"></i>
+											</a>
+											<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_new_udm">
+												<i class="glyphicon glyphicon-plus-sign"></i>
+											</a>
 										</div>
-										<div class="col-xs-3 col-sm-3 col-md-3">
-											<div class="btn-group">
-												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_edit_udm">
-													<i class="glyphicon glyphicon-pencil"></i>
-												</a>
-												<a href="#win_udm" class="btn btn-default btn-sm" data-toggle="modal" id="btn_new_udm">
-													<i class="glyphicon glyphicon-plus-sign"></i>
-												</a>
-											</div>
-										</div>
-								 	</div>								    
+									</div>
 								  
 								    {% for error in form.udm.errors %}
 								    <span class="help-block">{{ error }}</span>

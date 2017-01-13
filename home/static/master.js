@@ -66,6 +66,7 @@ Pagina.prototype.set_PageActive = function () {
 	}
 	else if ( this.$titulo.text() == "Articulos") {
 
+		this.activar_Arbol("tree_inventarios")
 		this.activar_Opcion("opt_articulos")
 	}
 }

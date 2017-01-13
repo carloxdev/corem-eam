@@ -5,6 +5,8 @@
 var url_grid = window.location.origin + "/api/almacenes/"
 var url_nuevo = window.location.origin + "/almacenes/nuevo/"
 var url_editar = window.location.origin + "/almacenes/editar/"
+var url_stock = window.location.origin + "/stock/"
+
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -124,13 +126,20 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "descripcion" , title: "Descripcion"},
         { field: "estado" , title: "Estado", width: "100px"},
         {
-           command: {
-               text: " Editar",
-               click: this.click_BotonEditar,
-               className: "boton_editar fa fa-pencil"
-           },
-           title: " ",
-           width: "110px"
+            command: [ 
+                {
+                   text: " Editar",
+                   click: this.click_BotonEditar,
+                   className: "boton_editar fa fa-pencil"
+                },
+               {
+                   text: " Stock",
+                   click: this.click_BotonStock,
+                   className: "boton_default fa fa-th-large"
+               },
+            ],
+            title: " ",
+            width: "180px"
         },
     ]
 }
@@ -140,6 +149,10 @@ GridPrincipal.prototype.apply_Estilos = function (e) {
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })
+
+    e.sender.tbody.find(".k-button.fa.fa-th-large").each(function(idx, element){
+        $(element).removeClass("fa fa-th-large").find("span").addClass("fa fa-th-large")
+    })    
 
     // Aplicar formato a columna:
     $('td').each( function () {
@@ -185,9 +198,14 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.pk;
+    window.location.href = url_editar + fila.pk + "/"
 }
+GridPrincipal.prototype.click_BotonStock = function (e) {
 
+    e.preventDefault()
+    var fila = this.dataItem($(e.currentTarget).closest('tr'))
+    window.location.href = url_stock + fila.pk + "/"
+}
 
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR

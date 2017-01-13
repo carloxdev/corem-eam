@@ -7,19 +7,16 @@
 
 {% block css %}
 
-<!-- Kendo -->
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
-<!-- Select2 -->
-<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
+	<!-- Pace -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
 
-<!-- Pace -->
-<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
-
-<!-- CoreM -->
-<link rel="stylesheet" href="{% static 'grid.css' %}"/>
+	<!-- CoreM -->
+	<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}
 
@@ -28,12 +25,13 @@
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    <span id="titulo">Articulos</span>
+	    <span id="titulo">Stock</span>
 	    <small>Consulta</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-	    <li class="active">Articulos</li>
+	    <li><a href="{% url 'inventarios:almacenes_lista' %}">Almacenes</a></li>
+	    <li class="active">Stock</li>
 	  </ol>
 	</section>
 
@@ -59,40 +57,33 @@
 					<form role="form" action=""> {% csrf_token %}
 
 						<div class="row">
-			                <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-			                  <label for="{{ form.clave.id_for_label }}">Clave</label>
-			                  {{ form.clave }}
+			                <div class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12">
+			                  <label for="{{ form.articulo.id_for_label }}">{{ form.articulo.label }}</label>
+			                  {{ form.articulo }}
 			                </div>
-
-			                <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-			                  <label for="{{ form.tipo.id_for_label }}">Tipo</label>
-			                  {{ form.tipo }}
-			                </div>
-
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-				                <label for="{{ form.clave_jde.id_for_label }}">Clave JDE</label>
-								{{ form.clave_jde }}
-			                </div>
-
 						</div>
 
 						<div class="row">
 
-			                <div class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12">
-			                  <label>Descripcion</label>
-			                  {{ form.descripcion }}
-			                </div>														
-						</div>
+			                <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6">
+			                  <label for="{{ form.cantidad_mayorque.id_for_label }}">Cantidad "mayor que"</label>
+			                  {{ form.cantidad_mayorque }}
+			                </div>
 
+			                <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6">
+			                  <label for="{{ form.cantidad_menorque.id_for_label }}">Cantidad "menor que" </label>
+			                  {{ form.cantidad_menorque }}
+			                </div>
+
+						</div>
 					</form>
-				
 	              </div>
 	              <!-- /.box-body -->
 
 	              <div class="box-footer">
 	                <button type="submit" id="boton_limpiar" class="btn btn-default">
-	                	<i class="fa fa-eraser"></i>
-	                	Limpiar
+		                <i class="fa fa-eraser"></i>
+		                Limpiar
 	                </button>
 	                <button type="submit" id="boton_buscar" class="btn btn-info pull-right">
 	                	<i class="fa fa-search"></i>
@@ -114,10 +105,6 @@
         <div class="box-header box-header-border">
           <h3 class="box-title">Registros</h3>
           <div class="box-tools pull-right">
-            <button type="button" id="boton_nuevo" class="btn btn-primary btn-sm">
-				<i class="fa fa-plus-circle"></i>
-            	Nuevo
-            </button>
 			<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
 				<i class="fa fa-file-excel-o"></i>
             	Exportar

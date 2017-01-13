@@ -25,6 +25,7 @@ from inventarios.views import ArticuloAPI
 from inventarios.views import ArticuloAnexoTextoAPI
 from inventarios.views import ArticuloAnexoImagenAPI
 from inventarios.views import ArticuloAnexoArchivoAPI
+from inventarios.views import StockAPI
 from inventarios.views import EntradaAPI
 from inventarios.views import EntradaDetalleAPI
 
@@ -128,6 +129,14 @@ router.register(
     r'articulos',
     ArticuloAPI,
     'articulo'
+)
+
+
+# ----------------- ARTICULOS ----------------- #
+router.register(
+    r'stock',
+    StockAPI,
+    'stock'
 )
 
 

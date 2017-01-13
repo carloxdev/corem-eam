@@ -131,7 +131,7 @@ GridPrincipal.prototype.init = function () {
 
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
 
-    this.kGrid = this.$id.kendoGrid(this.get_Config())
+    this.kgrid = this.$id.kendoGrid(this.get_Config())
 }
 GridPrincipal.prototype.get_Config = function () {
 
@@ -229,9 +229,10 @@ GridPrincipal.prototype.buscar =  function() {
 }
 
 GridPrincipal.prototype.click_BotonEliminar = function (e) {
+
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+    
     alertify.confirm(
         'Eliminar Registro',
         '¿Desea Eliminar este registro?', 
@@ -242,13 +243,11 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
             $.ajax({
                 url: url,
-                headers: { "X-CSRFToken": csrftoken },
                 method: "DELETE",
                 success: function () {
                     alertify.success("Se eliminó registro correctamente")
-                    targeta_resultados.grid.kfuente_datos.remove(fila)
-                    targeta_resultados.grid.kfuente_datos.sync()
 
+                    targeta_resultados.grid.kfuente_datos.remove(fila)
                     
                 },
                 error: function () {
@@ -332,7 +331,7 @@ Modal.prototype.init = function (e) {
     )
     
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-    modal.clear_Estilos()
+    this.clear_Estilos()
     
 }
 
@@ -409,7 +408,7 @@ Modal.prototype.get_Hora = function (_hora){
 
 Modal.prototype.click_BotonGuardar = function(e) {
     if (e.data.validar()){
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+
         e.preventDefault()
         odometro_medicion = e.data.$odometro_medicion.val()
         fecha_medicion = e.data.$fecha_medicion.val()
@@ -423,7 +422,6 @@ Modal.prototype.click_BotonGuardar = function(e) {
         console.log(hora_medicion)
         $.ajax({
                 url: url_grid,
-                headers: { "X-CSRFToken": csrftoken },
                 method: "POST",
                 data: {
                     odometro: odometro_medicion,

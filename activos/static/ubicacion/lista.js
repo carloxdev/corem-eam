@@ -131,11 +131,12 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "clave" , title: "Clave" },
         { field: "descripcion" , title: "Descripcion"},
         {
+            
            command: [
                 {
-                   text: " Editar",
-                   click: this.click_BotonEditar,
-                   className: "boton_editar fa fa-pencil"
+                    text: " Editar",
+                    click: this.click_BotonEditar,
+                    className: "boton_editar fa fa-pencil"
                 },
                 {
                     text: " Eliminar",
@@ -213,7 +214,6 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
                     alertify.success("Se elimino registro correctamente")
                     
                     targeta_resultados.grid.kfuente_datos.remove(fila)
-                    targeta_resultados.grid.kfuente_datos.sync()
 
                 },
                 error: function () {
