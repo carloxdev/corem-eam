@@ -64,6 +64,11 @@ Pagina.prototype.set_PageActive = function () {
 		this.activar_Arbol("tree_inventarios")
 		this.activar_Opcion("opt_almacenes")
 	}
+	else if ( this.$titulo.text() == "UDM de Articulo") {
+		
+		this.activar_Arbol("tree_inventarios")
+		this.activar_Opcion("opt_articulo_udm")
+	}			
 	else if ( this.$titulo.text() == "Articulos") {
 
 		this.activar_Arbol("tree_inventarios")

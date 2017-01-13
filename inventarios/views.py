@@ -137,7 +137,7 @@ class UdmArticuloCreateView(CreateView):
     model = UdmArticulo
     form_class = UdmArticuloForm
     template_name = 'udm_articulo/formulario.html'
-    success_url = reverse_lazy('activos:udms_articulo_lista')
+    success_url = reverse_lazy('inventarios:udms_articulo_lista')
     operation = "Nueva"
 
     def get_context_data(self, **kwargs):
@@ -153,7 +153,7 @@ class UdmArticuloUpdateView(UpdateView):
     model = UdmArticulo
     form_class = UdmArticuloForm
     template_name = 'udm_articulo/formulario.html'
-    success_url = reverse_lazy('activos:udms_articulo_lista')
+    success_url = reverse_lazy('inventarios:udms_articulo_lista')
     operation = "Editar"
 
     def get_context_data(self, **kwargs):
