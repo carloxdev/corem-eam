@@ -137,7 +137,10 @@ class UdmOdometro(models.Model):
     )
 
     def __str__(self):
-        return self.clave
+        return "{} - {}".format(
+            self.clave.encode('utf-8'),
+            self.descripcion.encode('utf-8')
+        )
 
 
 class Odometro(models.Model):

@@ -24,6 +24,7 @@ from django.views.generic import TemplateView
 # Modelos:
 # from .models import Udm
 from .models import Articulo
+from .models import UdmArticulo
 from .models import Almacen
 from .models import Stock
 from .models import EntradaCabecera
@@ -36,13 +37,14 @@ from home.models import AnexoTexto
 
 
 # Formularios:
-from forms import AlmacenForm
-from forms import ArticuloFilterForm
-from forms import ArticuloForm
-from forms import EntradaCabeceraFilterForm
-from forms import EntradaCabeceraForm
-from forms import StockFilterForm
-from forms import EntradaDetalleForm
+from .forms import AlmacenForm
+from .forms import ArticuloFilterForm
+from .forms import ArticuloForm
+from .forms import EntradaCabeceraFilterForm
+from .forms import EntradaCabeceraForm
+from .forms import StockFilterForm
+from .forms import EntradaDetalleForm
+from .forms import UdmArticuloForm
 
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
@@ -56,6 +58,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # API Rest - Serializadores:
 from .serializers import AlmacenSerializer
+from .serializers import UdmArticuloSerializer
 from .serializers import ArticuloSerializer
 from .serializers import StockSerializer
 from .serializers import EntradaCabeceraSerializer
@@ -124,6 +127,59 @@ class AlmacenAPI(viewsets.ModelViewSet):
     search_fields = ('clave', 'descripcion',)
 
 
+# ----------------- UDM ARTICULO ----------------- #
+
+class UdmArticuloListView(TemplateView):
+    template_name = 'udm_articulo/lista.html'
+
+
+class UdmArticuloCreateView(CreateView):
+    model = UdmArticulo
+    form_class = UdmArticuloForm
+    template_name = 'udm_articulo/formulario.html'
+    success_url = reverse_lazy('activos:udms_articulo_lista')
+    operation = "Nueva"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(
+            UdmArticuloCreateView,
+            self
+        ).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
+
+
+class UdmArticuloUpdateView(UpdateView):
+    model = UdmArticulo
+    form_class = UdmArticuloForm
+    template_name = 'udm_articulo/formulario.html'
+    success_url = reverse_lazy('activos:udms_articulo_lista')
+    operation = "Editar"
+
+    def get_context_data(self, **kwargs):
+        contexto = super(
+            UdmArticuloUpdateView,
+            self
+        ).get_context_data(**kwargs)
+        contexto['operation'] = self.operation
+        return contexto
+
+
+class UdmArticuloAPI(viewsets.ModelViewSet):
+    queryset = UdmArticulo.objects.all()
+    serializer_class = UdmArticuloSerializer
+
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('clave', 'descripcion',)
+
+
+class UdmArticuloAPI2(viewsets.ModelViewSet):
+    queryset = UdmArticulo.objects.all()
+    serializer_class = UdmArticuloSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('id',)
+
+
 # ----------------- ARTICULOS ----------------- #
 
 
@@ -184,7 +240,7 @@ class ArticuloCreateView(View):
 class ArticuloUpdateView(UpdateView):
     model = Articulo
     form_class = ArticuloForm
-    template_name = 'almacen/formulario.html'
+    template_name = 'articulo/formulario.html'
     success_url = reverse_lazy('inventarios:articulos_lista')
 
     def get_context_data(self, **kwargs):

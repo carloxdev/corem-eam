@@ -21,6 +21,8 @@ from activos.views import UdmOdometroAPI2
 from activos.views import MedicionAPI
 
 from inventarios.views import AlmacenAPI
+from inventarios.views import UdmArticuloAPI
+from inventarios.views import UdmArticuloAPI2
 from inventarios.views import ArticuloAPI
 from inventarios.views import ArticuloAnexoTextoAPI
 from inventarios.views import ArticuloAnexoImagenAPI
@@ -101,7 +103,7 @@ router.register(
 router.register(
     r'udmodometro2',
     UdmOdometroAPI2,
-    'udmodometro'
+    'udmodometro2'
 )
 
 
@@ -122,6 +124,18 @@ router.register(
     'almacen'
 )
 
+# ----------------- ARTICULO - ODOMETRO ----------------- #
+
+router.register(
+    r'udmarticulo',
+    UdmArticuloAPI,
+    'udmarticulo'
+)
+router.register(
+    r'udmarticulo2',
+    UdmArticuloAPI2,
+    'udmarticulo2'
+)
 
 # ----------------- ARTICULOS ----------------- #
 

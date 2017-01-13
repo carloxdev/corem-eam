@@ -160,13 +160,14 @@ GridPrincipal.prototype.get_Columnas = function (e) {
 
         { field: "clave", title: "Clave", width: "120px" },
         { field: "descripcion", title: "Descripcion", width: "250px" },
-        { field: "tipo", title: "Tipo", width: "120px" },
         { field: "udm", title: "UDM", width: "120px" },
+        { field: "estado" , title: "Estado", width: "120px" },
+        { field: "tipo", title: "Tipo", width: "120px" },
         { field: "clave_jde", title: "Clave JDE", width: "120px" },
         {
            command: [
                 {
-                   text: "Editar",
+                   text: " Editar",
                    click: this.click_BotonEditar,
                    className: "boton_editar fa fa-pencil"
                 },
@@ -176,13 +177,13 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                    className: "boton_default fa fa-th-large"
                 },
                 {
-                    text: "Anexos",
+                    text: " Anexos",
                     click: this.click_BotonAnexos,
                     className: "boton_default fa fa-paperclip"
                 },                
             ],           
            title: " ",
-           width: "200px"
+           width: "260px"
         },
     ]
 }

@@ -10,6 +10,7 @@ from .models import Articulo
 from .models import EntradaCabecera
 from .models import EntradaDetalle
 from .models import SalidaCabecera
+from .models import UdmArticulo
 
 
 # ----------------- ALMACEN ----------------- #
@@ -83,13 +84,28 @@ class StockSerializer(serializers.ModelSerializer):
         except:
             return ""
 
-# ----------------- ARTICULO ----------------- #
 
+# ----------------- UDM ODOMETRO ----------------- #
+
+class UdmArticuloSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UdmArticulo
+        fields = (
+            'pk',
+            'url',
+            'clave',
+            'descripcion'
+        )
+
+
+# ----------------- ARTICULO ----------------- #
 
 class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
 
     tipo = serializers.SerializerMethodField()
     udm = serializers.SerializerMethodField()
+    estado = serializers.SerializerMethodField()
 
     class Meta:
         model = Articulo
@@ -99,6 +115,7 @@ class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
             'clave',
             'descripcion',
             'tipo',
+            'estado',
             'udm',
             'clave_jde',
         )
@@ -112,13 +129,22 @@ class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
     def get_udm(self, obj):
 
         try:
-            return obj.udm.descripcion
+            return "({}) {}".format(
+                obj.udm.clave,
+                obj.udm.descripcion
+            )
+
+        except:
+            return ""
+
+    def get_estado(self, obj):
+        try:
+            return obj.get_estado_display()
         except:
             return ""
 
 
 # ----------------- ENTRADA ----------------- #
-
 
 class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -170,6 +196,7 @@ class EntradaDetalleSerializer(serializers.ModelSerializer):
             )
         except:
             return ""
+
 
 # ----------------- SALIDA ----------------- #
 

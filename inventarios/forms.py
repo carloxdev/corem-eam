@@ -12,6 +12,7 @@ from django.forms import Form
 # Modelos:
 from .models import Almacen
 from .models import Articulo
+from .models import UdmArticulo
 from .models import EntradaCabecera
 from .models import EntradaDetalle
 
@@ -36,6 +37,19 @@ class AlmacenForm(ModelForm):
         }
 
 
+# ----------------- UDM ODOMETRO ----------------- #
+
+class UdmArticuloForm(ModelForm):
+
+    class Meta:
+        model = UdmArticulo
+        fields = '__all__'
+        widgets = {
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+        }
+
+
 # ----------------- ARTICULO ----------------- #
 
 class ArticuloFilterForm(ModelForm):
@@ -47,6 +61,7 @@ class ArticuloFilterForm(ModelForm):
             'descripcion',
             'tipo',
             'clave_jde',
+            'estado',
         ]
         widgets = {
             'clave': TextInput(attrs={'class': 'form-control'}),
@@ -66,6 +81,7 @@ class ArticuloForm(ModelForm):
             'tipo',
             'udm',
             'clave_jde',
+            'estado',
         ]
         widgets = {
             'clave': TextInput(attrs={'class': 'form-control'}),
@@ -73,6 +89,7 @@ class ArticuloForm(ModelForm):
             'tipo': Select(attrs={'class': 'form-control'}),
             'udm': Select(attrs={'class': 'form-control'}),
             'clave_jde': TextInput(attrs={'class': 'form-control'}),
+            'estado': Select(attrs={'class': 'form-control'}),
         }
         labels = {
             'clave_jde': 'Clave JDE',

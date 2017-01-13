@@ -144,7 +144,7 @@ class UbicacionSerializer(serializers.ModelSerializer):
         )
 
 
-# ----------------- UDM ----------------- #
+# ----------------- UDM ODOMETRO ----------------- #
 
 class UdmOdometroSerializer(serializers.ModelSerializer):
 

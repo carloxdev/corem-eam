@@ -83,22 +83,22 @@ TargetaFormulario.prototype.add_Udm = function (_pk, _clave, _descripcion) {
 
 
 /*-----------------------------------------------*\
-            OBJETO: Ventana Ubicacion
+            OBJETO: Ventana UDM
 \*-----------------------------------------------*/
 
 function VentanaUdm() {
 
 	this.$id = $('#win_udm')
-	this.$boton_guardar = $('#bnt_ubi-save')
+	this.$boton_guardar = $('#bnt_udm-save')
 
-	this.$pk = $("#ubi_id")
-	this.$clave = $('#ubi_clave')
-	this.$clave_contenedor = $('#ubi_clave_contenedor')
-	this.$clave_mensaje =  $('#ubi_clave_mensaje')
+	this.$pk = $("#udm_id")
+	this.$clave = $('#udm_clave')
+	this.$clave_contenedor = $('#udm_clave_contenedor')
+	this.$clave_mensaje =  $('#udm_clave_mensaje')
 
-	this.$descripcion =  $('#ubi_descripcion')
-	this.$desc_contenedor =  $('#ubi_desc_contenedor')
-	this.$desc_mensaje =  $('#ubi_desc_mensaje')
+	this.$descripcion =  $('#udm_descripcion')
+	this.$desc_contenedor =  $('#udm_desc_contenedor')
+	this.$desc_mensaje =  $('#udm_desc_mensaje')
 
 	this.init()
 }
@@ -124,7 +124,7 @@ VentanaUdm.prototype.load = function (e) {
 	if (event_owner.context.id == "btn_new_udm") {
 
 		// Se modifica el titulo
-		e.data.$id.find('.modal-title').text('Nueva Ubicacion')
+		e.data.$id.find('.modal-title').text('Nueva UDM')
 		
 		// Se asoscia el evento que se utilizara para guardar
 		e.data.$boton_guardar.on(
@@ -156,7 +156,7 @@ VentanaUdm.prototype.load = function (e) {
         })
 
 		// Se modifica el titulo
-		e.data.$id.find('.modal-title').text('Editar Ubicacion')
+		e.data.$id.find('.modal-title').text('Editar UDM')
 
 		// Se asoscia el evento que se utilizara para guardar
 		e.data.$boton_guardar.on(
@@ -221,7 +221,7 @@ VentanaUdm.prototype.nuevo = function (e) {
             },
             error: function (response) {
 
-                alertify.error("Ocurrio error al modificar Ubicacion")
+                alertify.error("Ocurrio error al modificar UDM")
             }
         })
 		
@@ -247,7 +247,7 @@ VentanaUdm.prototype.editar = function (e) {
             },
             error: function (response) {
 
-                alertify.error("Ocurrio error al modificar Ubicacion")
+                alertify.error("Ocurrio error al modificar UDM")
             }
         })
 	}

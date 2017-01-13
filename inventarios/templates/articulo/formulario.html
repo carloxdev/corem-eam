@@ -34,8 +34,9 @@
 					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 
 		              <div class="box-body">
+
 		      			<div class="row">
-					    	<div class="col-sm-4">
+					    	<div class="col-sm-3">
 					    		<div class="form-group input-group-sm {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.clave.label }}">
@@ -53,7 +54,7 @@
 					    		</div>
 					    	</div>
 
-					    	<div class="col-sm-8">
+					    	<div class="col-sm-5">
 					    		<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.descripcion.label }}">
@@ -69,11 +70,9 @@
 		              				{% endfor %}
 					    			
 					    		</div>
-					    	</div>					    	
-					    </div>
+					    	</div>
 
-					    <div class="row">
-					    	<div class="col-sm-3">
+							<div class="col-sm-4">
 					    		<div class="form-group {% if form.udm.field.required %} has-warning {% endif %} {% if form.udm.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.udm.label }}">
@@ -101,8 +100,30 @@
 					    			
 					    		</div>					    		
 					    	</div>
+					    </div>
 
-					    	<div class="col-sm-6">
+					    <div class="row">
+
+					    	<div class="col-sm-4">
+					    		<div class="form-group input-group-sm {% if form.estado.field.required %} has-warning {% endif %} {% if form.estado.errors %} has-error {% endif %}">
+					    			
+					    			<label for="{{ form.estado.label }}">
+					       		 	<i class="fa {% if form.estado.field.required %} fa-asterisk {% endif %} {% if form.estado.field.errors %} fa-asterisk {% endif %}"></i>
+					       		 	{{ form.estado.label }}
+					       		 	</label>
+					        		{{ form.estado }}
+					        			
+					        		{% for error in form.estado.errors %}
+		              				<div class="help-block text-right" id="{{ form.estado.label }}error">
+		              					{{ error }}
+		              				</div>
+		              				{% endfor %}
+					    			
+					    		</div>
+					    	</div>	
+
+
+					    	<div class="col-sm-4">
 					    		<div class="form-group input-group-sm {% if form.tipo.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.tipo.label }}">
@@ -120,7 +141,7 @@
 					    		</div>
 					    	</div>					    	
 
-					    	<div class="col-sm-3">
+					    	<div class="col-sm-4">
 					    		<div class="form-group input-group-sm {% if form.clave_jde.field.required %} has-warning {% endif %} {% if form.clave_jde.errors %} has-error {% endif %}">
 					    			
 					    			<label for="{{ form.clave_jde.label }}">
@@ -153,16 +174,75 @@
           					</button>		              
 		              </div>
 		              <!-- /.box-footer -->
-
 	            </form>
 	          </div>
 	          <!-- /.box -->
-
 	        </div>			
-
 		</div>
+
+		<!-- PopUp -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="win_udm">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title"></h4>
+		      </div>
+		      <div class="modal-body">
+
+					<input class="hidden" id="udm_id" type="text" />
+
+					<div class="row">
+						<div class="col-sm-10 col-md-offset-1">
+							<div class="form-group input-group-sm has-warning" id="udm_clave_contenedor">
+								<label for="Clave">
+									<i class="fa  fa-asterisk  "></i>
+									<label for="udm_clave">Clave:</label>
+								</label>
+								<input class="form-control" id="udm_clave" maxlength="144" type="text" />
+								<span class="help-block hidden" id="udm_clave_mensaje">Este campo es requerido.</span>
+							</div>
+						</div>
+					</div>
+			
+					<div class="row">
+						<div class="col-sm-10 col-md-offset-1">
+							<div class="form-group input-group-sm has-warning" id="udm_desc_contenedor">
+								<label for="Descripcion">
+									<i class="fa fa-asterisk"></i>
+									<label for="udm_descripcion">Descripcion:</label>
+								</label>
+								<input class="form-control" id="udm_descripcion" maxlength="144" type="text" />
+								<span class="help-block hidden" id="udm_desc_mensaje">Este campo es requerido.</span>
+							</div>
+						</div>
+					</div>
+
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+		        	<i class="fa fa-close"></i>
+		        	Cerrar
+		        </button>
+		        <button type="button" class="btn btn-success" id="bnt_udm-save">
+		        	<i class="fa fa-save"></i>
+		        	Guardar
+		        </button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+
 
 	</section>
 	<!-- /. Main content -->
 
 {% endblock contenido %}
+
+{% block scripts %}
+
+	<!-- CoreM -->
+	<script src="{% static 'articulo/formulario.js' %}"></script>
+
+{% endblock %}

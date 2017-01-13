@@ -10,6 +10,10 @@ from .views import AlmacenUpdateView
 
 from .views import StockListView
 
+from .views import UdmArticuloListView
+from .views import UdmArticuloCreateView
+from .views import UdmArticuloUpdateView
+
 from .views import ArticuloListView
 from .views import ArticuloCreateView
 from .views import ArticuloUpdateView
@@ -42,6 +46,26 @@ urlpatterns = [
         AlmacenUpdateView.as_view(),
         name='almacenes_editar'
     ),
+
+
+    # ----------------- UDM ARTICULO ----------------- #
+
+    url(
+        r'udmarticulo/$',
+        UdmArticuloListView.as_view(),
+        name='udms_articulo_lista'
+    ),
+    url(
+        r'udmarticulo/nuevo/$',
+        UdmArticuloCreateView.as_view(),
+        name='udms_articulo_nuevo'
+    ),
+    url(
+        r'udmarticulo/editar/(?P<pk>\d+)/$',
+        UdmArticuloUpdateView.as_view(),
+        name='udms_articulo_editar'
+    ),
+
 
 
     # ----------------- ARTICULOS ----------------- #

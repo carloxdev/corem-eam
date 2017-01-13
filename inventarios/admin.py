@@ -12,16 +12,6 @@ from .models import EntradaCabecera
 from .models import EntradaDetalle
 
 
-@admin.register(UdmArticulo)
-class AdminUdm(admin.ModelAdmin):
-    list_display = (
-        'clave',
-        'descripcion',
-        'created_date',
-        'updated_date',
-    )
-
-
 @admin.register(Articulo)
 class AdminArticulo(admin.ModelAdmin):
     list_display = (
@@ -30,6 +20,16 @@ class AdminArticulo(admin.ModelAdmin):
         'descripcion',
         'tipo',
         'udm',
+        'created_date',
+        'updated_date',
+    )
+
+
+@admin.register(UdmArticulo)
+class AdminUdmArticulo(admin.ModelAdmin):
+    list_display = (
+        'clave',
+        'descripcion',
         'created_date',
         'updated_date',
     )
