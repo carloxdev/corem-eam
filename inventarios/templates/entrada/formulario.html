@@ -161,48 +161,14 @@
 				</form>
 			</div>
 			<!-- /.box -->
-			{% if id_cabecera %}
-			<form>{% csrf_token%}
-			<div id="formulario_detalle" class="box box-solid box-primary" id="id_panel">
-				<div class="box-header with-border">
-					<h3 class="box-title">Detalle</h3>
-					<div class="box-tools pull-right">
-						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-					</div>
-				</div>
-				<!-- /.box-header -->
-				<div class="box-body">
-					<input type="hidden" id="cabecera" value="{{ id_cabecera }}" name="cabecera">
-					<div class="row">
-						<div id="articulo_contenedor" class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
-							<label for="articulo">
-							<i class="fa fa-asterisk"></i>
-							Articulo</label>
-							{{ form_detalle.articulo }}
-							<span class="help-block hidden" id="articulo_mensaje">Este campo es requerido.</span>			
-					    </div>
-					    <div id="cantidad_contenedor" class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
-							<label for="cantidad">
-							<i class="fa fa-asterisk"></i>
-							Cantidad</label>
-							<input type="text" class="form-control" name="cantidad" id="id_cantidad">
-							<span class="help-block hidden" id="cantidad_mensaje">Este campo es requerido.</span>
-						</div>
-					</div>
-				</div>
-					<!-- /.box-body -->
-				<div class="box-footer">
-					<button type="button" id="boton_guardar_detalle" class="btn btn-success pull-right">
-						<i class="fa fa-save"></i>
-						Guardar
-					</button>
-				</div>
-			</div>
-			</form>
 			<div class="box box-info">
 				<div class="box-header box-header-border">
-					<h3 class="box-title">Articulos</h3>
+					<h3 class="box-title">Detalle</h3>
 					<div class="box-tools pull-right">
+						<button type="button" id="boton_nuevo" class="btn bg-purple btn-sm">
+						<i class="fa fa-plus-circle"></i>
+						Nuevo
+						</button>
 						<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
 						<i class="fa fa-file-excel-o"></i>
 						Exportar
@@ -212,11 +178,57 @@
 				<div id="grid_principal">
 				</div>
 			</div>
-			{% endif %}
             <!-- /.box-body -->
           </div>
 			<!-- /.box -->
 		</div>
+	</div>
+	<div class="modal fade" id="modal_nuevo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-default">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                <span aria-hidden="true">×</span></button>
+	                <h4 class="modal-title">Agregar Articulo</h4>
+	            </div>
+	            
+	            <div class="modal-body">
+	            	<input type="hidden" id="cabecera" value="{{ id_cabecera }}" name="cabecera">
+					<div class="row">
+						<div id="articulo_contenedor" class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12 has-warning">
+							<label for="articulo">
+							<i class="fa fa-asterisk"></i>
+							Articulo</label>
+							
+							{{ form_detalle.articulo}}
+							
+							<span class="help-block hidden" id="articulo_mensaje">Este campo es requerido.</span>			
+					    </div>
+					</div>
+					<div class="row">
+						<div id="cantidad_contenedor" class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12 has-warning">
+							<label for="cantidad">
+							<i class="fa fa-asterisk"></i>
+							Cantidad</label>
+							<input type="text" class="form-control" name="cantidad" id="id_cantidad">
+							<span class="help-block hidden" id="cantidad_mensaje">Este campo es requerido.</span>
+						</div>
+					</div>
+	            </div>
+
+	            <div class="modal-footer">
+		            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+		            	<i class="fa fa-close"></i>
+		            	Cerrar
+		            </button>
+		            <button type="button" id="boton_guardar_detalle" class="btn btn-success">
+		            	<i class="fa fa-save"></i>
+		            	Guardar
+		            </button>
+	            </div>
+	        </div>
+	            <!-- /.modal-content -->
+	    </div>
 	</div>
 </section>
 <!-- /. Main content -->

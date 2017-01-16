@@ -9,6 +9,7 @@ var url_editar = window.location.origin + "/entradas/editar/"
 // OBJS
 var targeta_filtros = null
 var targeta_resultados = null
+var modal_detalle = null
 var pagina = null
 
 
@@ -20,7 +21,7 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFormulario()
     targeta_resultados = new TargetaResultados()
-    targeta_detalle = new TargetaDetalle()
+    modal_detalle = new ModalDetalle()
 
     pagina = new Pagina()
     pagina.init_Alertify()    
@@ -226,13 +227,14 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 \*-----------------------------------------------*/
 
 function Toolbar() {
-
+    this.$boton_nuevo = $('#boton_nuevo')
     this.$boton_exportar = $("#boton_exportar")
 
     this.init()
 }
 Toolbar.prototype.init = function (e) {
 
+    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
 
@@ -241,7 +243,13 @@ Toolbar.prototype.click_BotonExportar = function(e) {
     return null
 }
 
-function TargetaDetalle() {
+Toolbar.prototype.click_BotonNuevo = function (e) {
+
+    e.preventDefault()
+    $('#modal_nuevo').modal('show');
+}
+
+function ModalDetalle() {
     this.$cabecera = $('#cabecera')
     this.$articulo = $('#id_articulo')
     this.$cantidad = $('#id_cantidad')
@@ -257,13 +265,13 @@ function TargetaDetalle() {
     this.clear_Estilos()
 }
 
-TargetaDetalle.prototype.init = function () {
+ModalDetalle.prototype.init = function () {
     
-    this.$articulo.select2()
+    //this.$articulo.select2()
 
 }
 
-TargetaDetalle.prototype.clear_Estilos = function () {
+ModalDetalle.prototype.clear_Estilos = function () {
 
     this.$articulo_contenedor.removeClass("has-error")
 
@@ -278,7 +286,7 @@ TargetaDetalle.prototype.clear_Estilos = function () {
     } 
 }
 
-TargetaDetalle.prototype.validar = function () {
+ModalDetalle.prototype.validar = function () {
     var bandera = true
 
     if ( this.$articulo.val() == "") {
@@ -296,7 +304,7 @@ TargetaDetalle.prototype.validar = function () {
     return bandera
 }
 
-TargetaDetalle.prototype.click_BotonGuardar = function (e) {
+ModalDetalle.prototype.click_BotonGuardar = function (e) {
     if (e.data.validar()){
         e.preventDefault()
         articulo = e.data.$articulo.val()
@@ -314,13 +322,20 @@ TargetaDetalle.prototype.click_BotonGuardar = function (e) {
                         cabecera: cabecera,
                     },
                     success: function (){
+                        $('#modal_nuevo').hide()
                         alertify.success("Detalle Registrado")
                         targeta_resultados.grid.kfuente_datos.read();
+                        e.data.$articulo_mensaje.val("").trigger('change')
+                        e.data.$cantidad.val("")
+                        $('.modal-backdrop').remove();
+                        
                        
                     },
                     error: function(e){
 
                         alertify.error("Error "+ e.status + " . No se guardó el registro")
+                        $('#modal_nuevo').hide()
+
                     }
                    
                             

@@ -146,7 +146,7 @@ class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
 # ----------------- ENTRADA ----------------- #
 
 class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
-
+    estado = serializers.SerializerMethodField()
     almacen_origen = serializers.SerializerMethodField()
     almacen_destino = serializers.SerializerMethodField()
 
@@ -165,6 +165,13 @@ class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'tipo',
             'estado',
         )
+
+    def get_estado(self, obj):
+
+        try:
+            return obj.get_estado_display()
+        except:
+            return ""
 
     def get_almacen_origen(self, obj):
 
