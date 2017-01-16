@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS
-var url_grid = window.location.origin + "/api/entradas/"
+var url_grid = window.location.origin + "/api/movimientos/"
 var url_nuevo = window.location.origin + "/entradas/nuevo/"
 var url_editar = window.location.origin + "/entradas/editar/"
 
@@ -49,8 +49,12 @@ function TargetaFiltros() {
     this.$descripcion = $('#id_descripcion')
     this.$fecha_inicio = $('#fecha_inicio')
     this.$fecha_fin = $('#fecha_fin')
-    this.$almacen = $('#id_almacen')
-
+    this.$almacen_origen = $('#id_almacen_origen')
+    this.$almacen_destino = $('#id_almacen_destino')
+    this.$persona_recibe = $('#id_persona_recibe')
+    this.$persona_entrega = $('#id_persona_entrega')
+    this.$estado = $('#id_estado')
+    this.$tipo = $('#id_tipo')
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
@@ -58,7 +62,8 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
 
-    this.$almacen.select2()
+    this.$almacen_origen.select2()
+    this.$almacen_destino.select2()
     this.$fecha_inicio.datepicker(
         {
             autoclose: true,

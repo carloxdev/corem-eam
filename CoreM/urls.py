@@ -203,15 +203,15 @@ router.register(
 # ----------------- ENTRADAS  ----------------- #
 
 router.register(
-    r'entradas',
+    r'movimientos',
     MovimientoAPI,
-    'entradacabecera'
+    'movimientocabecera'
 )
 
 router.register(
-    r'entradasdetalle',
+    r'movimientosdetalle',
     MovimientoDetalleAPI,
-    'entradadetalle'
+    'movimientodetalle'
 )
 
 router.register(

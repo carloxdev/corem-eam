@@ -62,12 +62,16 @@
 								{{ form.descripcion }}
 							</div>
 							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-								<label for="{{ form.almacen.id_for_label }}">Almacen</label>
-								{{ form.almacen }}
+								<label for="tipo">Tipo</label>
+								<select name="tipo" id="id_tipo" class="form-control">
+									<option value="">-----------</option>
+									<option value="ENT">ENTRADA</option>
+									<option value="SAL">SALIDA</option>
+								</select>
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
+							<div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3 ">
 								<label for="fecha_inicio">De:</label>
 								<div class="form-group input-group">
 					                <div class="input-group-addon">
@@ -76,7 +80,7 @@
 					                <input type="text" class="form-control pull-right" id="fecha_inicio" data-date-format="yyyy-mm-dd">
 					            </div>
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
+							<div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3">
 								<label for="fecha_fin">A:</label>
 								<div class="form-group input-group">
 					            	<div class="input-group-addon">
@@ -84,6 +88,16 @@
 					            	</div>
 					                <input type="text" class="form-control pull-right" id="fecha_fin" data-date-format="yyyy-mm-dd">
 					            </div>						
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3">
+					        	<label for="persona_recibe">Persona Recibe
+					        	</label>
+					        	{{ form.persona_recibe }}
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3">
+					        	<label for="persona_entrega">Persona Entrega
+					        	</label>
+					        	{{ form.persona_entrega }}
 					        </div>
 						</div>
 					</div>

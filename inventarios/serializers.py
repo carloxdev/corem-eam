@@ -147,7 +147,8 @@ class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
 
 class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
 
-    almacen = serializers.SerializerMethodField()
+    almacen_origen = serializers.SerializerMethodField()
+    almacen_destino = serializers.SerializerMethodField()
 
     class Meta:
         model = MovimientoCabecera
@@ -158,19 +159,29 @@ class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'fecha',
             'descripcion',
             'almacen_origen',
-            'almancen_destino',
+            'almacen_destino',
             'persona_recibe',
             'persona_entrega',
             'tipo',
             'estado',
         )
 
-    def get_almacen(self, obj):
+    def get_almacen_origen(self, obj):
 
         try:
             return "({}) {}".format(
-                obj.almacen.clave.encode("utf-8"),
-                obj.almacen.descripcion.encode("utf-8")
+                obj.almacen_origen.clave.encode("utf-8"),
+                obj.almacen_origen.descripcion.encode("utf-8")
+            )
+        except:
+            return ""
+
+    def get_almacen_destino(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.almacen_destino.clave.encode("utf-8"),
+                obj.almacen_destino.descripcion.encode("utf-8")
             )
         except:
             return ""
