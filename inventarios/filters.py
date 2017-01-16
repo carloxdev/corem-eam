@@ -97,4 +97,5 @@ class MovimientoCabeceraFilter(filters.FilterSet):
             'almacen_origen',
             'almacen_destino',
             'estado',
+            'tipo',
         ]

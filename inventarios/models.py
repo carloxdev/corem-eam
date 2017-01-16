@@ -27,13 +27,14 @@ ALMACEN_ESTADO = (
 
 MOVIMIENTO_ESTADO = (
     ('CAP', 'CAPTURA'),
-    ('CERRADO', 'CERRADO'),
+    ('CER', 'CERRADO'),
 )
 
 MOVIMIENTO_TIPO = (
     ('ENT', 'ENTRADA'),
     ('SAL', 'SALIDA'),
 )
+
 
 class UdmArticulo(models.Model):
     clave = models.CharField(max_length=144, unique=True)
@@ -133,7 +134,10 @@ class Almacen(models.Model):
     )
 
     def __str__(self):
-        return "{0} : {1}".format(self.clave, self.descripcion)
+        return "{0} : {1}".format(
+            self.clave.encode('utf-8'),
+            self.descripcion.encode('utf-8')
+        )
 
     class Meta:
         verbose_name_plural = "Almacenes"
@@ -182,7 +186,10 @@ class MovimientoCabecera(models.Model):
     )
 
     def __str__(self):
-        return "{0} - {1}".format(self.clave, self.descripcion)
+        return "{0} - {1}".format(
+            self.clave.encode('utf-8'),
+            self.descripcion.encode('utf-8')
+        )
 
 
 class MovimientoDetalle(models.Model):

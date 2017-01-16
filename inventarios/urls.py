@@ -24,6 +24,8 @@ from .views import ArticuloAnexoArchivoView
 
 from .views import EntradaListView
 from .views import EntradaCabeceraCreateView
+from .views import SalidaListView
+from .views import SalidaCabeceraCreateView
 
 app_name = "inventarios"
 
@@ -115,7 +117,7 @@ urlpatterns = [
     ),
 
 
-    # ----------------- ENTRADAS ----------------- #
+    # ----------------- MOVIMIENTOS ----------------- #
 
     url(
         r'entradas/$',
@@ -126,5 +128,15 @@ urlpatterns = [
         r'entradas/nuevo/$',
         EntradaCabeceraCreateView.as_view(),
         name='entradas_nuevo'
+    ),
+    url(
+        r'salidas/$',
+        SalidaListView.as_view(),
+        name='salidas_lista'
+    ),
+    url(
+        r'salidas/nuevo/$',
+        SalidaCabeceraCreateView.as_view(),
+        name='salidas_nuevo'
     ),
 ]

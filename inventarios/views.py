@@ -469,6 +469,7 @@ class EntradaListView(View):
 
 
 class EntradaCabeceraCreateView(View):
+
     def __init__(self):
         self.template_name = 'entrada/formulario.html'
 
@@ -532,5 +533,69 @@ class MovimientoDetalleAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('cabecera',)
 
+# ---------------  SALIDAS --------------------- #
 
-# -----------------  SALIDAS  ----------------- #
+
+class SalidaListView(View):
+    def __init__(self):
+        self.template_name = 'salida/lista.html'
+
+    def get(self, request):
+
+        formulario = MovimientoCabeceraFilterForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class SalidaCabeceraCreateView(View):
+
+    def __init__(self):
+        self.template_name = 'salida/formulario.html'
+
+    def get(self, request):
+
+        formulario = MovimientoCabeceraForm()
+        form_detalle = MovimientoDetalleForm()
+        contexto = {
+            'form': formulario,
+            'form_detalle': form_detalle,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        formulario = MovimientoCabeceraForm(request.POST)
+        tipo = request.POST['tipo']
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            cabecera = MovimientoCabecera()
+            cabecera.clave = datos_formulario.get('clave')
+            cabecera.fecha = datos_formulario.get('fecha')
+            cabecera.descripcion = datos_formulario.get('descripcion')
+            cabecera.almacen_origen = datos_formulario.get('almacen_origen')
+            cabecera.almacen_destino = datos_formulario.get('almacen_destino')
+            cabecera.persona_recibe = datos_formulario.get('persona_recibe')
+            cabecera.persona_entrega = datos_formulario.get('persona_entrega')
+            cabecera.estado = datos_formulario.get('estado')
+            cabecera.tipo = tipo
+            cabecera.save()
+
+            id_cabecera = cabecera.id
+            form_detalle = MovimientoDetalleForm()
+            contexto = {
+                'form': formulario,
+                'id_cabecera': id_cabecera,
+                'form_detalle': form_detalle,
+            }
+
+            return render(request, self.template_name, contexto)
+
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)

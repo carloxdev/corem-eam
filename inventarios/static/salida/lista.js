@@ -4,8 +4,7 @@
 
 // URLS
 var url_grid = window.location.origin + "/api/movimientos/"
-var url_nuevo = window.location.origin + "/entradas/nuevo/"
-var url_editar = window.location.origin + "/entradas/editar/"
+var url_nuevo = window.location.origin + "/salidas/nuevo/"
 
 // OBJS
 var targeta_filtros = null
@@ -82,8 +81,7 @@ TargetaFiltros.prototype.init = function () {
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
-    
-    tipo = "ENT"
+    tipo = "SAL"
     return {
         page: _page,
         pageSize: _pageSize,
