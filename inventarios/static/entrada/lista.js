@@ -82,7 +82,7 @@ TargetaFiltros.prototype.init = function () {
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
-
+    tipo = "ENT"
     return {
         page: _page,
         pageSize: _pageSize,
@@ -90,7 +90,12 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
         descripcion: this.$descripcion.val(),
         fecha_inicio: this.$fecha_inicio.val(),
         fecha_fin: this.$fecha_fin.val(),
-        almacen: this.$almacen.val(),
+        almacen_origen: this.$almacen_origen.val(),
+        almacen_destino: this.$almacen_destino.val(),
+        persona_recibe: this.$persona_recibe.val(),
+        persona_entrega: this.$persona_entrega.val(),
+        estado: this.$estado.val(),
+        tipo: tipo,
 
     }
 }
@@ -107,7 +112,12 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$descripcion.val("")
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
-    e.data.$almacen.val("").trigger('change')
+    e.data.$almacen_origen.val("").trigger('change')
+    e.data.$almacen_destino.val("").trigger('change')
+    e.data.$persona_recibe.val("")
+    e.data.$persona_entrega.val("")
+    e.data.$estado.val().trigger('change')
+
 }
 
 /*-----------------------------------------------*\

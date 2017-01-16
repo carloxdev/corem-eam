@@ -53,21 +53,13 @@
 				<form method="post">
 					<div class="box-body">
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 ">
+							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5">
 								<label for="{{ form.clave.id_for_label }}">Clave</label>
 								{{ form.clave }}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+							<div class="form-group input-group-sm col-sx-12 col-sm-7 col-md-7">
 								<label for="{{ form.descripcion.id_for_label }}">Descripción</label>
 								{{ form.descripcion }}
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
-								<label for="tipo">Tipo</label>
-								<select name="tipo" id="id_tipo" class="form-control">
-									<option value="">-----------</option>
-									<option value="ENT">ENTRADA</option>
-									<option value="SAL">SALIDA</option>
-								</select>
 							</div>
 						</div>
 						<div class="row">
@@ -90,14 +82,35 @@
 					            </div>						
 					        </div>
 					        <div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3">
+					        	<label for="almacen_origen">Origen
+					        	</label>
+					        	{{ form.almacen_origen }}
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3">
+					        	<label for="almacen_destino">Destino
+					        	</label>
+					        	{{ form.almacen_destino }}
+					        </div>
+						</div>
+						<div class="row">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
 					        	<label for="persona_recibe">Persona Recibe
 					        	</label>
 					        	{{ form.persona_recibe }}
 					        </div>
-					        <div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3">
+					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
 					        	<label for="persona_entrega">Persona Entrega
 					        	</label>
 					        	{{ form.persona_entrega }}
+					        </div>
+					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+					        	<label for="estado">Estado
+					        	</label>
+					        	<select name="estado" id="id_estado" class="form-control">
+					        		<option value="">---------</option>
+					        		<option value="CAP">CAPTURA</option>
+					        		<option value="CER">CERRADO</option>
+					        	</select>
 					        </div>
 						</div>
 					</div>
