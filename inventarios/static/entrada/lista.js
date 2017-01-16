@@ -161,7 +161,7 @@ GridPrincipal.prototype.get_Config = function () {
         editable: false,
         resizable: true,
         selectable: true,
-        scrollable: false,
+        scrollable: true,
         columns: this.get_Columnas(),
         scrollable: true,
         pageable: true,
@@ -177,18 +177,23 @@ GridPrincipal.prototype.get_Campos = function (e) {
         fecha: { type: "string" },
         clave: { type: "string" },
         descripcion: { type: "string" },
-        almacen: { type: "string" },
+        almacen_origen: { type: "string" },
+        almacen_destino: { type: "string" },
         
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "fecha" , title: "Fecha", width: "120px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy HH:mm') #" },
+        { field: "fecha" , title: "Fecha", width: "80px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy') #" },
         { field: "clave" , title: "Clave", width: "120px" },
         { field: "descripcion" , title: "Descripción", width: "250px" },
-        { field: "almacen" , title: "Almacen", width: "120px" },
-        
+        { field: "almacen_origen" , title: "Almacen Origen", width: "120px" },
+        { field: "almacen_destino" , title: "Almacen Destino", width: "120px" },
+        { field: "persona_recibe" , title: "Persona Recibe", width: "120px" },
+        { field: "persona_entrega" , title: "Persona Entrega", width: "120px" },
+        { field: "estado" , title: "Estado", width: "120px" },
+
         {
            command: [
                 {
@@ -204,7 +209,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                              
             ],           
            title: " ",
-           width: "120px"
+           width: "170px"
         },
     ]
 }

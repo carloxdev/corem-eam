@@ -161,6 +161,7 @@
 				</form>
 			</div>
 			<!-- /.box -->
+			{% if id_cabecera %}
 			<form>{% csrf_token%}
 			<div id="formulario_detalle" class="box box-solid box-primary" id="id_panel">
 				<div class="box-header with-border">
@@ -211,6 +212,7 @@
 				<div id="grid_principal">
 				</div>
 			</div>
+			{% endif %}
             <!-- /.box-body -->
           </div>
 			<!-- /.box -->

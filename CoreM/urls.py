@@ -30,7 +30,6 @@ from inventarios.views import ArticuloAnexoArchivoAPI
 from inventarios.views import StockAPI
 from inventarios.views import MovimientoAPI
 from inventarios.views import MovimientoDetalleAPI
-from inventarios.views import ArticuloFormAPI
 
 from trabajos.views import OrdenTrabajoAPI
 from trabajos.views import OrdenAnexoTextoAPI
@@ -214,11 +213,6 @@ router.register(
     'movimientodetalle'
 )
 
-router.register(
-    r'articulosform',
-    ArticuloFormAPI,
-    'articuloform'
-)
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),

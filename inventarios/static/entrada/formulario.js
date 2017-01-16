@@ -4,7 +4,6 @@
 
 // URLS
 var url_grid = window.location.origin + "/api/movimientosdetalle/"
-var url_articulos = window.location.origin + "/api/articulosform/"
 var url_editar = window.location.origin + "/entradas/editar/"
 
 // OBJS
@@ -73,7 +72,11 @@ TargetaFormulario.prototype.init = function () {
         this.$clave.attr("disabled", true)
         this.$descripcion.attr("disabled", true)
         this.$fecha.attr("disabled", true)
-        this.$almacen.attr("disabled", true)
+        this.$almacen_origen.attr("disabled", true)
+        this.$almacen_destino.attr("disabled", true)
+        this.$persona_recibe.attr("disabled", true)
+        this.$persona_entrega.attr("disabled", true)
+        this.$estado.attr("disabled", true)
         this.$boton_guardar.attr("disabled", true)
     }
     
@@ -255,34 +258,8 @@ function TargetaDetalle() {
 }
 
 TargetaDetalle.prototype.init = function () {
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+    
     this.$articulo.select2()
-
-     $.ajax(
-        {
-            url: url_articulos,
-            headers: { "X-CSRFToken": csrftoken },
-            data: function (params) {
-                  return {
-                    id: params.pk, 
-                    clave: params.clave,
-                    descripcion: params.descripcion
-
-                  }
-                },
-            dataType:"json",
-            type:"GET",
-        }
-    ).done(function(data)
-        {
-            $.each(data, function(index, item) 
-                {
-                    $("#id_articulo").append($('<option>').attr('value',item.pk).text(item.clave+"–"+item.descripcion))
-                }
-            )
-                    
-        }
-    )  
 
 }
 

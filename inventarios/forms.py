@@ -205,10 +205,8 @@ class MovimientoDetalleForm(ModelForm):
         model = MovimientoDetalle
         fields = [
             'articulo',
-            'cantidad',
         ]
 
         widgets = {
             'articulo': Select(attrs={'class': 'form-control'}),
-            'cantidad': TextInput(attrs={'class': 'form-control'}),
         }
