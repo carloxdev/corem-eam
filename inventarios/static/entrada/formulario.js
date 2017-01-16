@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS
-var url_grid = window.location.origin + "/api/entradasdetalle/"
+var url_grid = window.location.origin + "/api/movimientosdetalle/"
 var url_articulos = window.location.origin + "/api/articulosform/"
 var url_editar = window.location.origin + "/entradas/editar/"
 
@@ -49,14 +49,19 @@ function TargetaFormulario() {
     this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
     this.$fecha = $('#id_fecha')
-    this.$almacen = $('#id_almacen')
+    this.$almacen_origen = $('#id_almacen_origen')
+    this.$almacen_destino = $('#id_almacen_destino')
+    this.$persona_recibe = $('#persona_recibe')
+    this.$persona_entrega = $('#persona_entrega')
+    this.$estado = $('#id_estado')
     this.$boton_guardar = $('#boton_guardar')
 
     this.init()
 }
 TargetaFormulario.prototype.init = function () {
 
-    this.$almacen.select2()
+    this.$almacen_origen.select2()
+    this.$almacen_destino.select2()
     this.$fecha.datepicker(
         {
             autoclose: true,
@@ -246,15 +251,12 @@ function TargetaDetalle() {
     this.init()
 
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+    this.clear_Estilos()
 }
 
 TargetaDetalle.prototype.init = function () {
     var csrftoken = $("[name=csrfmiddlewaretoken]").val()
-    this.$articulo.select2(
-        { 
-            language: "es",
-        }
-    )
+    this.$articulo.select2()
 
      $.ajax(
         {
@@ -262,14 +264,14 @@ TargetaDetalle.prototype.init = function () {
             headers: { "X-CSRFToken": csrftoken },
             data: function (params) {
                   return {
-                    id: params.id, // search term
+                    id: params.pk, 
                     clave: params.clave,
                     descripcion: params.descripcion
 
                   }
                 },
             dataType:"json",
-            type:"GET"
+            type:"GET",
         }
     ).done(function(data)
         {
@@ -284,33 +286,68 @@ TargetaDetalle.prototype.init = function () {
 
 }
 
+TargetaDetalle.prototype.clear_Estilos = function () {
+
+    this.$articulo_contenedor.removeClass("has-error")
+
+    if(this.$articulo_mensaje.hasClass('hidden') != null) { 
+        this.$articulo_mensaje.addClass('hidden')
+    } 
+
+    this.$cantidad_contenedor.removeClass("has-error")  
+
+    if(this.$cantidad_mensaje.hasClass('hidden') != null) { 
+        this.$cantidad_mensaje.addClass('hidden')
+    } 
+}
+
+TargetaDetalle.prototype.validar = function () {
+    var bandera = true
+
+    if ( this.$articulo.val() == "") {
+        this.$articulo_contenedor.addClass("has-error")
+        this.$articulo_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
+    if ( this.$cantidad.val() == "") {
+        this.$cantidad_contenedor.addClass("has-error")
+        this.$cantidad_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
+    return bandera
+}
+
 TargetaDetalle.prototype.click_BotonGuardar = function (e) {
-    e.preventDefault()
-    articulo = e.data.$articulo.val()
-    cantidad = e.data.$cantidad.val()
-    cabecera = e.data.$cabecera.val()
+    if (e.data.validar()){
+        e.preventDefault()
+        articulo = e.data.$articulo.val()
+        cantidad = e.data.$cantidad.val()
+        cabecera = e.data.$cabecera.val()
 
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
-    $.ajax({
-                headers: { "X-CSRFToken": csrftoken },
-                url: url_grid,
-                method: "POST",
-                data: {
-                    cantidad: cantidad,
-                    articulo: 1,
-                    cabecera: cabecera,
-                },
-                success: function (){
-                    alertify.success("Detalle Registrado")
-                    targeta_resultados.grid.kfuente_datos.read();
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+        $.ajax({
+                    headers: { "X-CSRFToken": csrftoken },
+                    url: url_grid,
+                    method: "POST",
+                    data: {
+                        cantidad: cantidad,
+                        articulo: articulo,
+                        cabecera: cabecera,
+                    },
+                    success: function (){
+                        alertify.success("Detalle Registrado")
+                        targeta_resultados.grid.kfuente_datos.read();
+                       
+                    },
+                    error: function(e){
+
+                        alertify.error("Error "+ e.status + " . No se guardó el registro")
+                    }
                    
-                },
-                error: function(e){
+                            
+                });
 
-                    alertify.error("Error "+ e.status + " . No se guardó el registro")
-                }
-               
-                        
-            });
-
+    }
 }

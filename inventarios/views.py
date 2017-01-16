@@ -41,7 +41,7 @@ from .forms import ArticuloForm
 from .forms import MovimientoCabeceraFilterForm
 from .forms import MovimientoCabeceraForm
 from .forms import StockFilterForm
-# from .forms import EntradaDetalleForm
+from .forms import MovimientoDetalleForm
 from .forms import UdmArticuloForm
 
 from home.forms import AnexoTextoForm
@@ -482,8 +482,10 @@ class EntradaCabeceraCreateView(View):
     def get(self, request):
 
         formulario = MovimientoCabeceraForm()
+        form_detalle = MovimientoDetalleForm()
         contexto = {
             'form': formulario,
+            'form_detalle': form_detalle,
         }
 
         return render(request, self.template_name, contexto)
@@ -507,10 +509,11 @@ class EntradaCabeceraCreateView(View):
             cabecera.save()
 
             id_cabecera = cabecera.id
-
+            form_detalle = MovimientoDetalleForm()
             contexto = {
                 'form': formulario,
                 'id_cabecera': id_cabecera,
+                'form_detalle': form_detalle,
             }
 
             return render(request, self.template_name, contexto)
