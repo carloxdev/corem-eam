@@ -185,7 +185,7 @@ class MovimientoCabecera(models.Model):
         return "{0} - {1}".format(self.clave, self.descripcion)
 
 
-class MomivientoDetalle(models.Model):
+class MovimientoDetalle(models.Model):
     cantidad = models.DecimalField(
         max_digits=20, decimal_places=4, default=0.0)
     articulo = models.ForeignKey(Articulo)

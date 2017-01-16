@@ -22,7 +22,7 @@ from .views import ArticuloAnexoTextoView
 from .views import ArticuloAnexoImagenView
 from .views import ArticuloAnexoArchivoView
 
-from .views import EntradaCabeceraListView
+from .views import EntradaListView
 from .views import EntradaCabeceraCreateView
 
 app_name = "inventarios"
@@ -119,7 +119,7 @@ urlpatterns = [
 
     url(
         r'entradas/$',
-        EntradaCabeceraListView.as_view(),
+        EntradaListView.as_view(),
         name='entradas_lista'
     ),
     url(

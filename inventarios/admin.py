@@ -8,8 +8,8 @@ from .models import UdmArticulo
 from .models import Articulo
 from .models import Almacen
 from .models import Stock
-from .models import EntradaCabecera
-from .models import EntradaDetalle
+from .models import MovimientoCabecera
+from .models import MovimientoDetalle
 
 
 @admin.register(Articulo)
@@ -58,19 +58,24 @@ class AdminStock(admin.ModelAdmin):
     )
 
 
-@admin.register(EntradaCabecera)
-class AdminEntradaCabecera(admin.ModelAdmin):
+@admin.register(MovimientoCabecera)
+class AdminMovientoCabecera(admin.ModelAdmin):
     list_display = (
         'pk',
         'clave',
         'fecha',
         'descripcion',
-        'almacen',
+        'almacen_origen',
+        'almacen_destino',
+        'persona_recibe',
+        'persona_entrega',
+        'estado',
+        'tipo',
     )
 
 
-@admin.register(EntradaDetalle)
-class AdminEntradaDetalle(admin.ModelAdmin):
+@admin.register(MovimientoDetalle)
+class AdminMovimientoDetalle(admin.ModelAdmin):
     list_display = (
         'pk',
         'articulo',
