@@ -4,7 +4,7 @@
 
 // URLS
 var url_grid = window.location.origin + "/api/entradasdetalle/"
-var url_nuevo = window.location.origin + "/entradas/nuevo/"
+var url_articulos = window.location.origin + "/api/articulosform/"
 var url_editar = window.location.origin + "/entradas/editar/"
 
 // OBJS
@@ -21,6 +21,7 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFormulario()
     targeta_resultados = new TargetaResultados()
+    targeta_detalle = new TargetaDetalle()
 
     pagina = new Pagina()
     pagina.init_Alertify()    
@@ -218,22 +219,98 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
 function Toolbar() {
 
-    this.$boton_nuevo = $("#boton_nuevo")
     this.$boton_exportar = $("#boton_exportar")
 
     this.init()
 }
 Toolbar.prototype.init = function (e) {
 
-    this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
-Toolbar.prototype.click_BotonNuevo = function (e) {
 
-    e.preventDefault()
-    window.location.href = url_nuevo
-}
 Toolbar.prototype.click_BotonExportar = function(e) {
     e.preventDefault()
     return null
+}
+
+function TargetaDetalle() {
+    this.$cabecera = $('#cabecera')
+    this.$articulo = $('#id_articulo')
+    this.$cantidad = $('#id_cantidad')
+    this.$boton_guardar = $('#boton_guardar_detalle')
+    this.$articulo_contenedor = $('#articulo_contenedor')
+    this.$articulo_mensaje = $('#articulo_mensaje')
+    this.$cantidad_contenedor = $('#cantidad_contenedor')
+    this.$cantidad_mensaje = $('#cantidad_mensaje')
+
+    this.init()
+
+    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+}
+
+TargetaDetalle.prototype.init = function () {
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+    this.$articulo.select2(
+        { 
+            language: "es",
+        }
+    )
+
+     $.ajax(
+        {
+            url: url_articulos,
+            headers: { "X-CSRFToken": csrftoken },
+            data: function (params) {
+                  return {
+                    id: params.id, // search term
+                    clave: params.clave,
+                    descripcion: params.descripcion
+
+                  }
+                },
+            dataType:"json",
+            type:"GET"
+        }
+    ).done(function(data)
+        {
+            $.each(data, function(index, item) 
+                {
+                    $("#id_articulo").append($('<option>').attr('value',item.pk).text(item.clave+"–"+item.descripcion))
+                }
+            )
+                    
+        }
+    )  
+
+}
+
+TargetaDetalle.prototype.click_BotonGuardar = function (e) {
+    e.preventDefault()
+    articulo = e.data.$articulo.val()
+    cantidad = e.data.$cantidad.val()
+    cabecera = e.data.$cabecera.val()
+
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+    $.ajax({
+                headers: { "X-CSRFToken": csrftoken },
+                url: url_grid,
+                method: "POST",
+                data: {
+                    cantidad: cantidad,
+                    articulo: 1,
+                    cabecera: cabecera,
+                },
+                success: function (){
+                    alertify.success("Detalle Registrado")
+                    targeta_resultados.grid.kfuente_datos.read();
+                   
+                },
+                error: function(e){
+
+                    alertify.error("Error "+ e.status + " . No se guardó el registro")
+                }
+               
+                        
+            });
+
 }

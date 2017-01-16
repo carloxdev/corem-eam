@@ -34,7 +34,7 @@
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="{% url 'inventarios.entradas_lista' %}">Entradas</a></li>
+		<li><a href="{% url 'inventarios:entradas_lista' %}">Entradas</a></li>
 		<li class="active">Nuevo</li>
 
 	</ol>
@@ -105,7 +105,7 @@
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer">
-						<a class="btn btn-default" href="{% url 'inventarios.entradas_lista' %}">
+						<a class="btn btn-default" href="{% url 'inventarios:entradas_lista' %}">
 							<i class="fa fa-arrow-circle-left"></i>
 							Regresar
 						</a>
@@ -118,7 +118,7 @@
 				</form>
 			</div>
 			<!-- /.box -->
-			{% if form_detalle %}
+			<form>{% csrf_token%}
 			<div id="formulario_detalle" class="box box-solid box-primary" id="id_panel">
 				<div class="box-header with-border">
 					<h3 class="box-title">Detalle</h3>
@@ -127,63 +127,47 @@
 					</div>
 				</div>
 				<!-- /.box-header -->
-				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-					<div class="box-body">
-						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %} name="cabecera">
-						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
-								<label for="{{ form.fecha.id_for_label}}">
-								<i class="fa fa-asterisk"></i>
-								Articulo</label>
-								<div class="form-group input-group">
-					                {{ form_detalle.articulo }}
-					            </div>
-					            {% for error in form.fecha.errors %}
-								    <span class="help-block">{{ error }}</span>
-									{% endfor %}						
-					        </div>
-					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 {% if form.almacen.field.required %} has-warning {% endif %} {% if form.almacen.errors %} has-error {% endif %}">
-								<label for="{{ form.almacen.id_for_label }}">
-								<i class="fa {% if form.almacen.field.required %} fa-asterisk {% endif %} {% if form.almacen.errors %} fa-circle-o {% endif %}"></i>
-								Cantidad</label>
-								{{ form_detalle.cantidad }}
-							</div>
+				<div class="box-body">
+					<input type="hidden" id="cabecera" value="{{ id_cabecera }}" name="cabecera">
+					<div class="row">
+						<div id="articulo_contenedor" class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
+							<label for="articulo">
+							<i class="fa fa-asterisk"></i>
+							Articulo</label>
+							<input type="text" class="form-control" name="articulo" id="id_articulo" >
+							<!--<span class="help-block hidden" id="articulo_mensaje">Este campo es requerido.</span>-->			
+					    </div>
+					    <div id="cantidad_contenedor" class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 col-md-offset-1 has-warning">
+							<label for="cantidad">
+							<i class="fa fa-asterisk"></i>
+							Cantidad</label>
+							<input type="text" class="form-control" name="cantidad" id="id_cantidad">
+							<span class="help-block hidden" id="cantidad_mensaje">Este campo es requerido.</span>
 						</div>
 					</div>
+				</div>
 					<!-- /.box-body -->
-					<div class="box-footer">
-						<button type="submit" id="boton_guardar_detalle" class="btn btn-success pull-right">
-							<i class="fa fa-save"></i>
-							Guardar
+				<div class="box-footer">
+					<button type="button" id="boton_guardar_detalle" class="btn btn-success pull-right">
+						<i class="fa fa-save"></i>
+						Guardar
+					</button>
+				</div>
+			</div>
+			</form>
+			<div class="box box-info">
+				<div class="box-header box-header-border">
+					<h3 class="box-title">Articulos</h3>
+					<div class="box-tools pull-right">
+						<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
+						<i class="fa fa-file-excel-o"></i>
+						Exportar
 						</button>
 					</div>
-				</form>
+				</div>
+				<div id="grid_principal">
+				</div>
 			</div>
-			{% endif %}
-			<div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Articulos</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-            	<table class="table table-bordered">
-                	<tbody>
-                		<tr>
-		                	<th style="width: 40%">Articulo</th>
-		                	<th style="width: 40%">Cantidad</th>
-		                	<th style="width: 20%"></th>
-                		</tr>
-                		{% for detalle in detalles %}
-		                <tr>
-		                	<td>{{ detalle.articulo }}</td>
-		                	<td>{{ detalle.cantidad }}</td>
-		                	<td><button class="btn btn-danger">Eliminar</button></td>
-		                </tr>
-		                {% endfor %}
-          
-              		</tbody>
-              	</table>
-            </div>
             <!-- /.box-body -->
           </div>
 			<!-- /.box -->

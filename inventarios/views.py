@@ -266,6 +266,13 @@ class ArticuloAPI(viewsets.ModelViewSet):
     filter_class = ArticuloFilter
 
 
+class ArticuloFormAPI(viewsets.ModelViewSet):
+    queryset = Articulo.objects.all()
+    serializer_class = ArticuloSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = ArticuloFilter
+
+
 # ----------------- ARTICULO - ANEXOS ----------------- #
 
 class ArticuloAnexoTextoView(View):
