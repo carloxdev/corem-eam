@@ -3,7 +3,7 @@
 # LIBRERIAS Django
 
 # Django DB
-from django.db import transaction
+# from django.db import transaction
 
 # Django Atajos:
 from django.shortcuts import render
