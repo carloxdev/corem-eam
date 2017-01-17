@@ -5,6 +5,7 @@ from rest_framework import serializers
 
 # Modelos:
 from .models import OrdenTrabajo
+from .models import Actividad
 
 
 # ----------------- ORDEN DE TRABAJO ----------------- #
@@ -55,3 +56,18 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
             return obj.get_estado_display()
         except:
             return ""
+
+
+class ActividadSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Actividad
+        fields = (
+            'url',
+            'id',
+            'orden',
+            'numero',
+            'descripcion',
+            'horas_estimadas',
+            'horas_reales',
+        )

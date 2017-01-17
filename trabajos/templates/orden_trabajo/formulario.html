@@ -16,7 +16,7 @@
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 	  <h1>
-	    <span id="titulo">Ordenes Trabajo</span>
+	    <span id="titulo">Ordenes de Trabajo</span>
 	    <small>{{ operation }}</small>
 	  </h1>
 	  <ol class="breadcrumb">
@@ -31,256 +31,263 @@
 
 		
 		<div class="row">
-	        <div class="col-md-12">
+			<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+		    <div class="col-md-12">
 
-				<!-- Clave y Descripcion -->
-				<div class="box box-solid">
+					<!-- Clave, Equipo, Descripcion, Estado -->
+					<div class="box box-solid">
 
-		            <div class="box-header with-border">
-		              <h3 class="box-title">No. Orden: <strong id="clave"> {{ clave }}</strong></h3>
-		            </div>
-		            <!-- /.box-header -->
+			            <div class="box-header with-border">
+			              <h3 class="box-title">No. Orden: <strong id="clave"> {{ orden_clave }}</strong></h3>
+			            </div>
+			            <!-- /.box-header -->
 
-					<div class="box-body">
+						<div class="box-body">
 
-						<div class="row">
-							<div class="col-sm-12">
+							<div class="row">
 
-								<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+								<div class="col-sm-4">
 
-								  	<label class="control-label">
-								  		<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.descripcion.label }} 
-								 	</label>
-								    {{ form.descripcion }}
-								  
-								    {% for error in form.descripcion.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
+									<div class="form-group input-group-sm {% if form.equipo.field.required %} has-warning {% endif %} {% if form.equipo.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.equipo.field.required %} fa-asterisk {% endif %} {% if form.equipo.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.equipo.label }} 
+									 	</label>
+									    {{ form.equipo }}
+									  
+									    {% for error in form.equipo.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+
+								<div class="col-sm-8">
+
+									<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.descripcion.label }} 
+									 	</label>
+									    {{ form.descripcion }}
+									  
+									    {% for error in form.descripcion.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.tipo.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.tipo.field.required %} fa-asterisk {% endif %} {% if form.tipo.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.tipo.label }} 
+									 	</label>
+									    {{ form.tipo }}
+									  
+									    {% for error in form.tipo.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.estado.field.required %} has-warning {% endif %} {% if form.estado.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.estado.field.required %} fa-asterisk {% endif %} {% if form.estado.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.estado.label }} 
+									 	</label>
+									    {{ form.estado }}
+									  
+									    {% for error in form.estado.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+								</div>								
+							</div>
+
+						</div>
+					<!-- /.box-body -->
+					</div>
+
+		          <!-- Custom Tabs (Informacion de la Orden) -->
+		         <div class="nav-tabs-custom">
+		            <ul class="nav nav-tabs">
+		              <li class="active"><a href="#tab_1" data-toggle="tab">Generales</a></li>
+		              <li><a href="{% url 'trabajos:actividades_lista' orden_clave %}" id="tab_actividades">Actividades</a></li>
+		              <li><a href="#" id="tab_materiales">Materiales</a></li>
+		              <li><a href="#" id="tab_servicios">Servicios</a></li>
+		              <li><a href="#" id="tab_mano_obra">Mano Obra</a></li>
+		            </ul>
+		            <div class="tab-content">
+		              	<div class="tab-pane active" id="tab_1">
+
+							<div class="row">
+								
+								<!-- Fecha Estimada Inicio -->
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.fecha_estimada_inicio.field.required %} has-warning {% endif %} {% if form.fecha_estimada_inicio.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.fecha_estimada_inicio.field.required %} fa-asterisk {% endif %} {% if form.fecha_estimada_inicio.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.fecha_estimada_inicio.label }} 
+									 	</label>
+									    {{ form.fecha_estimada_inicio }}
+									  
+									    {% for error in form.fecha_estimada_inicio.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+
+								<!-- Fecha Estimada Final -->
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.fecha_estimada_fin.field.required %} has-warning {% endif %} {% if form.fecha_estimada_fin.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.fecha_estimada_fin.field.required %} fa-asterisk {% endif %} {% if form.fecha_estimada_fin.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.fecha_estimada_fin.label }} 
+									 	</label>
+									    {{ form.fecha_estimada_fin }}
+									  
+									    {% for error in form.fecha_estimada_fin.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								
+								<!-- Fecha Real Inicio -->
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.fecha_real_inicio.field.required %} has-warning {% endif %} {% if form.fecha_real_inicio.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.fecha_real_inicio.field.required %} fa-asterisk {% endif %} {% if form.fecha_real_inicio.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.fecha_real_inicio.label }} 
+									 	</label>
+									    {{ form.fecha_real_inicio }}
+									  
+									    {% for error in form.fecha_real_inicio.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+								</div>
+
+								<!-- Fecha Real Final -->
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.fecha_real_fin.field.required %} has-warning {% endif %} {% if form.fecha_real_fin.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.fecha_real_fin.field.required %} fa-asterisk {% endif %} {% if form.fecha_real_fin.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.fecha_real_fin.label }} 
+									 	</label>
+									    {{ form.fecha_real_fin }}
+									  
+									    {% for error in form.fecha_real_fin.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								
+								<!-- Responsable -->
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form.responsable.field.required %} has-warning {% endif %} {% if form.responsable.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.responsable.field.required %} fa-asterisk {% endif %} {% if form.responsable.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.responsable.label }} 
+									 	</label>
+									    {{ form.responsable }}
+									  
+									    {% for error in form.responsable.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+								</div>
+							
+								<div class="col-sm-6">
+
+									<div class="form-group {% if form.es_template.field.required %} has-warning {% endif %} {% if form.es_template.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.es_template.field.required %} fa-asterisk {% endif %} {% if form.es_template.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.es_template.label }} 
+									 	</label>
+									 	<p>
+									 		{{ form.es_template }}	
+									 	</p>
+									    
+									  
+									    {% for error in form.es_template.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
 								</div>
 
 							</div>
+
+							<!-- Observaciones y Template -->
+							<div class="row">
+								<!-- Observaciones -->
+								<div class="col-sm-12">
+
+									<div class="form-group {% if form.observaciones.field.required %} has-warning {% endif %} {% if form.observaciones.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form.observaciones.field.required %} fa-asterisk {% endif %} {% if form.observaciones.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form.observaciones.label }} 
+									 	</label>
+									    {{ form.observaciones }}
+									  
+									    {% for error in form.observaciones.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+								</div>
+
+							</div>
+
 						</div>
 
 					</div>
-				<!-- /.box-body -->
+
+					<div class="box-footer">
+
+						<a class="btn btn-default" href="{% url 'trabajos:ordenes_lista' %}">
+							<i class="fa fa-arrow-circle-left"></i>
+							Regresar
+						</a>
+						<button type="submit" class="btn btn-success pull-right">
+							<i class="fa fa-save"></i>
+							Guardar
+						</button>
+
+					</div>				
 				</div>
-
-	          <!-- Custom Tabs (Informacion de la Orden) -->
-	          <div class="nav-tabs-custom">
-	            <ul class="nav nav-tabs">
-	              <li class="active"><a href="#tab_1" data-toggle="tab">Generales</a></li>
-	              <li><a href="#" id="tab_actividades" data-toggle="tab">Actividades</a></li>
-	              <li><a href="#" id="tab_materiales" data-toggle="tab">Materiales</a></li>
-	              <li><a href="#" id="tab_servicios" data-toggle="tab">Servicios</a></li>
-	              <li><a href="#" id="tab_mano_obra" data-toggle="tab">Mano Obra</a></li>
-	              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
-	            </ul>
-	            <div class="tab-content">
-	              	<div class="tab-pane active" id="tab_1">
-
-						<!-- Equipo y Tipo -->
-						<div class="row">
-							<div class="col-sm-8">
-
-								<div class="form-group input-group-sm {% if form.equipo.field.required %} has-warning {% endif %} {% if form.equipo.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.equipo.field.required %} fa-asterisk {% endif %} {% if form.equipo.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.equipo.label }} 
-								 	</label>
-								    {{ form.equipo }}
-								  
-								    {% for error in form.equipo.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-
-							</div>
-
-							<div class="col-sm-4">
-
-								<div class="form-group input-group-sm {% if form.tipo.field.required %} has-warning {% endif %} {% if form.tipo.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.tipo.field.required %} fa-asterisk {% endif %} {% if form.tipo.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.tipo.label }} 
-								 	</label>
-								    {{ form.tipo }}
-								  
-								    {% for error in form.tipo.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-
-							</div>						
-						</div>
-
-						<!-- Fechas Estimadas -->
-						<div class="row">
-							
-							<!-- Fecha Estimada Inicio -->
-							<div class="col-sm-6">
-
-								<div class="form-group input-group-sm {% if form.fecha_estimada_inicio.field.required %} has-warning {% endif %} {% if form.fecha_estimada_inicio.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.fecha_estimada_inicio.field.required %} fa-asterisk {% endif %} {% if form.fecha_estimada_inicio.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.fecha_estimada_inicio.label }} 
-								 	</label>
-								    {{ form.fecha_estimada_inicio }}
-								  
-								    {% for error in form.fecha_estimada_inicio.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-
-							</div>
-
-							<!-- Fecha Estimada Final -->
-							<div class="col-sm-6">
-
-								<div class="form-group input-group-sm {% if form.fecha_estimada_fin.field.required %} has-warning {% endif %} {% if form.fecha_estimada_fin.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.fecha_estimada_fin.field.required %} fa-asterisk {% endif %} {% if form.fecha_estimada_fin.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.fecha_estimada_fin.label }} 
-								 	</label>
-								    {{ form.fecha_estimada_fin }}
-								  
-								    {% for error in form.fecha_estimada_fin.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-
-							</div>
-						</div>
-
-						<!-- Fechas Reales -->
-						<div class="row">
-							
-							<!-- Fecha Real Inicio -->
-							<div class="col-sm-6">
-
-								<div class="form-group input-group-sm {% if form.fecha_real_inicio.field.required %} has-warning {% endif %} {% if form.fecha_real_inicio.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.fecha_real_inicio.field.required %} fa-asterisk {% endif %} {% if form.fecha_real_inicio.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.fecha_real_inicio.label }} 
-								 	</label>
-								    {{ form.fecha_real_inicio }}
-								  
-								    {% for error in form.fecha_real_inicio.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-							</div>
-
-							<!-- Fecha Real Final -->
-							<div class="col-sm-6">
-
-								<div class="form-group input-group-sm {% if form.fecha_real_fin.field.required %} has-warning {% endif %} {% if form.fecha_real_fin.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.fecha_real_fin.field.required %} fa-asterisk {% endif %} {% if form.fecha_real_fin.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.fecha_real_fin.label }} 
-								 	</label>
-								    {{ form.fecha_real_fin }}
-								  
-								    {% for error in form.fecha_real_fin.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-							</div>
-						</div>
-
-						<!-- Estado y Responsable -->
-						<div class="row">
-							
-							<!-- Estado -->
-							<div class="col-sm-6">
-
-								<div class="form-group input-group-sm {% if form.estado.field.required %} has-warning {% endif %} {% if form.estado.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.estado.field.required %} fa-asterisk {% endif %} {% if form.estado.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.estado.label }} 
-								 	</label>
-								    {{ form.estado }}
-								  
-								    {% for error in form.estado.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-							</div>
-
-							<!-- Responsable -->
-							<div class="col-sm-6">
-
-								<div class="form-group input-group-sm {% if form.responsable.field.required %} has-warning {% endif %} {% if form.responsable.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.responsable.field.required %} fa-asterisk {% endif %} {% if form.responsable.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.responsable.label }} 
-								 	</label>
-								    {{ form.responsable }}
-								  
-								    {% for error in form.responsable.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-							</div>
-						</div>
-
-						<!-- Observaciones y Template -->
-						<div class="row">
-
-							<!-- Observaciones -->
-							<div class="col-sm-12">
-
-								<div class="form-group {% if form.observaciones.field.required %} has-warning {% endif %} {% if form.observaciones.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.observaciones.field.required %} fa-asterisk {% endif %} {% if form.observaciones.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.observaciones.label }} 
-								 	</label>
-								    {{ form.observaciones }}
-								  
-								    {% for error in form.observaciones.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-							</div>
-
-							<!-- Es Template -->
-							<div class="col-sm-12">
-
-								<div class="form-group input-group-sm {% if form.es_template.field.required %} has-warning {% endif %} {% if form.es_template.errors %} has-error {% endif %}">
-
-								  	<label class="control-label">
-								  		<i class="fa {% if form.es_template.field.required %} fa-asterisk {% endif %} {% if form.es_template.errors %} fa-asterisk {% endif %}"></i> 
-								  		{{ form.es_template.label }} 
-								 	</label>
-								    {{ form.es_template }}
-								  
-								    {% for error in form.es_template.errors %}
-								    <span class="help-block">{{ error }}</span>
-								    {% endfor %}
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
-
-				<div class="box-footer">
-
-					<a class="btn btn-default" href="{% url 'trabajos:ordenes_lista' %}">Regresar</a>
-					<button type="submit" class="btn btn-success pull-right">Guardar</button>
-
-				</div>				
 			</div>
-	
+			</form>
 	</section>
 	<!-- /. Main content -->
 

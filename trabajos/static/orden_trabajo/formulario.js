@@ -21,7 +21,7 @@ $(document).ready(function () {
 
 function TargetaFormulario() {
 
-	this.$clave
+	this.$clave = $('#clave')
 
 	this.$observaciones = $('#id_observaciones')
 	this.$fecha_estimada_inicio = $('#id_fecha_estimada_inicio')
@@ -55,8 +55,12 @@ TargetaFormulario.prototype.init = function () {
 	// this.activar_Tabs()
 }
 TargetaFormulario.prototype.click_Tab_Activiades = function(e) {
-	e.preventDefault()
-	alertify.
+
+	if (e.data.$clave.text() == ' ') {
+
+		e.preventDefault()
+		alertify.warning("Primero debe guardar la Orden")
+	}	
 }
 TargetaFormulario.prototype.click_Tab_Materiales = function(e) {
 	e.preventDefault()

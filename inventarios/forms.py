@@ -100,6 +100,12 @@ class ArticuloForm(ModelForm):
 
 class StockFilterForm(Form):
 
+    almacen = ChoiceField(
+        widget=Select(
+            attrs={'class': 'form-control'}
+        )
+    )
+
     articulo = ChoiceField(
         widget=Select(
             attrs={'class': 'form-control'}
@@ -119,6 +125,7 @@ class StockFilterForm(Form):
     def __init__(self, *args, **kwargs):
         super(StockFilterForm, self).__init__(*args, **kwargs)
         self.fields['articulo'].choices = self.obtener_Articulos()
+        self.fields['almacen'].choices = self.obtener_Almacenes()
 
     def obtener_Articulos(self):
 
@@ -129,8 +136,27 @@ class StockFilterForm(Form):
         for registro in registros:
             articulo.append(
                 (
-                    registro.clave,
-                    "{} - {}".format(
+                    registro.id,
+                    "({}) {}".format(
+                        registro.clave,
+                        registro.descripcion
+                    )
+                )
+            )
+
+        return articulo
+
+    def obtener_Almacenes(self):
+
+        articulo = [('', 'Todos'), ]
+
+        registros = Almacen.objects.all()
+
+        for registro in registros:
+            articulo.append(
+                (
+                    registro.id,
+                    "({}) {}".format(
                         registro.clave,
                         registro.descripcion
                     )

@@ -6,6 +6,10 @@ from django.conf.urls import url
 # Vistas:
 from .views import OrdenTrabajoListView
 from .views import OrdenTrabajoCreateView
+from .views import OrdenTrabajoUpdateView
+
+from .views import ActividadListView
+
 from .views import OrdenAnexoTextoView
 from .views import OrdenAnexoImagenView
 from .views import OrdenAnexoArchivoView
@@ -26,6 +30,21 @@ urlpatterns = [
         OrdenTrabajoCreateView.as_view(),
         name='ordenes_nueva'
     ),
+    url(
+        r'^ordenes/editar/(?P<pk>.*)/$',
+        OrdenTrabajoUpdateView.as_view(),
+        name='ordenes_editar'
+    ),
+
+    # ----------------- ACTIVIDADES ----------------- #
+
+    url(
+        r'^ordenes/(?P<pk>.*)/actividades/$',
+        ActividadListView.as_view(),
+        name='actividades_lista'
+    ),
+
+
     # ----------------- ORDENES - ANEXOS ----------------- #
     url(
         r'ordenes/anexos/(?P<pk>\d+)/texto/$',

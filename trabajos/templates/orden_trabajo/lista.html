@@ -14,9 +14,6 @@
 <!-- Select2 -->
 <link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
-<!-- Pace -->
-<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
-
 <!-- CoreM -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -80,8 +77,14 @@
 				<!-- /.box-body -->
 				
 				<div class="box-footer">
-					<button type="button" id="boton_limpiar" class="btn btn-default">Limpiar</button>
-					<button type="button" id="boton_buscar" class="btn btn-info pull-right">Buscar</button>
+					<button type="button" id="boton_limpiar" class="btn btn-default">
+						<i class="fa fa-eraser"></i>
+						Limpiar
+					</button>
+					<button type="button" id="boton_buscar" class="btn btn-info pull-right">
+						<i class="fa fa-search"></i>
+						Buscar
+					</button>
 				</div>
 				<!-- /.box-footer -->
 
@@ -119,9 +122,6 @@
 
 <!-- Select2 -->
 <script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
-
-<!-- Pace -->
-<script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
 
 <!-- CoreM -->
 <script src="{% static 'orden_trabajo/lista.js' %}"></script>

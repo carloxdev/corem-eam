@@ -95,6 +95,7 @@ class Actividad(models.Model):
 
     class Meta:
         verbose_name_plural = "Actividades"
+        unique_together = (('orden', 'numero'),)
 
 
 class ManoObra(models.Model):

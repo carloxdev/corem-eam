@@ -41,7 +41,7 @@ class Ubicacion(models.Model):
     )
 
     def __str__(self):
-        return "{} - {}".format(
+        return "({}) {}".format(
             self.clave.encode('utf-8'),
             self.descripcion.encode('utf-8')
         )
@@ -113,7 +113,7 @@ class Asignacion(models.Model):
     )
 
     def __str__(self):
-        return "{0} : {1}".format(self.equipo, self.ubicacion).encode('utf-8')
+        return "({0}) {1}".format(self.equipo, self.ubicacion).encode('utf-8')
 
     class Meta:
         unique_together = (('equipo', 'ubicacion'),)
@@ -137,7 +137,7 @@ class UdmOdometro(models.Model):
     )
 
     def __str__(self):
-        return "{} - {}".format(
+        return "({}) {}".format(
             self.clave.encode('utf-8'),
             self.descripcion.encode('utf-8')
         )
@@ -184,7 +184,7 @@ class Medicion(models.Model):
     )
 
     def __str__(self):
-        return "{0} : {1}".format(self.odometro, self.fecha).encode('utf-8')
+        return "({0}) {1}".format(self.odometro, self.fecha).encode('utf-8')
 
     class Meta:
         verbose_name_plural = "Mediciones"

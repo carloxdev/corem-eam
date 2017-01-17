@@ -2,9 +2,12 @@
 
 # Django Atajos:
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 
 # Django Urls:
 from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse
 
 # Django Generic Views
 from django.views.generic.base import View
@@ -12,6 +15,7 @@ from django.views.generic import CreateView
 
 # Modelos:
 from .models import OrdenTrabajo
+from .models import Actividad
 from home.models import AnexoTexto
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
@@ -28,9 +32,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # API Rest - Serializadores:
 from .serializers import OrdenTrabajoSerializer
+from .serializers import ActividadSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoImagenSerializer
 from home.serializers import AnexoArchivoSerializer
+
 
 # API Rest - Paginacion:
 from .pagination import GenericPagination
@@ -40,6 +46,8 @@ from .filters import OrdenTrabajoFilter
 
 # Formulario Filtros
 from .forms import OrdenTrabajoFiltersForm
+
+
 # ----------------- ORDEN DE TRABAJO ----------------- #
 
 
@@ -56,25 +64,137 @@ class OrdenTrabajoListView(View):
         return render(_request, self.template_name, contexto)
 
 
-class OrdenTrabajoCreateView(CreateView):
-    model = OrdenTrabajo
-    form_class = OrdenTrabajoForm
-    template_name = 'orden_trabajo/formulario.html'
-    success_url = reverse_lazy('trabajos:ordenes_lista')
+class OrdenTrabajoCreateView(View):
 
-    def get_context_data(self, **kwargs):
-        context = super(
-            OrdenTrabajoCreateView,
-            self
-        ).get_context_data(**kwargs)
+    def __init__(self):
+        self.template_name = 'orden_trabajo/formulario.html'
 
-        data = {
-            'operation': "Nuevo"
+    def get(self, request):
+        formulario = OrdenTrabajoForm()
+
+        contexto = {
+            'form': formulario,
+            'operation': "Nueva"
         }
 
-        context.update(data)
+        return render(request, self.template_name, contexto)
 
-        return context
+    def post(self, request):
+
+        formulario = OrdenTrabajoForm(request.POST)
+
+        if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
+            orden = OrdenTrabajo()
+
+            orden.equipo = datos_formulario.get('equipo')
+            orden.descripcion = datos_formulario.get('descripcion')
+            orden.tipo = datos_formulario.get('tipo')
+            orden.estado = datos_formulario.get('estado')
+            orden.responsable = datos_formulario.get('responsable')
+            orden.fecha_estimada_inicio = datos_formulario.get(
+                'fecha_estimada_inicio'
+            )
+            orden.fecha_estimada_fin = datos_formulario.get(
+                'fecha_estimada_fin'
+            )
+            orden.fecha_real_inicio = datos_formulario.get('fecha_real_inicio')
+            orden.fecha_real_fin = datos_formulario.get('fecha_real_fin')
+            orden.observaciones = datos_formulario.get('observaciones')
+            orden.es_template = datos_formulario.get('es_template')
+
+            orden.save()
+
+            return redirect(
+                reverse(
+                    'trabajos:actividades_lista',
+                    kwargs={'pk': orden.id}
+                )
+            )
+
+        contexto = {
+            'form': formulario,
+            'operation': "Nueva"
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class OrdenTrabajoUpdateView(View):
+
+    def __init__(self):
+        self.template_name = 'orden_trabajo/formulario.html'
+
+    def get(self, request, pk):
+
+        orden = get_object_or_404(OrdenTrabajo, pk=pk)
+
+        formulario = OrdenTrabajoForm(
+            initial={
+                'equipo': orden.equipo,
+                'descripcion': orden.descripcion,
+                'tipo': orden.tipo,
+                'estado': orden.estado,
+                'responsable': orden.responsable,
+                'fecha_estimada_inicio': orden.fecha_estimada_inicio,
+                'fecha_estimada_fin': orden.fecha_estimada_fin,
+                'fecha_real_inicio': orden.fecha_real_inicio,
+                'fecha_real_fin': orden.fecha_real_fin,
+                'observaciones': orden.observaciones,
+                'es_template': orden.es_template,
+            }
+        )
+
+        contexto = {
+            'form': formulario,
+            'operation': "Editar",
+            'orden_clave': orden.id
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+
+        formulario = OrdenTrabajoForm(request.POST)
+
+        orden = get_object_or_404(OrdenTrabajo, pk=pk)
+
+        if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
+
+            orden.equipo = datos_formulario.get('equipo')
+            orden.descripcion = datos_formulario.get('descripcion')
+            orden.tipo = datos_formulario.get('tipo')
+            orden.estado = datos_formulario.get('estado')
+            orden.responsable = datos_formulario.get('responsable')
+            orden.fecha_estimada_inicio = datos_formulario.get(
+                'fecha_estimada_inicio'
+            )
+            orden.fecha_estimada_fin = datos_formulario.get(
+                'fecha_estimada_fin'
+            )
+            orden.fecha_real_inicio = datos_formulario.get('fecha_real_inicio')
+            orden.fecha_real_fin = datos_formulario.get('fecha_real_fin')
+            orden.observaciones = datos_formulario.get('observaciones')
+            orden.es_template = datos_formulario.get('es_template')
+
+            orden.save()
+
+            return redirect(
+                reverse(
+                    'trabajos:ordenes_lista'
+                )
+            )
+
+        contexto = {
+            'form': formulario,
+            'operation': "Editar",
+            'orden_clave': self.id
+        }
+
+        return render(request, self.template_name, contexto)
 
 
 class OrdenTrabajoAPI(viewsets.ModelViewSet):
@@ -83,6 +203,48 @@ class OrdenTrabajoAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = OrdenTrabajoFilter
+
+
+# ----------------- ACTIVIDAD ----------------- #
+
+class ActividadListView(View):
+
+    def __init__(self):
+        self.template_name = 'actividad/lista.html'
+
+    def get(self, _request, pk):
+
+        orden = get_object_or_404(OrdenTrabajo, pk=pk)
+
+        formulario = OrdenTrabajoForm(
+            initial={
+                'equipo': orden.equipo,
+                'descripcion': orden.descripcion,
+                'tipo': orden.tipo,
+                'estado': orden.estado,
+            }
+        )
+
+        formulario.fields['equipo'].widget.attrs['disabled'] = True
+        formulario.fields['descripcion'].widget.attrs['disabled'] = True
+        formulario.fields['tipo'].widget.attrs['disabled'] = True
+        formulario.fields['estado'].widget.attrs['disabled'] = True
+
+        contexto = {
+            'form': formulario,
+            'orden_clave': orden.id
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class ActividadAPI(viewsets.ModelViewSet):
+    queryset = Actividad.objects.all()
+    serializer_class = ActividadSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('orden',)
+
 
 # ----------------- ORDEN - ANEXO ----------------- #
 

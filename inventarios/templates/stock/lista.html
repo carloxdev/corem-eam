@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
 	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
-	<!-- Pace -->
-	<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
 	<!-- CoreM -->
 	<link rel="stylesheet" href="{% static 'grid.css' %}"/>
@@ -57,10 +57,15 @@
 					<form role="form" action=""> {% csrf_token %}
 
 						<div class="row">
-			                <div class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12">
+			                <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6">
+			                  <label for="{{ form.almacen.id_for_label }}">{{ form.almacen.label }}</label>
+			                  {{ form.almacen }}
+			                </div>
+
+			                <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6">
 			                  <label for="{{ form.articulo.id_for_label }}">{{ form.articulo.label }}</label>
 			                  {{ form.articulo }}
-			                </div>
+			                </div>			                
 						</div>
 
 						<div class="row">
@@ -100,7 +105,6 @@
 
 		</div>
 
-
       <div class="box box-info">
         <div class="box-header box-header-border">
           <h3 class="box-title">Registros</h3>
@@ -132,10 +136,7 @@
 	<!-- Select2 -->
 	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
-	<!-- Pace -->
-	<script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
-
 	<!-- CoreM -->
-	<script src="{% static 'articulo/lista.js' %}"></script>
+	<script src="{% static 'stock/lista.js' %}"></script>
 
 {% endblock scripts %}

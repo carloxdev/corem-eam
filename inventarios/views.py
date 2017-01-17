@@ -430,9 +430,17 @@ class ArticuloAnexoArchivoAPI(viewsets.ModelViewSet):
 class StockListView(View):
     template_name = 'stock/lista.html'
 
-    def get(self, request, pk):
+    def get(self, request, almacen, articulo):
 
-        formulario = StockFilterForm()
+        valores_iniciales = {}
+
+        if almacen != 0:
+            valores_iniciales['almacen'] = almacen
+
+        if articulo != 0:
+            valores_iniciales['articulo'] = articulo
+
+        formulario = StockFilterForm(initial=valores_iniciales)
 
         contexto = {
             'form': formulario
@@ -440,7 +448,7 @@ class StockListView(View):
 
         return render(request, self.template_name, contexto)
 
-    def post(self, request, pk):
+    def post(self, request, almacen, articulo):
         return render(request, self.template_name, {})
 
 

@@ -109,9 +109,9 @@ urlpatterns = [
     # ----------------- STOCK ----------------- #
 
     url(
-        r'^stock/(?P<pk>\d+)/$',
+        r'^stock/(?P<almacen>\d+)/(?P<articulo>\d+)/$',
         StockListView.as_view(),
-        name='stock_lista'
+        name='stock'
     ),
 
 

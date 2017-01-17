@@ -2,11 +2,13 @@
             GLOBAL VARS
 \*-----------------------------------------------*/
 
+// URLS
 var url_grid = window.location.origin + "/api/almacenes/"
 var url_nuevo = window.location.origin + "/almacenes/nuevo/"
 var url_editar = window.location.origin + "/almacenes/editar/"
 var url_stock = window.location.origin + "/stock/"
 
+// OBJS
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -204,7 +206,7 @@ GridPrincipal.prototype.click_BotonStock = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_stock + fila.pk + "/"
+    window.location.href = url_stock + fila.pk + "/0/"
 }
 
 /*-----------------------------------------------*\

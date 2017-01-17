@@ -43,7 +43,7 @@ class UdmArticulo(models.Model):
     )
 
     def __str__(self):
-        return "{} - {}".format(
+        return "({}) {}".format(
             self.clave.encode('utf-8'),
             self.descripcion.encode('utf-8')
         )
@@ -82,8 +82,8 @@ class Articulo(models.Model):
     )
 
     def __str__(self):
-        return "{0} : {1}".format(
-            self.clave_jde,
+        return "({0}) {1}".format(
+            self.clave,
             self.descripcion
         ).encode('utf-8')
 
@@ -124,7 +124,7 @@ class Almacen(models.Model):
     )
 
     def __str__(self):
-        return "{0} : {1}".format(self.clave, self.descripcion)
+        return "({0}) {1}".format(self.clave, self.descripcion)
 
     class Meta:
         verbose_name_plural = "Almacenes"
@@ -148,7 +148,7 @@ class Stock(models.Model):
     )
 
     def __str__(self):
-        return "{0} - {1}".format(self.almacen, self.articulo)
+        return "{0}) {1}".format(self.almacen, self.articulo)
 
     class Meta:
         unique_together = (('almacen', 'articulo'),)

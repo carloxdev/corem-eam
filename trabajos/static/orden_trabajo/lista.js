@@ -2,10 +2,13 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+// URLS
 var url_grid = window.location.origin + "/api/ordenestrabajo/"
 var url_nuevo = window.location.origin + "/ordenes/nuevo/"
 var url_editar = window.location.origin + "/ordenes/editar/"
 var url_anexos = window.location.origin + "/ordenes/anexos/"
+
+// OBJS
 var targeta_filtros = null
 var targeta_resultados = null
 
@@ -121,7 +124,7 @@ GridPrincipal.prototype.init = function () {
 
     this.kfuente_datos = new kendo.data.DataSource(this.get_FuenteDatosConfig())
 
-    this.kGrid = this.$id.kendoGrid(this.get_Config())
+    this.kgrid = this.$id.kendoGrid(this.get_Config())
 }
 GridPrincipal.prototype.get_Config = function () {
 
@@ -139,7 +142,8 @@ GridPrincipal.prototype.get_Config = function () {
         pageable: true,
         noRecords: {
             template: "<div class='grid-empy'> No se encontraron registros </div>"
-        },        
+        },
+        dataBound: this.apply_Estilos
     }
 
 }
@@ -171,20 +175,45 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         {
            command: [
                 {
-                   text: "Editar",
+                   text: " Editar",
                    click: this.click_BotonEditar,
-                   className: "boton_editar"
+                   className: "boton_editar fa fa-pencil"
                 },
                 {
-                    text: "Anexos",
+                    text: " Anexos",
                     click: this.click_BotonAnexos,
-                    className: "boton_default"
+                    className: "boton_default fa fa-paperclip"
                 },                
             ],           
            title: " ",
-           width: "200px"
+           width: "190px"
         },
     ]
+}
+GridPrincipal.prototype.apply_Estilos = function (e) {
+
+    // Aplicar iconos
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-paperclip").each(function(idx, element){
+        $(element).removeClass("fa fa-paperclip").find("span").addClass("fa fa-paperclip")
+    })        
+
+    // Aplicar formato a columna:
+    $('td').each( function () {
+        if($(this).text()=='CAPTURA'){ 
+            $(this).addClass('cell--reparacion')
+        }
+        else if($(this).text()=='CERRADA'){ 
+            $(this).addClass('cell--deshabilitado')
+        }
+        else if($(this).text()=='TERMINADA'){ 
+            $(this).addClass('cell--terminada')
+        }
+    })
+
 }
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
@@ -241,8 +270,6 @@ GridPrincipal.prototype.change_IsTemplate = function (_value) {
     else {
         return "NO"
     }
-
-    
 }
 
 

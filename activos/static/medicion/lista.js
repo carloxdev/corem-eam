@@ -2,9 +2,12 @@
             GLOBAL VARIABLES
 \*-----------------------------------------------*/
 
+// URLS
 var url_grid = window.location.origin + "/api/mediciones/"
 var targeta_filtros = null
 var targeta_resultados = null
+
+// OBJS
 var modal= null
 
 /*-----------------------------------------------*\

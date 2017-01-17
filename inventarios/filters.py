@@ -55,6 +55,7 @@ class StockFilter(filters.FilterSet):
         model = Stock
         fields = [
             'articulo',
+            'almacen',
             'cantidad_mayorque',
             'cantidad_menorque',
         ]

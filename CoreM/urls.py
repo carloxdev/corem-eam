@@ -35,6 +35,7 @@ from trabajos.views import OrdenTrabajoAPI
 from trabajos.views import OrdenAnexoTextoAPI
 from trabajos.views import OrdenAnexoImagenAPI
 from trabajos.views import OrdenAnexoArchivoAPI
+from trabajos.views import ActividadAPI
 
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
@@ -179,6 +180,15 @@ router.register(
     r'ordenestrabajo',
     OrdenTrabajoAPI,
     'ordentrabajo'
+)
+
+
+# ----------------- ACTIVIDAD ----------------- #
+
+router.register(
+    r'actividades',
+    ActividadAPI,
+    'actividad'
 )
 
 # ----------------- ORDENES DE TRABAJO - ANEXOS ----------------- #

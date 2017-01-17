@@ -12,10 +12,11 @@
 	<link rel="stylesheet" href="{% static 'libs/bootstrap/css/bootstrap.min.css' %}">
 
 	<!-- Font Awesome -->
+	<!-- <link rel="stylesheet" href="{% static 'libs/plugins/font_awesome/font_awesome.min.css' %}"> -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-
+	
 	<!-- Ionicons -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="{% static 'libs/plugins/ionicons/ionicons.min.css' %}">
 	
 	<!-- Theme style -->
 	<link rel="stylesheet" href="{% static 'libs/dist/css/AdminLTE.min.css' %}">
@@ -402,8 +403,8 @@
 	          </a>
 	          <ul class="treeview-menu">
 	            <li id="opt_ordenes"><a href="{% url 'trabajos:ordenes_lista' %}"><i class="fa fa-file-o"></i> Ordenes Trabajo</a></li>
-	            <li id="opt_ordenes"><a href="#"><i class="fa fa-tint"></i> Recursos Materiales</a></li>
-	            <li id="opt_ordenes"><a href="#"><i class="fa fa-users"></i> Hoja de tiempos </a></li>
+	            <li id="opt_materiales"><a href="#"><i class="fa fa-tint"></i> Recursos Materiales</a></li>
+	            <li id="opt_tiempos"><a href="#"><i class="fa fa-users"></i> Hoja de tiempos </a></li>
 	          </ul>
 	        </li>
 

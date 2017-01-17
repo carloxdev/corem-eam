@@ -41,9 +41,9 @@ class AlmacenSerializer(serializers.ModelSerializer):
 
 class StockSerializer(serializers.ModelSerializer):
 
-    estado = serializers.SerializerMethodField()
     almacen = serializers.SerializerMethodField()
     articulo = serializers.SerializerMethodField()
+    udm = serializers.SerializerMethodField()
 
     class Meta:
         model = Stock
@@ -51,16 +51,10 @@ class StockSerializer(serializers.ModelSerializer):
             'url',
             'pk',
             'almacen',
-            'estado',
             'articulo',
             'cantidad',
+            'udm'
         )
-
-    def get_estado(self, obj):
-        try:
-            return obj.get_estado_display()
-        except:
-            return ""
 
     def get_almacen(self, obj):
 
@@ -79,6 +73,16 @@ class StockSerializer(serializers.ModelSerializer):
             return "({}) {}".format(
                 obj.articulo.clave,
                 obj.articulo.descripcion
+            )
+
+        except:
+            return ""
+
+    def get_udm(self, obj):
+
+        try:
+            return "{}".format(
+                obj.articulo.udm,
             )
 
         except:

@@ -7,6 +7,7 @@ var url_grid = window.location.origin + "/api/articulos/"
 var url_nuevo = window.location.origin + "/articulos/nuevo/"
 var url_editar = window.location.origin + "/articulos/editar/"
 var url_anexos = window.location.origin + "/articulos/anexos/"
+var url_stock = window.location.origin + "/stock/"
 
 // OBJS
 var targeta_filtros = null
@@ -265,9 +266,8 @@ GridPrincipal.prototype.click_BotonStock = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    // window.location.href = url_stock + fila.pk + "/"
+    window.location.href = url_stock + "0/" + fila.pk + "/"
 }
-
 
 
 /*-----------------------------------------------*\

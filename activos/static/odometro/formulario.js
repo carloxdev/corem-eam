@@ -63,13 +63,13 @@ TargetaFormulario.prototype.validar_Udm = function () {
 }
 TargetaFormulario.prototype.modify_Udm = function (_clave, _descripcion) {
 
-	var new_value = _clave + " - " + _descripcion
+	var new_value = "(" + _clave + ")" + _descripcion
 
 	// Modificar texto
 	this.$udm.find(":selected").text(new_value)
 }
 TargetaFormulario.prototype.add_Udm = function (_pk, _clave, _descripcion) {
-	var new_value = _clave + " - " + _descripcion
+	var new_value = "(" + _clave + ")" + _descripcion
 
 	this.$udm.append(
 		$('<option>', {

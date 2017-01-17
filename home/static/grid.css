@@ -75,3 +75,9 @@
 	color: white;
 	text-align: center;	
 }
+
+.cell--terminada {
+	background-color: #3c8dbc;
+	color: white;
+	text-align: center;	
+}
