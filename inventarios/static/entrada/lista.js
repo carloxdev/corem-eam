@@ -3,7 +3,7 @@
 \*-----------------------------------------------*/
 
 // URLS
-var url_grid = window.location.origin + "/api/entradas/"
+var url_grid = window.location.origin + "/api/movimientos/"
 var url_nuevo = window.location.origin + "/entradas/nuevo/"
 var url_editar = window.location.origin + "/entradas/editar/"
 
@@ -49,8 +49,12 @@ function TargetaFiltros() {
     this.$descripcion = $('#id_descripcion')
     this.$fecha_inicio = $('#fecha_inicio')
     this.$fecha_fin = $('#fecha_fin')
-    this.$almacen = $('#id_almacen')
-
+    this.$almacen_origen = $('#id_almacen_origen')
+    this.$almacen_destino = $('#id_almacen_destino')
+    this.$persona_recibe = $('#id_persona_recibe')
+    this.$persona_entrega = $('#id_persona_entrega')
+    this.$estado = $('#id_estado')
+    this.$tipo = $('#id_tipo')
     this.$boton_buscar =  $('#boton_buscar')
     this.$boton_limpiar =  $('#boton_limpiar')
 
@@ -58,7 +62,8 @@ function TargetaFiltros() {
 }
 TargetaFiltros.prototype.init = function () {
 
-    this.$almacen.select2()
+    this.$almacen_origen.select2()
+    this.$almacen_destino.select2()
     this.$fecha_inicio.datepicker(
         {
             autoclose: true,
@@ -77,7 +82,8 @@ TargetaFiltros.prototype.init = function () {
     this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
 TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
-
+    
+    tipo = "ENT"
     return {
         page: _page,
         pageSize: _pageSize,
@@ -85,7 +91,12 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
         descripcion: this.$descripcion.val(),
         fecha_inicio: this.$fecha_inicio.val(),
         fecha_fin: this.$fecha_fin.val(),
-        almacen: this.$almacen.val(),
+        almacen_origen: this.$almacen_origen.val(),
+        almacen_destino: this.$almacen_destino.val(),
+        persona_recibe: this.$persona_recibe.val(),
+        persona_entrega: this.$persona_entrega.val(),
+        estado: this.$estado.val(),
+        tipo: tipo,
 
     }
 }
@@ -102,7 +113,12 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
     e.data.$descripcion.val("")
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
-    e.data.$almacen.val("").trigger('change')
+    e.data.$almacen_origen.val("").trigger('change')
+    e.data.$almacen_destino.val("").trigger('change')
+    e.data.$persona_recibe.val("")
+    e.data.$persona_entrega.val("")
+    e.data.$estado.val().trigger('change')
+
 }
 
 /*-----------------------------------------------*\
@@ -146,7 +162,7 @@ GridPrincipal.prototype.get_Config = function () {
         editable: false,
         resizable: true,
         selectable: true,
-        scrollable: false,
+        scrollable: true,
         columns: this.get_Columnas(),
         scrollable: true,
         pageable: true,
@@ -162,19 +178,24 @@ GridPrincipal.prototype.get_Campos = function (e) {
         fecha: { type: "string" },
         clave: { type: "string" },
         descripcion: { type: "string" },
-        almacen: { type: "string" },
+        almacen_origen: { type: "string" },
+        almacen_destino: { type: "string" },
         
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "fecha" , title: "Fecha", width: "120px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy HH:mm') #" },
+        { field: "fecha" , title: "Fecha", width: "80px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy') #" },
         { field: "clave" , title: "Clave", width: "120px" },
         { field: "descripcion" , title: "Descripción", width: "250px" },
-        { field: "almacen" , title: "Almacen", width: "120px" },
-        
-        {
+        { field: "almacen_origen" , title: "Almacen Origen", width: "120px" },
+        { field: "almacen_destino" , title: "Almacen Destino", width: "120px" },
+        { field: "persona_recibe" , title: "Persona Recibe", width: "120px" },
+        { field: "persona_entrega" , title: "Persona Entrega", width: "120px" },
+        { field: "estado" , title: "Estado", width: "120px" },
+
+        /*{
            command: [
                 {
                    text: " Editar",
@@ -189,8 +210,8 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                              
             ],           
            title: " ",
-           width: "120px"
-        },
+           width: "170px"
+        },*/
     ]
 }
 GridPrincipal.prototype.set_Icons = function (e) {
@@ -239,12 +260,12 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 GridPrincipal.prototype.buscar =  function() {
     this.kfuente_datos.page(1)
 }
-GridPrincipal.prototype.click_BotonEditar = function (e) {
+/*GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk + "/"
-}
+}*/
 
 
 /*-----------------------------------------------*\

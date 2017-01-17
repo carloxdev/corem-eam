@@ -3,13 +3,12 @@
 \*-----------------------------------------------*/
 
 // URLS
-var url_grid = window.location.origin + "/api/movimientosdetalle/"
-var url_editar = window.location.origin + "/entradas/editar/"
+var url_grid = window.location.origin + "/api/movimientos/"
+var url_nuevo = window.location.origin + "/salidas/nuevo/"
 
 // OBJS
 var targeta_filtros = null
 var targeta_resultados = null
-var modal_detalle = null
 var pagina = null
 
 
@@ -19,9 +18,8 @@ var pagina = null
 
 $(document).ready(function () {
 
-    targeta_filtros = new TargetaFormulario()
+    targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
-    modal_detalle = new ModalDetalle()
 
     pagina = new Pagina()
     pagina.init_Alertify()    
@@ -42,54 +40,83 @@ $(document).keypress(function (e) {
             OBJETO: Targeta Filtros
 \*-----------------------------------------------*/
 
-function TargetaFormulario() {
+function TargetaFiltros() {
 
     this.$id = $('#id_panel')
-    this.$cabecera = $('#id_cabecera')
+
     this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
-    this.$fecha = $('#id_fecha')
+    this.$fecha_inicio = $('#fecha_inicio')
+    this.$fecha_fin = $('#fecha_fin')
     this.$almacen_origen = $('#id_almacen_origen')
     this.$almacen_destino = $('#id_almacen_destino')
-    this.$persona_recibe = $('#persona_recibe')
-    this.$persona_entrega = $('#persona_entrega')
+    this.$persona_recibe = $('#id_persona_recibe')
+    this.$persona_entrega = $('#id_persona_entrega')
     this.$estado = $('#id_estado')
-    this.$boton_guardar = $('#boton_guardar')
+    this.$tipo = $('#id_tipo')
+    this.$boton_buscar =  $('#boton_buscar')
+    this.$boton_limpiar =  $('#boton_limpiar')
 
     this.init()
 }
-TargetaFormulario.prototype.init = function () {
+TargetaFiltros.prototype.init = function () {
 
     this.$almacen_origen.select2()
     this.$almacen_destino.select2()
-    this.$fecha.datepicker(
+    this.$fecha_inicio.datepicker(
         {
             autoclose: true,
             language: 'es'
         }
     )
+    this.$fecha_fin.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )
+    this.$id.addClass('collapsed-box')
 
-    if(this.$cabecera.val() != 0){
-        this.$clave.attr("disabled", true)
-        this.$descripcion.attr("disabled", true)
-        this.$fecha.attr("disabled", true)
-        this.$almacen_origen.attr("disabled", true)
-        this.$almacen_destino.attr("disabled", true)
-        this.$persona_recibe.attr("disabled", true)
-        this.$persona_entrega.attr("disabled", true)
-        this.$estado.attr("disabled", true)
-        this.$boton_guardar.attr("disabled", true)
-    }
-    
+    this.$boton_buscar.on("click", this, this.click_BotonBuscar)
+    this.$boton_limpiar.on("click", this, this.click_BotonLimpiar)
 }
-TargetaFormulario.prototype.get_Filtros = function (_page, _pageSize) {
-
+TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
+    tipo = "SAL"
     return {
         page: _page,
         pageSize: _pageSize,
-        cabecera: this.$cabecera.val(),
+        clave: this.$clave.val(),
+        descripcion: this.$descripcion.val(),
+        fecha_inicio: this.$fecha_inicio.val(),
+        fecha_fin: this.$fecha_fin.val(),
+        almacen_origen: this.$almacen_origen.val(),
+        almacen_destino: this.$almacen_destino.val(),
+        persona_recibe: this.$persona_recibe.val(),
+        persona_entrega: this.$persona_entrega.val(),
+        estado: this.$estado.val(),
+        tipo: tipo,
 
     }
+}
+TargetaFiltros.prototype.click_BotonBuscar = function(e) {
+
+    e.preventDefault()
+    targeta_resultados.grid.buscar()
+}
+TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
+
+    e.preventDefault()
+
+    e.data.$clave.val("")
+    e.data.$descripcion.val("")
+    e.data.$fecha_inicio.val("")
+    e.data.$fecha_fin.val("")
+    e.data.$almacen_origen.val("").trigger('change')
+    e.data.$almacen_destino.val("").trigger('change')
+    e.data.$persona_recibe.val("")
+    e.data.$persona_entrega.val("")
+    e.data.$estado.val().trigger('change')
+
 }
 
 /*-----------------------------------------------*\
@@ -133,7 +160,7 @@ GridPrincipal.prototype.get_Config = function () {
         editable: false,
         resizable: true,
         selectable: true,
-        scrollable: false,
+        scrollable: true,
         columns: this.get_Columnas(),
         scrollable: true,
         pageable: true,
@@ -146,20 +173,33 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
-        articulo_clave: { type: "string" },
-        cantidad: { type: "string" },
+        fecha: { type: "string" },
+        clave: { type: "string" },
+        descripcion: { type: "string" },
+        almacen_origen: { type: "string" },
+        almacen_destino: { type: "string" },
         
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "articulo_clave" , title: "Articulo", width: "120px" },
-        { field: "cantidad" , title: "Cantidad", width: "120px" },
-        
-        
-        {
-           command: [ 
+        { field: "fecha" , title: "Fecha", width: "80px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy') #" },
+        { field: "clave" , title: "Clave", width: "120px" },
+        { field: "descripcion" , title: "Descripción", width: "250px" },
+        { field: "almacen_origen" , title: "Almacen Origen", width: "120px" },
+        { field: "almacen_destino" , title: "Almacen Destino", width: "120px" },
+        { field: "persona_recibe" , title: "Persona Recibe", width: "120px" },
+        { field: "persona_entrega" , title: "Persona Entrega", width: "120px" },
+        { field: "estado" , title: "Estado", width: "120px" },
+
+        /*{
+           command: [
+                {
+                   text: " Editar",
+                   click: this.click_BotonEditar,
+                   className: "boton_editar fa fa-pencil"
+                }, 
                 {
                    text: " Eliminar",
                    click: this.click_BotonEliminar,
@@ -168,11 +208,15 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                              
             ],           
            title: " ",
-           width: "40px"
-        },
+           width: "170px"
+        },*/
     ]
 }
 GridPrincipal.prototype.set_Icons = function (e) {
+
+    e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
+        $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
+    })
 
     e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
         $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
@@ -214,12 +258,12 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 GridPrincipal.prototype.buscar =  function() {
     this.kfuente_datos.page(1)
 }
-GridPrincipal.prototype.click_BotonEditar = function (e) {
+/*GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk + "/"
-}
+}*/
 
 
 /*-----------------------------------------------*\
@@ -227,7 +271,8 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 \*-----------------------------------------------*/
 
 function Toolbar() {
-    this.$boton_nuevo = $('#boton_nuevo')
+
+    this.$boton_nuevo = $("#boton_nuevo")
     this.$boton_exportar = $("#boton_exportar")
 
     this.init()
@@ -237,109 +282,12 @@ Toolbar.prototype.init = function (e) {
     this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
-
-Toolbar.prototype.click_BotonExportar = function(e) {
-    e.preventDefault()
-    return null
-}
-
 Toolbar.prototype.click_BotonNuevo = function (e) {
 
     e.preventDefault()
-    $('#modal_nuevo').modal('show');
+    window.location.href = url_nuevo
 }
-
-function ModalDetalle() {
-    this.$cabecera = $('#cabecera')
-    this.$articulo = $('#id_articulo')
-    this.$cantidad = $('#id_cantidad')
-    this.$boton_guardar = $('#boton_guardar_detalle')
-    this.$articulo_contenedor = $('#articulo_contenedor')
-    this.$articulo_mensaje = $('#articulo_mensaje')
-    this.$cantidad_contenedor = $('#cantidad_contenedor')
-    this.$cantidad_mensaje = $('#cantidad_mensaje')
-
-    this.init()
-
-    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-    this.clear_Estilos()
-}
-
-ModalDetalle.prototype.init = function () {
-    
-    //this.$articulo.select2()
-
-}
-
-ModalDetalle.prototype.clear_Estilos = function () {
-
-    this.$articulo_contenedor.removeClass("has-error")
-
-    if(this.$articulo_mensaje.hasClass('hidden') != null) { 
-        this.$articulo_mensaje.addClass('hidden')
-    } 
-
-    this.$cantidad_contenedor.removeClass("has-error")  
-
-    if(this.$cantidad_mensaje.hasClass('hidden') != null) { 
-        this.$cantidad_mensaje.addClass('hidden')
-    } 
-}
-
-ModalDetalle.prototype.validar = function () {
-    var bandera = true
-
-    if ( this.$articulo.val() == "") {
-        this.$articulo_contenedor.addClass("has-error")
-        this.$articulo_mensaje.removeClass("hidden")
-        bandera = false
-    }
-
-    if ( this.$cantidad.val() == "") {
-        this.$cantidad_contenedor.addClass("has-error")
-        this.$cantidad_mensaje.removeClass("hidden")
-        bandera = false
-    }
-
-    return bandera
-}
-
-ModalDetalle.prototype.click_BotonGuardar = function (e) {
-    if (e.data.validar()){
-        e.preventDefault()
-        articulo = e.data.$articulo.val()
-        cantidad = e.data.$cantidad.val()
-        cabecera = e.data.$cabecera.val()
-
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val()
-        $.ajax({
-                    headers: { "X-CSRFToken": csrftoken },
-                    url: url_grid,
-                    method: "POST",
-                    data: {
-                        cantidad: cantidad,
-                        articulo: articulo,
-                        cabecera: cabecera,
-                    },
-                    success: function (){
-                        $('#modal_nuevo').hide()
-                        alertify.success("Detalle Registrado")
-                        targeta_resultados.grid.kfuente_datos.read();
-                        e.data.$articulo_mensaje.val("").trigger('change')
-                        e.data.$cantidad.val("")
-                        $('.modal-backdrop').remove();
-                        
-                       
-                    },
-                    error: function(e){
-
-                        alertify.error("Error "+ e.status + " . No se guardó el registro")
-                        $('#modal_nuevo').hide()
-
-                    }
-                   
-                            
-                });
-
-    }
+Toolbar.prototype.click_BotonExportar = function(e) {
+    e.preventDefault()
+    return null
 }

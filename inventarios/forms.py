@@ -13,8 +13,8 @@ from django.forms import Form
 from .models import Almacen
 from .models import Articulo
 from .models import UdmArticulo
-from .models import EntradaCabecera
-from .models import EntradaDetalle
+from .models import MovimientoCabecera
+from .models import MovimientoDetalle
 
 
 # ----------------- ALMACEN ----------------- #
@@ -166,55 +166,73 @@ class StockFilterForm(Form):
         return articulo
 
 
-# ----------------- ENTRADAS ----------------- #
+# ----------------- MOVIMIENTOS ----------------- #
 
-class EntradaCabeceraFilterForm(ModelForm):
+class MovimientoCabeceraFilterForm(ModelForm):
 
     class Meta:
-        model = EntradaCabecera
+        model = MovimientoCabecera
         fields = [
             'clave',
             'descripcion',
-            'almacen',
+            'almacen_origen',
+            'almacen_destino',
+            'persona_recibe',
+            'persona_entrega',
+            'estado',
+            'tipo',
         ]
         widgets = {
             'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'almacen': Select(attrs={'class': 'form-control'}),
+            'almacen_origen': Select(attrs={'class': 'form-control'}),
+            'almacen_destino': Select(attrs={'class': 'form-control'}),
+            'persona_recibe': TextInput(attrs={'class': 'form-control'}),
+            'persona_entrega': TextInput(attrs={'class': 'form-control'}),
+            'estado': Select(attrs={'class': 'form-control'}),
+            'tipo': Select(attrs={'class': 'form-control'}),
 
         }
 
 
-class EntradaCabeceraForm(ModelForm):
+class MovimientoCabeceraForm(ModelForm):
 
     class Meta:
-        model = EntradaCabecera
+        model = MovimientoCabecera
         fields = [
             'clave',
             'fecha',
             'descripcion',
-            'almacen',
+            'almacen_origen',
+            'almacen_destino',
+            'persona_recibe',
+            'persona_entrega',
+            'estado',
+            'tipo',
         ]
         widgets = {
             'clave': TextInput(attrs={'class': 'form-control'}),
             'fecha': TextInput(attrs={'class': 'form-control',
                                       'data-date-format': 'yyyy-mm-dd'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'almacen': Select(attrs={'class': 'form-control'}),
+            'almacen_origen': Select(attrs={'class': 'form-control'}),
+            'almacen_destino': Select(attrs={'class': 'form-control'}),
+            'persona_recibe': TextInput(attrs={'class': 'form-control'}),
+            'persona_entrega': TextInput(attrs={'class': 'form-control'}),
+            'estado': Select(attrs={'class': 'form-control'}),
+            'tipo': Select(attrs={'class': 'form-control'}),
 
         }
 
 
-class EntradaDetalleForm(ModelForm):
+class MovimientoDetalleForm(ModelForm):
 
     class Meta:
-        model = EntradaDetalle
+        model = MovimientoDetalle
         fields = [
             'articulo',
-            'cantidad',
         ]
 
         widgets = {
             'articulo': Select(attrs={'class': 'form-control'}),
-            'cantidad': TextInput(attrs={'class': 'form-control'}),
         }

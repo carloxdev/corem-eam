@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% block title %} CoreM - Entradas {% endblock title %}
+{% block title %} CoreM - Salidas {% endblock title %}
 
 {% block css %}
 
@@ -29,12 +29,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-	<span id="titulo">Entradas</span>
+	<span id="titulo">Salidas</span>
 	<small>Consulta</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li class="active">Entradas</li>
+		<li class="active">Salidas</li>
 	</ol>
 </section>
 <!-- Main content -->
@@ -173,6 +173,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 
 <!-- CoreM -->
-<script src="{% static 'entrada/lista.js' %}"></script>
+<script src="{% static 'salida/lista.js' %}"></script>
 
 {% endblock scripts %}

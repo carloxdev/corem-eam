@@ -28,8 +28,8 @@ from inventarios.views import ArticuloAnexoTextoAPI
 from inventarios.views import ArticuloAnexoImagenAPI
 from inventarios.views import ArticuloAnexoArchivoAPI
 from inventarios.views import StockAPI
-from inventarios.views import EntradaAPI
-from inventarios.views import EntradaDetalleAPI
+from inventarios.views import MovimientoAPI
+from inventarios.views import MovimientoDetalleAPI
 
 from trabajos.views import OrdenTrabajoAPI
 from trabajos.views import OrdenAnexoTextoAPI
@@ -212,15 +212,15 @@ router.register(
 # ----------------- ENTRADAS  ----------------- #
 
 router.register(
-    r'entradas',
-    EntradaAPI,
-    'entradacabecera'
+    r'movimientos',
+    MovimientoAPI,
+    'movimientocabecera'
 )
 
 router.register(
-    r'entradasdetalle',
-    EntradaDetalleAPI,
-    'entradadetalle'
+    r'movimientosdetalle',
+    MovimientoDetalleAPI,
+    'movimientodetalle'
 )
 
 urlpatterns = [

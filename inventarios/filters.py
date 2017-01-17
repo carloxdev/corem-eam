@@ -8,7 +8,7 @@ from django_filters import DateFilter
 
 # Modelos
 from .models import Articulo
-from .models import EntradaCabecera
+from .models import MovimientoCabecera
 from .models import Stock
 
 
@@ -61,7 +61,7 @@ class StockFilter(filters.FilterSet):
         ]
 
 
-class EntradaCabeceraFilter(filters.FilterSet):
+class MovimientoCabeceraFilter(filters.FilterSet):
 
     fecha_inicio = DateFilter(
         name="fecha",
@@ -76,8 +76,13 @@ class EntradaCabeceraFilter(filters.FilterSet):
         lookup_expr="contains"
 
     )
-    descripcion = CharFilter(
-        name="descripcion",
+    persona_resibe = CharFilter(
+        name="persona_recibe",
+        lookup_expr="contains"
+
+    )
+    persona_entrega = CharFilter(
+        name="persona_entrega",
         lookup_expr="contains"
 
     )
@@ -88,7 +93,10 @@ class EntradaCabeceraFilter(filters.FilterSet):
     )
 
     class Meta:
-        model = EntradaCabecera
+        model = MovimientoCabecera
         fields = [
-            'almacen',
+            'almacen_origen',
+            'almacen_destino',
+            'estado',
+            'tipo',
         ]

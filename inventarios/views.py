@@ -27,10 +27,8 @@ from .models import Articulo
 from .models import UdmArticulo
 from .models import Almacen
 from .models import Stock
-from .models import EntradaCabecera
-from .models import EntradaDetalle
-from .models import SalidaCabecera
-from .models import SalidaDetalle
+from .models import MovimientoCabecera
+from .models import MovimientoDetalle
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
@@ -40,10 +38,10 @@ from home.models import AnexoTexto
 from .forms import AlmacenForm
 from .forms import ArticuloFilterForm
 from .forms import ArticuloForm
-from .forms import EntradaCabeceraFilterForm
-from .forms import EntradaCabeceraForm
+from .forms import MovimientoCabeceraFilterForm
+from .forms import MovimientoCabeceraForm
 from .forms import StockFilterForm
-from .forms import EntradaDetalleForm
+from .forms import MovimientoDetalleForm
 from .forms import UdmArticuloForm
 
 from home.forms import AnexoTextoForm
@@ -61,9 +59,9 @@ from .serializers import AlmacenSerializer
 from .serializers import UdmArticuloSerializer
 from .serializers import ArticuloSerializer
 from .serializers import StockSerializer
-from .serializers import EntradaCabeceraSerializer
-from .serializers import EntradaDetalleSerializer
-from .serializers import SalidaCabeceraSerializer
+from .serializers import MovimientoCabeceraSerializer
+from .serializers import MovimientoDetalleSerializer
+# from .serializers import SalidaCabeceraSerializer
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoImagenSerializer
 from home.serializers import AnexoArchivoSerializer
@@ -73,7 +71,7 @@ from .pagination import GenericPagination
 
 # API Rest - Filtros:
 from .filters import ArticuloFilter
-from .filters import EntradaCabeceraFilter
+from .filters import MovimientoCabeceraFilter
 from .filters import StockFilter
 
 # ----------------- ALMACEN ----------------- #
@@ -265,8 +263,8 @@ class ArticuloAPI(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filter_class = ArticuloFilter
 
-
 # ----------------- ARTICULO - ANEXOS ----------------- #
+
 
 class ArticuloAnexoTextoView(View):
 
@@ -463,13 +461,13 @@ class StockAPI(viewsets.ModelViewSet):
 # -----------------  ENTRADAS  ----------------- #
 
 
-class EntradaCabeceraListView(View):
+class EntradaListView(View):
     def __init__(self):
         self.template_name = 'entrada/lista.html'
 
     def get(self, request):
 
-        formulario = EntradaCabeceraFilterForm()
+        formulario = MovimientoCabeceraFilterForm()
 
         contexto = {
             'form': formulario
@@ -479,60 +477,45 @@ class EntradaCabeceraListView(View):
 
 
 class EntradaCabeceraCreateView(View):
+
     def __init__(self):
         self.template_name = 'entrada/formulario.html'
 
     def get(self, request):
 
-        formulario = EntradaCabeceraForm()
+        formulario = MovimientoCabeceraForm()
+        form_detalle = MovimientoDetalleForm()
         contexto = {
             'form': formulario,
+            'form_detalle': form_detalle,
         }
 
         return render(request, self.template_name, contexto)
 
     def post(self, request):
 
-        formulario = EntradaCabeceraForm(request.POST)
-        detalle_form = EntradaDetalleForm(request.POST)
-        id_ent_cabecera = request.POST.get('cabecera')
+        formulario = MovimientoCabeceraForm(request.POST)
+        tipo = request.POST['tipo']
         if formulario.is_valid():
             datos_formulario = formulario.cleaned_data
-            entrada_cabecera = EntradaCabecera()
-            entrada_cabecera.clave = datos_formulario.get('clave')
-            entrada_cabecera.descripcion = datos_formulario.get('descripcion')
-            entrada_cabecera.fecha = datos_formulario.get('fecha')
-            entrada_cabecera.almacen = datos_formulario.get('almacen')
-            entrada_cabecera.save()
+            cabecera = MovimientoCabecera()
+            cabecera.clave = datos_formulario.get('clave')
+            cabecera.fecha = datos_formulario.get('fecha')
+            cabecera.descripcion = datos_formulario.get('descripcion')
+            cabecera.almacen_origen = datos_formulario.get('almacen_origen')
+            cabecera.almacen_destino = datos_formulario.get('almacen_destino')
+            cabecera.persona_recibe = datos_formulario.get('persona_recibe')
+            cabecera.persona_entrega = datos_formulario.get('persona_entrega')
+            cabecera.estado = datos_formulario.get('estado')
+            cabecera.tipo = tipo
+            cabecera.save()
 
-            id_cabecera = entrada_cabecera.id
-            print id_cabecera
-            formulario_detalle = EntradaDetalleForm()
+            id_cabecera = cabecera.id
+            form_detalle = MovimientoDetalleForm()
             contexto = {
                 'form': formulario,
                 'id_cabecera': id_cabecera,
-                'form_detalle': formulario_detalle,
-            }
-            return render(request, self.template_name, contexto)
-
-        if detalle_form.is_valid():
-            id_cabecera = request.POST.get('cabecera')
-            obj_cabecera = EntradaCabecera.objects.get(id=id_cabecera)
-            datos_formulario = detalle_form.cleaned_data
-            entrada_detalle = EntradaDetalle()
-            entrada_detalle.articulo = datos_formulario.get('articulo')
-            entrada_detalle.cantidad = datos_formulario.get('cantidad')
-            entrada_detalle.cabecera = obj_cabecera
-            entrada_detalle.save()
-
-            detalles = EntradaDetalle.objects.filter(cabecera=id_ent_cabecera)
-            formulario_detalle = EntradaDetalleForm()
-
-            contexto = {
-                'form': formulario,
-                'id_cabecera': id_cabecera,
-                'form_detalle': formulario_detalle,
-                'detalles': detalles,
+                'form_detalle': form_detalle,
             }
 
             return render(request, self.template_name, contexto)
@@ -543,20 +526,84 @@ class EntradaCabeceraCreateView(View):
         return render(request, self.template_name, contexto)
 
 
-class EntradaAPI(viewsets.ModelViewSet):
-    queryset = EntradaCabecera.objects.all()
-    serializer_class = EntradaCabeceraSerializer
+class MovimientoAPI(viewsets.ModelViewSet):
+    queryset = MovimientoCabecera.objects.all()
+    serializer_class = MovimientoCabeceraSerializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
-    filter_class = EntradaCabeceraFilter
+    filter_class = MovimientoCabeceraFilter
 
 
-class EntradaDetalleAPI(viewsets.ModelViewSet):
-    queryset = EntradaDetalle.objects.all()
-    serializer_class = EntradaDetalleSerializer
+class MovimientoDetalleAPI(viewsets.ModelViewSet):
+    queryset = MovimientoDetalle.objects.all()
+    serializer_class = MovimientoDetalleSerializer
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('cabecera',)
 
+# ---------------  SALIDAS --------------------- #
 
-# -----------------  SALIDAS  ----------------- #
+
+class SalidaListView(View):
+    def __init__(self):
+        self.template_name = 'salida/lista.html'
+
+    def get(self, request):
+
+        formulario = MovimientoCabeceraFilterForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+
+class SalidaCabeceraCreateView(View):
+
+    def __init__(self):
+        self.template_name = 'salida/formulario.html'
+
+    def get(self, request):
+
+        formulario = MovimientoCabeceraForm()
+        form_detalle = MovimientoDetalleForm()
+        contexto = {
+            'form': formulario,
+            'form_detalle': form_detalle,
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+
+        formulario = MovimientoCabeceraForm(request.POST)
+        tipo = request.POST['tipo']
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            cabecera = MovimientoCabecera()
+            cabecera.clave = datos_formulario.get('clave')
+            cabecera.fecha = datos_formulario.get('fecha')
+            cabecera.descripcion = datos_formulario.get('descripcion')
+            cabecera.almacen_origen = datos_formulario.get('almacen_origen')
+            cabecera.almacen_destino = datos_formulario.get('almacen_destino')
+            cabecera.persona_recibe = datos_formulario.get('persona_recibe')
+            cabecera.persona_entrega = datos_formulario.get('persona_entrega')
+            cabecera.estado = datos_formulario.get('estado')
+            cabecera.tipo = tipo
+            cabecera.save()
+
+            id_cabecera = cabecera.id
+            form_detalle = MovimientoDetalleForm()
+            contexto = {
+                'form': formulario,
+                'id_cabecera': id_cabecera,
+                'form_detalle': form_detalle,
+            }
+
+            return render(request, self.template_name, contexto)
+
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)

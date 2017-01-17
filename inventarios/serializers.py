@@ -7,9 +7,8 @@ from rest_framework import serializers
 from .models import Almacen
 from .models import Stock
 from .models import Articulo
-from .models import EntradaCabecera
-from .models import EntradaDetalle
-from .models import SalidaCabecera
+from .models import MovimientoCabecera
+from .models import MovimientoDetalle
 from .models import UdmArticulo
 
 
@@ -150,38 +149,61 @@ class ArticuloSerializer(serializers.HyperlinkedModelSerializer):
 
 # ----------------- ENTRADA ----------------- #
 
-class EntradaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
-
-    almacen = serializers.SerializerMethodField()
+class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
+    estado = serializers.SerializerMethodField()
+    almacen_origen = serializers.SerializerMethodField()
+    almacen_destino = serializers.SerializerMethodField()
 
     class Meta:
-        model = EntradaCabecera
+        model = MovimientoCabecera
         fields = (
             'pk',
             'url',
             'clave',
             'fecha',
             'descripcion',
-            'almacen'
+            'almacen_origen',
+            'almacen_destino',
+            'persona_recibe',
+            'persona_entrega',
+            'tipo',
+            'estado',
         )
 
-    def get_almacen(self, obj):
+    def get_estado(self, obj):
+
+        try:
+            return obj.get_estado_display()
+        except:
+            return ""
+
+    def get_almacen_origen(self, obj):
 
         try:
             return "({}) {}".format(
-                obj.almacen.clave.encode("utf-8"),
-                obj.almacen.descripcion.encode("utf-8")
+                obj.almacen_origen.clave.encode("utf-8"),
+                obj.almacen_origen.descripcion.encode("utf-8")
+            )
+        except:
+            return ""
+
+    def get_almacen_destino(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.almacen_destino.clave.encode("utf-8"),
+                obj.almacen_destino.descripcion.encode("utf-8")
             )
         except:
             return ""
 
 
-class EntradaDetalleSerializer(serializers.ModelSerializer):
+class MovimientoDetalleSerializer(serializers.ModelSerializer):
 
     articulo_clave = serializers.SerializerMethodField()
 
     class Meta:
-        model = EntradaDetalle
+        model = MovimientoDetalle
         fields = (
             'pk',
             'url',
@@ -197,34 +219,6 @@ class EntradaDetalleSerializer(serializers.ModelSerializer):
             return "({}) {}".format(
                 obj.articulo.clave.encode("utf-8"),
                 obj.articulo.descripcion.encode("utf-8")
-            )
-        except:
-            return ""
-
-
-# ----------------- SALIDA ----------------- #
-
-class SalidaCabeceraSerializer(serializers.HyperlinkedModelSerializer):
-
-    almacen = serializers.SerializerMethodField()
-
-    class Meta:
-        model = SalidaCabecera
-        fields = (
-            'url',
-            'pk',
-            'clave',
-            'fecha',
-            'descripcion',
-            'almacen'
-        )
-
-    def get_almacen(self, obj):
-
-        try:
-            return "({}) {}".format(
-                obj.almacen.clave.encode("utf-8"),
-                obj.almacen.descripcion.encode("utf-8")
             )
         except:
             return ""

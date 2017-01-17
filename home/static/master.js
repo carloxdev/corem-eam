@@ -74,10 +74,19 @@ Pagina.prototype.set_PageActive = function () {
 		this.activar_Arbol("tree_inventarios")
 		this.activar_Opcion("opt_articulos")
 	}
+
 	else if ( this.$titulo.text() == "Ordenes de Trabajo") {
 
 		this.activar_Arbol("tree_trabajos")
 		this.activar_Opcion("opt_ordenes")
+	}
+	else if (this.$titulo.text() == "Entradas") {
+		this.activar_Arbol("tree_inventarios")
+		this.activar_Opcion("opt_entradas")
+	}
+	else if (this.$titulo.text() == "Salidas") {
+		this.activar_Arbol("tree_inventarios")
+		this.activar_Opcion("opt_salidas")
 	}
 }
 Pagina.prototype.activar_Arbol = function (_tree) {

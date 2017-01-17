@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% block title %} CoreM - Entradas {% endblock title %}
+{% block title %} CoreM - Salidas {% endblock title %}
 
 {% block css %}
 
@@ -29,12 +29,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
 	<h1>
-	<span id="titulo">Entradas</span>
+	<span id="titulo">Salidas</span>
 	<small>Nuevo</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-		<li><a href="{% url 'inventarios:entradas_lista' %}">Entradas</a></li>
+		<li><a href="{% url 'inventarios:salidas_lista' %}">Salidas</a></li>
 		<li class="active">Nuevo</li>
 
 	</ol>
@@ -56,7 +56,7 @@
 					<div class="box-body">
 						
 						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %}>
-						<input type="hidden" id="id_tipo" name="tipo" value="ENT">
+						<input type="hidden" id="id_tipo" name="tipo" value="SAL">
 						<div class="row">
 							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5 {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
 								<label for="{{ form.clave.id_for_label }}">
@@ -148,7 +148,7 @@
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer">
-						<a class="btn btn-default" href="{% url 'inventarios:entradas_lista' %}">
+						<a class="btn btn-default" href="{% url 'inventarios:salidas_lista' %}">
 							<i class="fa fa-arrow-circle-left"></i>
 							Regresar
 						</a>
@@ -255,6 +255,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 
 <!-- CoreM -->
-<script src="{% static 'entrada/formulario.js' %}"></script>
+<script src="{% static 'salida/formulario.js' %}"></script>
 
 {% endblock scripts %}

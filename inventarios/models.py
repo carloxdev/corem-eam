@@ -25,6 +25,16 @@ ALMACEN_ESTADO = (
     ('DES', 'DESHABILITADO'),
 )
 
+MOVIMIENTO_ESTADO = (
+    ('CAP', 'CAPTURA'),
+    ('CER', 'CERRADO'),
+)
+
+MOVIMIENTO_TIPO = (
+    ('ENT', 'ENTRADA'),
+    ('SAL', 'SALIDA'),
+)
+
 
 class UdmArticulo(models.Model):
     clave = models.CharField(max_length=144, unique=True)
@@ -124,7 +134,10 @@ class Almacen(models.Model):
     )
 
     def __str__(self):
-        return "({0}) {1}".format(self.clave, self.descripcion)
+        return "{0} : {1}".format(
+            self.clave.encode('utf-8'),
+            self.descripcion.encode('utf-8')
+        )
 
     class Meta:
         verbose_name_plural = "Almacenes"
@@ -154,35 +167,33 @@ class Stock(models.Model):
         unique_together = (('almacen', 'articulo'),)
 
 
-class EntradaCabecera(models.Model):
+class MovimientoCabecera(models.Model):
     clave = models.CharField(max_length=30)
     fecha = models.DateTimeField()
     descripcion = models.CharField(max_length=144)
-    almacen = models.ForeignKey(Almacen, null=True)
+    almacen_origen = models.ForeignKey(Almacen, related_name="origen")
+    almacen_destino = models.ForeignKey(Almacen, related_name="destino")
+    persona_recibe = models.CharField(max_length=144, blank=True)
+    persona_entrega = models.CharField(max_length=144, blank=True)
+    estado = models.CharField(
+        max_length=4,
+        choices=MOVIMIENTO_ESTADO,
+        default="CAP",
+    )
+    tipo = models.CharField(
+        max_length=4,
+        choices=MOVIMIENTO_TIPO,
+    )
 
     def __str__(self):
-        return "{0} - {1}".format(self.clave, self.descripcion)
+        return "{0} - {1}".format(
+            self.clave.encode('utf-8'),
+            self.descripcion.encode('utf-8')
+        )
 
 
-class EntradaDetalle(models.Model):
+class MovimientoDetalle(models.Model):
     cantidad = models.DecimalField(
         max_digits=20, decimal_places=4, default=0.0)
     articulo = models.ForeignKey(Articulo)
-    cabecera = models.ForeignKey(EntradaCabecera)
-
-
-class SalidaCabecera(models.Model):
-    clave = models.CharField(max_length=30)
-    fecha = models.DateTimeField()
-    descripcion = models.CharField(max_length=144)
-    almacen = models.ForeignKey(Almacen, blank=True)
-
-    def __str__(self):
-        return "{0} - {1}".format(self.clave, self.descripcion)
-
-
-class SalidaDetalle(models.Model):
-    cantidad = models.DecimalField(
-        max_digits=20, decimal_places=4, default=0.0)
-    articulo = models.ForeignKey(Articulo)
-    cabecera = models.ForeignKey(SalidaCabecera)
+    cabecera = models.ForeignKey(MovimientoCabecera)
