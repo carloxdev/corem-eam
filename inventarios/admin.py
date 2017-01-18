@@ -62,7 +62,6 @@ class AdminStock(admin.ModelAdmin):
 class AdminMovientoCabecera(admin.ModelAdmin):
     list_display = (
         'pk',
-        'clave',
         'fecha',
         'descripcion',
         'almacen_origen',

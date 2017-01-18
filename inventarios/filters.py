@@ -87,11 +87,6 @@ class MovimientoCabeceraFilter(filters.FilterSet):
         lookup_expr="contains"
 
     )
-    clave = CharFilter(
-        name="clave",
-        lookup_expr="contains"
-
-    )
 
     class Meta:
         model = MovimientoCabecera

@@ -24,6 +24,7 @@ $(document).ready(function () {
 
     modal_detalle = new ModalDetalle()
 
+
 })
 
 
@@ -36,13 +37,12 @@ function TargetaFormulario() {
 
     this.$id = $('#id_panel')
     this.$cabecera = $('#id_cabecera')
-    this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
     this.$fecha = $('#id_fecha')
     this.$almacen_origen = $('#id_almacen_origen')
     this.$almacen_destino = $('#id_almacen_destino')
-    this.$persona_recibe = $('#persona_recibe')
-    this.$persona_entrega = $('#persona_entrega')
+    this.$persona_recibe = $('#id_persona_recibe')
+    this.$persona_entrega = $('#id_persona_entrega')
     this.$estado = $('#id_estado')
 
     this.$boton_guardar = $('#boton_guardar')
@@ -61,7 +61,7 @@ TargetaFormulario.prototype.init = function () {
     )
 
     if(this.$cabecera.val() != 0){
-        this.$clave.attr("disabled", true)
+
         this.$descripcion.attr("disabled", true)
         this.$fecha.attr("disabled", true)
         this.$almacen_origen.attr("disabled", true)
@@ -322,10 +322,10 @@ ModalDetalle.prototype.click_BotonGuardar = function (e) {
         cantidad = e.data.$cantidad.val()
         cabecera = e.data.$cabecera.val()
 
-        // var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val()
 
         $.ajax({
-            // headers: { "X-CSRFToken": csrftoken },
+            headers: { "X-CSRFToken": csrftoken },
             url: url_grid,
             method: "POST",
             data: {
@@ -337,13 +337,13 @@ ModalDetalle.prototype.click_BotonGuardar = function (e) {
                 
                 e.data.$id.modal('hide')
 
-                // alertify.success("Detalle Registrado")
+                alertify.success("Detalle Registrado")
                 targeta_resultados.grid.kfuente_datos.read();
 
             },
             error: function(e){
 
-                // alertify.error("Error "+ e.status + " . No se guardó el registro")
+                alertify.error("Error "+ e.status + " . No se guardó el registro")
                 e.data.$id.modal('hide')
 
             }

@@ -44,7 +44,6 @@ function TargetaFiltros() {
 
     this.$id = $('#id_panel')
 
-    this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
     this.$fecha_inicio = $('#fecha_inicio')
     this.$fecha_fin = $('#fecha_fin')
@@ -85,7 +84,6 @@ TargetaFiltros.prototype.get_Filtros = function (_page, _pageSize) {
     return {
         page: _page,
         pageSize: _pageSize,
-        clave: this.$clave.val(),
         descripcion: this.$descripcion.val(),
         fecha_inicio: this.$fecha_inicio.val(),
         fecha_fin: this.$fecha_fin.val(),
@@ -107,7 +105,6 @@ TargetaFiltros.prototype.click_BotonLimpiar = function (e) {
 
     e.preventDefault()
 
-    e.data.$clave.val("")
     e.data.$descripcion.val("")
     e.data.$fecha_inicio.val("")
     e.data.$fecha_fin.val("")
@@ -174,7 +171,6 @@ GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
         fecha: { type: "string" },
-        clave: { type: "string" },
         descripcion: { type: "string" },
         almacen_origen: { type: "string" },
         almacen_destino: { type: "string" },
@@ -185,7 +181,6 @@ GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
         { field: "fecha" , title: "Fecha", width: "80px", template: "#= kendo.toString(kendo.parseDate(fecha), 'dd MMM yyyy') #" },
-        { field: "clave" , title: "Clave", width: "120px" },
         { field: "descripcion" , title: "Descripción", width: "250px" },
         { field: "almacen_origen" , title: "Almacen Origen", width: "120px" },
         { field: "almacen_destino" , title: "Almacen Destino", width: "120px" },

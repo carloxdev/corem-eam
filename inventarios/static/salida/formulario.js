@@ -27,17 +27,6 @@ $(document).ready(function () {
     pagina.init_Alertify()    
 })
 
-// Asigna eventos a teclas
-$(document).keypress(function (e) {
-
-    // Tecla Enter
-    if (e.which == 13) {
-
-        targeta_resultados.grid.buscar()
-    }
-})
-
-
 /*-----------------------------------------------*\
             OBJETO: Targeta Filtros
 \*-----------------------------------------------*/
@@ -46,13 +35,12 @@ function TargetaFormulario() {
 
     this.$id = $('#id_panel')
     this.$cabecera = $('#id_cabecera')
-    this.$clave = $('#id_clave')
     this.$descripcion = $('#id_descripcion')
     this.$fecha = $('#id_fecha')
     this.$almacen_origen = $('#id_almacen_origen')
     this.$almacen_destino = $('#id_almacen_destino')
-    this.$persona_recibe = $('#persona_recibe')
-    this.$persona_entrega = $('#persona_entrega')
+    this.$persona_recibe = $('#id_persona_recibe')
+    this.$persona_entrega = $('#id_persona_entrega')
     this.$estado = $('#id_estado')
     this.$boton_guardar = $('#boton_guardar')
 
@@ -70,7 +58,6 @@ TargetaFormulario.prototype.init = function () {
     )
 
     if(this.$cabecera.val() != 0){
-        this.$clave.attr("disabled", true)
         this.$descripcion.attr("disabled", true)
         this.$fecha.attr("disabled", true)
         this.$almacen_origen.attr("disabled", true)
@@ -250,6 +237,8 @@ Toolbar.prototype.click_BotonNuevo = function (e) {
 }
 
 function ModalDetalle() {
+
+    this.$id = $('#modal_nuevo')
     this.$cabecera = $('#cabecera')
     this.$articulo = $('#id_articulo')
     this.$cantidad = $('#id_cantidad')
@@ -261,16 +250,20 @@ function ModalDetalle() {
 
     this.init()
 
-    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-    this.clear_Estilos()
 }
 
 ModalDetalle.prototype.init = function () {
     
-    //this.$articulo.select2()
+    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
+    this.$id.on('show.bs.modal', this, this.load)
 
 }
+ModalDetalle.prototype.load = function (e) {
 
+    e.data.clear_Estilos()
+
+    e.data.clear_Fields()
+}
 ModalDetalle.prototype.clear_Estilos = function () {
 
     this.$articulo_contenedor.removeClass("has-error")
@@ -285,7 +278,11 @@ ModalDetalle.prototype.clear_Estilos = function () {
         this.$cantidad_mensaje.addClass('hidden')
     } 
 }
+ModalDetalle.prototype.clear_Fields = function () {
 
+    this.$articulo.val("").trigger('change')
+    this.$cantidad.val("")
+}
 ModalDetalle.prototype.validar = function () {
     var bandera = true
 
@@ -306,7 +303,7 @@ ModalDetalle.prototype.validar = function () {
 
 ModalDetalle.prototype.click_BotonGuardar = function (e) {
     if (e.data.validar()){
-        e.preventDefault()
+
         articulo = e.data.$articulo.val()
         cantidad = e.data.$cantidad.val()
         cabecera = e.data.$cabecera.val()
@@ -322,17 +319,15 @@ ModalDetalle.prototype.click_BotonGuardar = function (e) {
                         cabecera: cabecera,
                     },
                     success: function (){
-                        $('#modal_nuevo').hide()
+                        e.data.$id.modal('hide')
                         alertify.success("Detalle Registrado")
                         targeta_resultados.grid.kfuente_datos.read();
-                        e.data.$articulo.val("").trigger('change')
-                        e.data.$cantidad.val("")
                        
                     },
                     error: function(e){
 
                         alertify.error("Error "+ e.status + " . No se guardó el registro")
-                        $('#modal_nuevo').hide()
+                        e.data.$id.modal('hide')
 
                     }
                    

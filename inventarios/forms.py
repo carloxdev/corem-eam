@@ -173,7 +173,6 @@ class MovimientoCabeceraFilterForm(ModelForm):
     class Meta:
         model = MovimientoCabecera
         fields = [
-            'clave',
             'descripcion',
             'almacen_origen',
             'almacen_destino',
@@ -183,7 +182,6 @@ class MovimientoCabeceraFilterForm(ModelForm):
             'tipo',
         ]
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
             'almacen_origen': Select(attrs={'class': 'form-control'}),
             'almacen_destino': Select(attrs={'class': 'form-control'}),
@@ -200,18 +198,15 @@ class MovimientoCabeceraForm(ModelForm):
     class Meta:
         model = MovimientoCabecera
         fields = [
-            'clave',
             'fecha',
             'descripcion',
             'almacen_origen',
             'almacen_destino',
             'persona_recibe',
             'persona_entrega',
-            'estado',
             'tipo',
         ]
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
             'fecha': TextInput(attrs={'class': 'form-control',
                                       'data-date-format': 'yyyy-mm-dd'}),
             'descripcion': TextInput(attrs={'class': 'form-control'}),
@@ -219,7 +214,6 @@ class MovimientoCabeceraForm(ModelForm):
             'almacen_destino': Select(attrs={'class': 'form-control'}),
             'persona_recibe': TextInput(attrs={'class': 'form-control'}),
             'persona_entrega': TextInput(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control'}),
             'tipo': Select(attrs={'class': 'form-control'}),
 
         }
