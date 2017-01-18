@@ -24,6 +24,7 @@ from inventarios.views import AlmacenAPI
 from inventarios.views import UdmArticuloAPI
 from inventarios.views import UdmArticuloAPI2
 from inventarios.views import ArticuloAPI
+from inventarios.views import ArticuloAPI2
 from inventarios.views import ArticuloAnexoTextoAPI
 from inventarios.views import ArticuloAnexoImagenAPI
 from inventarios.views import ArticuloAnexoArchivoAPI
@@ -147,6 +148,12 @@ router.register(
     r'articulos',
     ArticuloAPI,
     'articulo'
+)
+
+router.register(
+    r'articulos2',
+    ArticuloAPI2,
+    'articulo2'
 )
 
 

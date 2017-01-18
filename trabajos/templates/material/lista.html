@@ -6,17 +6,18 @@
 
 {% block css %}
 
-<!-- Kendo -->
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
+	<!-- Kendo -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
+	<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
-<!-- CoreM -->
-<link rel="stylesheet" href="{% static 'grid.css' %}"/>
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
+	<!-- CoreM -->
+	<link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 {% endblock css %}	
-
 
 {% block contenido %}
 
@@ -161,8 +162,8 @@
 						<input class="hidden" id="mat_id" type="text" />
 
 						<!-- Nombre -->
-						<div class="col-sm-4">
-							<div class="form-group input-group-sm has-warning" id="mat_articulo_contenedor">
+						<div class="col-sm-12">
+							<div class="form-group input-group-sm has-warning select2--fix" id="mat_articulo_contenedor">
 								<label for="mat_articulo">
 									<i class="fa  fa-asterisk  "></i>
 									Articulo:
@@ -171,10 +172,7 @@
 								</select>
 								<span class="help-block hidden" id="mat_articulo_mensaje">Este campo es requerido.</span>
 							</div>
-						</div>
 
-						<!-- Descripcion -->
-						<div class="col-sm-8">
 							<div class="form-group input-group-sm has-warning" id="mat_cant_esti_contenedor">
 								<label for="mat_cant_esti">
 									<i class="fa fa-asterisk"></i>
@@ -183,7 +181,8 @@
 								<input class="form-control" id="mat_cant_esti" maxlength="144" type="number" />
 								<span class="help-block hidden" id="mat_cant_esti_mensaje">Este campo es requerido.</span>
 							</div>
-						</div>						
+
+						</div>
 					</div>
 
 		      </div>
@@ -211,6 +210,8 @@
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 	<script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
+	<!-- Select2 -->
+	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
 	<!-- CoreM -->
 	<script src="{% static 'material/lista.js' %}"></script>

@@ -11,7 +11,6 @@ formulario = null
 $(document).ready(function () {
 
 	formulario = new TargetaFormulario()
-	pagina.init_Alertify()
 })
 
 
@@ -23,6 +22,7 @@ function TargetaFormulario() {
 
 	this.$clave = $('#clave')
 
+	this.$equipo= $("#id_equipo")
 	this.$observaciones = $('#id_observaciones')
 	this.$fecha_estimada_inicio = $('#id_fecha_estimada_inicio')
 	this.$fecha_estimada_fin = $('#id_fecha_estimada_fin')
@@ -39,12 +39,14 @@ function TargetaFormulario() {
 }
 TargetaFormulario.prototype.init = function () {
 
+	this.$equipo.select2()
+
 	this.$observaciones.wysihtml5()
+
 	this.$fecha_estimada_inicio.datepicker(pagina.get_DatePickerConfig())
 	this.$fecha_estimada_fin.datepicker(pagina.get_DatePickerConfig())
 	this.$fecha_real_inicio.datepicker(pagina.get_DatePickerConfig())
 	this.$fecha_real_fin.datepicker(pagina.get_DatePickerConfig())
-
 
 	this.$tab_actividades.on("click", this, this.click_Tab_Activiades )
 	this.$tab_materiales.on("click", this, this.click_Tab_Materiales )

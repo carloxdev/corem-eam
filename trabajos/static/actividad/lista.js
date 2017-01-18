@@ -390,6 +390,8 @@ VentanaModal.prototype.nuevo = function (e) {
             },
             success: function (response) {
 
+                alertify.success("Registro exitosamente guardado")
+
                 targeta_resultados.grid.kfuente_datos.read()
 
                 // Ocultar Modal
@@ -420,6 +422,8 @@ VentanaModal.prototype.editar = function (e) {
                 "horas_reales" : e.data.$hrs_real.val(),
             },
             success: function (response) {
+
+                alertify.success("Registro exitosamente guardado")
 
                 targeta_resultados.grid.kfuente_datos.read()
 

@@ -6,7 +6,7 @@
 // URLS
 var url_materiales = window.location.origin + "/api/materiales/"
 var url_ordenes = window.location.origin + "/api/ordenestrabajo/"
-var url_articulos = window.location.origin + "/api/articulos/"
+var url_articulos = window.location.origin + "/api/articulos2/"
 
 // OBJS
 var targeta_resultados = null
@@ -247,6 +247,9 @@ VentanaModal.prototype.mostrar = function (e) {
 }
 VentanaModal.prototype.load = function (e) {
 
+
+    e.data.$articulo.select2()
+
     // Se eliminan eventos viejos
     e.data.$boton_guardar.off("click")
 
@@ -335,15 +338,15 @@ VentanaModal.prototype.fill_Articulos = function () {
 
     // Obtenemos articulos
     $.ajax({
-        url: url_materiales,
-        method: "GET",
+        url: url_articulos,
         data: {
-            "id": e.data.$pk.val()
+            "estado" :  "ACT"
         },
+        method: "GET",
         success: function (response) {
 
-            // modal.$articulo.val(response[0].articulo)
-            modal.$cantidad_estimada.val(response[0].cantidad_estimada)
+            
+
 
         },
         error: function (response) {

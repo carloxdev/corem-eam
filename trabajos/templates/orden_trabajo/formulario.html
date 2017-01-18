@@ -6,7 +6,11 @@
 
 {% block css %}
 
+	<!-- wysihtml5 -->
 	<link rel="stylesheet" href="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}">
+
+	<!-- Select2 -->
+	<link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
 {% endblock css %}	
 
@@ -295,6 +299,8 @@
 
 {% block scripts %}
 
+	<!-- Select2 -->
+	<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
 	<!-- WYSIHTML5 -->
 	<script src="{% static 'libs/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
