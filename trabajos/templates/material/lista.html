@@ -2,7 +2,7 @@
 
 {% load static from staticfiles %}
 
-{% block title %} Actividades de Orden de Trabajo {% endblock title %}
+{% block title %} Materiales de Orden de Trabajo {% endblock title %}
 
 {% block css %}
 
@@ -24,12 +24,12 @@
 	<section class="content-header">
 	  <h1>
 	    <span id="titulo">Ordenes de Trabajo</span>
-	    <small>Actividades</small>
+	    <small>Materiales</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i>Inicio</a></li>
 	    <li><a href="{% url 'trabajos:ordenes_lista' %}">Ordenes</a></li>
-	    <li class="active">Actividades</li>
+	    <li class="active">Materiales</li>
 	  </ol>
 	</section>
 
@@ -111,8 +111,8 @@
 		         <div class="nav-tabs-custom">
 		            <ul class="nav nav-tabs">
 		              <li><a href="{% url 'trabajos:ordenes_editar' orden_clave %}">Generales</a></li>
-		              <li class="active"><a href="#" id="tab_actividades">Actividades</a></li>
-		              <li><a href="{% url 'trabajos:material_lista' orden_clave %}" id="tab_materiales">Materiales</a></li>
+		              <li><a href="{% url 'trabajos:actividades_lista' orden_clave %}" id="tab_actividades">Actividades</a></li>
+		              <li class="active"><a href="#" id="tab_materiales">Materiales</a></li>
 		              <li><a href="{% url 'trabajos:servicio_externo_lista' orden_clave %}" id="tab_servicios">Servicios</a></li>
 		              <li><a href="{% url 'trabajos:mano_obra_lista' orden_clave %}" id="tab_mano_obra">Mano Obra</a></li>
 		            </ul>
@@ -158,57 +158,32 @@
 		      <div class="modal-body">
 					<div class="row">
 
-						<input class="hidden" id="id_actividad" type="text" />
+						<input class="hidden" id="mat_id" type="text" />
 
 						<!-- Nombre -->
 						<div class="col-sm-4">
-							<div class="form-group input-group-sm has-warning" id="act_numero_contenedor">
-								<label for="act_numero">
+							<div class="form-group input-group-sm has-warning" id="mat_articulo_contenedor">
+								<label for="mat_articulo">
 									<i class="fa  fa-asterisk  "></i>
-									Numero:
+									Articulo:
 								</label>
-								<input class="form-control" id="act_numero" maxlength="144" type="number" />
-								<span class="help-block hidden" id="act_numero_mensaje">Este campo es requerido.</span>
+								<select class="form-control" id="mat_articulo">
+								</select>
+								<span class="help-block hidden" id="mat_articulo_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>
 
 						<!-- Descripcion -->
 						<div class="col-sm-8">
-							<div class="form-group input-group-sm has-warning" id="act_desc_contenedor">
-								<label for="act_desc">
+							<div class="form-group input-group-sm has-warning" id="mat_cant_esti_contenedor">
+								<label for="mat_cant_esti">
 									<i class="fa fa-asterisk"></i>
-									Descripcion:
+									Cantidad Estimada:
 								</label>
-								<input class="form-control" id="act_desc" maxlength="144" type="text" />
-								<span class="help-block hidden" id="act_desc_mensaje">Este campo es requerido.</span>
+								<input class="form-control" id="mat_cant_esti" maxlength="144" type="number" />
+								<span class="help-block hidden" id="mat_cant_esti_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>						
-					</div>
-			
-					<div class="row">
-
-						<!-- Horas Estimadas -->
-						<div class="col-sm-6">
-							<div class="form-group input-group-sm has-warning" id="act_hrs_est_contenedor">
-								<label for="act_hrs_est">
-									<i class="fa fa-asterisk"></i>
-									Horas Estimadas:
-								</label>
-								<input class="form-control" id="act_hrs_est" maxlength="144" type="number" />
-								<span class="help-block hidden" id="act_hrs_est_mensaje">Este campo es requerido.</span>
-							</div>
-						</div>
-
-						<!-- Horas Reales -->
-						<div class="col-sm-6">
-							<div class="form-group input-group-sm" id="act_hrs_real_contenedor">
-								<label for="act_hrs_real">
-									Horas Reales:
-								</label>
-								<input class="form-control" id="act_hrs_real" maxlength="144" type="number" />
-								<span class="help-block hidden" id="act_hrs_real_mensaje">Este campo es requerido.</span>
-							</div>
-						</div>	
 					</div>
 
 		      </div>
@@ -238,6 +213,6 @@
 
 
 	<!-- CoreM -->
-	<script src="{% static 'actividad/lista.js' %}"></script>
+	<script src="{% static 'material/lista.js' %}"></script>
 
 {% endblock scripts %}

@@ -125,9 +125,9 @@
 		            <ul class="nav nav-tabs">
 		              <li class="active"><a href="#tab_1" data-toggle="tab">Generales</a></li>
 		              <li><a href="{% url 'trabajos:actividades_lista' orden_clave %}" id="tab_actividades">Actividades</a></li>
-		              <li><a href="#" id="tab_materiales">Materiales</a></li>
-		              <li><a href="#" id="tab_servicios">Servicios</a></li>
-		              <li><a href="#" id="tab_mano_obra">Mano Obra</a></li>
+		              <li><a href="{% url 'trabajos:material_lista' orden_clave %}" id="tab_materiales">Materiales</a></li>
+		              <li><a href="{% url 'trabajos:servicio_externo_lista' orden_clave %}" id="tab_servicios">Servicios</a></li>
+		              <li><a href="{% url 'trabajos:mano_obra_lista' orden_clave %}" id="tab_mano_obra">Mano Obra</a></li>
 		            </ul>
 		            <div class="tab-content">
 		              	<div class="tab-pane active" id="tab_1">

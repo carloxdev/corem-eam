@@ -132,6 +132,7 @@ class ManoObra(models.Model):
 
     class Meta:
         verbose_name_plural = "Mano de Obra"
+        unique_together = (('orden', 'empleado'),)
 
 
 class Material(models.Model):
@@ -165,6 +166,7 @@ class Material(models.Model):
 
     class Meta:
         verbose_name_plural = "Materiales"
+        unique_together = (('orden', 'articulo'),)
 
 
 class ServicioExterno(models.Model):

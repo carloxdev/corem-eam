@@ -16,6 +16,10 @@ from django.views.generic import CreateView
 # Modelos:
 from .models import OrdenTrabajo
 from .models import Actividad
+from .models import ManoObra
+from .models import Material
+from .models import ServicioExterno
+
 from home.models import AnexoTexto
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
@@ -33,6 +37,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 # API Rest - Serializadores:
 from .serializers import OrdenTrabajoSerializer
 from .serializers import ActividadSerializer
+
+from .serializers import ManoObraSerializer
+from .serializers import MaterialSerializer
+from .serializers import ServicioExternoSerializer
+
 from home.serializers import AnexoTextoSerializer
 from home.serializers import AnexoImagenSerializer
 from home.serializers import AnexoArchivoSerializer
@@ -241,6 +250,129 @@ class ActividadListView(View):
 class ActividadAPI(viewsets.ModelViewSet):
     queryset = Actividad.objects.all()
     serializer_class = ActividadSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('orden', 'id')
+
+
+# ----------------- MANO OBRA ----------------- #
+
+class ManoObraListView(View):
+
+    def __init__(self):
+        self.template_name = 'mano_obra/lista.html'
+
+    def get(self, _request, pk):
+
+        orden = get_object_or_404(OrdenTrabajo, pk=pk)
+
+        formulario = OrdenTrabajoForm(
+            initial={
+                'equipo': orden.equipo,
+                'descripcion': orden.descripcion,
+                'tipo': orden.tipo,
+                'estado': orden.estado,
+            }
+        )
+
+        formulario.fields['equipo'].widget.attrs['disabled'] = True
+        formulario.fields['descripcion'].widget.attrs['disabled'] = True
+        formulario.fields['tipo'].widget.attrs['disabled'] = True
+        formulario.fields['estado'].widget.attrs['disabled'] = True
+
+        contexto = {
+            'form': formulario,
+            'orden_clave': orden.id
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class ManoObraAPI(viewsets.ModelViewSet):
+    queryset = ManoObra.objects.all()
+    serializer_class = ManoObraSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('orden', 'id')
+
+
+# ----------------- MATERIAL ----------------- #
+
+class MaterialListView(View):
+
+    def __init__(self):
+        self.template_name = 'material/lista.html'
+
+    def get(self, _request, pk):
+
+        orden = get_object_or_404(OrdenTrabajo, pk=pk)
+
+        formulario = OrdenTrabajoForm(
+            initial={
+                'equipo': orden.equipo,
+                'descripcion': orden.descripcion,
+                'tipo': orden.tipo,
+                'estado': orden.estado,
+            }
+        )
+
+        formulario.fields['equipo'].widget.attrs['disabled'] = True
+        formulario.fields['descripcion'].widget.attrs['disabled'] = True
+        formulario.fields['tipo'].widget.attrs['disabled'] = True
+        formulario.fields['estado'].widget.attrs['disabled'] = True
+
+        contexto = {
+            'form': formulario,
+            'orden_clave': orden.id
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class MaterialAPI(viewsets.ModelViewSet):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('orden', 'id')
+
+
+# ----------------- SERVICIO EXTERNO ----------------- #
+
+class ServicioExternoListView(View):
+
+    def __init__(self):
+        self.template_name = 'servicio_externo/lista.html'
+
+    def get(self, _request, pk):
+
+        orden = get_object_or_404(OrdenTrabajo, pk=pk)
+
+        formulario = OrdenTrabajoForm(
+            initial={
+                'equipo': orden.equipo,
+                'descripcion': orden.descripcion,
+                'tipo': orden.tipo,
+                'estado': orden.estado,
+            }
+        )
+
+        formulario.fields['equipo'].widget.attrs['disabled'] = True
+        formulario.fields['descripcion'].widget.attrs['disabled'] = True
+        formulario.fields['tipo'].widget.attrs['disabled'] = True
+        formulario.fields['estado'].widget.attrs['disabled'] = True
+
+        contexto = {
+            'form': formulario,
+            'orden_clave': orden.id
+        }
+
+        return render(_request, self.template_name, contexto)
+
+
+class ServicioExternoAPI(viewsets.ModelViewSet):
+    queryset = ServicioExterno.objects.all()
+    serializer_class = ServicioExternoSerializer
 
     filter_backends = (DjangoFilterBackend,)
     filter_fields = ('orden', 'id')

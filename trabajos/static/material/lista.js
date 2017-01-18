@@ -4,8 +4,9 @@
 
 
 // URLS
-var url_actividades = window.location.origin + "/api/actividades/"
+var url_materiales = window.location.origin + "/api/materiales/"
 var url_ordenes = window.location.origin + "/api/ordenestrabajo/"
+var url_articulos = window.location.origin + "/api/articulos/"
 
 // OBJS
 var targeta_resultados = null
@@ -78,19 +79,15 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
-        numero : { type:"number" },
-        descripcion : { type: "string" },
-        horas_estimadas : { type:"number" },
-        horas_reales: { type:"number" },
+        articulo : { type:"string" },
+        cantidad_estimada : { type: "number" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "numero", title: "Numero", width: "50px" },
-        { field: "descripcion", title: "Descripcion", width: "200px" },
-        { field: "horas_estimadas", title: "Horas Estimadas", width: "200px", format: '{0:n2}' },
-        { field: "horas_reales", title: "Horas Reales", width: "200px", format: '{0:n2}' },
+        { field: "articulo", title: "Articulo" },
+        { field: "cantidad_estimada", title: "Cantidad Estimada", format: '{0:n2}' },
         {
            command: [
                 {
@@ -125,7 +122,7 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     return {
         transport: {
             read: {
-                url: url_actividades,
+                url: url_materiales,
                 type: "GET",
                 dataType: "json",
             },
@@ -148,7 +145,7 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
         },
     }
 }
-GridPrincipal.prototype.buscar =  function() {
+GridPrincipal.prototype.buscar = function() {
     this.kfuente_datos.read()
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
@@ -168,7 +165,7 @@ GridPrincipal.prototype.click_BotonEliminar = function (e) {
         '¿Desea Eliminar este registro?', 
         function () {
 
-            var url = url_actividades + fila.pk + "/"
+            var url = url_materiales + fila.pk + "/"
 
             $.ajax({
                 url: url,
@@ -222,23 +219,15 @@ function VentanaModal() {
 
     this.$id = $('#win_modal')
 
-    this.$pk = $("#id_actividad")
+    this.$pk = $("#mat_id")
 
-    this.$numero = $('#act_numero')
-    this.$numero_contenedor = $('#act_numero_contenedor')
-    this.$numero_mensaje =  $('#act_numero_mensaje')
+    this.$articulo = $('#mat_articulo')
+    this.$articulo_contenedor = $('#mat_articulo_contenedor')
+    this.$articulo_mensaje =  $('#mat_articulo_mensaje')
 
-    this.$descripcion =  $('#act_desc')
-    this.$desc_contenedor =  $('#act_desc_contenedor')
-    this.$desc_mensaje =  $('#act_desc_mensaje')
-
-    this.$hrs_est = $('#act_hrs_est')
-    this.$hrs_est_contenedor = $('#act_hrs_est_contenedor')
-    this.$hrs_est_mensaje =  $('#act_hrs_est_mensaje')
-
-    this.$hrs_real = $('#act_hrs_real')
-    this.$hrs_real_contenedor = $('#act_hrs_real_contenedor')
-    this.$hrs_real_mensaje =  $('#act_hrs_real_mensaje')
+    this.$cantidad_estimada =  $('#mat_cant_esti')
+    this.$cant_est_contenedor =  $('#mat_cant_esti_contenedor')
+    this.$cant_est_mensaje =  $('#mat_cant_esti_mensaje')
 
     this.$boton_guardar = $('#btn_modal_save')
 
@@ -267,6 +256,8 @@ VentanaModal.prototype.load = function (e) {
     // Se limpiar el formulario
     e.data.clear_Fields()  
 
+    e.data.fill_Articulos()
+
     // Asosciar Eventos segun corresponda
     var event_owner
 
@@ -281,18 +272,16 @@ VentanaModal.prototype.load = function (e) {
         modal = e.data
 
         $.ajax({
-            url: url_actividades,
+            url: url_materiales,
             method: "GET",
             data: {
                 "id": e.data.$pk.val()
             },
             success: function (response) {
 
-                // modal.$pk.val(response[0].pk)
-                modal.$numero.val(response[0].numero)
-                modal.$descripcion.val(response[0].descripcion)
-                modal.$hrs_est.val(response[0].horas_estimadas)
-                modal.$hrs_real.val(response[0].horas_reales)
+                // modal.$articulo.val(response[0].articulo)
+                modal.$cantidad_estimada.val(response[0].cantidad_estimada)
+
             },
             error: function (response) {
                 
@@ -325,50 +314,57 @@ VentanaModal.prototype.load = function (e) {
 }
 VentanaModal.prototype.clear_Fields = function () {
 
-    this.$numero.val("")
-    this.$descripcion.val("")
-    this.$hrs_est.val("")
-    this.$hrs_real.val("")
+    this.$articulo.val("")
+    this.$cantidad_estimada.val("")
 }
 VentanaModal.prototype.clear_Estilos = function () {
     
-    this.$numero_contenedor.removeClass("has-error")
+    this.$articulo_contenedor.removeClass("has-error")
     
-    if(this.$numero_mensaje.hasClass('hidden') != null) { 
-        this.$numero_mensaje.addClass('hidden')
+    if(this.$articulo_mensaje.hasClass('hidden') != null) { 
+        this.$articulo_mensaje.addClass('hidden')
     } 
 
-    this.$desc_contenedor.removeClass("has-error")  
+    this.$cant_est_contenedor.removeClass("has-error")  
 
-    if(this.$desc_mensaje.hasClass('hidden') != null) { 
-        this.$desc_mensaje.addClass('hidden')
+    if(this.$cant_est_mensaje.hasClass('hidden') != null) { 
+        this.$cant_est_mensaje.addClass('hidden')
     } 
+}
+VentanaModal.prototype.fill_Articulos = function () {
 
-    this.$hrs_est_contenedor.removeClass("has-error")  
+    // Obtenemos articulos
+    $.ajax({
+        url: url_materiales,
+        method: "GET",
+        data: {
+            "id": e.data.$pk.val()
+        },
+        success: function (response) {
 
-    if(this.$hrs_est_mensaje.hasClass('hidden') != null) { 
-        this.$hrs_est_mensaje.addClass('hidden')
-    }     
+            // modal.$articulo.val(response[0].articulo)
+            modal.$cantidad_estimada.val(response[0].cantidad_estimada)
+
+        },
+        error: function (response) {
+            
+            alertify.error("Ocurrio error al consultar")
+        }
+    })    
 }
 VentanaModal.prototype.validar = function () {
 
     var bandera = true
 
-    if ( this.$numero.val() == "") {
-        this.$numero_contenedor.addClass("has-error")
-        this.$numero_mensaje.removeClass("hidden")
+    if ( this.$articulo.val() == "") {
+        this.$articulo_contenedor.addClass("has-error")
+        this.$articulo_mensaje.removeClass("hidden")
         bandera = false
     }
 
-    if ( this.$descripcion.val() == "") {
-        this.$desc_contenedor.addClass("has-error")
-        this.$desc_mensaje.removeClass("hidden")
-        bandera = false
-    }
-
-    if ( this.$hrs_est.val() == "") {
-        this.$hrs_est_contenedor.addClass("has-error")
-        this.$hrs_est_mensaje.removeClass("hidden")
+    if ( this.$cantidad_estimada.val() == "") {
+        this.$cant_est_contenedor.addClass("has-error")
+        this.$cant_est_mensaje.removeClass("hidden")
         bandera = false
     }
 
@@ -379,14 +375,12 @@ VentanaModal.prototype.nuevo = function (e) {
     if (e.data.validar()) {
 
         $.ajax({
-            url: url_actividades,
+            url: url_materiales,
             method: "POST",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
-                "numero" : e.data.$numero.val(),
-                "descripcion" : e.data.$descripcion.val(),
-                "horas_estimadas" : e.data.$hrs_est.val(),
-                "horas_reales" : e.data.$hrs_real.val(),
+                "articulo" : e.data.$articulo.val(),
+                "cantidad_estimada" : e.data.$cantidad_estimada.val(),
             },
             success: function (response) {
 
@@ -407,17 +401,15 @@ VentanaModal.prototype.editar = function (e) {
 
     if (e.data.validar()) {
 
-        var url_update = url_actividades + e.data.$pk.val() + "/"
+        var url_update = url_materiales + e.data.$pk.val() + "/"
 
         $.ajax({
             url: url_update,
             method: "PUT",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
-                "numero" : e.data.$numero.val(),
-                "descripcion" : e.data.$descripcion.val(),
-                "horas_estimadas" : e.data.$hrs_est.val(),
-                "horas_reales" : e.data.$hrs_real.val(),
+                "articulo" : e.data.$articulo.val(),
+                "cantidad_estimada" : e.data.$cantidad_estimada.val(),
             },
             success: function (response) {
 

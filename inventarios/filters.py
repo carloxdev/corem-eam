@@ -36,6 +36,7 @@ class ArticuloFilter(filters.FilterSet):
             'descripcion',
             'tipo',
             'clave_jde',
+            'estado',
         ]
 
 

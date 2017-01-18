@@ -9,6 +9,9 @@ from .views import OrdenTrabajoCreateView
 from .views import OrdenTrabajoUpdateView
 
 from .views import ActividadListView
+from .views import MaterialListView
+from .views import ManoObraListView
+from .views import ServicioExternoListView
 
 from .views import OrdenAnexoTextoView
 from .views import OrdenAnexoImagenView
@@ -44,6 +47,29 @@ urlpatterns = [
         name='actividades_lista'
     ),
 
+    # ----------------- MATERIAL ----------------- #
+
+    url(
+        r'^ordenes/(?P<pk>.*)/materiales/$',
+        MaterialListView.as_view(),
+        name='material_lista'
+    ),
+
+    # ----------------- MANO OBRA ----------------- #
+
+    url(
+        r'^ordenes/(?P<pk>.*)/mano_obra/$',
+        ManoObraListView.as_view(),
+        name='mano_obra_lista'
+    ),
+
+    # ----------------- SERVICIO EXTERNO ----------------- #
+
+    url(
+        r'^ordenes/(?P<pk>.*)/servicios/$',
+        ServicioExternoListView.as_view(),
+        name='servicio_externo_lista'
+    ),
 
     # ----------------- ORDENES - ANEXOS ----------------- #
     url(

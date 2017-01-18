@@ -21,25 +21,15 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFormulario()
     targeta_resultados = new TargetaResultados()
+
     modal_detalle = new ModalDetalle()
 
-    pagina = new Pagina()
-    pagina.init_Alertify()    
 })
 
-// Asigna eventos a teclas
-$(document).keypress(function (e) {
-
-    // Tecla Enter
-    if (e.which == 13) {
-
-        targeta_resultados.grid.buscar()
-    }
-})
 
 
 /*-----------------------------------------------*\
-            OBJETO: Targeta Filtros
+            OBJETO: Targeta Formulario
 \*-----------------------------------------------*/
 
 function TargetaFormulario() {
@@ -54,6 +44,7 @@ function TargetaFormulario() {
     this.$persona_recibe = $('#persona_recibe')
     this.$persona_entrega = $('#persona_entrega')
     this.$estado = $('#id_estado')
+
     this.$boton_guardar = $('#boton_guardar')
 
     this.init()
@@ -249,8 +240,18 @@ Toolbar.prototype.click_BotonNuevo = function (e) {
     $('#modal_nuevo').modal('show');
 }
 
+
+
+/*-----------------------------------------------*\
+            OBJETO: ModalDetalle
+\*-----------------------------------------------*/
+
 function ModalDetalle() {
+
+    this.$id = $("#modal_nuevo")
+
     this.$cabecera = $('#cabecera')
+
     this.$articulo = $('#id_articulo')
     this.$cantidad = $('#id_cantidad')
     this.$boton_guardar = $('#boton_guardar_detalle')
@@ -259,18 +260,23 @@ function ModalDetalle() {
     this.$cantidad_contenedor = $('#cantidad_contenedor')
     this.$cantidad_mensaje = $('#cantidad_mensaje')
 
-    this.init()
-
-    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-    this.clear_Estilos()
+    this.init()    
+    
 }
 
 ModalDetalle.prototype.init = function () {
     
     //this.$articulo.select2()
+    this.$boton_guardar.on("click", this, this.click_BotonGuardar)
 
+    this.$id.on('show.bs.modal', this, this.load)
 }
+ModalDetalle.prototype.load = function (e) {
 
+    e.data.clear_Estilos()
+
+    e.data.clear_Fields()
+}
 ModalDetalle.prototype.clear_Estilos = function () {
 
     this.$articulo_contenedor.removeClass("has-error")
@@ -285,7 +291,11 @@ ModalDetalle.prototype.clear_Estilos = function () {
         this.$cantidad_mensaje.addClass('hidden')
     } 
 }
+ModalDetalle.prototype.clear_Fields = function () {
 
+    this.$articulo.val("").trigger('change')
+    this.$cantidad.val("")
+}
 ModalDetalle.prototype.validar = function () {
     var bandera = true
 
@@ -305,39 +315,41 @@ ModalDetalle.prototype.validar = function () {
 }
 
 ModalDetalle.prototype.click_BotonGuardar = function (e) {
-    if (e.data.validar()){
-        e.preventDefault()
+
+    if (e.data.validar()) {
+        
         articulo = e.data.$articulo.val()
         cantidad = e.data.$cantidad.val()
         cabecera = e.data.$cabecera.val()
 
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+        // var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+
         $.ajax({
-                    headers: { "X-CSRFToken": csrftoken },
-                    url: url_grid,
-                    method: "POST",
-                    data: {
-                        cantidad: cantidad,
-                        articulo: articulo,
-                        cabecera: cabecera,
-                    },
-                    success: function (){
-                        $('#modal_nuevo').hide()
-                        alertify.success("Detalle Registrado")
-                        targeta_resultados.grid.kfuente_datos.read();
-                        e.data.$articulo.val("").trigger('change')
-                        e.data.$cantidad.val("")
+            // headers: { "X-CSRFToken": csrftoken },
+            url: url_grid,
+            method: "POST",
+            data: {
+                "cantidad": cantidad,
+                "articulo": articulo,
+                "cabecera": cabecera,
+            },
+            success: function (){
+                
+                e.data.$id.modal('hide')
 
-                    },
-                    error: function(e){
+                // alertify.success("Detalle Registrado")
+                targeta_resultados.grid.kfuente_datos.read();
 
-                        alertify.error("Error "+ e.status + " . No se guardó el registro")
-                        $('#modal_nuevo').hide()
+            },
+            error: function(e){
 
-                    }
-                   
-                            
-                });
+                // alertify.error("Error "+ e.status + " . No se guardó el registro")
+                e.data.$id.modal('hide')
+
+            }
+           
+                    
+        });
 
     }
 }

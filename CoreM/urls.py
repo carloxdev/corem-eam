@@ -36,6 +36,9 @@ from trabajos.views import OrdenAnexoTextoAPI
 from trabajos.views import OrdenAnexoImagenAPI
 from trabajos.views import OrdenAnexoArchivoAPI
 from trabajos.views import ActividadAPI
+from trabajos.views import ManoObraAPI
+from trabajos.views import MaterialAPI
+from trabajos.views import ServicioExternoAPI
 
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
@@ -125,7 +128,7 @@ router.register(
     'almacen'
 )
 
-# ----------------- ARTICULO - ODOMETRO ----------------- #
+# ----------------- ARTICULO - UDM ----------------- #
 
 router.register(
     r'udmarticulo',
@@ -147,7 +150,7 @@ router.register(
 )
 
 
-# ----------------- ARTICULOS ----------------- #
+# ----------------- STOCK ----------------- #
 router.register(
     r'stock',
     StockAPI,
@@ -190,6 +193,33 @@ router.register(
     ActividadAPI,
     'actividad'
 )
+
+# ----------------- MANO OBRA ----------------- #
+
+router.register(
+    r'manoobra',
+    ManoObraAPI,
+    'manoobra'
+)
+
+
+# ----------------- MATERIAL ----------------- #
+
+router.register(
+    r'materiales',
+    MaterialAPI,
+    'materiales'
+)
+
+
+# ----------------- SERVICIO EXTERNO ----------------- #
+
+router.register(
+    r'servicioexterno',
+    ServicioExternoAPI,
+    'servicioexterno'
+)
+
 
 # ----------------- ORDENES DE TRABAJO - ANEXOS ----------------- #
 
