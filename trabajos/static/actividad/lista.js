@@ -401,7 +401,12 @@ VentanaModal.prototype.nuevo = function (e) {
             },
             error: function (response) {
 
-                alertify.error("Ocurrio error agregar Actividad")
+                if (response.readyState == 4 && response.status == 500) {
+                    alertify.error("El registro ya existe en la BD")
+                }
+                else {
+                    alertify.error("Ocurrio error al modificar registro")
+                }
             }
         })
     }
@@ -432,7 +437,12 @@ VentanaModal.prototype.editar = function (e) {
             },
             error: function (response) {
 
-                alertify.error("Ocurrio error al modificar registro")
+                if (response.readyState == 4 && response.status == 500) {
+                    alertify.error("El registro ya existe en la BD")
+                }
+                else {
+                    alertify.error("Ocurrio error al modificar registro")
+                }
             }
         })
     }

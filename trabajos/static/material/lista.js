@@ -7,6 +7,7 @@
 var url_materiales = window.location.origin + "/api/materiales/"
 var url_ordenes = window.location.origin + "/api/ordenestrabajo/"
 var url_articulos = window.location.origin + "/api/articulos2/"
+var url_articulos1 = window.location.origin + "/api/articulos/"
 
 // OBJS
 var targeta_resultados = null
@@ -81,14 +82,17 @@ GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
         articulo : { type:"string" },
+        articulo_desc : { type:"string" },
         cantidad_estimada : { type: "number" },
+        cantidad_real : { type: "number" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "articulo", title: "Articulo" },
+        { field: "articulo_desc", title: "Articulo" },
         { field: "cantidad_estimada", title: "Cantidad Estimada", format: '{0:n2}' },
+        { field: "cantidad_real", title: "Cantidad Real", format: '{0:n2}' },
         {
            command: [
                 {
@@ -257,18 +261,18 @@ VentanaModal.prototype.load = function (e) {
     // Se limpiar el formulario
     e.data.clear_Fields()  
 
-    e.data.fill_Articulos()
 
     // Asosciar Eventos segun corresponda
     var event_owner
 
+    // Edicion
     if ( e.relatedTarget == undefined ) {
+
+        
+        e.data.fill_Articulos("")
 
         // Se modifica el titulo
         e.data.$id.find('.modal-title').text('Editar Material Agregado')
-
-        // Se llenan los controles
-        // var url = url_actividad + "?id=" + formulario.$udm.val()
 
         modal = e.data
 
@@ -282,6 +286,10 @@ VentanaModal.prototype.load = function (e) {
 
                 // modal.$articulo.val(response[0].articulo)
                 modal.$cantidad_estimada.val(response[0].cantidad_estimada)
+                var article = response[0].articulo_id
+                modal.$articulo.val(article)
+                modal.$articulo.trigger('change')
+
 
             },
             error: function (response) {
@@ -296,7 +304,11 @@ VentanaModal.prototype.load = function (e) {
             e.data.editar
         )        
     }
+    // Agregar
     else {
+
+        e.data.fill_Articulos("ACT")
+
         event_owner = $(e.relatedTarget) 
 
         if (event_owner.context.id == "boton_nuevo") {
@@ -332,7 +344,7 @@ VentanaModal.prototype.clear_Estilos = function () {
         this.$cant_est_mensaje.addClass('hidden')
     } 
 }
-VentanaModal.prototype.fill_Articulos = function () {
+VentanaModal.prototype.fill_Articulos = function (_value) {
 
     combo_articulos = this.$articulo
 
@@ -340,14 +352,14 @@ VentanaModal.prototype.fill_Articulos = function () {
     $.ajax({
         url: url_articulos,
         data: {
-            "estado" :  "ACT"
+            "estado" :  _value
         },
         method: "GET",
         success: function (response) {
 
             combo_articulos.append($('<option>', { 
-                value: " ",
-                text : "Selecciona un Articulo"
+                value: "",
+                text : "-----------"
             }))            
 
             $.each(response, function (i, item) {
@@ -392,7 +404,7 @@ VentanaModal.prototype.nuevo = function (e) {
             method: "POST",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
-                "articulo" : e.data.$articulo.val(),
+                "articulo" : url_articulos1 + e.data.$articulo.val() + "/",
                 "cantidad_estimada" : e.data.$cantidad_estimada.val(),
             },
             success: function (response) {
@@ -405,7 +417,12 @@ VentanaModal.prototype.nuevo = function (e) {
             },
             error: function (response) {
 
-                alertify.error("Ocurrio error agregar Actividad")
+                if (response.readyState == 4 && response.status == 500) {
+                    alertify.error("El registro ya existe en la BD")
+                }
+                else {
+                    alertify.error("Ocurrio error al modificar registro")
+                }
             }
         })
     }
@@ -432,7 +449,12 @@ VentanaModal.prototype.editar = function (e) {
             },
             error: function (response) {
 
-                alertify.error("Ocurrio error al modificar registro")
+                if (response.readyState == 4 && response.status == 500) {
+                    alertify.error("El registro ya existe en la BD")
+                }
+                else {
+                    alertify.error("Ocurrio error al modificar registro")
+                }
             }
         })
     }

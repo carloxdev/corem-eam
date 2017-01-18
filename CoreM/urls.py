@@ -215,7 +215,7 @@ router.register(
 router.register(
     r'materiales',
     MaterialAPI,
-    'materiales'
+    'material'
 )
 
 
