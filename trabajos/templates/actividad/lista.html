@@ -158,6 +158,8 @@
 		      <div class="modal-body">
 					<div class="row">
 
+						<input class="hidden" id="id_actividad" type="text" />
+
 						<!-- Nombre -->
 						<div class="col-sm-4">
 							<div class="form-group input-group-sm has-warning" id="act_numero_contenedor">
@@ -165,7 +167,7 @@
 									<i class="fa  fa-asterisk  "></i>
 									Numero:
 								</label>
-								<input class="form-control" id="act_numero" maxlength="144" type="text" />
+								<input class="form-control" id="act_numero" maxlength="144" type="number" />
 								<span class="help-block hidden" id="act_numero_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>
@@ -192,7 +194,7 @@
 									<i class="fa fa-asterisk"></i>
 									Horas Estimadas:
 								</label>
-								<input class="form-control" id="act_hrs_est" maxlength="144" type="text" />
+								<input class="form-control" id="act_hrs_est" maxlength="144" type="number" />
 								<span class="help-block hidden" id="act_hrs_est_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>
@@ -203,7 +205,7 @@
 								<label for="act_hrs_real">
 									Horas Reales:
 								</label>
-								<input class="form-control" id="act_hrs_real" maxlength="144" type="text" />
+								<input class="form-control" id="act_hrs_real" maxlength="144" type="number" />
 								<span class="help-block hidden" id="act_hrs_real_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>	

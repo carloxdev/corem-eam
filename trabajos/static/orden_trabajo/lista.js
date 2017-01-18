@@ -254,13 +254,13 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.id + "/"
+    window.location.href = url_editar + fila.pk + "/"
 }
 GridPrincipal.prototype.click_BotonAnexos = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_anexos + fila.id + "/texto/"
+    window.location.href = url_anexos + fila.pk + "/texto/"
 }
 GridPrincipal.prototype.change_IsTemplate = function (_value) {
 

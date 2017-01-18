@@ -21,7 +21,7 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
         model = OrdenTrabajo
         fields = (
             'url',
-            'id',
+            'pk',
             'equipo',
             'descripcion',
             'tipo',
@@ -63,8 +63,8 @@ class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actividad
         fields = (
+            'pk',
             'url',
-            'id',
             'orden',
             'numero',
             'descripcion',

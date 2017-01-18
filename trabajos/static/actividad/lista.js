@@ -4,8 +4,7 @@
 
 
 // URLS
-var url_grid = window.location.origin + "/api/actividades/"
-
+var url_actividades = window.location.origin + "/api/actividades/"
 var url_ordenes = window.location.origin + "/api/ordenestrabajo/"
 
 // OBJS
@@ -79,10 +78,10 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
-        numero : { type: "string" },
+        numero : { type:"number" },
         descripcion : { type: "string" },
-        horas_estimadas : { type: "string" },
-        horas_reales: { type: "string" },
+        horas_estimadas : { type:"number" },
+        horas_reales: { type:"number" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
@@ -90,9 +89,8 @@ GridPrincipal.prototype.get_Columnas = function (e) {
     return [
         { field: "numero", title: "Numero", width: "200px" },
         { field: "descripcion", title: "Descripcion", width: "200px" },
-        { field: "horas_estimadas", title: "Horas Estimadas", width: "200px" },
-        { field: "horas_reales", title: "Horas Reales", width: "200px" },
-
+        { field: "horas_estimadas", title: "Horas Estimadas", width: "200px", format: '{0:n2}' },
+        { field: "horas_reales", title: "Horas Reales", width: "200px", format: '{0:n2}' },
         {
            command: [
                 {
@@ -125,10 +123,9 @@ GridPrincipal.prototype.apply_Estilos = function (e) {
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
     return {
-        serverFiltering: true,
         transport: {
             read: {
-                url: url_grid,
+                url: url_actividades,
                 type: "GET",
                 dataType: "json",
             },
@@ -143,7 +140,6 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
         },
         schema: {
             model: {
-                id: "pk",
                 fields: this.get_Campos()
             }
         },
@@ -153,18 +149,44 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
     }
 }
 GridPrincipal.prototype.buscar =  function() {
-  this.kfuente_datos.page(1)
+    this.kfuente_datos.read()
 }
 GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    // window.location.href = url_editar + fila.id + "/"
+    targeta_resultados.toolbar.modal.set_Id(fila.pk)
+    targeta_resultados.toolbar.modal.mostrar()
 }
 GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
+
+    alertify.confirm(
+        'Eliminar Registro',
+        '¿Desea Eliminar este registro?', 
+        function () {
+
+            var url = url_actividades + fila.pk + "/"
+
+            $.ajax({
+                url: url,
+                method: "DELETE",
+                success: function () {
+                    alertify.success("Se elimino registro correctamente")
+                    
+                    targeta_resultados.grid.kfuente_datos.remove(fila)
+
+                },
+                error: function () {
+                    
+                    alertify.error("Ocurrio un error al eliminar")
+                }
+            })
+        }, 
+        null
+    )    
 }
 
 
@@ -193,12 +215,14 @@ Toolbar.prototype.click_BotonExportar = function(e) {
 
 
 /*-----------------------------------------------*\
-            OBJETO: Ventana UDM
+            OBJETO: Ventana Modal
 \*-----------------------------------------------*/
 
 function VentanaModal() {
 
     this.$id = $('#win_modal')
+
+    this.$pk = $("#id_actividad")
 
     this.$numero = $('#act_numero')
     this.$numero_contenedor = $('#act_numero_contenedor')
@@ -224,13 +248,80 @@ VentanaModal.prototype.init = function () {
 
     // Se asoscia eventos al abrir el modal
     this.$id.on('show.bs.modal', this, this.load)
+}
+VentanaModal.prototype.set_Id = function (_value) {
 
-    this.$boton_guardar.on("click", this, this.click_BotonSave)
+    this.$pk.val(_value)
+}
+VentanaModal.prototype.mostrar = function (e) {
+    this.$id.modal()
 }
 VentanaModal.prototype.load = function (e) {
 
-    e.data.clear_Fields()
+    // Se eliminan eventos viejos
+    e.data.$boton_guardar.off("click")
+
+    // Se limpian estilos
     e.data.clear_Estilos()
+
+    // Se limpiar el formulario
+    e.data.clear_Fields()  
+
+    // Asosciar Eventos segun corresponda
+    var event_owner
+
+    if ( e.relatedTarget == undefined ) {
+
+        // Se modifica el titulo
+        e.data.$id.find('.modal-title').text('Editar Actividad')
+
+        // Se llenan los controles
+        // var url = url_actividad + "?id=" + formulario.$udm.val()
+
+        modal = e.data
+
+        $.ajax({
+            url: url_actividades,
+            method: "GET",
+            data: {
+                "id": e.data.$pk.val()
+            },
+            success: function (response) {
+
+                // modal.$pk.val(response[0].pk)
+                modal.$numero.val(response[0].numero)
+                modal.$descripcion.val(response[0].descripcion)
+                modal.$hrs_est.val(response[0].horas_estimadas)
+                modal.$hrs_real.val(response[0].horas_reales)
+            },
+            error: function (response) {
+                
+                alertify.error("Ocurrio error al consultar")
+            }
+        })
+        // Se asoscia el evento que se utilizara para guardar
+        e.data.$boton_guardar.on(
+            "click", 
+            e.data, 
+            e.data.editar
+        )        
+    }
+    else {
+        event_owner = $(e.relatedTarget) 
+
+        if (event_owner.context.id == "boton_nuevo") {
+
+            // Se modifica el titulo
+            e.data.$id.find('.modal-title').text('Nueva Actividad')
+            
+            // Se asoscia el evento que se utilizara para guardar
+            e.data.$boton_guardar.on(
+                "click", 
+                e.data, 
+                e.data.nuevo
+            )
+        }        
+    }
 }
 VentanaModal.prototype.clear_Fields = function () {
 
@@ -283,12 +374,12 @@ VentanaModal.prototype.validar = function () {
 
     return bandera
 }
-VentanaModal.prototype.click_BotonSave = function (e) {
+VentanaModal.prototype.nuevo = function (e) {
 
     if (e.data.validar()) {
 
         $.ajax({
-            url: url_grid,
+            url: url_actividades,
             method: "POST",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
@@ -299,16 +390,45 @@ VentanaModal.prototype.click_BotonSave = function (e) {
             },
             success: function (response) {
 
+                targeta_resultados.grid.kfuente_datos.read()
+
                 // Ocultar Modal
                 e.data.$id.modal('hide')
 
-                // Agregar registro al Grid:
             },
             error: function (response) {
 
                 alertify.error("Ocurrio error agregar Actividad")
             }
         })
-        
+    }
+}
+VentanaModal.prototype.editar = function (e) {
+
+    if (e.data.validar()) {
+
+        var url_update = url_actividades + e.data.$pk.val() + "/"
+
+        $.ajax({
+            url: url_update,
+            method: "PUT",
+            data: {
+                "orden" :  url_ordenes + $ot_clave.text() + "/",
+                "numero" : e.data.$numero.val(),
+                "descripcion" : e.data.$descripcion.val(),
+                "horas_estimadas" : e.data.$hrs_est.val(),
+                "horas_reales" : e.data.$hrs_real.val(),
+            },
+            success: function (response) {
+
+                e.data.$id.modal('hide')
+
+                // actualizar registro en grid
+            },
+            error: function (response) {
+
+                alertify.error("Ocurrio error al modificar registro")
+            }
+        })
     }
 }

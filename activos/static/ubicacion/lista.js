@@ -181,7 +181,7 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
             }
         },
         error: function (e) {
-            alert("Status: " + e.status + "; Error message: " + e.errorThrown)
+            alertify.error("Status: " + e.status + "; Error message: " + e.errorThrown)
         },
     }
 }

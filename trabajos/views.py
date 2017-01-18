@@ -243,7 +243,7 @@ class ActividadAPI(viewsets.ModelViewSet):
     serializer_class = ActividadSerializer
 
     filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('orden',)
+    filter_fields = ('orden', 'id')
 
 
 # ----------------- ORDEN - ANEXO ----------------- #

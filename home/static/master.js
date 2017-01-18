@@ -14,7 +14,7 @@ $(document).ready(function () {
 })
 
 // Spinner en Ajax
-$(document).ajaxStart(function() { Pace.restart(); });
+$(document).ajaxStart(function() { Pace.restart() })
 
 /*-----------------------------------------------*\
             OBJETO: PAGINA
