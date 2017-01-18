@@ -33,6 +33,7 @@ function TargetaResultados() {
 
     this.toolbar = new Toolbar()
     this.grid = new GridPrincipal()
+    this.modal = new VentanaModal()
 }
 
 
@@ -152,8 +153,8 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    targeta_resultados.toolbar.modal.set_Id(fila.pk)
-    targeta_resultados.toolbar.modal.mostrar()
+    targeta_resultados.modal.set_Id(fila.pk)
+    targeta_resultados.modal.mostrar()
 }
 GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
@@ -197,8 +198,6 @@ function Toolbar() {
     this.$boton_nuevo = $("#boton_nuevo")
     this.$boton_exportar = $("#boton_exportar")
 
-    this.modal = new VentanaModal()
-
     this.init()
 }
 Toolbar.prototype.init = function (e) {
@@ -235,6 +234,8 @@ function VentanaModal() {
 }
 VentanaModal.prototype.init = function () {
 
+    this.$articulo.select2()
+
     // Se asoscia eventos al abrir el modal
     this.$id.on('show.bs.modal', this, this.load)
 }
@@ -246,9 +247,6 @@ VentanaModal.prototype.mostrar = function (e) {
     this.$id.modal()
 }
 VentanaModal.prototype.load = function (e) {
-
-
-    e.data.$articulo.select2()
 
     // Se eliminan eventos viejos
     e.data.$boton_guardar.off("click")
@@ -267,7 +265,7 @@ VentanaModal.prototype.load = function (e) {
     if ( e.relatedTarget == undefined ) {
 
         // Se modifica el titulo
-        e.data.$id.find('.modal-title').text('Editar Actividad')
+        e.data.$id.find('.modal-title').text('Editar Material Agregado')
 
         // Se llenan los controles
         // var url = url_actividad + "?id=" + formulario.$udm.val()
@@ -304,7 +302,7 @@ VentanaModal.prototype.load = function (e) {
         if (event_owner.context.id == "boton_nuevo") {
 
             // Se modifica el titulo
-            e.data.$id.find('.modal-title').text('Nueva Actividad')
+            e.data.$id.find('.modal-title').text('Agregar Material')
             
             // Se asoscia el evento que se utilizara para guardar
             e.data.$boton_guardar.on(
@@ -317,7 +315,7 @@ VentanaModal.prototype.load = function (e) {
 }
 VentanaModal.prototype.clear_Fields = function () {
 
-    this.$articulo.val("")
+    this.$articulo.empty()
     this.$cantidad_estimada.val("")
 }
 VentanaModal.prototype.clear_Estilos = function () {
@@ -336,6 +334,8 @@ VentanaModal.prototype.clear_Estilos = function () {
 }
 VentanaModal.prototype.fill_Articulos = function () {
 
+    combo_articulos = this.$articulo
+
     // Obtenemos articulos
     $.ajax({
         url: url_articulos,
@@ -345,9 +345,19 @@ VentanaModal.prototype.fill_Articulos = function () {
         method: "GET",
         success: function (response) {
 
-            
+            combo_articulos.append($('<option>', { 
+                value: " ",
+                text : "Selecciona un Articulo"
+            }))            
 
+            $.each(response, function (i, item) {
+                 combo_articulos.append($('<option>', { 
+                    value: item.pk,
+                    text : "(clave) descripcion".replace("clave", item.clave).replace("descripcion", item.descripcion)
+                }))
+            })
 
+            combo_articulos.trigger('change')
         },
         error: function (response) {
             

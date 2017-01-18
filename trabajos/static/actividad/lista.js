@@ -32,6 +32,7 @@ function TargetaResultados() {
 
     this.toolbar = new Toolbar()
     this.grid = new GridPrincipal()
+    this.modal = new VentanaModal()
 }
 
 
@@ -155,8 +156,8 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    targeta_resultados.toolbar.modal.set_Id(fila.pk)
-    targeta_resultados.toolbar.modal.mostrar()
+    targeta_resultados.modal.set_Id(fila.pk)
+    targeta_resultados.modal.mostrar()
 }
 GridPrincipal.prototype.click_BotonEliminar = function (e) {
 
