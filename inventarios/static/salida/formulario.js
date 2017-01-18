@@ -325,10 +325,8 @@ ModalDetalle.prototype.click_BotonGuardar = function (e) {
                         $('#modal_nuevo').hide()
                         alertify.success("Detalle Registrado")
                         targeta_resultados.grid.kfuente_datos.read();
-                        e.data.$articulo_mensaje.val("").trigger('change')
+                        e.data.$articulo.val("").trigger('change')
                         e.data.$cantidad.val("")
-                        $('.modal-backdrop').remove();
-                        
                        
                     },
                     error: function(e){
