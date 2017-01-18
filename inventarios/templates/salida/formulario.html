@@ -161,6 +161,7 @@
 				</form>
 			</div>
 			<!-- /.box -->
+			{% if id_cabecera %}
 			<div class="box box-info">
 				<div class="box-header box-header-border">
 					<h3 class="box-title">Detalle</h3>
@@ -177,7 +178,16 @@
 				</div>
 				<div id="grid_principal">
 				</div>
+				<div class="box-footer">
+					<div class="box-tools pull-left">
+						<button type="button" id="boton_finalizar" class="btn bg-olive btn-sm">
+						<i class="fa fa-save"></i>
+						Finalizar
+						</button>
+					</div>
+				</div>
 			</div>
+			{% endif %}
             <!-- /.box-body -->
           </div>
 			<!-- /.box -->
