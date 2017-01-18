@@ -152,7 +152,6 @@
 							<i class="fa fa-arrow-circle-left"></i>
 							Regresar
 						</a>
-
 						<button type="submit" id="boton_guardar" class="btn btn-success pull-right">
 							<i class="fa fa-save"></i>
 							Guardar
@@ -162,6 +161,7 @@
 			</div>
 			<!-- /.box -->
 			{% if id_cabecera %}
+			<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 			<div class="box box-info">
 				<div class="box-header box-header-border">
 					<h3 class="box-title">Detalle</h3>
@@ -179,14 +179,16 @@
 				<div id="grid_principal">
 				</div>
 				<div class="box-footer">
+					<input type="hidden" value="{{ id_cabecera }}" id="id_cabecera_stock" name="cabecera_stock">
 					<div class="box-tools pull-left">
-						<button type="button" id="boton_finalizar" class="btn bg-olive btn-sm">
+						<button type="submit" id="boton_finalizar" class="btn bg-olive btn-sm">
 						<i class="fa fa-save"></i>
 						Finalizar
 						</button>
 					</div>
 				</div>
 			</div>
+			</form>
 			{% endif %}
             <!-- /.box-body -->
           </div>

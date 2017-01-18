@@ -146,7 +146,8 @@ class Almacen(models.Model):
 class Stock(models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
     articulo = models.ForeignKey(Articulo, on_delete=models.PROTECT)
-    cantidad = models.CharField(max_length=140, default=0)
+    cantidad = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0)
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,
