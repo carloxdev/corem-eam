@@ -180,6 +180,7 @@ class MovimientoCabecera(models.Model):
         max_length=4,
         choices=MOVIMIENTO_ESTADO,
         default="CAP",
+        blank=True
     )
     tipo = models.CharField(
         max_length=4,
@@ -187,10 +188,7 @@ class MovimientoCabecera(models.Model):
     )
 
     def __str__(self):
-        return "{0} - {1}".format(
-            self.clave.encode('utf-8'),
-            self.descripcion.encode('utf-8')
-        )
+        return self.descripcion.encode('utf-8')
 
 
 class MovimientoDetalle(models.Model):

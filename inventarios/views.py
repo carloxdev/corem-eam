@@ -503,7 +503,6 @@ class EntradaCabeceraCreateView(View):
         formulario = MovimientoCabeceraForm(request.POST)
         if 'tipo' in request.POST:
             tipo = request.POST['tipo']
-            estado = "CAP"
             if formulario.is_valid():
                 datos_formulario = formulario.cleaned_data
                 cabecera = MovimientoCabecera()
@@ -517,7 +516,6 @@ class EntradaCabeceraCreateView(View):
                     'persona_recibe')
                 cabecera.persona_entrega = datos_formulario.get(
                     'persona_entrega')
-                cabecera.estado = estado
                 cabecera.tipo = tipo
                 cabecera.save()
 
@@ -582,7 +580,7 @@ class EntradaCabeceraCreateView(View):
             cabecera.estado = "CER"
             cabecera.save()
 
-        return redirect(reverse('inventarios:entradas_lista'))
+            return redirect(reverse('inventarios:entradas_lista'))
 
 
 class MovimientoAPI(viewsets.ModelViewSet):
@@ -638,7 +636,6 @@ class SalidaCabeceraCreateView(View):
         formulario = MovimientoCabeceraForm(request.POST)
         if 'tipo' in request.POST:
             tipo = request.POST['tipo']
-            estado = "CAP"
             if formulario.is_valid():
                 datos_formulario = formulario.cleaned_data
                 cabecera = MovimientoCabecera()
@@ -652,7 +649,6 @@ class SalidaCabeceraCreateView(View):
                     'persona_recibe')
                 cabecera.persona_entrega = datos_formulario.get(
                     'persona_entrega')
-                cabecera.estado = estado
                 cabecera.tipo = tipo
                 cabecera.save()
 
@@ -665,6 +661,7 @@ class SalidaCabeceraCreateView(View):
                 }
 
                 return render(request, self.template_name, contexto)
+
         elif 'cabecera_stock' in request.POST:
             id_cabecera = request.POST['cabecera_stock']
             cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
@@ -717,4 +714,4 @@ class SalidaCabeceraCreateView(View):
             cabecera.estado = "CER"
             cabecera.save()
 
-        return redirect(reverse('inventarios:salidas_lista'))
+            return redirect(reverse('inventarios:salidas_lista'))
