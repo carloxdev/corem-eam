@@ -5,6 +5,7 @@
 // URLS
 var url_manoobra = window.location.origin + "/api/manoobra/"
 var url_ordenes = window.location.origin + "/api/ordenestrabajo/"
+var url_empleados = window.location.origin + "/api/users/"
 
 // OBJS
 var targeta_resultados = null
@@ -33,7 +34,6 @@ function TargetaResultados() {
     this.grid = new GridPrincipal()
     this.modal = new VentanaModal()
 }
-
 
 /*-----------------------------------------------*\
             OBJETO: GRID
@@ -78,17 +78,24 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
+
+        empleado_desc : { type: "string" },
         descripcion : { type: "string" },
-        clave_jde : { type:"string" },        
-        comentarios: { type:"string" },
+        fecha_inicio : { type: "date" },
+        fecha_fin : { type: "date" },
+        horas_estimadas : { type: "string" },
+        horas_reales : { type: "string" },
     }
 }
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
+        { field: "empleado_desc", title: "Empleado" },
         { field: "descripcion", title: "Descripcion" },
-        { field: "clave_jde", title: "Clave JDE", width: "150px" },
-        { field: "comentarios", title: "Comentarios", format: '{0:n2}' },
+        { field: "fecha_inicio", title: "Fecha Inicio", width: "150px" },
+        { field: "fecha_fin", title: "Fecha Fin", width: "150px" },
+        { field: "horas_estimadas", title: "Horas Estimadas", width: "150px" },
+        { field: "horas_reales", title: "Horas Reales", width: "150px" },        
         {
            command: [
                 {
@@ -198,8 +205,6 @@ function Toolbar() {
     this.$boton_nuevo = $("#boton_nuevo")
     this.$boton_exportar = $("#boton_exportar")
 
-    this.modal = new VentanaModal()
-
     this.init()
 }
 Toolbar.prototype.init = function (e) {
@@ -222,23 +227,37 @@ function VentanaModal() {
 
     this.$pk = $("#modal_record_id")
 
+    this.$empleado = $('#mod_empleado')
+    this.$empleado_contenedor = $('#mod_empleado_contenedor')
+    this.$empleado_mensaje =  $('#mod_empleado_mensaje')    
+
     this.$desc =  $('#mod_desc')
     this.$desc_contenedor =  $('#mod_desc_contenedor')
     this.$desc_mensaje =  $('#mod_desc_mensaje')
 
-    this.$clave_jde = $('#mod_clavejde')
-    this.$clave_jde_contenedor = $('#mod_clavejde_contenedor')
-    this.$clave_jde_mensaje =  $('#mod_clavejde_mensaje')    
+    this.$fecha_inicio = $('#mod_fecha_inicio')
+    this.$fecha_inicio_contenedor = $('#mod_fecha_inicio_contenedor')
+    this.$fecha_inicio_mensaje =  $('#mod_fecha_inicio_mensaje')    
 
-    this.$comments = $('#mod_comments')
-    this.$comments_contenedor = $('#mod_comments_contenedor')
-    this.$comments_mensaje =  $('#mod_comments_mensaje')
+    this.$fecha_fin = $('#mod_fecha_fin')
+    this.$fecha_fin_contenedor = $('#mod_fecha_fin_contenedor')
+    this.$fecha_fin_mensaje =  $('#mod_fecha_fin_mensaje')        
+
+    this.$hrs_est = $('#mod_hrs_est')
+    this.$hrs_est_contenedor = $('#mod_hrs_est_contenedor')
+    this.$hrs_est_mensaje =  $('#mod_hrs_est_mensaje')
+
+    this.$hrs_real = $('#mod_hrs_real')
+    this.$hrs_real_contenedor = $('#mod_hrs_real_contenedor')
+    this.$hrs_real_mensaje =  $('#mod_hrs_real_mensaje')
 
     this.$boton_guardar = $('#btn_modal_save')
 
     this.init()
 }
 VentanaModal.prototype.init = function () {
+
+    this.$empleado.select2()
 
     // Se asoscia eventos al abrir el modal
     this.$id.on('show.bs.modal', this, this.load)
@@ -252,28 +271,64 @@ VentanaModal.prototype.mostrar = function (e) {
 }
 VentanaModal.prototype.clear_Fields = function () {
 
+    this.$empleado.empty()
     this.$desc.val("")
-    this.$clave_jde.val("")
-    this.$comments.val("")
+    this.$fecha_inicio.val("")
+    this.$fecha_fin.val("")
+    this.$hrs_est.val("")
+    this.$hrs_real.val("")
 }
 VentanaModal.prototype.clear_Estilos = function () {
     
-    this.$desc_contenedor.removeClass("has-error")
-    if(this.$desc_mensaje.hasClass('hidden') != null) { 
-        this.$desc_mensaje.addClass('hidden')
+    this.$empleado_contenedor.removeClass("has-error")
+    if(this.$empleado_mensaje.hasClass('hidden') != null) { 
+        this.$empleado_mensaje.addClass('hidden')
     }
 }
 VentanaModal.prototype.validar = function () {
 
     var bandera = true
 
-    if ( this.$desc.val() == "") {
-        this.$desc_contenedor.addClass("has-error")
-        this.$desc_mensaje.removeClass("hidden")
+    if ( this.$empleado.val() == "") {
+        this.$empleado_contenedor.addClass("has-error")
+        this.$empleado_mensaje.removeClass("hidden")
         bandera = false
     }
 
     return bandera
+}
+VentanaModal.prototype.fill_Empleados = function (_value) {
+
+    combo_box = this.$empleado
+
+    // Obtenemos articulos
+    $.ajax({
+        url: url_empleados,
+        data: {
+            "is_active" :  _value
+        },
+        method: "GET",
+        success: function (response) {
+
+            combo_box.append($('<option>', { 
+                value: "",
+                text : "-----------"
+            }))            
+
+            $.each(response, function (i, item) {
+                 combo_box.append($('<option>', { 
+                    value: item.pk,
+                    text : "(clave) descripcion".replace("clave", item.username).replace("descripcion", item.full_name)
+                }))
+            })
+
+            combo_box.trigger('change')
+        },
+        error: function (response) {
+            
+            alertify.error("Ocurrio error al consultar")
+        }
+    })    
 }
 VentanaModal.prototype.load = function (e) {
 
@@ -291,6 +346,8 @@ VentanaModal.prototype.load = function (e) {
 
     if ( e.relatedTarget == undefined ) {
 
+        e.data.fill_Empleados("")
+
         // Se modifica el titulo
         e.data.$id.find('.modal-title').text('Editar Servicio')
 
@@ -305,9 +362,12 @@ VentanaModal.prototype.load = function (e) {
             },
             success: function (response) {
 
+                modal.$empleado.val(response[0].empleado_id)
                 modal.$desc.val(response[0].descripcion)
-                modal.$clave_jde.val(response[0].clave_jde)                
-                modal.$comments.val(response[0].comentarios)
+                modal.$fecha_inicio.val(response[0].fecha_inicio)
+                modal.$fecha_fin.val(response[0].fecha_fin)
+                modal.$hrs_est.val(response[0].horas_estimadas)
+                modal.$hrs_real.val(response[0].horas_reales)
             },
             error: function (response) {
                 
@@ -321,13 +381,17 @@ VentanaModal.prototype.load = function (e) {
             e.data.editar
         )        
     }
+    // Agregar
     else {
+
+        e.data.fill_Empleados("true")
+
         event_owner = $(e.relatedTarget) 
 
         if (event_owner.context.id == "boton_nuevo") {
 
             // Se modifica el titulo
-            e.data.$id.find('.modal-title').text('Nuevo Servicio')
+            e.data.$id.find('.modal-title').text('Nuevo registro')
             
             // Se asoscia el evento que se utilizara para guardar
             e.data.$boton_guardar.on(
@@ -347,9 +411,13 @@ VentanaModal.prototype.nuevo = function (e) {
             method: "POST",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
+                "empleado" : url_empleados + e.data.$empleado.val() + "/",
+
                 "descripcion" : e.data.$desc.val(),
-                "clave_jde" : e.data.$clave_jde.val(),
-                "comentarios" : e.data.$comments.val(),
+                "fecha_inicio" : e.data.$fecha_inicio.val(),
+                "fecha_fin" : e.data.$fecha_fin.val(),
+                "horas_estimadas" : e.data.$hrs_est.val(),
+                "horas_reales" : e.data.$hrs_real.val(),
             },
             success: function (response) {
 
@@ -384,9 +452,13 @@ VentanaModal.prototype.editar = function (e) {
             method: "PUT",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
+                "empleado" : url_empleados + e.data.$empleado.val() + "/",
+                
                 "descripcion" : e.data.$desc.val(),
-                "clave_jde" : e.data.$clave_jde.val(),
-                "comentarios" : e.data.$comments.val(),
+                "fecha_inicio" : e.data.$fecha_inicio.val(),
+                "fecha_fin" : e.data.$fecha_fin.val(),
+                "horas_estimadas" : e.data.$hrs_est.val(),
+                "horas_reales" : e.data.$hrs_real.val(),
             },
             success: function (response) {
 

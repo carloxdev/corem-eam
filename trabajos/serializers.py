@@ -76,29 +76,10 @@ class ActividadSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class ManoObraSerializer(serializers.HyperlinkedModelSerializer):
-
-    orden = serializers.SerializerMethodField()
-
-    class Meta:
-        model = ManoObra
-        fields = (
-            'pk',
-            'url',
-            'orden',
-            'empleado',
-            'descripcion',
-            'fecha_inicio',
-            'fecha_fin',
-            'horas_estimadas',
-            'horas_reales',
-        )
-
-
 class MaterialSerializer(serializers.HyperlinkedModelSerializer):
 
-    articulo_desc = serializers.SerializerMethodField()
     articulo_id = serializers.SerializerMethodField()
+    articulo_desc = serializers.SerializerMethodField()
 
     class Meta:
         model = Material
@@ -113,6 +94,14 @@ class MaterialSerializer(serializers.HyperlinkedModelSerializer):
             'cantidad_real',
         )
 
+    def get_articulo_id(self, obj):
+
+        try:
+            return obj.articulo.id
+
+        except:
+            return 0
+
     def get_articulo_desc(self, obj):
 
         try:
@@ -124,13 +113,46 @@ class MaterialSerializer(serializers.HyperlinkedModelSerializer):
         except:
             return ""
 
-    def get_articulo_id(self, obj):
+
+class ManoObraSerializer(serializers.HyperlinkedModelSerializer):
+
+    empleado_id = serializers.SerializerMethodField()
+    empleado_desc = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ManoObra
+        fields = (
+            'pk',
+            'url',
+            'orden',
+            'empleado',
+            'empleado_id',
+            'empleado_desc',
+            'descripcion',
+            'fecha_inicio',
+            'fecha_fin',
+            'horas_estimadas',
+            'horas_reales',
+        )
+
+    def get_empleado_id(self, obj):
 
         try:
-            return obj.articulo.id
+            return obj.empleado.id
 
         except:
             return 0
+
+    def get_empleado_desc(self, obj):
+
+        try:
+            return "({}) {}".format(
+                obj.empleado.username,
+                obj.empleado.get_full_name()
+            )
+
+        except:
+            return ""
 
 
 class ServicioExternoSerializer(serializers.HyperlinkedModelSerializer):

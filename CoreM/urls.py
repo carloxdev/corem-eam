@@ -41,6 +41,8 @@ from trabajos.views import ManoObraAPI
 from trabajos.views import MaterialAPI
 from trabajos.views import ServicioExternoAPI
 
+from seguridad.views import UserAPI
+
 # Librerias necesarias para publicar Medias en DEBUG
 from django.conf.urls.static import static
 from django.conf import settings
@@ -57,6 +59,13 @@ router.register(
     'equipo'
 )
 
+# ----------------- USUARIOS ----------------- #
+
+router.register(
+    r'users',
+    UserAPI,
+    'user'
+)
 
 # ----------------- EQUIPOS - ANEXOS ----------------- #
 

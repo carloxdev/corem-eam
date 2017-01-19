@@ -30,6 +30,13 @@ from .forms import UsuarioCreateForm
 from .forms import UsuarioEditForm
 from .forms import ProfileForm
 
+# API Rest:
+from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+
+# API Rest - Serializadores:
+from .serializers import UserSerializer
+
 
 class Login(View):
 
@@ -254,3 +261,11 @@ class UsuarioEditView(View):
             'operation': "Editar"
         }
         return render(request, self.template_name, contexto)
+
+
+class UserAPI(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('username', 'is_active')

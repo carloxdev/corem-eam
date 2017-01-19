@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 # Otros Modelos:
+from django.contrib.auth.models import User
 from activos.models import Equipo
 from inventarios.models import Articulo
 
@@ -100,7 +101,7 @@ class Actividad(models.Model):
 
 class ManoObra(models.Model):
     orden = models.ForeignKey(OrdenTrabajo)
-    empleado = models.ForeignKey(Articulo, null=True)
+    empleado = models.ForeignKey(User, null=True)
     descripcion = models.CharField(max_length=144, null=True, blank=True)
     fecha_inicio = models.DateTimeField(null=True, blank=True)
     fecha_fin = models.DateTimeField(null=True, blank=True)

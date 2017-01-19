@@ -151,14 +151,16 @@
 	            </div>
 	            
 	            <div class="modal-body">
-	            	<div class="row">
-	            	{% csrf_token %}
+	            	<div class="row"> {% csrf_token %}
+	            	
 		            	<div class="col-sm-10 col-md-offset-1">
 		            		<div id="fecha_contenedor" class="form-group has-warning">
+
 							    <label for="fecha">
 									<i class="fa fa-asterisk"></i>
 									<label for="id_fecha">Fecha</label>
 								</label>
+
 							    <div class="input-group">
 							        <div class="input-group-addon">
 							            <i class="fa fa-calendar"></i>
@@ -174,16 +176,19 @@
 	            	<div class="row">
 	            		<div class="col-sm-10 col-md-offset-1">
 	            			<div id="hora_contenedor" class="form-group has-warning">
+
 							    <label for="hora">
 									<i class="fa fa-asterisk"></i>
 									<label for="id_hora">Hora</label>
 								</label>
+
 		            			<div class="input-group bootstrap-timepicker timepicker">
-		            				<span class="input-group-addon">
+		            				<div class="input-group-addon">
 						                <i class="glyphicon glyphicon-time"></i>
-						            </span>
-						            <input id="id_hora" type="text" class="form-control input-small pull-right">
+						            </div>
+						            <input id="id_hora" type="text" class="form-control input-small pull-right ">
 		        				</div>
+
 		        				<span class="help-block hidden" id="hora_mensaje">Este campo es requerido.</span>
 		        			</div>
 	            		</div>

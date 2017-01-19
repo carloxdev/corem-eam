@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
+
 <!-- CoreM -->
 <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
@@ -36,6 +39,7 @@
     <!-- Main content -->
     <section class="content" id="contenido">
 
+        <!-- Info de la Orden y Grid -->        
         <div class="row">
             <form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
             <div class="col-md-12">
@@ -148,7 +152,7 @@
         </div>
 
         <!-- win_modal -->
-        <div class="modal fade" tabindex="-1" role="dialog" id="win_modal">
+        <div class="modal fade" role="dialog" id="win_modal">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -156,46 +160,99 @@
                 <h4 class="modal-title"></h4>
               </div>
               <div class="modal-body">
+
+                    <input class="hidden" id="modal_record_id" type="text" />
+
                     <div class="row">
 
-                        <input class="hidden" id="modal_record_id" type="text" />
+                        <!-- Empleado -->
+                        <div class="col-sm-6">
+                            <div class="form-group has-warning select2--fix" id="mod_empleado_contenedor">
+                                <label for="mod_empleado">
+                                    <i class="fa fa-asterisk  "></i>
+                                    Empleado:
+                                </label>
+                                <select class="form-control" id="mod_empleado">
+                                </select>
+                                <span class="help-block hidden" id="mod_empleado_mensaje">Este campo es requerido.</span>
+                            </div>
+                        </div>    
 
                         <!-- Descripcion -->
-                        <div class="col-sm-8">
-                            <div class="form-group input-group-sm has-warning" id="mod_desc_contenedor">
+                        <div class="col-sm-6">
+                            <div class="form-group" id="mod_desc_contenedor">
                                 <label for="mod_desc">
-                                    <i class="fa  fa-asterisk  "></i>
                                     Descripcion:
                                 </label>
                                 <input class="form-control" id="mod_desc" maxlength="144" type="text" />
                                 <span class="help-block hidden" id="mod_desc_mensaje">Este campo es requerido.</span>
                             </div>
-                        </div>
+                        </div>                        
 
-                        <!-- Clave JDE -->
-                        <div class="col-sm-4">
-                            <div class="form-group input-group-sm" id="mod_clavejde_contenedor">
-                                <label for="mod_clavejde">
-                                    Clave JDE:
+                    </div>
+
+                    <div class="row">
+                        
+                        <!-- Fecha Inicio -->
+                        <div class="col-sm-6">
+                            <div class="form-group" id="mod_fecha_inicio_contenedor">
+                                <label for="mod_fecha_inicio">
+                                    Fecha
                                 </label>
-                                <input class="form-control" id="mod_clavejde" maxlength="144" type="text" />
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="mod_fecha_inicio" data-date-format="yyyy-mm-dd" class="form-control pull-right">
+                                </div>
+                                <span class="help-block hidden" id="mod_fecha_inicio_mensaje">Este campo es requerido.</span>
+                                <!-- /.input group -->
                             </div>
-                        </div>                      
+                        </div>    
+
+                        <!-- Fecha Fin -->
+                        <div class="col-sm-6">
+
+                            <div class="form-group" id="mod_fecha_fin_contenedor">
+                                <label for="mod_fecha_fin">
+                                    <label for="mod_fecha_fin">Fecha</label>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" id="id_fecha" data-date-format="yyyy-mm-dd" class="form-control pull-right">
+                                </div>
+                                <span class="help-block hidden" id="mod_fecha_fin_mensaje">Este campo es requerido.</span>
+                                <!-- /.input group -->
+                            </div>
+                        </div>                                             
+
                     </div>
             
                     <div class="row">
 
                         <!-- Horas Estimadas -->
-                        <div class="col-sm-12">
-                            <div class="form-group" id="mod_comments_contenedor">
-                                <label for="mod_comments">
-                                    Comentarios:
+                        <div class="col-sm-6">
+                            <div class="form-group" id="mod_hrs_est_contenedor">
+                                <label for="mod_hrs_est">
+                                    Horas Estimadas:
                                 </label>
-                                <textarea class="form-control" rows="6" id="mod_comments">
-                                </textarea> 
-
+                                <input class="form-control" id="mod_hrs_est" maxlength="144" type="number" />
+                                <span class="help-block hidden" id="mod_hrs_est_mensaje">Este campo es requerido.</span>
                             </div>
                         </div>
+
+                        <!-- Horas Reales -->
+                        <div class="col-sm-6">
+                            <div class="form-group" id="mod_hrs_real_contenedor">
+                                <label for="mod_hrs_real">
+                                    Horas Reales:
+                                </label>
+                                <input class="form-control" id="mod_hrs_real" maxlength="144" type="number" />
+                                <span class="help-block hidden" id="mod_hrs_real_mensaje">Este campo es requerido.</span>
+                            </div>
+                        </div>  
                     </div>
 
               </div>
@@ -212,6 +269,7 @@
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
     </section>
     <!-- /. Main content -->
 
@@ -223,8 +281,10 @@
     <script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
     <script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
 
+    <!-- Select2 -->
+    <script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
     <!-- CoreM -->
-    <script src="{% static 'servicio_externo/lista.js' %}"></script>
+    <script src="{% static 'mano_obra/lista.js' %}"></script>
 
 {% endblock scripts %}

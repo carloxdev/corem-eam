@@ -250,6 +250,76 @@ VentanaModal.prototype.set_Id = function (_value) {
 VentanaModal.prototype.mostrar = function (e) {
     this.$id.modal()
 }
+VentanaModal.prototype.clear_Fields = function () {
+
+    this.$articulo.empty()
+    this.$cantidad_estimada.val("")
+}
+VentanaModal.prototype.clear_Estilos = function () {
+    
+    this.$articulo_contenedor.removeClass("has-error")
+    
+    if(this.$articulo_mensaje.hasClass('hidden') != null) { 
+        this.$articulo_mensaje.addClass('hidden')
+    } 
+
+    this.$cant_est_contenedor.removeClass("has-error")  
+
+    if(this.$cant_est_mensaje.hasClass('hidden') != null) { 
+        this.$cant_est_mensaje.addClass('hidden')
+    } 
+}
+VentanaModal.prototype.validar = function () {
+
+    var bandera = true
+
+    if ( this.$articulo.val() == "") {
+        this.$articulo_contenedor.addClass("has-error")
+        this.$articulo_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
+    if ( this.$cantidad_estimada.val() == "") {
+        this.$cant_est_contenedor.addClass("has-error")
+        this.$cant_est_mensaje.removeClass("hidden")
+        bandera = false
+    }
+
+    return bandera
+}
+VentanaModal.prototype.fill_Articulos = function (_value) {
+
+    combo_articulos = this.$articulo
+
+    // Obtenemos articulos
+    $.ajax({
+        url: url_articulos,
+        data: {
+            "estado" :  _value
+        },
+        method: "GET",
+        success: function (response) {
+
+            combo_articulos.append($('<option>', { 
+                value: "",
+                text : "-----------"
+            }))            
+
+            $.each(response, function (i, item) {
+                 combo_articulos.append($('<option>', { 
+                    value: item.pk,
+                    text : "(clave) descripcion".replace("clave", item.clave).replace("descripcion", item.descripcion)
+                }))
+            })
+
+            combo_articulos.trigger('change')
+        },
+        error: function (response) {
+            
+            alertify.error("Ocurrio error al consultar")
+        }
+    })    
+}
 VentanaModal.prototype.load = function (e) {
 
     // Se eliminan eventos viejos
@@ -260,7 +330,6 @@ VentanaModal.prototype.load = function (e) {
 
     // Se limpiar el formulario
     e.data.clear_Fields()  
-
 
     // Asosciar Eventos segun corresponda
     var event_owner
@@ -324,76 +393,6 @@ VentanaModal.prototype.load = function (e) {
             )
         }        
     }
-}
-VentanaModal.prototype.clear_Fields = function () {
-
-    this.$articulo.empty()
-    this.$cantidad_estimada.val("")
-}
-VentanaModal.prototype.clear_Estilos = function () {
-    
-    this.$articulo_contenedor.removeClass("has-error")
-    
-    if(this.$articulo_mensaje.hasClass('hidden') != null) { 
-        this.$articulo_mensaje.addClass('hidden')
-    } 
-
-    this.$cant_est_contenedor.removeClass("has-error")  
-
-    if(this.$cant_est_mensaje.hasClass('hidden') != null) { 
-        this.$cant_est_mensaje.addClass('hidden')
-    } 
-}
-VentanaModal.prototype.fill_Articulos = function (_value) {
-
-    combo_articulos = this.$articulo
-
-    // Obtenemos articulos
-    $.ajax({
-        url: url_articulos,
-        data: {
-            "estado" :  _value
-        },
-        method: "GET",
-        success: function (response) {
-
-            combo_articulos.append($('<option>', { 
-                value: "",
-                text : "-----------"
-            }))            
-
-            $.each(response, function (i, item) {
-                 combo_articulos.append($('<option>', { 
-                    value: item.pk,
-                    text : "(clave) descripcion".replace("clave", item.clave).replace("descripcion", item.descripcion)
-                }))
-            })
-
-            combo_articulos.trigger('change')
-        },
-        error: function (response) {
-            
-            alertify.error("Ocurrio error al consultar")
-        }
-    })    
-}
-VentanaModal.prototype.validar = function () {
-
-    var bandera = true
-
-    if ( this.$articulo.val() == "") {
-        this.$articulo_contenedor.addClass("has-error")
-        this.$articulo_mensaje.removeClass("hidden")
-        bandera = false
-    }
-
-    if ( this.$cantidad_estimada.val() == "") {
-        this.$cant_est_contenedor.addClass("has-error")
-        this.$cant_est_mensaje.removeClass("hidden")
-        bandera = false
-    }
-
-    return bandera
 }
 VentanaModal.prototype.nuevo = function (e) {
 
