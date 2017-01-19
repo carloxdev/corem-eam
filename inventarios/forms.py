@@ -204,7 +204,6 @@ class MovimientoCabeceraForm(ModelForm):
             'almacen_destino',
             'persona_recibe',
             'persona_entrega',
-            'tipo',
         ]
         widgets = {
             'fecha': TextInput(attrs={'class': 'form-control',
@@ -214,7 +213,6 @@ class MovimientoCabeceraForm(ModelForm):
             'almacen_destino': Select(attrs={'class': 'form-control'}),
             'persona_recibe': TextInput(attrs={'class': 'form-control'}),
             'persona_entrega': TextInput(attrs={'class': 'form-control'}),
-            'tipo': Select(attrs={'class': 'form-control'}),
 
         }
 

@@ -54,13 +54,15 @@
 				<!-- /.box-header -->
 				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 					<div class="box-body">
-						
-						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %}>
+						{% if id_cabecera %}
+						<input type="hidden" id="id_cabecera" value="{{ id_cabecera }}" name="id_cabecera">
+						{% else %}
 						<input type="hidden" id="id_tipo" name="tipo" value="ENT">
+						{% endif %}
 						<div class="row">
 							<div class="form-group input-group-sm col-sx-12 col-sm-7 col-md-7 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 								<label for="{{ form.descripcion.id_for_label }}">
-								<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-circle-o {% endif %}"></i>
+								<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} "></i>
 								Descripción</label>
 								{{ form.descripcion }}
 								{% for error in form.descripcion.errors %}
@@ -69,7 +71,7 @@
 							</div>
 							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
 								<label for="{{ form.fecha.id_for_label}}">
-								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
+								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %}"></i>
 								Fecha</label>
 								<div class="form-group input-group">
 					            	<div class="input-group-addon">
@@ -87,7 +89,7 @@
 							
 							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.almacen_origen.field.required %} has-warning {% endif %} {% if form.almacen_origen.errors %} has-error {% endif %} select2--fix">
 								<label for="{{ form.almacen_origen.id_for_label }}">
-								<i class="fa {% if form.almacen_origen.field.required %} fa-asterisk {% endif %} {% if form.almacen_origen.errors %} fa-circle-o {% endif %}"></i>
+								<i class="fa {% if form.almacen_origen.field.required %} fa-asterisk {% endif %}"></i>
 								Almacén Origen</label>
 								{{ form.almacen_origen }}
 								{% for error in form.almacen_origen.errors %}
@@ -97,7 +99,7 @@
 							</div>
 							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.almacen_destino.field.required %} has-warning {% endif %} {% if form.almacen_destino.errors %} has-error {% endif %}">
 								<label for="{{ form.almacen_destino.id_for_label }} select2--fix">
-								<i class="fa {% if form.almacen_destino.field.required %} fa-asterisk {% endif %} {% if form.almacen_destino.errors %} fa-circle-o {% endif %}"></i>
+								<i class="fa {% if form.almacen_destino.field.required %} fa-asterisk {% endif %}"></i>
 								Almacén Destino</label>
 								{{ form.almacen_destino }}
 								{% for error in form.almacen_destino.errors %}
@@ -110,7 +112,7 @@
 							
 					        <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.persona_recibe.field.required %} has-warning {% endif %} {% if form.persona_recibe.errors %} has-error {% endif %}">
 								<label for="{{ form.persona_recibe.id_for_label }}">
-								<i class="fa {% if form.persona_recibe.field.required %} fa-asterisk {% endif %} {% if form.persona_recibe.errors %} fa-circle-o {% endif %}"></i>
+								<i class="fa {% if form.persona_recibe.field.required %} fa-asterisk {% endif %}"></i>
 								Persona Recibe</label>
 								{{ form.persona_recibe }}
 								{% for error in form.persona_recibe.errors %}
@@ -119,7 +121,7 @@
 							</div>
 							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.persona_entrega.field.required %} has-warning {% endif %} {% if form.persona_entrega.errors %} has-error {% endif %}">
 								<label for="{{ form.persona_entrega.id_for_label }}">
-								<i class="fa {% if form.persona_entrega.field.required %} fa-asterisk {% endif %} {% if form.persona_entrega.errors %} fa-circle-o {% endif %}"></i>
+								<i class="fa {% if form.persona_entrega.field.required %} fa-asterisk {% endif %}"></i>
 								Persona Entrega</label>
 								{{ form.persona_entrega }}
 								{% for error in form.persona_entrega.errors %}
@@ -136,7 +138,7 @@
 						</a>
 						<button type="submit" id="boton_guardar" class="btn btn-success pull-right">
 							<i class="fa fa-save"></i>
-							Guardar
+							{% if id_cabecera %} Actualizar {% else %} Guardar {% endif %}
 						</button>
 					</div>
 				</form>
@@ -163,7 +165,8 @@
 				<div class="box-footer">
 					<input type="hidden" value="{{ id_cabecera }}" id="id_cabecera_stock" name="cabecera_stock">
 					<div class="box-tools pull-left">
-						<button type="submit" id="boton_finalizar" class="btn bg-olive btn-sm">
+						
+						<button title="Al dar clic se afectará el stock y se cerrará el movimiento" type="submit" id="boton_finalizar" class="btn bg-olive btn-sm">
 						<i class="fa fa-save"></i>
 						Finalizar
 						</button>
@@ -204,7 +207,7 @@
 							<label for="cantidad">
 							<i class="fa fa-asterisk"></i>
 							Cantidad</label>
-							<input type="text" class="form-control" name="cantidad" id="id_cantidad">
+							<input type="number" class="form-control" name="cantidad" id="id_cantidad">
 							<span class="help-block hidden" id="cantidad_mensaje">Este campo es requerido.</span>
 						</div>
 					</div>

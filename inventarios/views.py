@@ -530,6 +530,32 @@ class EntradaCabeceraCreateView(View):
                 }
 
                 return render(request, self.template_name, contexto)
+
+        elif 'id_cabecera' in request.POST:
+            id_cabecera = request.POST['id_cabecera']
+            cabecera = get_object_or_404(MovimientoCabecera, pk=id_cabecera)
+            formulario = MovimientoCabeceraForm(request.POST)
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                cabecera.descripcion = datos_formulario.get('descripcion')
+                cabecera.fecha = datos_formulario.get('fecha')
+                cabecera.almacen_origen = datos_formulario.get(
+                    'almacen_origen')
+                cabecera.almacen_destino = datos_formulario.get(
+                    'almacen_destino')
+                cabecera.persona_recibe = datos_formulario.get(
+                    'persona_recibe')
+                cabecera.persona_entrega = datos_formulario.get(
+                    'persona_entrega')
+                cabecera.save()
+                id_cabecera = id_cabecera
+            contexto = {
+                'form': formulario,
+                'operation': 'Nuevo',
+                'id_cabecera': id_cabecera,
+            }
+            return render(request, self.template_name, contexto)
+
         elif 'cabecera_stock' in request.POST:
             id_cabecera = request.POST['cabecera_stock']
             cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
@@ -570,6 +596,7 @@ class EntradaCabeceraCreateView(View):
                     cantidad_llegada = detalle.cantidad
                     cantidad_final = cantidad_inicial + cantidad_llegada
                     fila_stock_destino.cantidad = cantidad_final
+                    fila_stock_destino.save()
 
                 # si no encuentra el destino crea el nuevo registro
                 else:
@@ -593,6 +620,9 @@ class EntradaCabeceraUpdateView(View):
     def get(self, request, pk):
         id_cabecera = pk
         cabecera = MovimientoCabecera.objects.get(id=pk)
+        # if cabecera.estado == "CER":
+        #     return redirect(reverse('inventarios:entradas_lista'))
+
         form = MovimientoCabeceraForm(instance=cabecera)
 
         contexto = {
@@ -604,38 +634,31 @@ class EntradaCabeceraUpdateView(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request, pk):
-        formulario = MovimientoCabeceraForm(request.POST)
         cabecera = get_object_or_404(MovimientoCabecera, pk=pk)
+        formulario = MovimientoCabeceraForm(request.POST)
+        print formulario
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            cabecera.descripcion = datos_formulario.get('descripcion')
+            cabecera.fecha = datos_formulario.get('fecha')
+            cabecera.almacen_origen = datos_formulario.get(
+                'almacen_origen')
+            cabecera.almacen_destino = datos_formulario.get(
+                'almacen_destino')
+            cabecera.persona_recibe = datos_formulario.get(
+                'persona_recibe')
+            cabecera.persona_entrega = datos_formulario.get(
+                'persona_entrega')
+            cabecera.save()
+        contexto = {
+            'form': formulario,
+            'operation': 'Editar',
+            'id_cabecera': cabecera.pk,
+        }
 
-        if 'tipo' in request.POST:
-            tipo = request.POST['tipo']
-            if formulario.is_valid():
-                datos_formulario = formulario.cleaned_data
-                cabecera.fecha = datos_formulario.get('fecha')
-                cabecera.descripcion = datos_formulario.get('descripcion')
-                cabecera.almacen_origen = datos_formulario.get(
-                    'almacen_origen')
-                cabecera.almacen_destino = datos_formulario.get(
-                    'almacen_destino')
-                cabecera.persona_recibe = datos_formulario.get(
-                    'persona_recibe')
-                cabecera.persona_entrega = datos_formulario.get(
-                    'persona_entrega')
-                cabecera.tipo = tipo
-                cabecera.save()
+        return render(request, self.template_name, contexto)
 
-                id_cabecera = pk
-                form_detalle = MovimientoDetalleForm()
-                contexto = {
-                    'form': formulario,
-                    'operation': 'Nuevo',
-                    'id_cabecera': id_cabecera,
-                    'form_detalle': form_detalle,
-                }
-
-                return render(request, self.template_name, contexto)
-
-        elif 'cabecera_stock' in request.POST:
+        if 'cabecera_stock' in request.POST:
             id_cabecera = request.POST['cabecera_stock']
             cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
             # detalles
@@ -666,7 +689,6 @@ class EntradaCabeceraUpdateView(View):
                         fila_stock_origen = Stock.objects.create(
                             almacen=almacen_origen, articulo=detalle.articulo,
                             cantidad=0)
-                        fila_stock_origen.save()
 
                 # suma la cantidad de detalle al stock del origen
                 if fila_stock_destino:
@@ -745,7 +767,7 @@ class SalidaCabeceraCreateView(View):
     def post(self, request):
         formulario = MovimientoCabeceraForm(request.POST)
         if 'tipo' in request.POST:
-
+            tipo = request.POST['tipo']
             if formulario.is_valid():
                 datos_formulario = formulario.cleaned_data
                 cabecera = MovimientoCabecera()
@@ -759,6 +781,7 @@ class SalidaCabeceraCreateView(View):
                     'persona_recibe')
                 cabecera.persona_entrega = datos_formulario.get(
                     'persona_entrega')
+                cabecera.tipo = tipo
                 cabecera.save()
 
                 id_cabecera = cabecera.id
@@ -823,7 +846,7 @@ class SalidaCabeceraCreateView(View):
             # cambia el estado del movimiento a cerrado
             cabecera.estado = "CER"
             cabecera.save()
-            return redirect(reverse('inventarios:entradas_lista'))
+            return redirect(reverse('inventarios:salidas_lista'))
         contexto = {
             'form': formulario,
         }

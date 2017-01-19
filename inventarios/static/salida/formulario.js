@@ -60,7 +60,7 @@ TargetaFormulario.prototype.init = function () {
         }
     )
 
-    if(this.$operacion.text() == "Nuevo" && this.$cabecera.val() != 0){
+   /* if(this.$operacion.text() == "Nuevo" && this.$cabecera.val() != 0){
         this.$descripcion.attr("disabled", true)
         this.$fecha.attr("disabled", true)
         this.$almacen_origen.attr("disabled", true)
@@ -69,7 +69,7 @@ TargetaFormulario.prototype.init = function () {
         this.$persona_entrega.attr("disabled", true)
         this.$estado.attr("disabled", true)
         this.$boton_guardar.attr("disabled", true)
-    }
+    }*/
     
 }
 TargetaFormulario.prototype.get_Filtros = function (_page, _pageSize) {
@@ -204,11 +204,36 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 GridPrincipal.prototype.buscar =  function() {
     this.kfuente_datos.page(1)
 }
-GridPrincipal.prototype.click_BotonEditar = function (e) {
 
+GridPrincipal.prototype.click_BotonEliminar = function (e) {
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    window.location.href = url_editar + fila.pk + "/"
+    
+    alertify.confirm(
+        'Eliminar Registro',
+        '¿Desea eliminar esta fila?', 
+
+        function () {
+
+            var url = url_grid + fila.pk + "/"
+
+            $.ajax({
+                url: url,
+                method: "DELETE",
+                success: function () {
+                    alertify.success("Se eliminó registro correctamente")
+
+                    targeta_resultados.grid.kfuente_datos.remove(fila)
+                    
+                },
+                error: function () {
+                    
+                    alertify.error("Ocurrió un error al eliminar")
+                }
+            })
+        }, 
+        null
+    )
 }
 
 
