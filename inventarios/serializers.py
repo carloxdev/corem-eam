@@ -159,7 +159,6 @@ class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'pk',
             'url',
-            'clave',
             'fecha',
             'descripcion',
             'almacen_origen',

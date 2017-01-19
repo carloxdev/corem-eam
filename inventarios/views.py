@@ -494,19 +494,19 @@ class EntradaCabeceraCreateView(View):
         form_detalle = MovimientoDetalleForm()
         contexto = {
             'form': formulario,
+            'operation': 'Nuevo',
             'form_detalle': form_detalle,
         }
 
         return render(request, self.template_name, contexto)
 
     def post(self, request):
+        formulario = MovimientoCabeceraForm(request.POST)
         if 'tipo' in request.POST:
-            formulario = MovimientoCabeceraForm(request.POST)
             tipo = request.POST['tipo']
             if formulario.is_valid():
                 datos_formulario = formulario.cleaned_data
                 cabecera = MovimientoCabecera()
-                cabecera.clave = datos_formulario.get('clave')
                 cabecera.fecha = datos_formulario.get('fecha')
                 cabecera.descripcion = datos_formulario.get('descripcion')
                 cabecera.almacen_origen = datos_formulario.get(
@@ -517,7 +517,6 @@ class EntradaCabeceraCreateView(View):
                     'persona_recibe')
                 cabecera.persona_entrega = datos_formulario.get(
                     'persona_entrega')
-                cabecera.estado = datos_formulario.get('estado')
                 cabecera.tipo = tipo
                 cabecera.save()
 
@@ -525,6 +524,7 @@ class EntradaCabeceraCreateView(View):
                 form_detalle = MovimientoDetalleForm()
                 contexto = {
                     'form': formulario,
+                    'operation': 'Nuevo',
                     'id_cabecera': id_cabecera,
                     'form_detalle': form_detalle,
                 }
@@ -544,8 +544,8 @@ class EntradaCabeceraCreateView(View):
                     almacen=almacen_origen).filter(articulo=detalle.articulo)
                 fila_stock_destino = Stock.objects.filter(
                     almacen=almacen_destino).filter(articulo=detalle.articulo)
-                print fila_stock_origen[0]
-                print fila_stock_destino[0]
+                print fila_stock_origen
+                print fila_stock_destino
                 fila_stock_origen = fila_stock_origen[0]
                 fila_stock_destino = fila_stock_destino[0]
 
@@ -581,16 +581,31 @@ class EntradaCabeceraCreateView(View):
             # cambia el estado del movimiento a cerrado
             cabecera.estado = "CER"
             cabecera.save()
-
-            if request.get_full_path == "/entradas/nuevo/":
-                return redirect(
-                    reverse('inventarios:entradas_lista'))
-            elif request.get_full_path == "/salidas/nuevo/":
-                return redirect(
-                    reverse('inventarios:salidas_lista'))
+            return redirect(reverse('inventarios:entradas_lista'))
         contexto = {
             'form': formulario,
         }
+        return render(request, self.template_name, contexto)
+
+
+class EntradaCabeceraUpdateView(View):
+    def __init__(self):
+        self.template_name = 'entrada/formulario.html'
+
+    def get(self, request, pk):
+        id_cabecera = pk
+        cabecera = MovimientoCabecera.objects.get(id=pk)
+        form = MovimientoCabeceraForm(instance=cabecera)
+
+        contexto = {
+            'form': form,
+            'id_cabecera': id_cabecera,
+            'operation': 'Editar',
+        }
+
+    # def post(self, request, pk):
+    #     pass
+
         return render(request, self.template_name, contexto)
 
 
@@ -644,34 +659,110 @@ class SalidaCabeceraCreateView(View):
         return render(request, self.template_name, contexto)
 
     def post(self, request):
-
         formulario = MovimientoCabeceraForm(request.POST)
-        tipo = request.POST['tipo']
-        if formulario.is_valid():
-            datos_formulario = formulario.cleaned_data
-            cabecera = MovimientoCabecera()
-            cabecera.clave = datos_formulario.get('clave')
-            cabecera.fecha = datos_formulario.get('fecha')
-            cabecera.descripcion = datos_formulario.get('descripcion')
-            cabecera.almacen_origen = datos_formulario.get('almacen_origen')
-            cabecera.almacen_destino = datos_formulario.get('almacen_destino')
-            cabecera.persona_recibe = datos_formulario.get('persona_recibe')
-            cabecera.persona_entrega = datos_formulario.get('persona_entrega')
-            cabecera.estado = datos_formulario.get('estado')
-            cabecera.tipo = tipo
+        if 'tipo' in request.POST:
+            tipo = request.POST['tipo']
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                cabecera = MovimientoCabecera()
+                cabecera.fecha = datos_formulario.get('fecha')
+                cabecera.descripcion = datos_formulario.get('descripcion')
+                cabecera.almacen_origen = datos_formulario.get(
+                    'almacen_origen')
+                cabecera.almacen_destino = datos_formulario.get(
+                    'almacen_destino')
+                cabecera.persona_recibe = datos_formulario.get(
+                    'persona_recibe')
+                cabecera.persona_entrega = datos_formulario.get(
+                    'persona_entrega')
+                cabecera.tipo = tipo
+                cabecera.save()
+
+                id_cabecera = cabecera.id
+                form_detalle = MovimientoDetalleForm()
+                contexto = {
+                    'form': formulario,
+                    'id_cabecera': id_cabecera,
+                    'form_detalle': form_detalle,
+                }
+
+                return render(request, self.template_name, contexto)
+
+        elif 'cabecera_stock' in request.POST:
+            id_cabecera = request.POST['cabecera_stock']
+            cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
+            # detalles
+            detalles = MovimientoDetalle.objects.filter(cabecera=cabecera)
+            # almacenes
+            almacen_origen = cabecera.almacen_origen
+            almacen_destino = cabecera.almacen_destino
+            # buscar fila en stock por articulo del detalle
+            for detalle in detalles:
+                fila_stock_origen = Stock.objects.filter(
+                    almacen=almacen_origen).filter(articulo=detalle.articulo)
+                fila_stock_destino = Stock.objects.filter(
+                    almacen=almacen_destino).filter(articulo=detalle.articulo)
+                print fila_stock_origen[0]
+                print fila_stock_destino[0]
+                fila_stock_origen = fila_stock_origen[0]
+                fila_stock_destino = fila_stock_destino[0]
+
+                # resta la cantidad de detalle al stock del origen
+                if fila_stock_origen is not None:
+                    cantidad_inicial = fila_stock_origen.cantidad
+                    cantidad_salida = detalle.cantidad
+                    cantidad_final = cantidad_inicial - cantidad_salida
+                    fila_stock_origen.cantidad = cantidad_final
+                    fila_stock_origen.save()
+
+                # si no encuentra el origen crea el nuevo registro
+                else:
+                    fila_stock_origen = Stock.objects.create(
+                        almacen=almacen_origen, articulo=detalle.articulo,
+                        cantidad=0)
+                    fila_stock_origen.save()
+
+                # suma la cantidad de detalle al stock del origen
+                if fila_stock_destino is not None:
+                    cantidad_inicial = fila_stock_destino.cantidad
+                    cantidad_llegada = detalle.cantidad
+                    cantidad_final = cantidad_inicial + cantidad_llegada
+                    fila_stock_destino.cantidad = cantidad_final
+                    fila_stock_destino.save()
+
+                # si no encuentra el destino crea el nuevo registro
+                else:
+                    fila_stock_destino = Stock.objects.create(
+                        almacen=almacen_destino, articulo=detalle.articulo,
+                        cantidad=detalle.cantidad)
+                    fila_stock_destino.save()
+            # cambia el estado del movimiento a cerrado
+            cabecera.estado = "CER"
             cabecera.save()
-
-            id_cabecera = cabecera.id
-            form_detalle = MovimientoDetalleForm()
-            contexto = {
-                'form': formulario,
-                'id_cabecera': id_cabecera,
-                'form_detalle': form_detalle,
-            }
-
-            return render(request, self.template_name, contexto)
-
+            return redirect(reverse('inventarios:entradas_lista'))
         contexto = {
             'form': formulario,
         }
         return render(request, self.template_name, contexto)
+
+
+class SalidaCabeceraUpdateView(View):
+    def __init__(self):
+        self.template_name = 'salida/formulario.html'
+
+    def get(self, request, pk):
+        id_cabecera = pk
+        cabecera = MovimientoCabecera.objects.get(id=pk)
+        form = MovimientoCabeceraForm(instance=cabecera)
+
+        contexto = {
+            'form': form,
+            'id_cabecera': id_cabecera,
+            'operation': 'Editar',
+        }
+
+    # def post(self, request, pk):
+    #     pass
+
+        return render(request, self.template_name, contexto)
+        

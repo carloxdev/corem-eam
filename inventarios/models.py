@@ -169,10 +169,10 @@ class Stock(models.Model):
 
 
 class MovimientoCabecera(models.Model):
-    clave = models.CharField(max_length=30)
     fecha = models.DateTimeField()
     descripcion = models.CharField(max_length=144)
-    almacen_origen = models.ForeignKey(Almacen, related_name="origen")
+    almacen_origen = models.ForeignKey(
+        Almacen, related_name="origen", null=True, blank=True)
     almacen_destino = models.ForeignKey(Almacen, related_name="destino")
     persona_recibe = models.CharField(max_length=144, blank=True)
     persona_entrega = models.CharField(max_length=144, blank=True)
@@ -180,6 +180,7 @@ class MovimientoCabecera(models.Model):
         max_length=4,
         choices=MOVIMIENTO_ESTADO,
         default="CAP",
+        blank=True
     )
     tipo = models.CharField(
         max_length=4,
@@ -187,10 +188,7 @@ class MovimientoCabecera(models.Model):
     )
 
     def __str__(self):
-        return "{0} - {1}".format(
-            self.clave.encode('utf-8'),
-            self.descripcion.encode('utf-8')
-        )
+        return self.descripcion.encode('utf-8')
 
 
 class MovimientoDetalle(models.Model):

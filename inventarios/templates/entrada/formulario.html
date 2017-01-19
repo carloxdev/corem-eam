@@ -30,7 +30,7 @@
 <section class="content-header">
 	<h1>
 	<span id="titulo">Entradas</span>
-	<small>Nuevo</small>
+	<small>{{ operation }}</small>
 	</h1>
 	<ol class="breadcrumb">
 		<li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
@@ -58,15 +58,6 @@
 						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %}>
 						<input type="hidden" id="id_tipo" name="tipo" value="ENT">
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5 {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
-								<label for="{{ form.clave.id_for_label }}">
-								<i class="fa {% if form.clave.field.required %} fa-asterisk {% endif %} {% if form.clave.errors %} fa-circle-o {% endif %}"></i>
-								Clave</label>
-								{{ form.clave }}
-								{% for error in form.clave.errors %}
-								<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
 							<div class="form-group input-group-sm col-sx-12 col-sm-7 col-md-7 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 								<label for="{{ form.descripcion.id_for_label }}">
 								<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-circle-o {% endif %}"></i>
@@ -76,9 +67,7 @@
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-						</div>
-						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
+							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
 								<label for="{{ form.fecha.id_for_label}}">
 								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
 								Fecha</label>
@@ -92,32 +81,34 @@
 								    <span class="help-block">{{ error }}</span>
 									{% endfor %}						
 					        </div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.almacen_origen.field.required %} has-warning {% endif %} {% if form.almacen_origen.errors %} has-error {% endif %}">
+							
+						</div>
+						<div class="row">
+							
+							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.almacen_origen.field.required %} has-warning {% endif %} {% if form.almacen_origen.errors %} has-error {% endif %} select2--fix">
 								<label for="{{ form.almacen_origen.id_for_label }}">
 								<i class="fa {% if form.almacen_origen.field.required %} fa-asterisk {% endif %} {% if form.almacen_origen.errors %} fa-circle-o {% endif %}"></i>
-								Origen</label>
+								Almacén Origen</label>
 								{{ form.almacen_origen }}
 								{% for error in form.almacen_origen.errors %}
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 								
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.almacen_destino.field.required %} has-warning {% endif %} {% if form.almacen_destino.errors %} has-error {% endif %}">
-								<label for="{{ form.almacen_destino.id_for_label }}">
+							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.almacen_destino.field.required %} has-warning {% endif %} {% if form.almacen_destino.errors %} has-error {% endif %}">
+								<label for="{{ form.almacen_destino.id_for_label }} select2--fix">
 								<i class="fa {% if form.almacen_destino.field.required %} fa-asterisk {% endif %} {% if form.almacen_destino.errors %} fa-circle-o {% endif %}"></i>
-								Destino</label>
+								Almacén Destino</label>
 								{{ form.almacen_destino }}
 								{% for error in form.almacen_destino.errors %}
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 								
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3"></div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-3 col-md-3"></div>
 						</div>
 						<div class="row">
 							
-					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.persona_recibe.field.required %} has-warning {% endif %} {% if form.persona_recibe.errors %} has-error {% endif %}">
+					        <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.persona_recibe.field.required %} has-warning {% endif %} {% if form.persona_recibe.errors %} has-error {% endif %}">
 								<label for="{{ form.persona_recibe.id_for_label }}">
 								<i class="fa {% if form.persona_recibe.field.required %} fa-asterisk {% endif %} {% if form.persona_recibe.errors %} fa-circle-o {% endif %}"></i>
 								Persona Recibe</label>
@@ -126,21 +117,12 @@
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.persona_entrega.field.required %} has-warning {% endif %} {% if form.persona_entrega.errors %} has-error {% endif %}">
+							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.persona_entrega.field.required %} has-warning {% endif %} {% if form.persona_entrega.errors %} has-error {% endif %}">
 								<label for="{{ form.persona_entrega.id_for_label }}">
 								<i class="fa {% if form.persona_entrega.field.required %} fa-asterisk {% endif %} {% if form.persona_entrega.errors %} fa-circle-o {% endif %}"></i>
 								Persona Entrega</label>
 								{{ form.persona_entrega }}
 								{% for error in form.persona_entrega.errors %}
-								<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.estado.field.required %} has-warning {% endif %} {% if form.estado.errors %} has-error {% endif %}">
-								<label for="{{ form.estado.id_for_label }}">
-								<i class="fa {% if form.estado.field.required %} fa-asterisk {% endif %} {% if form.estado.errors %} fa-circle-o {% endif %}"></i>
-								Estado</label>
-								{{ form.estado }}
-								{% for error in form.estado.errors %}
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
@@ -207,12 +189,12 @@
 	            <div class="modal-body">
 	            	<input type="hidden" id="cabecera" value="{{ id_cabecera }}" name="cabecera">
 					<div class="row">
-						<div id="articulo_contenedor" class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12 has-warning">
+						<div id="articulo_contenedor" class="form-group input-group-sm select2--fix col-sx-12 col-sm-12 col-md-12 has-warning">
 							<label for="articulo">
 							<i class="fa fa-asterisk"></i>
 							Articulo</label>
 							
-							{{ form_detalle.articulo}}
+							<select name="articulo" id="id_articulo" class="form-control"></select>
 							
 							<span class="help-block hidden" id="articulo_mensaje">Este campo es requerido.</span>			
 					    </div>
