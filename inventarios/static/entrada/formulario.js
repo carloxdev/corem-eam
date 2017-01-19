@@ -37,6 +37,7 @@ $(document).ready(function () {
 function TargetaFormulario() {
 
     this.$id = $('#id_panel')
+    this.$operacion = $('#operacion')
     this.$cabecera = $('#id_cabecera')
     this.$descripcion = $('#id_descripcion')
     this.$fecha = $('#id_fecha')
@@ -61,7 +62,7 @@ TargetaFormulario.prototype.init = function () {
         }
     )
 
-    if(this.$cabecera.val() != 0){
+    if(this.$operacion.text() == "Nuevo" && this.$cabecera.val() != 0){
 
         this.$descripcion.attr("disabled", true)
         this.$fecha.attr("disabled", true)

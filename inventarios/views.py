@@ -7,7 +7,7 @@
 
 # Django Atajos:
 from django.shortcuts import render
-# from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
 # Django Urls:
@@ -603,9 +603,95 @@ class EntradaCabeceraUpdateView(View):
             'operation': 'Editar',
         }
 
-    # def post(self, request, pk):
-    #     pass
+        return render(request, self.template_name, contexto)
 
+    def post(self, request, pk):
+        formulario = MovimientoCabeceraForm(request.POST)
+        cabecera = get_object_or_404(MovimientoCabecera, pk=pk)
+
+        if 'tipo' in request.POST:
+            tipo = request.POST['tipo']
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                cabecera.fecha = datos_formulario.get('fecha')
+                cabecera.descripcion = datos_formulario.get('descripcion')
+                cabecera.almacen_origen = datos_formulario.get(
+                    'almacen_origen')
+                cabecera.almacen_destino = datos_formulario.get(
+                    'almacen_destino')
+                cabecera.persona_recibe = datos_formulario.get(
+                    'persona_recibe')
+                cabecera.persona_entrega = datos_formulario.get(
+                    'persona_entrega')
+                cabecera.tipo = tipo
+                cabecera.save()
+
+                id_cabecera = pk
+                form_detalle = MovimientoDetalleForm()
+                contexto = {
+                    'form': formulario,
+                    'operation': 'Nuevo',
+                    'id_cabecera': id_cabecera,
+                    'form_detalle': form_detalle,
+                }
+
+                return render(request, self.template_name, contexto)
+
+        elif 'cabecera_stock' in request.POST:
+            id_cabecera = request.POST['cabecera_stock']
+            cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
+            # detalles
+            detalles = MovimientoDetalle.objects.filter(cabecera=cabecera)
+            # almacenes
+            almacen_origen = cabecera.almacen_origen
+            almacen_destino = cabecera.almacen_destino
+            # buscar fila en stock por articulo del detalle
+            for detalle in detalles:
+                fila_stock_origen = Stock.objects.filter(
+                    almacen=almacen_origen).filter(articulo=detalle.articulo)
+                fila_stock_destino = Stock.objects.filter(
+                    almacen=almacen_destino).filter(articulo=detalle.articulo)
+                print fila_stock_origen
+                print fila_stock_destino
+                fila_stock_origen = fila_stock_origen[0]
+                fila_stock_destino = fila_stock_destino[0]
+
+                # resta la cantidad de detalle al stock del origen
+                if fila_stock_origen is not None:
+                    cantidad_inicial = fila_stock_origen.cantidad
+                    cantidad_salida = detalle.cantidad
+                    cantidad_final = cantidad_inicial - cantidad_salida
+                    fila_stock_origen.cantidad = cantidad_final
+                    fila_stock_origen.save()
+
+                # si no encuentra el origen crea el nuevo registro
+                else:
+                    fila_stock_origen = Stock.objects.create(
+                        almacen=almacen_origen, articulo=detalle.articulo,
+                        cantidad=0)
+                    fila_stock_origen.save()
+
+                # suma la cantidad de detalle al stock del origen
+                if fila_stock_destino is not None:
+                    cantidad_inicial = fila_stock_destino.cantidad
+                    cantidad_llegada = detalle.cantidad
+                    cantidad_final = cantidad_inicial + cantidad_llegada
+                    fila_stock_destino.cantidad = cantidad_final
+                    fila_stock_destino.save()
+
+                # si no encuentra el destino crea el nuevo registro
+                else:
+                    fila_stock_destino = Stock.objects.create(
+                        almacen=almacen_destino, articulo=detalle.articulo,
+                        cantidad=detalle.cantidad)
+                    fila_stock_destino.save()
+            # cambia el estado del movimiento a cerrado
+            cabecera.estado = "CER"
+            cabecera.save()
+            return redirect(reverse('inventarios:entradas_lista'))
+        contexto = {
+            'form': formulario,
+        }
         return render(request, self.template_name, contexto)
 
 
@@ -661,7 +747,7 @@ class SalidaCabeceraCreateView(View):
     def post(self, request):
         formulario = MovimientoCabeceraForm(request.POST)
         if 'tipo' in request.POST:
-            tipo = request.POST['tipo']
+            
             if formulario.is_valid():
                 datos_formulario = formulario.cleaned_data
                 cabecera = MovimientoCabecera()
@@ -675,7 +761,6 @@ class SalidaCabeceraCreateView(View):
                     'persona_recibe')
                 cabecera.persona_entrega = datos_formulario.get(
                     'persona_entrega')
-                cabecera.tipo = tipo
                 cabecera.save()
 
                 id_cabecera = cabecera.id
@@ -761,8 +846,91 @@ class SalidaCabeceraUpdateView(View):
             'operation': 'Editar',
         }
 
-    # def post(self, request, pk):
-    #     pass
-
         return render(request, self.template_name, contexto)
-        
+
+    def post(self, request, pk):
+        formulario = MovimientoCabeceraForm(request.POST)
+        cabecera = get_object_or_404(MovimientoCabecera, pk=pk)
+
+        if 'tipo' in request.POST:
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                cabecera.fecha = datos_formulario.get('fecha')
+                cabecera.descripcion = datos_formulario.get('descripcion')
+                cabecera.almacen_origen = datos_formulario.get(
+                    'almacen_origen')
+                cabecera.almacen_destino = datos_formulario.get(
+                    'almacen_destino')
+                cabecera.persona_recibe = datos_formulario.get(
+                    'persona_recibe')
+                cabecera.persona_entrega = datos_formulario.get(
+                    'persona_entrega')
+                cabecera.save()
+
+                id_cabecera = pk
+                form_detalle = MovimientoDetalleForm()
+                contexto = {
+                    'form': formulario,
+                    'operation': 'Nuevo',
+                    'id_cabecera': id_cabecera,
+                    'form_detalle': form_detalle,
+                }
+
+                return render(request, self.template_name, contexto)
+
+        elif 'cabecera_stock' in request.POST:
+            id_cabecera = request.POST['cabecera_stock']
+            cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
+            # detalles
+            detalles = MovimientoDetalle.objects.filter(cabecera=cabecera)
+            # almacenes
+            almacen_origen = cabecera.almacen_origen
+            almacen_destino = cabecera.almacen_destino
+            # buscar fila en stock por articulo del detalle
+            for detalle in detalles:
+                fila_stock_origen = Stock.objects.filter(
+                    almacen=almacen_origen).filter(articulo=detalle.articulo)
+                fila_stock_destino = Stock.objects.filter(
+                    almacen=almacen_destino).filter(articulo=detalle.articulo)
+                print fila_stock_origen
+                print fila_stock_destino
+                fila_stock_origen = fila_stock_origen[0]
+                fila_stock_destino = fila_stock_destino[0]
+
+                # resta la cantidad de detalle al stock del origen
+                if fila_stock_origen is not None:
+                    cantidad_inicial = fila_stock_origen.cantidad
+                    cantidad_salida = detalle.cantidad
+                    cantidad_final = cantidad_inicial - cantidad_salida
+                    fila_stock_origen.cantidad = cantidad_final
+                    fila_stock_origen.save()
+
+                # si no encuentra el origen crea el nuevo registro
+                else:
+                    fila_stock_origen = Stock.objects.create(
+                        almacen=almacen_origen, articulo=detalle.articulo,
+                        cantidad=0)
+                    fila_stock_origen.save()
+
+                # suma la cantidad de detalle al stock del origen
+                if fila_stock_destino is not None:
+                    cantidad_inicial = fila_stock_destino.cantidad
+                    cantidad_llegada = detalle.cantidad
+                    cantidad_final = cantidad_inicial + cantidad_llegada
+                    fila_stock_destino.cantidad = cantidad_final
+                    fila_stock_destino.save()
+
+                # si no encuentra el destino crea el nuevo registro
+                else:
+                    fila_stock_destino = Stock.objects.create(
+                        almacen=almacen_destino, articulo=detalle.articulo,
+                        cantidad=detalle.cantidad)
+                    fila_stock_destino.save()
+            # cambia el estado del movimiento a cerrado
+            cabecera.estado = "CER"
+            cabecera.save()
+            return redirect(reverse('inventarios:salidas_lista'))
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)

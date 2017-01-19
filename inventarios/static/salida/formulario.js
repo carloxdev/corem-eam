@@ -5,6 +5,8 @@
 // URLS
 var url_grid = window.location.origin + "/api/movimientosdetalle/"
 var url_editar = window.location.origin + "/entradas/editar/"
+var url_articulos = window.location.origin + "/api/articulos2/"
+
 
 // OBJS
 var targeta_filtros = null
@@ -34,6 +36,7 @@ $(document).ready(function () {
 function TargetaFormulario() {
 
     this.$id = $('#id_panel')
+    this.$operacion = $('#operacion')
     this.$cabecera = $('#id_cabecera')
     this.$descripcion = $('#id_descripcion')
     this.$fecha = $('#id_fecha')
@@ -57,7 +60,7 @@ TargetaFormulario.prototype.init = function () {
         }
     )
 
-    if(this.$cabecera.val() != 0){
+    if(this.$operacion.text() == "Nuevo" && this.$cabecera.val() != 0){
         this.$descripcion.attr("disabled", true)
         this.$fecha.attr("disabled", true)
         this.$almacen_origen.attr("disabled", true)
@@ -253,9 +256,10 @@ function ModalDetalle() {
 }
 
 ModalDetalle.prototype.init = function () {
-    
+    this.$articulo.select2()
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
     this.$id.on('show.bs.modal', this, this.load)
+    this.load_articulos()
 
 }
 ModalDetalle.prototype.load = function (e) {
@@ -282,6 +286,36 @@ ModalDetalle.prototype.clear_Fields = function () {
 
     this.$articulo.val("").trigger('change')
     this.$cantidad.val("")
+}
+ModalDetalle.prototype.load_articulos = function () {
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+         $.ajax(
+            {
+                url: url_articulos,
+                headers: { "X-CSRFToken": csrftoken },
+                data: function (params) {
+                      return {
+                        id: params.id,
+                        clave: params.clave,
+                        descripcion: params.descripcion
+
+                      }
+                    },
+                dataType:"json",
+                type:"GET"
+            }
+        ).done(function(data)
+            {
+                $.each(data, function(index, item) 
+                    {
+                        $('#id_articulo').append($('<option>').attr('value',item.pk).text(item.clave+"–"+item.descripcion))
+                    }
+                )
+                        
+            }
+        )
+    
+
 }
 ModalDetalle.prototype.validar = function () {
     var bandera = true
