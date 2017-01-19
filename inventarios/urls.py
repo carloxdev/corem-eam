@@ -24,8 +24,10 @@ from .views import ArticuloAnexoArchivoView
 
 from .views import EntradaListView
 from .views import EntradaCabeceraCreateView
+from .views import EntradaCabeceraUpdateView
 from .views import SalidaListView
 from .views import SalidaCabeceraCreateView
+from .views import SalidaCabeceraUpdateView
 
 app_name = "inventarios"
 
@@ -117,7 +119,7 @@ urlpatterns = [
     ),
 
 
-    # ----------------- MOVIMIENTOS ----------------- #
+    # ----------------- ENTRADAS ----------------- #
 
     url(
         r'entradas/$',
@@ -130,6 +132,12 @@ urlpatterns = [
         name='entradas_nuevo'
     ),
     url(
+        r'entradas/editar/(?P<pk>\d+)/$',
+        EntradaCabeceraUpdateView.as_view(),
+        name='entradas_editar'
+    ),
+    # ----------------- SALIDAS ----------------- #
+    url(
         r'salidas/$',
         SalidaListView.as_view(),
         name='salidas_lista'
@@ -138,5 +146,10 @@ urlpatterns = [
         r'salidas/nuevo/$',
         SalidaCabeceraCreateView.as_view(),
         name='salidas_nuevo'
+    ),
+    url(
+        r'salidas/editar/(?P<pk>\d+)/$',
+        SalidaCabeceraUpdateView.as_view(),
+        name='salidas_editar'
     ),
 ]

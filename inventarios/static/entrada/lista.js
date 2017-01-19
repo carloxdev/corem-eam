@@ -190,23 +190,19 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "persona_entrega" , title: "Persona Entrega", width: "120px" },
         { field: "estado" , title: "Estado", width: "120px" },
 
-        /*{
+        {
            command: [
                 {
                    text: " Editar",
                    click: this.click_BotonEditar,
                    className: "boton_editar fa fa-pencil"
                 }, 
-                {
-                   text: " Eliminar",
-                   click: this.click_BotonEliminar,
-                   className: "boton_eliminar fa fa-trash-o"
-                },   
+                
                              
             ],           
            title: " ",
            width: "170px"
-        },*/
+        },
     ]
 }
 GridPrincipal.prototype.set_Icons = function (e) {
@@ -214,12 +210,9 @@ GridPrincipal.prototype.set_Icons = function (e) {
     e.sender.tbody.find(".k-button.fa.fa-pencil").each(function(idx, element){
         $(element).removeClass("fa fa-pencil").find("span").addClass("fa fa-pencil")
     })
-
-    e.sender.tbody.find(".k-button.fa.fa-trash-o").each(function(idx, element){
-        $(element).removeClass("fa fa-trash-o").find("span").addClass("fa fa-trash-o")
-    })
     
 }
+
 GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 
     return {
@@ -255,12 +248,13 @@ GridPrincipal.prototype.get_FuenteDatosConfig = function (e) {
 GridPrincipal.prototype.buscar =  function() {
     this.kfuente_datos.page(1)
 }
-/*GridPrincipal.prototype.click_BotonEditar = function (e) {
+
+GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_editar + fila.pk + "/"
-}*/
+}
 
 
 /*-----------------------------------------------*\

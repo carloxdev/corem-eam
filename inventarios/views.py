@@ -494,6 +494,7 @@ class EntradaCabeceraCreateView(View):
         form_detalle = MovimientoDetalleForm()
         contexto = {
             'form': formulario,
+            'operation': 'Nuevo',
             'form_detalle': form_detalle,
         }
 
@@ -523,6 +524,7 @@ class EntradaCabeceraCreateView(View):
                 form_detalle = MovimientoDetalleForm()
                 contexto = {
                     'form': formulario,
+                    'operation': 'Nuevo',
                     'id_cabecera': id_cabecera,
                     'form_detalle': form_detalle,
                 }
@@ -542,8 +544,8 @@ class EntradaCabeceraCreateView(View):
                     almacen=almacen_origen).filter(articulo=detalle.articulo)
                 fila_stock_destino = Stock.objects.filter(
                     almacen=almacen_destino).filter(articulo=detalle.articulo)
-                print fila_stock_origen[0]
-                print fila_stock_destino[0]
+                print fila_stock_origen
+                print fila_stock_destino
                 fila_stock_origen = fila_stock_origen[0]
                 fila_stock_destino = fila_stock_destino[0]
 
@@ -579,8 +581,32 @@ class EntradaCabeceraCreateView(View):
             # cambia el estado del movimiento a cerrado
             cabecera.estado = "CER"
             cabecera.save()
-
             return redirect(reverse('inventarios:entradas_lista'))
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class EntradaCabeceraUpdateView(View):
+    def __init__(self):
+        self.template_name = 'entrada/formulario.html'
+
+    def get(self, request, pk):
+        id_cabecera = pk
+        cabecera = MovimientoCabecera.objects.get(id=pk)
+        form = MovimientoCabeceraForm(instance=cabecera)
+
+        contexto = {
+            'form': form,
+            'id_cabecera': id_cabecera,
+            'operation': 'Editar',
+        }
+
+    # def post(self, request, pk):
+    #     pass
+
+        return render(request, self.template_name, contexto)
 
 
 class MovimientoAPI(viewsets.ModelViewSet):
@@ -713,5 +739,30 @@ class SalidaCabeceraCreateView(View):
             # cambia el estado del movimiento a cerrado
             cabecera.estado = "CER"
             cabecera.save()
+            return redirect(reverse('inventarios:entradas_lista'))
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
 
-            return redirect(reverse('inventarios:salidas_lista'))
+
+class SalidaCabeceraUpdateView(View):
+    def __init__(self):
+        self.template_name = 'salida/formulario.html'
+
+    def get(self, request, pk):
+        id_cabecera = pk
+        cabecera = MovimientoCabecera.objects.get(id=pk)
+        form = MovimientoCabeceraForm(instance=cabecera)
+
+        contexto = {
+            'form': form,
+            'id_cabecera': id_cabecera,
+            'operation': 'Editar',
+        }
+
+    # def post(self, request, pk):
+    #     pass
+
+        return render(request, self.template_name, contexto)
+        
