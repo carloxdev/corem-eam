@@ -544,40 +544,38 @@ class EntradaCabeceraCreateView(View):
                     almacen=almacen_origen).filter(articulo=detalle.articulo)
                 fila_stock_destino = Stock.objects.filter(
                     almacen=almacen_destino).filter(articulo=detalle.articulo)
-                print fila_stock_origen
-                print fila_stock_destino
-                fila_stock_origen = fila_stock_origen[0]
-                fila_stock_destino = fila_stock_destino[0]
 
                 # resta la cantidad de detalle al stock del origen
-                if fila_stock_origen is not None:
+                if fila_stock_origen:
+                    print fila_stock_origen
+                    fila_stock_origen = fila_stock_origen[0]
                     cantidad_inicial = fila_stock_origen.cantidad
                     cantidad_salida = detalle.cantidad
                     cantidad_final = cantidad_inicial - cantidad_salida
                     fila_stock_origen.cantidad = cantidad_final
                     fila_stock_origen.save()
 
-                # si no encuentra el origen crea el nuevo registro
+                # si no encuentra el origen crea un registro con cero en stock
                 else:
-                    fila_stock_origen = Stock.objects.create(
-                        almacen=almacen_origen, articulo=detalle.articulo,
-                        cantidad=0)
-                    fila_stock_origen.save()
+                    if cabecera.almacen_origen:
+                        fila_stock_origen = Stock.objects.create(
+                            almacen=almacen_origen, articulo=detalle.articulo,
+                            cantidad=0)
 
                 # suma la cantidad de detalle al stock del origen
-                if fila_stock_destino is not None:
+                if fila_stock_destino:
+                    print fila_stock_destino
+                    fila_stock_destino = fila_stock_destino[0]
                     cantidad_inicial = fila_stock_destino.cantidad
                     cantidad_llegada = detalle.cantidad
                     cantidad_final = cantidad_inicial + cantidad_llegada
                     fila_stock_destino.cantidad = cantidad_final
-                    fila_stock_destino.save()
 
                 # si no encuentra el destino crea el nuevo registro
                 else:
                     fila_stock_destino = Stock.objects.create(
                         almacen=almacen_destino, articulo=detalle.articulo,
                         cantidad=detalle.cantidad)
-                    fila_stock_destino.save()
             # cambia el estado del movimiento a cerrado
             cabecera.estado = "CER"
             cabecera.save()
@@ -651,13 +649,11 @@ class EntradaCabeceraUpdateView(View):
                     almacen=almacen_origen).filter(articulo=detalle.articulo)
                 fila_stock_destino = Stock.objects.filter(
                     almacen=almacen_destino).filter(articulo=detalle.articulo)
-                print fila_stock_origen
-                print fila_stock_destino
-                fila_stock_origen = fila_stock_origen[0]
-                fila_stock_destino = fila_stock_destino[0]
 
                 # resta la cantidad de detalle al stock del origen
-                if fila_stock_origen is not None:
+                if fila_stock_origen:
+                    print fila_stock_origen
+                    fila_stock_origen = fila_stock_origen[0]
                     cantidad_inicial = fila_stock_origen.cantidad
                     cantidad_salida = detalle.cantidad
                     cantidad_final = cantidad_inicial - cantidad_salida
@@ -666,13 +662,16 @@ class EntradaCabeceraUpdateView(View):
 
                 # si no encuentra el origen crea el nuevo registro
                 else:
-                    fila_stock_origen = Stock.objects.create(
-                        almacen=almacen_origen, articulo=detalle.articulo,
-                        cantidad=0)
-                    fila_stock_origen.save()
+                    if cabecera.almacen_origen:
+                        fila_stock_origen = Stock.objects.create(
+                            almacen=almacen_origen, articulo=detalle.articulo,
+                            cantidad=0)
+                        fila_stock_origen.save()
 
                 # suma la cantidad de detalle al stock del origen
-                if fila_stock_destino is not None:
+                if fila_stock_destino:
+                    print fila_stock_destino
+                    fila_stock_destino = fila_stock_destino[0]
                     cantidad_inicial = fila_stock_destino.cantidad
                     cantidad_llegada = detalle.cantidad
                     cantidad_final = cantidad_inicial + cantidad_llegada
@@ -684,7 +683,6 @@ class EntradaCabeceraUpdateView(View):
                     fila_stock_destino = Stock.objects.create(
                         almacen=almacen_destino, articulo=detalle.articulo,
                         cantidad=detalle.cantidad)
-                    fila_stock_destino.save()
             # cambia el estado del movimiento a cerrado
             cabecera.estado = "CER"
             cabecera.save()
@@ -747,7 +745,7 @@ class SalidaCabeceraCreateView(View):
     def post(self, request):
         formulario = MovimientoCabeceraForm(request.POST)
         if 'tipo' in request.POST:
-            
+
             if formulario.is_valid():
                 datos_formulario = formulario.cleaned_data
                 cabecera = MovimientoCabecera()
@@ -802,10 +800,11 @@ class SalidaCabeceraCreateView(View):
 
                 # si no encuentra el origen crea el nuevo registro
                 else:
-                    fila_stock_origen = Stock.objects.create(
-                        almacen=almacen_origen, articulo=detalle.articulo,
-                        cantidad=0)
-                    fila_stock_origen.save()
+                    if cabecera.almacen_origen:
+                        fila_stock_origen = Stock.objects.create(
+                            almacen=almacen_origen, articulo=detalle.articulo,
+                            cantidad=0)
+                        fila_stock_origen.save()
 
                 # suma la cantidad de detalle al stock del origen
                 if fila_stock_destino is not None:
@@ -907,10 +906,11 @@ class SalidaCabeceraUpdateView(View):
 
                 # si no encuentra el origen crea el nuevo registro
                 else:
-                    fila_stock_origen = Stock.objects.create(
-                        almacen=almacen_origen, articulo=detalle.articulo,
-                        cantidad=0)
-                    fila_stock_origen.save()
+                    if cabecera.almacen_origen:
+                        fila_stock_origen = Stock.objects.create(
+                            almacen=almacen_origen, articulo=detalle.articulo,
+                            cantidad=0)
+                        fila_stock_origen.save()
 
                 # suma la cantidad de detalle al stock del origen
                 if fila_stock_destino is not None:
