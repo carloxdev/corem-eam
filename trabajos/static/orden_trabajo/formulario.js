@@ -65,13 +65,25 @@ TargetaFormulario.prototype.click_Tab_Activiades = function(e) {
 	}	
 }
 TargetaFormulario.prototype.click_Tab_Materiales = function(e) {
-	e.preventDefault()
+	if (e.data.$clave.text() == ' ') {
+
+		e.preventDefault()
+		alertify.warning("Primero debe guardar la Orden")
+	}	
 }
 TargetaFormulario.prototype.click_Tab_Servicios = function(e) {
-	e.preventDefault()
+	if (e.data.$clave.text() == ' ') {
+
+		e.preventDefault()
+		alertify.warning("Primero debe guardar la Orden")
+	}	
 }
 TargetaFormulario.prototype.click_Tab_Mano_Obra = function(e) {
-	e.preventDefault()
+	if (e.data.$clave.text() == ' ') {
+
+		e.preventDefault()
+		alertify.warning("Primero debe guardar la Orden")
+	}	
 }
 TargetaFormulario.prototype.deshabilitar_Tabs = function () {
 	this.$tab_actividades.attr("data-toggle","")

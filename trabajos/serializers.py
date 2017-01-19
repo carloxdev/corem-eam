@@ -94,17 +94,6 @@ class ManoObraSerializer(serializers.HyperlinkedModelSerializer):
             'horas_reales',
         )
 
-    def get_orden(self, obj):
-
-        try:
-            return "({}) {}".format(
-                obj.orden.id,
-                obj.orden.descripcion
-            )
-
-        except:
-            return ""
-
 
 class MaterialSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -146,8 +135,6 @@ class MaterialSerializer(serializers.HyperlinkedModelSerializer):
 
 class ServicioExternoSerializer(serializers.HyperlinkedModelSerializer):
 
-    orden = serializers.SerializerMethodField()
-
     class Meta:
         model = ServicioExterno
         fields = (
@@ -156,15 +143,5 @@ class ServicioExternoSerializer(serializers.HyperlinkedModelSerializer):
             'orden',
             'clave_jde',
             'descripcion',
+            'comentarios',
         )
-
-    def get_orden(self, obj):
-
-        try:
-            return "({}) {}".format(
-                obj.orden.id,
-                obj.orden.descripcion
-            )
-
-        except:
-            return ""

@@ -100,20 +100,23 @@ class Actividad(models.Model):
 
 class ManoObra(models.Model):
     orden = models.ForeignKey(OrdenTrabajo)
-    empleado = models.CharField(max_length=144, null=True, blank=True)
+    empleado = models.ForeignKey(Articulo, null=True)
     descripcion = models.CharField(max_length=144, null=True, blank=True)
-    fecha_inicio = models.DateTimeField(null=True)
-    fecha_fin = models.DateTimeField(null=True)
+    fecha_inicio = models.DateTimeField(null=True, blank=True)
+    fecha_fin = models.DateTimeField(null=True, blank=True)
     horas_estimadas = models.DecimalField(
         max_digits=7,
         decimal_places=2,
-        default=0.0
+        default=0.0,
+        blank=True
     )
     horas_reales = models.DecimalField(
         max_digits=7,
         decimal_places=2,
-        default=0.0
+        default=0.0,
+        blank=True
     )
+    # Auditoria Fields
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,
@@ -171,8 +174,9 @@ class Material(models.Model):
 
 class ServicioExterno(models.Model):
     orden = models.ForeignKey(OrdenTrabajo)
-    clave_jde = models.CharField(max_length=144, null=True)
     descripcion = models.CharField(max_length=144, null=True)
+    clave_jde = models.CharField(max_length=144, null=True, blank=True)
+    comentarios = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,
