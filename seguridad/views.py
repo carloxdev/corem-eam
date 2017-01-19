@@ -14,6 +14,9 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+# Django Messages
+from django.contrib import messages
+
 # Django Generic Views
 from django.views.generic.base import View
 from django.views.generic import ListView
@@ -25,47 +28,47 @@ from django.contrib.auth.hashers import make_password
 # Formularios:
 from .forms import UsuarioCreateForm
 from .forms import UsuarioEditForm
+from .forms import ProfileForm
 
 
-# class Login(View):
+class Login(View):
 
-#     def __init__(self):
-#         self.template_name = 'login.html'
+    def __init__(self):
+        self.template_name = 'login.html'
 
-#     def get(self, request):
+    def get(self, request):
 
-#         if request.user.is_authenticated():
-#             return redirect(reverse('home.dashboard'))
+        if request.user.is_authenticated():
+            return redirect(reverse('seguridad:dashboard'))
 
-#         else:
-#             return render(request, self.template_name, {})
+        else:
+            return render(request, self.template_name, {})
 
-#     def post(self, request):
+    def post(self, request):
 
-#         mensaje = ''
-#         usuario = request.POST.get('user')
-#         contrasena = request.POST.get('password')
+        usuario = request.POST.get('username')
+        contrasena = request.POST.get('password')
 
-#         user = authenticate(username=usuario, password=contrasena)
+        user = authenticate(username=usuario, password=contrasena)
 
-#         if user is not None:
+        if user is not None:
 
-#             if user.is_active:
-#                 login(request, user)
-#                 return redirect(reverse('home.dashboard'))
-#             else:
-#                 mensaje = "Cuenta desactivada"
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('seguridad:dashboard'))
+            else:
+                messages.warning(
+                    request,
+                    "Cuenta DESACTIVADA, favor de contactara a su administrador"
+                )
 
-#         else:
-#             mensaje = "Cuenta usuario o contraseña no vaida"
+        else:
+            messages.error(request, "Cuenta usuario o contraseña no valida")
 
-#         contexto = {
-#             'mensaje': mensaje
-#         }
-
-#         return render(request, self.template_name, contexto)
+        return render(request, self.template_name, {})
 
 
+@method_decorator(login_required, name='dispatch')
 class Dashboard(View):
 
     def __init__(self):
@@ -78,20 +81,7 @@ class Dashboard(View):
         return render(request, self.template_name, {})
 
 
-class Login(View):
-
-    def __init__(self):
-        self.template_name = 'login.html'
-
-    def get(self, request):
-        return render(request, self.template_name, {})
-
-    def post(self, request):
-        return redirect(reverse('seguridad.dashboard'))
-        # return render(request, self.template_name, {})
-
-
-# @method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class UsuarioListView(ListView):
 
     template_name = 'usuario/lista.html'
@@ -100,7 +90,7 @@ class UsuarioListView(ListView):
     paginate_by = 10
 
 
-# @method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class UsuarioCreateView(View):
 
     def __init__(self):
@@ -108,8 +98,11 @@ class UsuarioCreateView(View):
 
     def get(self, request):
         formulario = UsuarioCreateForm()
+        formulario_profile = ProfileForm()
+
         contexto = {
             'form': formulario,
+            'form_profile': formulario_profile,
             'operation': "Nuevo"
         }
         return render(request, self.template_name, contexto)
@@ -117,8 +110,12 @@ class UsuarioCreateView(View):
     def post(self, request):
 
         formulario = UsuarioCreateForm(request.POST)
+        formulario_profile = ProfileForm(
+            request.POST,
+            request.FILES
+        )
 
-        if formulario.is_valid():
+        if formulario.is_valid() and formulario_profile.is_valid():
 
             datos_formulario = formulario.cleaned_data
 
@@ -140,19 +137,30 @@ class UsuarioCreateView(View):
 
             usuario.save()
 
+            datos_profile = formulario_profile.cleaned_data
+
+            usuario.profile.puesto = datos_profile.get('puesto')
+            usuario.profile.clave = datos_profile.get('clave')
+            usuario.profile.fecha_nacimiento = datos_profile.get(
+                'fecha_nacimiento'
+            )
+            usuario.profile.imagen = datos_profile.get('imagen')
+            usuario.profile.save()
+
             return redirect(
-                reverse('seguridad.usuarios_lista')
+                reverse('seguridad:usuarios_lista')
             )
 
         else:
             contexto = {
                 'form': formulario,
+                'form_profile': formulario_profile,
                 'operation': "Nuevo"
             }
             return render(request, self.template_name, contexto)
 
 
-# @method_decorator(login_required, name='dispatch')
+@method_decorator(login_required, name='dispatch')
 class UsuarioEditView(View):
 
     def __init__(self):
@@ -175,8 +183,19 @@ class UsuarioEditView(View):
             }
         )
 
+        formulario_profile = ProfileForm(
+            initial={
+                'puesto': usuario.profile.puesto,
+                'clave': usuario.profile.clave,
+                'fecha_nacimiento': usuario.profile.fecha_nacimiento,
+                'imagen': usuario.profile.imagen,
+                'comentarios': usuario.profile.comentarios,
+            }
+        )
+
         contexto = {
             'form': formulario,
+            'form_profile': formulario_profile,
             'cuenta': self.cuenta,
             'operation': "Editar"
         }
@@ -189,7 +208,13 @@ class UsuarioEditView(View):
         usuario = get_object_or_404(User, pk=pk)
         self.cuenta = usuario.username
 
-        if formulario.is_valid():
+        formulario_profile = ProfileForm(
+            request.POST,
+            request.FILES,
+        )
+
+        if formulario.is_valid() and formulario_profile.is_valid():
+
             datos_formulario = formulario.cleaned_data
             usuario.first_name = datos_formulario.get('first_name')
             usuario.last_name = datos_formulario.get('last_name')
@@ -208,12 +233,23 @@ class UsuarioEditView(View):
 
             usuario.save()
 
+            datos_profile = formulario_profile.cleaned_data
+
+            usuario.profile.puesto = datos_profile.get('puesto')
+            usuario.profile.clave = datos_profile.get('clave')
+            usuario.profile.fecha_nacimiento = datos_profile.get(
+                'fecha_nacimiento'
+            )
+            usuario.profile.imagen = datos_profile.get('imagen')
+            usuario.profile.save()
+
             return redirect(
-                reverse('seguridad.usuarios_lista')
+                reverse('seguridad:usuarios_lista')
             )
 
         contexto = {
             'form': formulario,
+            'form_profile': formulario_profile,
             'cuenta': self.cuenta,
             'operation': "Editar"
         }

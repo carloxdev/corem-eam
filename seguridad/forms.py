@@ -4,9 +4,13 @@
 from django.forms import ModelForm
 from django.forms import EmailInput
 from django.forms import TextInput
+from django.forms import Textarea
 
 # Django Autorizacion
 from django.contrib.auth.models import User
+
+# Models
+from .models import Profile
 
 
 class UsuarioCreateForm(ModelForm):
@@ -74,3 +78,27 @@ class UsuarioEditForm(ModelForm):
             'is_active': 'Activo:',
             'is_staff': 'Administrador:',
         }
+
+
+class ProfileForm(ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = '__all__'
+        exclude = [
+            'user'
+        ]
+        widgets = {
+            'puesto': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control'}),
+            'fecha_nacimiento': TextInput(attrs={'class': 'form-control'}),
+            'comentarios': Textarea(attrs={'class': 'form-control'}),
+        }
+        # labels = {
+        #     'first_name': 'Nombre:',
+        #     'last_name': 'Apellidos:',
+        #     'email': 'Email:',
+        #     'password': 'Contraseña:',
+        #     'is_active': 'Activo:',
+        #     'is_staff': 'Administrador:',
+        # }

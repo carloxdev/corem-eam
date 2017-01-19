@@ -13,8 +13,8 @@
 	    <small>{{ operation }}</small>
 	  </h1>
 	  <ol class="breadcrumb">
-	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
-	    <li><a href="{% url 'seguridad.usuarios_lista' %}">Usuarios</a></li>
+	    <li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+	    <li><a href="{% url 'seguridad:usuarios_lista' %}">Usuarios</a></li>
 	    <li class="active">{{ operation }}</li>
 	  </ol>
 	</section>
@@ -25,14 +25,14 @@
 		<div class="row">
 	        <div class="col-md-12">
 
-	          <!-- Filtros -->
+	          <!-- Formulario -->
 	          <div class="box box-primary">
 		            <div class="box-header with-border">
 		              <h3 class="box-title">Favor de proporcionar los siguientes datos:</h3>
 		            </div>
 	            	
 	            	<!-- /.box-header -->
-					<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+					<form action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 		              <div class="box-body">
 
 							<!-- Clave y Contrasena -->
@@ -164,11 +164,106 @@
 								</div>	
 							</div>
 
+
+							<!-- Clave y Puesto -->
+							<div class="row">
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form_profile.clave.field.required %} has-warning {% endif %} {% if form_profile.clave.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form_profile.clave.field.required %} fa-asterisk {% endif %} {% if form_profile.clave.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form_profile.clave.label }}
+									 	</label>
+									    {{ form_profile.clave }}
+									  
+									    {% for error in form_profile.clave.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form_profile.puesto.field.required %} has-warning {% endif %} {% if form_profile.puesto.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form_profile.puesto.field.required %} fa-asterisk {% endif %} {% if form_profile.puesto.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form_profile.puesto.label }} 
+									 	</label>
+									    {{ form_profile.puesto }}
+									  
+									    {% for error in form_profile.puesto.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>						
+							</div>
+														
+							<!-- Fecha Nacimiento y Imagen -->							
+							<div class="row">
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form_profile.fecha_nacimiento.field.required %} has-warning {% endif %} {% if form_profile.fecha_nacimiento.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form_profile.fecha_nacimiento.field.required %} fa-asterisk {% endif %} {% if form_profile.fecha_nacimiento.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form_profile.fecha_nacimiento.label }}
+									 	</label>
+									    {{ form_profile.fecha_nacimiento }}
+									  
+									    {% for error in form_profile.fecha_nacimiento.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>
+
+								<div class="col-sm-6">
+
+									<div class="form-group input-group-sm {% if form_profile.imagen.field.required %} has-warning {% endif %} {% if form_profile.imagen.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form_profile.imagen.field.required %} fa-asterisk {% endif %} {% if form_profile.imagen.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form_profile.imagen.label }} 
+									 	</label>
+									    {{ form_profile.imagen }}
+									  
+									    {% for error in form_profile.imagen.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>						
+							</div>							
+
+							<!-- Comentarios -->
+							<div class="row">
+								<div class="col-sm-12">
+
+									<div class="form-group {% if form_profile.comentarios.field.required %} has-warning {% endif %} {% if form_profile.comentarios.errors %} has-error {% endif %}">
+
+									  	<label class="control-label">
+									  		<i class="fa {% if form_profile.comentarios.field.required %} fa-asterisk {% endif %} {% if form_profile.comentarios.errors %} fa-asterisk {% endif %}"></i> 
+									  		{{ form_profile.comentarios.label }}
+									 	</label>
+									    {{ form_profile.comentarios }}
+									  
+									    {% for error in form_profile.comentarios.errors %}
+									    <span class="help-block">{{ error }}</span>
+									    {% endfor %}
+									</div>
+
+								</div>					
+							</div>							
+							
 		              <!-- /.box-body -->
 					  </div>
 		              <div class="box-footer">
 
-	              		<a class="btn btn-default" href="{% url 'seguridad.usuarios_lista' %}">
+	              		<a class="btn btn-default" href="{% url 'seguridad:usuarios_lista' %}">
 	              			<i class="fa fa-arrow-circle-left"></i>
 	              			Regresar
 	              		</a>
@@ -183,6 +278,38 @@
 	            </form>
 	          </div>
 	          <!-- /.box -->
+
+	          <p>
+					{% if form.errors %}
+					    {% for field in form %}
+					        {% for error in field.errors %}
+					            <div class="alert alert-danger">
+					                <strong>{{ error|escape }}</strong>
+					            </div>
+					        {% endfor %}
+					    {% endfor %}
+					    {% for error in form.non_field_errors %}
+					        <div class="alert alert-danger">
+					            <strong>{{ error|escape }}</strong>
+					        </div>
+					    {% endfor %}
+					{% endif %}         
+
+					{% if form_profile.errors %}
+					    {% for field in form_profile %}
+					        {% for error in field.errors %}
+					            <div class="alert alert-danger">
+					                <strong>{{ error|escape }}</strong>
+					            </div>
+					        {% endfor %}
+					    {% endfor %}
+					    {% for error in form_profile.non_field_errors %}
+					        <div class="alert alert-danger">
+					            <strong>{{ error|escape }}</strong>
+					        </div>
+					    {% endfor %}
+					{% endif %}					
+	          </p>
 
 	        </div>			
 

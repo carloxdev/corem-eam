@@ -113,10 +113,12 @@ class EquipoCreateView(View):
             equipo.empresa = datos_formulario.get('empresa')
             equipo.sistema = datos_formulario.get('sistema')
             equipo.ubicacion = datos_formulario.get('ubicacion')
-            if 'imagen' in request.POST:
-                equipo.imagen = request.POST['imagen']
-            else:
-                equipo.imagen = request.FILES['imagen']
+            equipo.imagen = datos_formulario.get('imagen')
+
+            # if 'imagen' in request.POST:
+            #     equipo.imagen = request.POST['imagen']
+            # else:
+            #     equipo.imagen = request.FILES['imagen']
             equipo.save()
 
             return redirect(
@@ -163,7 +165,7 @@ class EquipoUpdateView(View):
 
     def post(self, request, pk):
 
-        formulario = EquipoForm(request.POST)
+        formulario = EquipoForm(request.POST, request.FILES)
 
         equipo = get_object_or_404(Equipo, pk=pk)
         self.tag = equipo.tag

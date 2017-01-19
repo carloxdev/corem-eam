@@ -8,6 +8,10 @@ from django.db import models
 from seguridad.models import Empresa
 from home.validators import valid_extension
 
+# Otros modelos:
+from home.validators import valid_extension
+from home.validators import validate_image
+
 
 EQUIPO_ESTADO = (
     ('ACT', 'ACTIVO'),
@@ -83,7 +87,10 @@ class Equipo(models.Model):
     imagen = models.ImageField(
         upload_to='equipos/img',
         blank=True,
-        validators=[valid_extension]
+        validators=[
+            valid_extension,
+            validate_image
+        ]
     )
     cliente = models.CharField(max_length=144, null=True, blank=True)
     responsable = models.CharField(max_length=144, null=True, blank=True)

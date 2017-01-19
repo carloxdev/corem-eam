@@ -18,51 +18,52 @@ from .views import UsuarioListView
 from .views import UsuarioCreateView
 from .views import UsuarioEditView
 
+app_name = "seguridad"
+
 urlpatterns = [
 
 
     # ----------------- SEGURIDAD ----------------- #
 
-    # url(
-    #     r'^login/$',
-    #     Login.as_view(),
-    #     name='seguridad.login'
-    # ),
-    # url(
-    #     r'^logout/$',
-    #     auth_views.logout,
-    #     {'next_page': settings.LOGIN_URL},
-    #     name='seguridad.logout'
-    # ),
+    url(
+        r'^$',
+        Login.as_view(),
+        name='login'
+    ),
+    url(
+        r'^logout/$',
+        auth_views.logout,
+        {'next_page': settings.LOGIN_URL},
+        name='logout'
+    ),
+
+
+    # ----------------- DASHBOARDS ----------------- #
 
 
     url(
         r'^dashboard/$',
         Dashboard.as_view(),
-        name='seguridad.dashboard'
+        name='dashboard'
     ),
-    url(
-        r'^$',
-        Login.as_view(),
-        name='seguriddad.login'
-    ),
+
 
     # ----------------- USUARIO ----------------- #
 
     url(
         r'^usuarios/$',
         UsuarioListView.as_view(),
-        name='seguridad.usuarios_lista'
+        name='usuarios_lista'
     ),
     url(
         r'^usuarios/nuevo/$',
         UsuarioCreateView.as_view(),
-        name='seguridad.usuarios_nuevo'
+        name='usuarios_nuevo'
     ),
     url(
         r'^usuarios/editar/(?P<pk>.*)/$',
         UsuarioEditView.as_view(),
-        name='seguridad.usuarios_editar'
+        name='usuarios_editar'
     ),
 
 ]

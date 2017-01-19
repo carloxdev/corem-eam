@@ -3,6 +3,8 @@
 
 {% load static from staticfiles %}
 
+{% load humanize %}
+
 {% block title %} Usuarios {% endblock title %}
 
 {% block css %}
@@ -21,7 +23,7 @@
 	    <small>Consultar</small>
 	  </h1>
 	  <ol class="breadcrumb">
-	    <li><a href="{% url 'seguridad.dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+	    <li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
 	    <li class="active">Usuarios</li>
 	  </ol>
 	</section>
@@ -37,7 +39,7 @@
 	              <h3 class="box-title">Registros</h3>
 		          <div class="box-tools pull-right">
 
-		            <a id="boton_nuevo" class="btn bg-purple btn-sm" href="{% url 'seguridad.usuarios_nuevo' %}">
+		            <a id="boton_nuevo" class="btn bg-purple btn-sm" href="{% url 'seguridad:usuarios_nuevo' %}">
 						<i class="fa fa-plus-circle"></i>
 		            	Nuevo
 		            </a>
@@ -58,6 +60,13 @@
 								<th>Apellidos</th> 
 								<th>Email</th> 
 								<th>Estado</th> 
+
+								<th>Puesto</th> 
+								<th>RH Clave</th> 
+								<th>Fecha Nacimiento</th>
+
+
+
 								<th>Ultimo Login</th> 
 								<th>Fecha Registro</th> 
 								<td></td>
@@ -77,10 +86,16 @@
 										DESHABILITADO
 									</td>
 								{% endif %}  
-								<td> {% if usuario.last_login %} {{ usuario.last_login }} {% else %} - {% endif %} </td>
-								<td> {{ usuario.date_joined }} </td> 
+
+								<td> {{ usuario.profile.puesto|default_if_none:""  }} </td> 
+								<td> {{ usuario.profile.clave|default_if_none:"" }} </td> 
+								<td> {{ usuario.profile.fecha_nacimiento|default_if_none:""  }} </td> 
+
+
+								<td> {% if usuario.last_login %} {{ usuario.last_login | naturaltime }} {% else %} - {% endif %} </td>
+								<td> {{ usuario.date_joined | naturalday }} </td> 
 								<td> 
-				                    <a href="{% url 'seguridad.usuarios_editar' usuario.pk %}" class="btn btn-warning btn-xs">
+				                    <a href="{% url 'seguridad:usuarios_editar' usuario.pk %}" class="btn btn-warning btn-xs">
 				                    	<i class="fa fa-pencil"></i>
 				                    	Editar
 				                    </a> 
@@ -89,30 +104,30 @@
 							{% endfor %}
 						</table>		
 					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<nav>
-						    {% if is_paginated %}
-						        <ul class="pagination">
-						            {% if page_obj.has_previous %}
-						                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-						            {% endif %}
+					<div class="row">
+						<div class="col-md-12">
+							<nav>
+							    {% if is_paginated %}
+							        <ul class="pagination">
+							            {% if page_obj.has_previous %}
+							                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+							            {% endif %}
 
-						            {% for i in paginator.page_range %}
-						                <li {% if page_obj.number == i %} class="active" {% endif %}>
-						                    <a href="?page={{i}}">{{ i }}</a>
-						                </li>
-						            {% endfor %}
+							            {% for i in paginator.page_range %}
+							                <li {% if page_obj.number == i %} class="active" {% endif %}>
+							                    <a href="?page={{i}}">{{ i }}</a>
+							                </li>
+							            {% endfor %}
 
-						            {% if page_obj.has_next %}
-						                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-						            {% endif %}
-						        </ul>
-						    {% endif %}
-						</nav>
-					</div>
+							            {% if page_obj.has_next %}
+							                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+							            {% endif %}
+							        </ul>
+							    {% endif %}
+							</nav>
+						</div>
+					</div>					
 				</div>
 
 				{% else %}
