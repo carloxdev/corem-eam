@@ -5,6 +5,7 @@
 // URLS
 var url_grid = window.location.origin + "/api/movimientosdetalle/"
 var url_editar = window.location.origin + "/entradas/editar/"
+var url_articulos = window.location.origin + "/api/articulos2/"
 
 // OBJS
 var targeta_filtros = null
@@ -224,7 +225,6 @@ function Toolbar() {
     this.init()
 }
 Toolbar.prototype.init = function (e) {
-
     this.$boton_nuevo.on("click", this, this.click_BotonNuevo)
     this.$boton_exportar.on("click", this, this.click_BotonExportar)
 }
@@ -266,16 +266,18 @@ function ModalDetalle() {
 
 ModalDetalle.prototype.init = function () {
     
-    //this.$articulo.select2()
+    this.$articulo.select2()
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
 
     this.$id.on('show.bs.modal', this, this.load)
+    this.load_articulos()
 }
 ModalDetalle.prototype.load = function (e) {
 
     e.data.clear_Estilos()
-
     e.data.clear_Fields()
+
+   
 }
 ModalDetalle.prototype.clear_Estilos = function () {
 
@@ -295,6 +297,38 @@ ModalDetalle.prototype.clear_Fields = function () {
 
     this.$articulo.val("").trigger('change')
     this.$cantidad.val("")
+
+    
+}
+ModalDetalle.prototype.load_articulos = function () {
+    var csrftoken = $("[name=csrfmiddlewaretoken]").val()
+         $.ajax(
+            {
+                url: url_articulos,
+                headers: { "X-CSRFToken": csrftoken },
+                data: function (params) {
+                      return {
+                        id: params.id,
+                        clave: params.clave,
+                        descripcion: params.descripcion
+
+                      }
+                    },
+                dataType:"json",
+                type:"GET"
+            }
+        ).done(function(data)
+            {
+                $.each(data, function(index, item) 
+                    {
+                        $('#id_articulo').append($('<option>').attr('value',item.pk).text(item.clave+"–"+item.descripcion))
+                    }
+                )
+                        
+            }
+        )
+    
+
 }
 ModalDetalle.prototype.validar = function () {
     var bandera = true

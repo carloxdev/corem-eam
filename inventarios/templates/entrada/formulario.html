@@ -189,12 +189,12 @@
 	            <div class="modal-body">
 	            	<input type="hidden" id="cabecera" value="{{ id_cabecera }}" name="cabecera">
 					<div class="row">
-						<div id="articulo_contenedor" class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12 has-warning">
+						<div id="articulo_contenedor" class="form-group input-group-sm select2--fix col-sx-12 col-sm-12 col-md-12 has-warning">
 							<label for="articulo">
 							<i class="fa fa-asterisk"></i>
 							Articulo</label>
 							
-							{{ form_detalle.articulo}}
+							<select name="articulo" id="id_articulo" class="form-control"></select>
 							
 							<span class="help-block hidden" id="articulo_mensaje">Este campo es requerido.</span>			
 					    </div>
