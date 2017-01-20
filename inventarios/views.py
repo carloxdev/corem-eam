@@ -760,6 +760,7 @@ class SalidaCabeceraCreateView(View):
         contexto = {
             'form': formulario,
             'form_detalle': form_detalle,
+            'operation': 'Nuevo',
         }
 
         return render(request, self.template_name, contexto)
