@@ -59,17 +59,6 @@ TargetaFormulario.prototype.init = function () {
             language: 'es'
         }
     )
-
-   /* if(this.$operacion.text() == "Nuevo" && this.$cabecera.val() != 0){
-        this.$descripcion.attr("disabled", true)
-        this.$fecha.attr("disabled", true)
-        this.$almacen_origen.attr("disabled", true)
-        this.$almacen_destino.attr("disabled", true)
-        this.$persona_recibe.attr("disabled", true)
-        this.$persona_entrega.attr("disabled", true)
-        this.$estado.attr("disabled", true)
-        this.$boton_guardar.attr("disabled", true)
-    }*/
     
 }
 TargetaFormulario.prototype.get_Filtros = function (_page, _pageSize) {
@@ -290,7 +279,6 @@ ModalDetalle.prototype.init = function () {
 ModalDetalle.prototype.load = function (e) {
 
     e.data.clear_Estilos()
-
     e.data.clear_Fields()
 }
 ModalDetalle.prototype.clear_Estilos = function () {

@@ -794,6 +794,31 @@ class SalidaCabeceraCreateView(View):
 
                 return render(request, self.template_name, contexto)
 
+        elif 'id_cabecera' in request.POST:
+            id_cabecera = request.POST['id_cabecera']
+            cabecera = get_object_or_404(MovimientoCabecera, pk=id_cabecera)
+            formulario = MovimientoCabeceraForm(request.POST)
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                cabecera.descripcion = datos_formulario.get('descripcion')
+                cabecera.fecha = datos_formulario.get('fecha')
+                cabecera.almacen_origen = datos_formulario.get(
+                    'almacen_origen')
+                cabecera.almacen_destino = datos_formulario.get(
+                    'almacen_destino')
+                cabecera.persona_recibe = datos_formulario.get(
+                    'persona_recibe')
+                cabecera.persona_entrega = datos_formulario.get(
+                    'persona_entrega')
+                cabecera.save()
+                id_cabecera = id_cabecera
+            contexto = {
+                'form': formulario,
+                'operation': 'Nuevo',
+                'id_cabecera': id_cabecera,
+            }
+            return render(request, self.template_name, contexto)
+
         elif 'cabecera_stock' in request.POST:
             id_cabecera = request.POST['cabecera_stock']
             cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
@@ -872,33 +897,28 @@ class SalidaCabeceraUpdateView(View):
         formulario = MovimientoCabeceraForm(request.POST)
         cabecera = get_object_or_404(MovimientoCabecera, pk=pk)
 
-        if 'tipo' in request.POST:
-            if formulario.is_valid():
-                datos_formulario = formulario.cleaned_data
-                cabecera.fecha = datos_formulario.get('fecha')
-                cabecera.descripcion = datos_formulario.get('descripcion')
-                cabecera.almacen_origen = datos_formulario.get(
-                    'almacen_origen')
-                cabecera.almacen_destino = datos_formulario.get(
-                    'almacen_destino')
-                cabecera.persona_recibe = datos_formulario.get(
-                    'persona_recibe')
-                cabecera.persona_entrega = datos_formulario.get(
-                    'persona_entrega')
-                cabecera.save()
+        if formulario.is_valid():
+            datos_formulario = formulario.cleaned_data
+            cabecera.descripcion = datos_formulario.get('descripcion')
+            cabecera.fecha = datos_formulario.get('fecha')
+            cabecera.almacen_origen = datos_formulario.get(
+                'almacen_origen')
+            cabecera.almacen_destino = datos_formulario.get(
+                'almacen_destino')
+            cabecera.persona_recibe = datos_formulario.get(
+                'persona_recibe')
+            cabecera.persona_entrega = datos_formulario.get(
+                'persona_entrega')
+            cabecera.save()
+        contexto = {
+            'form': formulario,
+            'operation': 'Editar',
+            'id_cabecera': cabecera.pk,
+        }
 
-                id_cabecera = pk
-                form_detalle = MovimientoDetalleForm()
-                contexto = {
-                    'form': formulario,
-                    'operation': 'Nuevo',
-                    'id_cabecera': id_cabecera,
-                    'form_detalle': form_detalle,
-                }
+        return render(request, self.template_name, contexto)
 
-                return render(request, self.template_name, contexto)
-
-        elif 'cabecera_stock' in request.POST:
+        if 'cabecera_stock' in request.POST:
             id_cabecera = request.POST['cabecera_stock']
             cabecera = MovimientoCabecera.objects.get(id=id_cabecera)
             # detalles

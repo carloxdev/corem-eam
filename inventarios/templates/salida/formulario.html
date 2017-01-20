@@ -54,9 +54,11 @@
 				<!-- /.box-header -->
 				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 					<div class="box-body">
-						
-						<input type="hidden" id="id_cabecera" {% if id_cabecera %} value="{{ id_cabecera }}" {% else %} value="0" {% endif %}>
-						<input type="hidden" id="id_tipo" name="tipo" value="SAL">
+						{% if id_cabecera %}
+						<input type="hidden" id="id_cabecera" value="{{ id_cabecera }}" name="id_cabecera">
+						{% else %}
+						<input type="hidden" id="id_tipo" name="tipo" value="ENT">
+						{% endif %}
 						<div class="row">
 							<div class="form-group input-group-sm col-sx-12 col-sm-7 col-md-7 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 								<label for="{{ form.descripcion.id_for_label }}">
@@ -137,7 +139,7 @@
 
 						<button type="submit" id="boton_guardar" class="btn btn-success pull-right">
 							<i class="fa fa-save"></i>
-							Guardar
+							{% if id_cabecera %} Actualizar {% else %} Guardar {% endif %}
 						</button>
 					</div>
 				</form>

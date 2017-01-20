@@ -22,13 +22,12 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFormulario()
     targeta_resultados = new TargetaResultados()
-
     modal_detalle = new ModalDetalle()
 
+    pagina = new Pagina()
+    pagina.init_Alertify() 
 
 })
-
-
 
 /*-----------------------------------------------*\
             OBJETO: Targeta Formulario
@@ -46,7 +45,6 @@ function TargetaFormulario() {
     this.$persona_recibe = $('#id_persona_recibe')
     this.$persona_entrega = $('#id_persona_entrega')
     this.$estado = $('#id_estado')
-
     this.$boton_guardar = $('#boton_guardar')
 
     this.init()
@@ -62,17 +60,6 @@ TargetaFormulario.prototype.init = function () {
         }
     )
 
-    /*if(this.$operacion.text() == "Nuevo" && this.$cabecera.val() != 0){
-
-        this.$descripcion.attr("disabled", true)
-        this.$fecha.attr("disabled", true)
-        this.$almacen_origen.attr("disabled", true)
-        this.$almacen_destino.attr("disabled", true)
-        this.$persona_recibe.attr("disabled", true)
-        this.$persona_entrega.attr("disabled", true)
-        this.$estado.attr("disabled", true)
-        this.$boton_guardar.attr("disabled", true)
-    }*/
     
 }
 TargetaFormulario.prototype.get_Filtros = function (_page, _pageSize) {
@@ -244,7 +231,6 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
     window.location.href = url_editar + fila.pk + "/"
 }
 
-
 /*-----------------------------------------------*\
             OBJETO: TOOLBAR
 \*-----------------------------------------------*/
@@ -271,8 +257,6 @@ Toolbar.prototype.click_BotonNuevo = function (e) {
     $('#modal_nuevo').modal('show');
 }
 
-
-
 /*-----------------------------------------------*\
             OBJETO: ModalDetalle
 \*-----------------------------------------------*/
@@ -280,9 +264,7 @@ Toolbar.prototype.click_BotonNuevo = function (e) {
 function ModalDetalle() {
 
     this.$id = $("#modal_nuevo")
-
     this.$cabecera = $('#cabecera')
-
     this.$articulo = $('#id_articulo')
     this.$cantidad = $('#id_cantidad')
     this.$boton_guardar = $('#boton_guardar_detalle')
@@ -299,7 +281,6 @@ ModalDetalle.prototype.init = function () {
     
     this.$articulo.select2()
     this.$boton_guardar.on("click", this, this.click_BotonGuardar)
-
     this.$id.on('show.bs.modal', this, this.load)
     this.load_articulos()
 }
