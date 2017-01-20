@@ -77,7 +77,7 @@ class MovimientoCabeceraFilter(filters.FilterSet):
         lookup_expr="contains"
 
     )
-    persona_resibe = CharFilter(
+    persona_recibe = CharFilter(
         name="persona_recibe",
         lookup_expr="contains"
 
@@ -95,4 +95,5 @@ class MovimientoCabeceraFilter(filters.FilterSet):
             'almacen_destino',
             'estado',
             'tipo',
+            'clasificacion',
         ]

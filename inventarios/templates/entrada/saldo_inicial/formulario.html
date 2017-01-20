@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
+<!-- Pace -->
+<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
+
 <!-- Select2 -->
 <link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
@@ -57,7 +60,7 @@
 						<input type="hidden" id="id_tipo" name="tipo" value="ENT">
 						{% endif %}
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-7 col-md-7 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 								<label for="{{ form.descripcion.id_for_label }}">
 								<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} "></i>
 								Descripción</label>
@@ -66,7 +69,7 @@
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
+							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
 								<label for="{{ form.fecha.id_for_label}}">
 								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %}"></i>
 								Fecha</label>
@@ -80,56 +83,23 @@
 								    <span class="help-block">{{ error }}</span>
 									{% endfor %}						
 					        </div>
-							
-						</div>
-						<div class="row">
-							
-							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.almacen_origen.field.required %} has-warning {% endif %} {% if form.almacen_origen.errors %} has-error {% endif %} select2--fix">
-								<label for="{{ form.almacen_origen.id_for_label }}">
-								<i class="fa {% if form.almacen_origen.field.required %} fa-asterisk {% endif %}"></i>
-								Almacén Origen</label>
-								{{ form.almacen_origen }}
-								{% for error in form.almacen_origen.errors %}
-								<span class="help-block">{{ error }}</span>
-								{% endfor %}
-								
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.almacen_destino.field.required %} has-warning {% endif %} {% if form.almacen_destino.errors %} has-error {% endif %}">
+					        <div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4 {% if form.almacen_destino.field.required %} has-warning {% endif %} {% if form.almacen_destino.errors %} has-error {% endif %}">
 								<label for="{{ form.almacen_destino.id_for_label }} select2--fix">
 								<i class="fa {% if form.almacen_destino.field.required %} fa-asterisk {% endif %}"></i>
-								Almacén Destino</label>
+								Almacén</label>
 								{{ form.almacen_destino }}
 								{% for error in form.almacen_destino.errors %}
 								<span class="help-block">{{ error }}</span>
 								{% endfor %}
 								
 							</div>
-						</div>
-						<div class="row">
 							
-					        <div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.persona_recibe.field.required %} has-warning {% endif %} {% if form.persona_recibe.errors %} has-error {% endif %}">
-								<label for="{{ form.persona_recibe.id_for_label }}">
-								<i class="fa {% if form.persona_recibe.field.required %} fa-asterisk {% endif %}"></i>
-								Persona Recibe</label>
-								{{ form.persona_recibe }}
-								{% for error in form.persona_recibe.errors %}
-								<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-6 col-md-6 {% if form.persona_entrega.field.required %} has-warning {% endif %} {% if form.persona_entrega.errors %} has-error {% endif %}">
-								<label for="{{ form.persona_entrega.id_for_label }}">
-								<i class="fa {% if form.persona_entrega.field.required %} fa-asterisk {% endif %}"></i>
-								Persona Entrega</label>
-								{{ form.persona_entrega }}
-								{% for error in form.persona_entrega.errors %}
-								<span class="help-block">{{ error }}</span>
-								{% endfor %}
-							</div>
 						</div>
+						
 					</div>
 					<!-- /.box-body -->
 					<div class="box-footer">
-						<a class="btn btn-default" href="{% url 'inventarios:entradas_lista' %}">
+						<a class="btn btn-default" href="{% url 'inventarios:entradas_saldoinicial_lista' %}">
 							<i class="fa fa-arrow-circle-left"></i>
 							Regresar
 						</a>
@@ -144,7 +114,6 @@
 			{% if id_cabecera %}
 			<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
 			<div class="box box-info">
-			<input type="text" value="{{ id_cabecera }}" id="id_cabecera_stock" name="cabecera_stock">
 				<div class="box-header box-header-border">
 					<h3 class="box-title">Detalle</h3>
 					<div class="box-tools pull-right">
@@ -161,11 +130,10 @@
 				<div id="grid_principal">
 				</div>
 				<div class="box-footer">
-					<input type="hidden" value="{{ id_cabecera }}" id="id_cabecera_stock" name="cabecera_stock">
+					<input type="text" value="{{ id_cabecera }}" id="id_cabecera_stock" name="cabecera_stock">
 					<div class="box-tools pull-left">
 						
 						<button title="Al dar clic se afectará el stock y se cerrará el movimiento" type="submit" id="boton_finalizar" class="btn bg-olive btn-sm">
-
 						<i class="fa fa-save"></i>
 						Finalizar
 						</button>
@@ -239,13 +207,18 @@
 <!-- Select2 -->
 <script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
 
+<!-- Pace -->
+<script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
+
+<!-- Select2 -->
+<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
+
 <!-- bootstrap datepicker -->
 <script src="{% static 'libs/plugins/datepicker/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'libs/plugins/datepicker/locales/bootstrap-datepicker.es.js' %}"></script>
-<script src="{% static 'libs/plugins/moment.js/2.11.2/moment.min.js' %}"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 
 <!-- CoreM -->
-<script src="{% static 'entrada/formulario.js' %}"></script>
+<script src="{% static 'entrada/saldo_inicial/formulario.js' %}"></script>
 
 {% endblock scripts %}

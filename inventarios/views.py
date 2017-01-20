@@ -32,7 +32,7 @@ from .models import MovimientoDetalle
 from home.models import AnexoImagen
 from home.models import AnexoArchivo
 from home.models import AnexoTexto
-
+from django.contrib.auth.models import User
 
 # Formularios:
 from .forms import AlmacenForm
@@ -43,7 +43,7 @@ from .forms import MovimientoCabeceraForm
 from .forms import StockFilterForm
 from .forms import MovimientoDetalleForm
 from .forms import UdmArticuloForm
-
+from .forms import EntradaSaldoForm
 from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
@@ -1032,6 +1032,168 @@ class SalidaCabeceraUpdateView(View):
             cabecera.estado = "CER"
             cabecera.save()
             return redirect(reverse('inventarios:salidas_lista'))
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class EntradaSaldoListView(View):
+
+    def __init__(self):
+        self.template_name = 'entrada/saldo_inicial/lista.html'
+
+    def get(self, request):
+
+        formulario = EntradaSaldoForm()
+
+        contexto = {
+            'form': formulario
+        }
+
+        return render(request, self.template_name, contexto)
+
+class EntradaSaldoCreateView(View):
+
+    def __init__(self):
+        self.template_name = "entrada/saldo_inicial/formulario.html"
+
+    def get(self, request):
+        formulario = EntradaSaldoForm()
+        contexto = {
+            'form': formulario,
+            'operation': 'Nuevo',
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request):
+        formulario = EntradaSaldoForm(request.POST)
+
+        if 'tipo' in request.POST:
+            tipo = request.POST['tipo']
+            id_usuario = request.user.id
+            usuario = User.objects.get(id=id_usuario)
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                entrada = MovimientoCabecera()
+                entrada.descripcion = datos_formulario.get('descripcion')
+                entrada.fecha = datos_formulario.get('fecha')
+                entrada.almacen_destino = datos_formulario.get('almacen_destino')
+                entrada.usuario = usuario
+                entrada.tipo = tipo
+                entrada.clasificacion = "SAL"
+                entrada.save()
+
+                id_entrada = entrada.id
+                contexto = {
+                    'form': formulario,
+                    'id_cabecera': id_entrada
+                }
+                return render (request, self.template_name, contexto)
+
+        elif 'id_cabecera' in request.POST:
+            id_entrada = request.POST['id_cabecera']
+            entrada = get_object_or_404(MovimientoCabecera, pk=id_entrada)
+            formulario = EntradaSaldoForm(request.POST)
+            if formulario.is_valid():
+                datos_formulario = formulario.cleaned_data
+                entrada.descripcion = datos_formulario.get('descripcion')
+                entrada.fecha = datos_formulario.get('fecha')
+                entrada.almacen_destino = datos_formulario.get(
+                    'almacen_destino')
+                entrada.save()
+                id_entrada = id_entrada
+            contexto = {
+                'form': formulario,
+                'operation': 'Nuevo',
+                'id_cabecera': id_entrada,
+            }
+            return render(request, self.template_name, contexto)
+
+        elif 'cabecera_stock' in request.POST:
+            id_entrada = request.POST['cabecera_stock']
+            entrada = MovimientoCabecera.objects.get(id=id_entrada)
+            # detalles
+            detalles = MovimientoDetalle.objects.filter(cabecera=entrada)
+            # almacenes
+            almacen_destino = entrada.almacen_destino
+            # buscar fila en stock por articulo del detalle
+            for detalle in detalles:
+                fila_stock_destino = Stock.objects.create(
+                            almacen=almacen_destino, articulo=detalle.articulo,
+                            cantidad=detalle.cantidad)
+            # cambia el estado del movimiento a cerrado
+            entrada.estado = "CER"
+            entrada.save()
+            return redirect(reverse('inventarios:entradas_saldoinicial_lista'))
+
+        contexto = {
+            'form': formulario,
+        }
+        return render(request, self.template_name, contexto)
+
+
+class EntradaSaldoUpdateView(View):
+    def __init__(self):
+        self.template_name = 'entrada/saldo_inicial/formulario.html'
+
+    def get(self, request, pk):
+        id_entrada = pk
+        entrada = MovimientoCabecera.objects.get(id=pk)
+        if entrada.estado == "CER":
+            return redirect(reverse('inventarios:entradas_saldoinicial_lista'))
+        
+        form = EntradaSaldoForm(instance=entrada)
+
+        contexto = {
+            'form': form,
+            'id_cabecera': id_entrada,
+            'operation': 'Editar',
+        }
+
+        return render(request, self.template_name, contexto)
+
+    def post(self, request, pk):
+        formulario = EntradaSaldoForm(request.POST)
+        entrada = get_object_or_404(MovimientoCabecera, pk=pk)
+
+        if formulario.is_valid():
+            id_usuario = request.user.id
+            usuario = User.objects.get(id=id_usuario)
+            datos_formulario = formulario.cleaned_data
+            entrada.descripcion = datos_formulario.get('descripcion')
+            entrada.fecha = datos_formulario.get('fecha')
+            entrada.almacen_destino = datos_formulario.get(
+                'almacen_destino')
+            entrada.usuario = usuario
+            entrada.save()
+            contexto = {
+                'form': formulario,
+                'operation': 'Editar',
+                'id_cabecera': entrada.pk,
+            }
+
+            return render(request, self.template_name, contexto)
+
+        elif 'cabecera_stock' in request.POST:
+            print "si esta la cabecera"
+            id_entrada = request.POST['cabecera_stock']
+            entrada = MovimientoCabecera.objects.get(id=id_entrada)
+            # detalles
+            detalles = MovimientoDetalle.objects.filter(cabecera=entrada)
+            # almacenes
+            almacen_destino = entrada.almacen_destino
+            # buscar fila en stock por articulo del detalle
+            for detalle in detalles:
+                fila_stock_destino = Stock.objects.create(
+                            almacen=almacen_destino, articulo=detalle.articulo,
+                            cantidad=detalle.cantidad)
+            # cambia el estado del movimiento a cerrado
+            entrada.estado = "CER"
+            entrada.save()
+            return redirect(reverse('inventarios:entradas_saldoinicial_lista'))
+
         contexto = {
             'form': formulario,
         }

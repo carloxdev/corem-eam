@@ -2,6 +2,7 @@
 
 # Librerias Django:
 from __future__ import unicode_literals
+from django.contrib.auth.models import User
 from django.db import models
 
 # Otros Modelos:
@@ -36,6 +37,15 @@ MOVIMIENTO_ESTADO = (
 MOVIMIENTO_TIPO = (
     ('ENT', 'ENTRADA'),
     ('SAL', 'SALIDA'),
+)
+
+MOVIMIENTO_CLASIFICACION = (
+    ('SAL', 'SALDO INICIAL'),
+    ('COM', 'COMPRA'),
+    ('TRA', 'TRASPASO'),
+    ('AJU', 'AJUSTE'),
+    ('OT', 'ORDEN'),
+    ('DES', 'DESPACHO A PERSONAL'),
 )
 
 
@@ -201,6 +211,13 @@ class MovimientoCabecera(models.Model):
         max_length=4,
         choices=MOVIMIENTO_TIPO,
     )
+    clasificacion = models.CharField(
+        max_length=4,
+        choices=MOVIMIENTO_CLASIFICACION,
+    )
+    orden_trabajo = models.ForeignKey(
+        'trabajos.OrdenTrabajo', null=True, blank=True)
+    usuario = models.ForeignKey(User)
 
     def __str__(self):
         return self.descripcion.encode('utf-8')

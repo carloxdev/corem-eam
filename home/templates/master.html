@@ -354,8 +354,31 @@
 	            <li id="opt_almacenes"><a href="{% url 'inventarios:almacenes_lista' %}"><i class="fa fa-cube"></i> Almacenes</a></li>
 	            <li id="opt_articulo_udm"><a href="{% url 'inventarios:udms_articulo_lista' %}"><i class="fa fa-balance-scale"></i> UDM Articulo</a></li>
 	            <li id="opt_articulos"><a href="{% url 'inventarios:articulos_lista' %}"><i class="fa fa-barcode"></i> Articulos</a></li>
-	            <li id="opt_salidas"><a href="{% url 'inventarios:salidas_lista' %}"><i class="fa fa-mail-forward"></i> Salidas</a></li>
-	            <li id="opt_entradas"><a href="{% url 'inventarios:entradas_lista' %}"><i class="fa fa-mail-reply"></i> Entradas</a></li>
+	            <li id="opt_salidas"><a href="{% url 'inventarios:salidas_lista' %}"><i class="fa fa-mail-forward"></i>Salidas
+	            	<span class="pull-right-container">
+              		<i class="fa fa-angle-left pull-right"></i>
+            		</span>
+	            </a>
+	            	<ul class="treeview-menu">
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Despacho a Personal</a></li>
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Orden de Trabajo</a></li>
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Ajuste</a></li>
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Traspaso</a></li>
+          			</ul>
+	            </li>
+	            <li id="opt_entradas">
+	            <a href="{% url 'inventarios:entradas_lista' %}"><i class="fa fa-mail-reply"></i>Entradas
+					<span class="pull-right-container">
+              		<i class="fa fa-angle-left pull-right"></i>
+            		</span>
+	            </a>
+	            	<ul class="treeview-menu">
+            			<li><a href="{% url 'inventarios:entradas_saldoinicial_lista'%}"><i class="fa fa-circle-o"></i>Saldo Inicial</a></li>
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Compras</a></li>
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Ajuste</a></li>
+            			<li><a href="#"><i class="fa fa-circle-o"></i>Traspaso</a></li>
+          			</ul>
+				</li>
 	          </ul>
 	        </li> 
 

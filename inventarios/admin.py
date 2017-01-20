@@ -70,6 +70,9 @@ class AdminMovientoCabecera(admin.ModelAdmin):
         'persona_entrega',
         'estado',
         'tipo',
+        'clasificacion',
+        'orden_trabajo',
+        'usuario',
     )
 
 

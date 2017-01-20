@@ -153,6 +153,8 @@ class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
     estado = serializers.SerializerMethodField()
     almacen_origen = serializers.SerializerMethodField()
     almacen_destino = serializers.SerializerMethodField()
+    clasificacion = serializers.SerializerMethodField()
+    orden_trabajo = serializers.SerializerMethodField()
 
     class Meta:
         model = MovimientoCabecera
@@ -167,6 +169,9 @@ class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             'persona_entrega',
             'tipo',
             'estado',
+            'clasificacion',
+            'orden_trabajo',
+            'usuario',
         )
 
     def get_estado(self, obj):
@@ -192,6 +197,21 @@ class MovimientoCabeceraSerializer(serializers.HyperlinkedModelSerializer):
             return "({}) {}".format(
                 obj.almacen_destino.clave.encode("utf-8"),
                 obj.almacen_destino.descripcion.encode("utf-8")
+            )
+        except:
+            return ""
+
+    def get_clasificacion(self, obj):
+        try:
+            return obj.get_clasificacion.display()
+        except:
+            return ""
+
+    def get_orden_trabajo(self, obj):
+        try:
+            return "{} - {}".format(
+                obj.orden_trabajo.clave.encode("utf-8"),
+                obj.orden_trabajo.descripcion.encode("utf-8")
             )
         except:
             return ""

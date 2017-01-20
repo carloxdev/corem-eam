@@ -28,6 +28,9 @@ from .views import EntradaCabeceraUpdateView
 from .views import SalidaListView
 from .views import SalidaCabeceraCreateView
 from .views import SalidaCabeceraUpdateView
+from .views import EntradaSaldoListView
+from .views import EntradaSaldoCreateView
+from .views import EntradaSaldoUpdateView
 
 app_name = "inventarios"
 
@@ -135,6 +138,21 @@ urlpatterns = [
         r'entradas/editar/(?P<pk>\d+)/$',
         EntradaCabeceraUpdateView.as_view(),
         name='entradas_editar'
+    ),
+    url(
+        r'entradas/saldo_inicial/$',
+        EntradaSaldoListView.as_view(),
+        name='entradas_saldoinicial_lista'
+    ),
+    url(
+        r'entradas/saldo_inicial/nuevo/$',
+        EntradaSaldoCreateView.as_view(),
+        name='entradas_saldoinicial_nuevo'
+    ),
+    url(
+        r'entradas/saldo_inicial/editar/(?P<pk>\d+)/$',
+        EntradaSaldoUpdateView.as_view(),
+        name='entradas_saldoinicial_editar'
     ),
     # ----------------- SALIDAS ----------------- #
     url(

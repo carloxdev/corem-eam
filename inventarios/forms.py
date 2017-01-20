@@ -242,3 +242,20 @@ class MovimientoDetalleForm(ModelForm):
         widgets = {
             'articulo': Select(attrs={'class': 'form-control input-sm'}),
         }
+
+
+class EntradaSaldoForm(ModelForm):
+
+    class Meta:
+        model = MovimientoCabecera
+        fields = [
+            'descripcion',
+            'almacen_destino',
+            'fecha',
+        ]
+        widgets = {
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'almacen_destino': Select(attrs={'class': 'form-control'}),
+            'fecha': TextInput(attrs={'class': 'form-control',
+                                      'data-date-format': 'yyyy-mm-dd'}),
+        }
