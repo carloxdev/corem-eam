@@ -8,6 +8,10 @@ var url_nuevo = window.location.origin + "/ordenes/nuevo/"
 var url_editar = window.location.origin + "/ordenes/editar/"
 var url_anexos = window.location.origin + "/ordenes/anexos/"
 
+var url_ot = window.location.origin + "/media/files/ot.xlsx"
+var url_mantenimiento = window.location.origin + "/media/files/actividades.pdf"
+
+
 // OBJS
 var targeta_filtros = null
 var targeta_resultados = null
@@ -183,10 +187,20 @@ GridPrincipal.prototype.get_Columnas = function (e) {
                     text: " Anexos",
                     click: this.click_BotonAnexos,
                     className: "boton_default fa fa-paperclip"
-                },                
+                },
+                {
+                   text: " Imprimir OT",
+                   click: this.click_BotonImprimirOT,
+                   className: "boton_default fa fa-wrench"
+                },
+                {
+                    text: " Reporte Mantenimiento",
+                    click: this.click_ReporteMantenimiento,
+                    className: "boton_default fa fa-gear"
+                },                            
             ],           
            title: " ",
-           width: "190px"
+           width: "490px"
         },
     ]
 }
@@ -199,7 +213,16 @@ GridPrincipal.prototype.apply_Estilos = function (e) {
 
     e.sender.tbody.find(".k-button.fa.fa-paperclip").each(function(idx, element){
         $(element).removeClass("fa fa-paperclip").find("span").addClass("fa fa-paperclip")
-    })        
+    }) 
+
+    // Aplicar iconos
+    e.sender.tbody.find(".k-button.fa.fa-wrench").each(function(idx, element){
+        $(element).removeClass("fa fa-wrench").find("span").addClass("fa fa-wrench")
+    })
+
+    e.sender.tbody.find(".k-button.fa.fa-gear").each(function(idx, element){
+        $(element).removeClass("fa fa-gear").find("span").addClass("fa fa-gear")
+    })           
 
     // Aplicar formato a columna:
     $('td').each( function () {
@@ -261,6 +284,20 @@ GridPrincipal.prototype.click_BotonAnexos = function (e) {
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
     window.location.href = url_anexos + fila.pk + "/texto/"
+}
+GridPrincipal.prototype.click_BotonImprimirOT = function (e) {
+    e.preventDefault()
+
+    // Obteniedo informacion del registro
+    var win = window.open(url_ot, '_blank')
+    win.focus()
+}
+GridPrincipal.prototype.click_ReporteMantenimiento = function (e) {
+    e.preventDefault()
+
+    // Obteniedo informacion del registro
+    var win = window.open(url_mantenimiento, '_blank')
+    win.focus()
 }
 GridPrincipal.prototype.change_IsTemplate = function (_value) {
 

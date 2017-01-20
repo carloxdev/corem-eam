@@ -49,6 +49,17 @@
 
                         <div class="box-header with-border">
                           <h3 class="box-title">No. Orden: <strong id="ot_clave">{{ orden_clave }}</strong></h3>
+                            <span class="pull-right">
+                                <a href="{{ MEDIA_URL }}files/ot.xlsx" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-wrench"></i>
+                                    Imprimir OT
+                                </a>                            
+                                <a href="{{ MEDIA_URL }}files/actividades.pdf" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-gear"></i>
+                                    Reporte Mantenimiento
+                                </a>
+
+                            </span>                          
                         </div>
                         <!-- /.box-header -->
 

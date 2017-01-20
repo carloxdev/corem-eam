@@ -193,7 +193,8 @@ class OrdenTrabajoUpdateView(View):
 
             return redirect(
                 reverse(
-                    'trabajos:ordenes_lista'
+                    'trabajos:actividades_lista',
+                    kwargs={'pk': orden.id}
                 )
             )
 
