@@ -119,7 +119,7 @@ class ManoObra(models.Model):
         blank=True
     )
     costo = models.DecimalField(
-        max_digits=20, decimal_places=4, default=0.0
+        max_digits=20, decimal_places=4, default=0.0, blank=True
     )
 
     # Auditoria Fields
@@ -158,7 +158,7 @@ class Material(models.Model):
         default=0.0
     )
     costo = models.DecimalField(
-        max_digits=20, decimal_places=4, default=0.0
+        max_digits=20, decimal_places=4, default=0.0, blank=True
     )
     created_date = models.DateTimeField(
         auto_now=False,
@@ -187,7 +187,7 @@ class ServicioExterno(models.Model):
     clave_jde = models.CharField(max_length=144, null=True, blank=True)
     comentarios = models.TextField(null=True, blank=True)
     costo = models.DecimalField(
-        max_digits=20, decimal_places=4, default=0.0
+        max_digits=20, decimal_places=4, default=0.0, blank=True
     )
     created_date = models.DateTimeField(
         auto_now=False,

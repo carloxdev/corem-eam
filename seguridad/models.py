@@ -56,7 +56,7 @@ class Profile(models.Model):
         ]
     )
     costo = models.DecimalField(
-        max_digits=20, decimal_places=4, default=0.0
+        max_digits=20, decimal_places=4, default=0.0, blank=True
     )
     comentarios = models.TextField(max_length=500, blank=True)
 

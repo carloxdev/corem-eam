@@ -78,13 +78,13 @@ TargetaFormulario.prototype.validar_Ubicacion = function () {
 }
 TargetaFormulario.prototype.modify_Ubicacion = function (_clave, _descripcion) {
 
-	var new_value = "(" + _clave + ")" + _descripcion
+	var new_value = "(" + _clave + ") " + _descripcion
 
 	// Modificar texto
 	this.$ubicacion.find(":selected").text(new_value)
 }
 TargetaFormulario.prototype.add_Ubicacion = function (_pk, _clave, _descripcion) {
-	var new_value = "(" + _clave + ")" + _descripcion
+	var new_value = "(" + _clave + ") " + _descripcion
 
 	this.$ubicacion.append(
 		$('<option>', {

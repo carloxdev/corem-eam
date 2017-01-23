@@ -159,7 +159,7 @@ class Stock(models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
     articulo = models.ForeignKey(Articulo, on_delete=models.PROTECT)
     costo = models.DecimalField(
-        max_digits=20, decimal_places=4, default=0.0
+        max_digits=20, decimal_places=4, default=0.0, blank=True
     )
     cantidad = models.DecimalField(
         max_digits=20, decimal_places=4, default=0.0)

@@ -103,7 +103,7 @@ class AlmacenUpdateView(UpdateView):
     model = Almacen
     form_class = AlmacenForm
     template_name = 'almacen/formulario.html'
-    success_url = reverse_lazy('inventarios.almacenes_lista')
+    success_url = reverse_lazy('inventarios:almacenes_lista')
 
     def get_context_data(self, **kwargs):
         context = super(AlmacenUpdateView, self).get_context_data(**kwargs)

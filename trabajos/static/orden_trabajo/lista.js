@@ -230,7 +230,7 @@ GridPrincipal.prototype.apply_Estilos = function (e) {
     // Aplicar formato a columna:
     $('td').each( function () {
         if($(this).text()=='ABIERTA'){ 
-            $(this).addClass('cell--reparacion')
+            $(this).addClass('cell--activo')
         }
         else if($(this).text()=='CERRADA'){ 
             $(this).addClass('cell--deshabilitado')

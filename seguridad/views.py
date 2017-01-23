@@ -157,8 +157,7 @@ class UsuarioCreateView(View):
             contexto = {
                 'form': formulario,
                 'form_profile': formulario_profile,
-                'operation': "Nuevo",
-                'imagen': self.obtener_UrlImagen(usuario.profile.imagen)
+                'operation': "Nuevo"
             }
             return render(request, self.template_name, contexto)
 

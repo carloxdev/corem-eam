@@ -206,7 +206,17 @@
 					{% else %}
 						<img src="{% static 'images/decoradores/no-image-user.jpg' %}" class="user-image img-responsive img-thumbnail" alt="User Image">
 					{% endif %}	  	              
-	              <span class="hidden-xs"> {{ user.get_full_name }}</span>
+	              <span class="hidden-xs">
+						{% if user.get_full_name %} 
+							{{ user.get_full_name }} 
+						{% else %}
+							{% if user.username == 'root'%}
+								Administrador
+							{% else %}
+								{{ user.username }}	
+							{% endif %}
+						{% endif %}
+	              </span>
 	            </a>
 	            <ul class="dropdown-menu">
 	              <!-- User image -->
@@ -218,9 +228,21 @@
 						<img src="{% static 'images/decoradores/no-image-user.jpg' %}" class="img-circle img-responsive img-thumbnail" alt="User Image">
 					{% endif %}	  	 	                
 
-	                <p>
-	                  {{ user.get_full_name }} - {{ user.profile.puesto }}
-	                  <small>Miembro desde {{ user.date_joined | date:"F, Y" }}</small>
+					<p>
+						{% if user.get_full_name %} 
+							{{ user.get_full_name }} 
+						{% else %}
+							{% if user.username == 'root'%}
+								Administrador
+							{% else %}
+								{{ user.username }}	
+							{% endif %}
+						{% endif %}
+						{% if user.profile.puesto %} 
+							- {{ user.profile.puesto }}
+						{% endif %}
+
+	                  	<small>Miembro desde {{ user.date_joined | date:"F, Y" }}</small>
 	                </p> 
 	              </li>
 
