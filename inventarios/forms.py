@@ -259,3 +259,24 @@ class EntradaSaldoForm(ModelForm):
             'fecha': TextInput(attrs={'class': 'form-control',
                                       'data-date-format': 'yyyy-mm-dd'}),
         }
+
+
+class EntradaCompraForm(ModelForm):
+
+    class Meta:
+        model = MovimientoCabecera
+        fields = [
+            'descripcion',
+            'fecha',
+            'almacen_destino',
+            'persona_entrega',
+            'persona_recibe',
+        ]
+        widgets = {
+            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'almacen_destino': Select(attrs={'class': 'form-control'}),
+            'fecha': TextInput(attrs={'class': 'form-control',
+                                      'data-date-format': 'yyyy-mm-dd'}),
+            'persona_entrega': TextInput(attrs={'class': 'form-control'}),
+            'persona_recibe': TextInput(attrs={'class': 'form-control'}),
+        }
