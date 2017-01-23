@@ -89,7 +89,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
     return [
         { field: "descripcion", title: "Descripcion" },
         { field: "clave_jde", title: "Clave JDE", width: "150px" },
-        { field: "comentarios", title: "Comentarios", format: '{0:n2}' },
+        { field: "comentarios", title: "Comentarios", format: '{0:n2}', encoded: false },
         {
            command: [
                 {
@@ -199,8 +199,6 @@ function Toolbar() {
     this.$boton_nuevo = $("#boton_nuevo")
     this.$boton_exportar = $("#boton_exportar")
 
-    this.modal = new VentanaModal()
-
     this.init()
 }
 Toolbar.prototype.init = function (e) {
@@ -228,12 +226,8 @@ function VentanaModal() {
     this.$desc_mensaje =  $('#mod_desc_mensaje')
 
     this.$clave_jde = $('#mod_clavejde')
-    this.$clave_jde_contenedor = $('#mod_clavejde_contenedor')
-    this.$clave_jde_mensaje =  $('#mod_clavejde_mensaje')    
 
     this.$comments = $('#mod_comments')
-    this.$comments_contenedor = $('#mod_comments_contenedor')
-    this.$comments_mensaje =  $('#mod_comments_mensaje')
 
     this.$boton_guardar = $('#btn_modal_save')
 
@@ -241,8 +235,10 @@ function VentanaModal() {
 }
 VentanaModal.prototype.init = function () {
 
+
     // Se asoscia eventos al abrir el modal
     this.$id.on('show.bs.modal', this, this.load)
+
 }
 VentanaModal.prototype.set_Id = function (_value) {
 
@@ -290,6 +286,7 @@ VentanaModal.prototype.load = function (e) {
     // Asosciar Eventos segun corresponda
     var event_owner
 
+    // Editar
     if ( e.relatedTarget == undefined ) {
 
         // Se modifica el titulo
@@ -309,6 +306,7 @@ VentanaModal.prototype.load = function (e) {
                 modal.$desc.val(response[0].descripcion)
                 modal.$clave_jde.val(response[0].clave_jde)                
                 modal.$comments.val(response[0].comentarios)
+                // modal.$comments.reset()
             },
             error: function (response) {
                 
@@ -322,6 +320,7 @@ VentanaModal.prototype.load = function (e) {
             e.data.editar
         )        
     }
+    // Agreagr
     else {
         event_owner = $(e.relatedTarget) 
 

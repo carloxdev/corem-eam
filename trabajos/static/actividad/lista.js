@@ -201,8 +201,6 @@ function Toolbar() {
     this.$boton_nuevo = $("#boton_nuevo")
     this.$boton_exportar = $("#boton_exportar")
 
-    this.modal = new VentanaModal()
-
     this.init()
 }
 Toolbar.prototype.init = function (e) {

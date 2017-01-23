@@ -158,7 +158,7 @@ class OrdenTrabajoUpdateView(View):
         contexto = {
             'form': formulario,
             'operation': "Editar",
-            'orden_clave': orden.id
+            'orden': orden
         }
 
         return render(request, self.template_name, contexto)
@@ -201,7 +201,7 @@ class OrdenTrabajoUpdateView(View):
         contexto = {
             'form': formulario,
             'operation': "Editar",
-            'orden_clave': self.id
+            'orden': orden
         }
 
         return render(request, self.template_name, contexto)
@@ -242,7 +242,7 @@ class ActividadListView(View):
 
         contexto = {
             'form': formulario,
-            'orden_clave': orden.id
+            'orden': orden
         }
 
         return render(_request, self.template_name, contexto)
@@ -283,7 +283,7 @@ class ManoObraListView(View):
 
         contexto = {
             'form': formulario,
-            'orden_clave': orden.id
+            'orden': orden
         }
 
         return render(_request, self.template_name, contexto)
@@ -324,7 +324,7 @@ class MaterialListView(View):
 
         contexto = {
             'form': formulario,
-            'orden_clave': orden.id
+            'orden': orden
         }
 
         return render(_request, self.template_name, contexto)
@@ -365,7 +365,7 @@ class ServicioExternoListView(View):
 
         contexto = {
             'form': formulario,
-            'orden_clave': orden.id
+            'orden': orden
         }
 
         return render(_request, self.template_name, contexto)

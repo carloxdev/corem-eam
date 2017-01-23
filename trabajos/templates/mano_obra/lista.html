@@ -6,16 +6,19 @@
 
 {% block css %}
 
-<!-- Kendo -->
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
-<link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
+    <!-- Kendo -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.rtl.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
     <!-- Select2 -->
     <link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
 
-<!-- CoreM -->
-<link rel="stylesheet" href="{% static 'grid.css' %}"/>
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="{% static 'libs/plugins/datepicker/datepicker3.css' %}">   
+
+    <!-- CoreM -->
+    <link rel="stylesheet" href="{% static 'grid.css' %}"/>
 
 
 {% endblock css %}  
@@ -30,7 +33,7 @@
         <small>Mano de Obra</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i>Inicio</a></li>
+        <li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i>Inicio</a></li>
         <li><a href="{% url 'trabajos:ordenes_lista' %}">Ordenes</a></li>
         <li class="active">Mano de Obra</li>
       </ol>
@@ -39,128 +42,67 @@
     <!-- Main content -->
     <section class="content" id="contenido">
 
-        <!-- Info de la Orden y Grid -->        
         <div class="row">
             <form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-            <div class="col-md-12">
 
-                    <!-- Clave, Equipo, Descripcion, Estado -->
-                    <div class="box box-solid">
-
-                        <div class="box-header with-border">
-                          <h3 class="box-title">No. Orden: <strong id="ot_clave">{{ orden_clave }}</strong></h3>
-                            <span class="pull-right">
-                                <a href="{{ MEDIA_URL }}files/ot.xlsx" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-wrench"></i>
-                                    Imprimir OT
-                                </a>                            
-                                <a href="{{ MEDIA_URL }}files/actividades.pdf" class="btn btn-primary btn-xs">
-                                    <i class="fa fa-gear"></i>
-                                    Reporte Mantenimiento
+                <div class="col-md-12">
+                    
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs pull-right">                        
+                            <li><a id="tab_servicios" href="{% url 'trabajos:servicio_externo_lista' orden.id %}">Servicios</a></li>
+                            <li class="active">
+                                <a id="tab_mano_obra" href="#">Mano Obra</a>
+                            </li>
+                            <li><a id="tab_materiales" href="{% url 'trabajos:material_lista' orden.id %}">Materiales</a></li>
+                            <li><a id="tab_actividades" href="{% url 'trabajos:actividades_lista' orden.id %}">Actividades</a></li>
+                            <li><a href="{% url 'trabajos:ordenes_editar' orden.id %}">Generales</a></li>
+<!--                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Reportes 
+                                    <span class="caret"></span>
                                 </a>
+                                <ul class="dropdown-menu">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Imprimir OT</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Imprimir Reporte de Mantenimiento</a></li>
+                                </ul>
+                            </li>    -->                    
+                            <li class="pull-left header"><i class="fa fa-th"></i> No. Orden: <strong id="ot_clave">{{ orden.id }}</strong> - <strong>{{ orden.descripcion }}</strong></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active">
 
-                            </span>                          
-                        </div>
-                        <!-- /.box-header -->
 
-                        <div class="box-body">
+                                <div class="box box-info">
+                                    <div class="box-header box-header-border">
+                                        <h3 class="box-title">Registros</h3>
+                                        <div class="box-tools pull-right">
 
-                            <div class="row">
+                                            <a href="#win_modal" class="btn bg-purple btn-sm" data-toggle="modal" id="boton_nuevo">
+                                                <i class="fa fa-plus-circle"></i>
+                                                Nuevo
+                                            </a>
 
-                                <div class="col-sm-4">
-
-                                    <div class="form-group input-group-sm">
-
-                                        <label class="control-label">
-                                            {{ form.equipo.label }} 
-                                        </label>
-                                        {{ form.equipo }}
-                                     </div>
-
-                                </div>
-
-                                <div class="col-sm-8">
-
-                                    <div class="form-group input-group-sm">
-
-                                        <label class="control-label">
-                                            {{ form.descripcion.label }} 
-                                        </label>
-                                        {{ form.descripcion }}
-                                      </div>
-
-                                </div>
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-group input-group-sm">
-
-                                        <label class="control-label">
-                                            {{ form.tipo.label }} 
-                                        </label>
-                                        {{ form.tipo }}
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-
-                                    <div class="form-group input-group-sm">
-
-                                        <label class="control-label">
-                                            {{ form.estado.label }} 
-                                        </label>
-                                        {{ form.estado }}
-                                      
-                                    </div>
-                                </div>                              
-                            </div>
-
-                        </div>
-                    <!-- /.box-body -->
-                    </div>
-
-                  <!-- Custom Tabs (Informacion de la Orden) -->
-                 <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                      <li><a href="{% url 'trabajos:ordenes_editar' orden_clave %}">Generales</a></li>
-                      <li><a href="{% url 'trabajos:actividades_lista' orden_clave %}" id="tab_actividades">Actividades</a></li>
-                      <li><a href="{% url 'trabajos:material_lista' orden_clave %}" id="tab_materiales">Materiales</a></li>
-                      <li><a href="{% url 'trabajos:servicio_externo_lista' orden_clave %}"  id="tab_servicios">Servicios</a></li>
-                      <li class="active"><a href="#" id="tab_mano_obra">Mano Obra</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
-
-                            <div class="box box-info">
-                                <div class="box-header box-header-border">
-                                    <h3 class="box-title">Registros</h3>
-                                    <div class="box-tools pull-right">
-
-                                        <a href="#win_modal" class="btn bg-purple btn-sm" data-toggle="modal" id="boton_nuevo">
-                                            <i class="fa fa-plus-circle"></i>
-                                            Nuevo
-                                        </a>
-
-                                        <button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
+                                            <button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
                                             <i class="fa fa-file-excel-o"></i>
                                             Exportar
-                                        </button>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div id="grid_principal">
-                                </div>
-                            </div>                          
+                                    <div id="grid_principal">
+                                    </div>
+                                </div>  
 
-                        </div> 
 
-                    </div>          
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div> <!-- /.tab-content -->
+                            
+                    </div> <!-- nav-tabs-custom -->
                 </div>
-            </div>
+
             </form>
         </div>
+
 
         <!-- win_modal -->
         <div class="modal fade" role="dialog" id="win_modal">
@@ -177,29 +119,17 @@
                     <div class="row">
 
                         <!-- Empleado -->
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-group has-warning select2--fix" id="mod_empleado_contenedor">
                                 <label for="mod_empleado">
-                                    <i class="fa fa-asterisk  "></i>
+                                    <i class="fa fa-asterisk"></i>
                                     Empleado:
                                 </label>
-                                <select class="form-control" id="mod_empleado">
+                                <select class="form-control input-sm" id="mod_empleado">
                                 </select>
                                 <span class="help-block hidden" id="mod_empleado_mensaje">Este campo es requerido.</span>
                             </div>
-                        </div>    
-
-                        <!-- Descripcion -->
-                        <div class="col-sm-6">
-                            <div class="form-group" id="mod_desc_contenedor">
-                                <label for="mod_desc">
-                                    Descripcion:
-                                </label>
-                                <input class="form-control" id="mod_desc" maxlength="144" type="text" />
-                                <span class="help-block hidden" id="mod_desc_mensaje">Este campo es requerido.</span>
-                            </div>
-                        </div>                        
-
+                        </div> 
                     </div>
 
                     <div class="row">
@@ -208,15 +138,14 @@
                         <div class="col-sm-6">
                             <div class="form-group" id="mod_fecha_inicio_contenedor">
                                 <label for="mod_fecha_inicio">
-                                    Fecha
+                                    Fecha Inicio:
                                 </label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" id="mod_fecha_inicio" data-date-format="yyyy-mm-dd" class="form-control pull-right">
+                                    <input type="text" id="mod_fecha_inicio" data-date-format="yyyy-mm-dd" class="form-control input-sm pull-right">
                                 </div>
-                                <span class="help-block hidden" id="mod_fecha_inicio_mensaje">Este campo es requerido.</span>
                                 <!-- /.input group -->
                             </div>
                         </div>    
@@ -226,15 +155,14 @@
 
                             <div class="form-group" id="mod_fecha_fin_contenedor">
                                 <label for="mod_fecha_fin">
-                                    <label for="mod_fecha_fin">Fecha</label>
+                                    Fecha Fin:
                                 </label>
                                 <div class="input-group">
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    <input type="text" id="id_fecha" data-date-format="yyyy-mm-dd" class="form-control pull-right">
+                                    <input type="text" id="mod_fecha_fin" data-date-format="yyyy-mm-dd" class="form-control input-sm pull-right">
                                 </div>
-                                <span class="help-block hidden" id="mod_fecha_fin_mensaje">Este campo es requerido.</span>
                                 <!-- /.input group -->
                             </div>
                         </div>                                             
@@ -249,8 +177,7 @@
                                 <label for="mod_hrs_est">
                                     Horas Estimadas:
                                 </label>
-                                <input class="form-control" id="mod_hrs_est" maxlength="144" type="number" />
-                                <span class="help-block hidden" id="mod_hrs_est_mensaje">Este campo es requerido.</span>
+                                <input class="form-control input-sm" id="mod_hrs_est" maxlength="144" type="number" />
                             </div>
                         </div>
 
@@ -260,10 +187,22 @@
                                 <label for="mod_hrs_real">
                                     Horas Reales:
                                 </label>
-                                <input class="form-control" id="mod_hrs_real" maxlength="144" type="number" />
-                                <span class="help-block hidden" id="mod_hrs_real_mensaje">Este campo es requerido.</span>
+                                <input class="form-control input-sm" id="mod_hrs_real" maxlength="144" type="number" />
                             </div>
                         </div>  
+                    </div>
+
+                    <div class="row">
+
+                        <!-- Descripcion -->
+                        <div class="col-sm-12">
+                            <div class="form-group" id="mod_desc_contenedor">
+                                <label for="mod_desc">
+                                    Descripcion:
+                                </label>
+                                <input class="form-control input-sm" id="mod_desc" maxlength="144" type="text" />
+                            </div>
+                        </div>                          
                     </div>
 
               </div>
@@ -294,6 +233,12 @@
 
     <!-- Select2 -->
     <script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
+
+    <!-- InputMask -->
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.js' %}"></script>
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+    <script src="{% static 'libs/plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+
 
     <!-- CoreM -->
     <script src="{% static 'mano_obra/lista.js' %}"></script>

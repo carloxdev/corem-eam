@@ -83,6 +83,7 @@ GridPrincipal.prototype.get_Campos = function (e) {
     return {
         articulo : { type:"string" },
         articulo_desc : { type:"string" },
+        articulo_udm : { type:"string" },
         cantidad_estimada : { type: "number" },
         cantidad_real : { type: "number" },
     }
@@ -93,6 +94,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
         { field: "articulo_desc", title: "Articulo" },
         { field: "cantidad_estimada", title: "Cantidad Estimada", format: '{0:n2}' },
         { field: "cantidad_real", title: "Cantidad Real", format: '{0:n2}' },
+        { field: "articulo_udm", title: "Unidad de Medida" },        
         {
            command: [
                 {
@@ -157,7 +159,8 @@ GridPrincipal.prototype.click_BotonEditar = function (e) {
 
     e.preventDefault()
     var fila = this.dataItem($(e.currentTarget).closest('tr'))
-    targeta_resultados.modal.set_Id(fila.pk)
+    var clave_articulo = fila.pk
+    targeta_resultados.modal.set_Id(clave_articulo.toString())
     targeta_resultados.modal.mostrar()
 }
 GridPrincipal.prototype.click_BotonEliminar = function (e) {
@@ -287,7 +290,7 @@ VentanaModal.prototype.validar = function () {
 
     return bandera
 }
-VentanaModal.prototype.fill_Articulos = function (_value) {
+VentanaModal.prototype.fill_Articulos = function (_value, _selected) {
 
     combo_articulos = this.$articulo
 
@@ -313,6 +316,8 @@ VentanaModal.prototype.fill_Articulos = function (_value) {
             })
 
             combo_articulos.trigger('change')
+
+            combo_articulos.val(_selected).trigger('change')
         },
         error: function (response) {
             
@@ -337,9 +342,6 @@ VentanaModal.prototype.load = function (e) {
     // Edicion
     if ( e.relatedTarget == undefined ) {
 
-        
-        e.data.fill_Articulos("")
-
         // Se modifica el titulo
         e.data.$id.find('.modal-title').text('Editar Material Agregado')
 
@@ -355,10 +357,8 @@ VentanaModal.prototype.load = function (e) {
 
                 // modal.$articulo.val(response[0].articulo)
                 modal.$cantidad_estimada.val(response[0].cantidad_estimada)
-                var article = response[0].articulo_id
-                modal.$articulo.val(article)
-                modal.$articulo.trigger('change')
 
+                modal.fill_Articulos("", response[0].articulo_id)
 
             },
             error: function (response) {
@@ -437,7 +437,7 @@ VentanaModal.prototype.editar = function (e) {
             method: "PUT",
             data: {
                 "orden" :  url_ordenes + $ot_clave.text() + "/",
-                "articulo" : e.data.$articulo.val(),
+                "articulo" : url_articulos1 + e.data.$articulo.val() + "/",
                 "cantidad_estimada" : e.data.$cantidad_estimada.val(),
             },
             success: function (response) {

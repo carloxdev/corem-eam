@@ -30,7 +30,7 @@
 	<small>Consulta</small>
 	</h1>
 	<ol class="breadcrumb">
-		<li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+		<li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i> Inicio</a></li>
 		<li class="active">Odómetros</li>
 	</ol>
 </section>
@@ -50,21 +50,21 @@
 				<form role="form" action=""> {% csrf_token %}
 					<div class="box-body">
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+							<div class="form-group col-sx-12 col-sm-4 col-md-4">
 								<label for="{{ form.equipo.id_for_label }}">Equipo</label>
 								{{ form.equipo }}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+							<div class="form-group col-sx-12 col-sm-4 col-md-4">
 								<label for="{{ form.clave.id_for_label }}">Clave</label>
 								{{ form.clave }}
 							</div>
-							<div class="form-group input-group-sm col-sx-12 col-sm-4 col-md-4">
+							<div class="form-group col-sx-12 col-sm-4 col-md-4">
 								<label for="{{ form.udm.id_for_label }}">UDM</label>
 								{{ form.udm }}
 							</div>
 						</div>
 						<div class="row">
-							<div class="form-group input-group-sm col-sx-12 col-sm-12 col-md-12">
+							<div class="form-group col-sx-12 col-sm-12 col-md-12">
 								<label for="{{ form.descripcion.id_for_label }}">Descripción</label>
 								{{ form.descripcion }}
 							</div>

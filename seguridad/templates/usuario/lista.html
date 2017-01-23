@@ -23,7 +23,7 @@
 	    <small>Consultar</small>
 	  </h1>
 	  <ol class="breadcrumb">
-	    <li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+	    <li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i> Inicio</a></li>
 	    <li class="active">Usuarios</li>
 	  </ol>
 	</section>
@@ -31,115 +31,118 @@
 	<!-- Main content -->
 	<section class="content" id="contenido">
 
+
 		<div class="row">
-	        <div class="col-md-12">
+			<div class="col-sm-12">
 
-	          <div class="box box-info">
-	            <div class="box-header">
-	              <h3 class="box-title">Registros</h3>
-		          <div class="box-tools pull-right">
+				<div class="box box-info box--table">
 
-		            <a id="boton_nuevo" class="btn bg-purple btn-sm" href="{% url 'seguridad:usuarios_nuevo' %}">
-						<i class="fa fa-plus-circle"></i>
-		            	Nuevo
-		            </a>
-					<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
-						<i class="fa fa-file-excel-o"></i>
-		            	Exportar
-		            </button>
-		          </div>	              
-	            </div>
+					<div class="box-header">
+						<h3 class="box-title">Registros</h3>
 
-				<div class="box-body">
-					{% if usuarios %}
-					<div class="table-responsive">
-						<table class="table table-striped table-bordered table-hover table-condensed">
-							<tr class="grid-header">
-								<th>Cuenta</th> 
-								<th>Nombre</th> 
-								<th>Apellidos</th> 
-								<th>Email</th> 
-								<th>Estado</th> 
+						<div class="box-tools pull-right">
 
-								<th>Puesto</th> 
-								<th>RH Clave</th> 
-								<th>Fecha Nacimiento</th>
+							<a id="boton_nuevo" class="btn bg-purple btn-sm" href="{% url 'seguridad:usuarios_nuevo' %}">
+								<i class="fa fa-plus-circle"></i>
+								Nuevo
+							</a>
 
-
-
-								<th>Ultimo Login</th> 
-								<th>Fecha Registro</th> 
-								<td></td>
-							</tr>
-							{% for usuario in usuarios %}
-							<tr>
-								<td> {{ usuario.username }} </td> 
-								<td> {{ usuario.first_name }} </td> 
-								<td> {{ usuario.last_name }} </td> 
-								<td> {{ usuario.email }} </td> 
-								{% if usuario.is_active %}
-									<td class="cell--activo"> 
-										ACTIVO
-									</td>
-								{% else %} 
-									<td class="cell--deshabilitado"> 
-										DESHABILITADO
-									</td>
-								{% endif %}  
-
-								<td> {{ usuario.profile.puesto|default_if_none:""  }} </td> 
-								<td> {{ usuario.profile.clave|default_if_none:"" }} </td> 
-								<td> {{ usuario.profile.fecha_nacimiento|default_if_none:""  }} </td> 
-
-
-								<td> {% if usuario.last_login %} {{ usuario.last_login | naturaltime }} {% else %} - {% endif %} </td>
-								<td> {{ usuario.date_joined | naturalday }} </td> 
-								<td> 
-				                    <a href="{% url 'seguridad:usuarios_editar' usuario.pk %}" class="btn btn-warning btn-xs">
-				                    	<i class="fa fa-pencil"></i>
-				                    	Editar
-				                    </a> 
-				                </td> 
-							</tr>
-							{% endfor %}
-						</table>		
-					</div>
-
-					<div class="row">
-						<div class="col-md-12">
-							<nav>
-							    {% if is_paginated %}
-							        <ul class="pagination">
-							            {% if page_obj.has_previous %}
-							                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-							            {% endif %}
-
-							            {% for i in paginator.page_range %}
-							                <li {% if page_obj.number == i %} class="active" {% endif %}>
-							                    <a href="?page={{i}}">{{ i }}</a>
-							                </li>
-							            {% endfor %}
-
-							            {% if page_obj.has_next %}
-							                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-							            {% endif %}
-							        </ul>
-							    {% endif %}
-							</nav>
+							<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
+								<i class="fa fa-file-excel-o"></i>
+								Exportar
+							</button>
 						</div>
-					</div>					
-				</div>
 
-				{% else %}
-					<div>
-						<h3 class="grid-empy">No se encontraron usuarios</h3>		
-					</div>
-				{% endif %}
+					</div> <!-- /.box-header -->
 
-	          </div>
-	          <!-- /.box -->
+					<div class="box-body no-padding table-responsive">
 
-	        </div>			
+						{% if usuarios %}
+
+							<table class="table table-striped table-hover grid-body">
+								<!-- Titulos -->
+								<tr>
+									<th>Cuenta</th> 
+									<th>Nombre</th> 
+									<th>Apellidos</th> 
+									<th>Email</th> 
+									<th>Estado</th> 
+									<th>Puesto</th> 
+									<th>RH Clave</th> 
+									<th>Fecha Nacimiento</th>
+									<th>Ultimo Login</th> 
+									<th>Fecha Registro</th> 
+									<th></th> 
+								</tr>
+
+								<!-- Columnas -->
+								{% for usuario in usuarios %}
+								<tr>
+									<td> {{ usuario.username }} </td> 
+									<td> {{ usuario.first_name }} </td> 
+									<td> {{ usuario.last_name }} </td> 
+									<td> {{ usuario.email }} </td> 
+									{% if usuario.is_active %}
+										<td class="cell--activo"> 
+											ACTIVO
+										</td>
+									{% else %} 
+										<td class="cell--deshabilitado"> 
+											DESHABILITADO
+										</td>
+									{% endif %}  
+
+									<td> {{ usuario.profile.puesto|default_if_none:""  }} </td> 
+									<td> {{ usuario.profile.clave|default_if_none:"" }} </td> 
+									<td> {{ usuario.profile.fecha_nacimiento|default_if_none:""  }} </td> 
+
+
+									<td> {% if usuario.last_login %} {{ usuario.last_login | naturaltime }} {% else %} - {% endif %} </td>
+									<td> {{ usuario.date_joined | naturalday }} </td> 
+									<td> 
+					                    <a href="{% url 'seguridad:usuarios_editar' usuario.pk %}" class="btn btn-warning btn-xs">
+					                    	<i class="fa fa-pencil"></i>
+					                    	Editar
+					                    </a> 
+					                </td> 
+								</tr>
+								{% endfor %}
+
+							
+							</table>
+						{% else %}
+
+							<div>
+								<h3 class="grid-empy">No se encontraron usuarios</h3>
+							</div>
+						{% endif %}				
+
+					</div> <!-- /.box-body -->
+
+					{% if is_paginated %}
+		            <div class="box-footer clearfix">
+
+					    
+					        <ul class="pagination pagination-sm no-margin">
+					            {% if page_obj.has_previous %}
+					                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+					            {% endif %}
+
+					            {% for i in paginator.page_range %}
+					                <li {% if page_obj.number == i %} class="active" {% endif %}>
+					                    <a href="?page={{i}}">{{ i }}</a>
+					                </li>
+					            {% endfor %}
+
+					            {% if page_obj.has_next %}
+					                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+					            {% endif %}
+					        </ul>
+		            </div>
+		            {% endif %}
+
+				</div> <!-- /.box -->
+			</div>
 		</div>
 
 	</section>

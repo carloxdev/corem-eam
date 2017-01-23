@@ -30,10 +30,10 @@ class AlmacenForm(ModelForm):
             'estado',
         ]
         widgets = {
-            # 'empresa': TextInput(attrs={'class': 'form-control'}),
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control'}),
+            # 'empresa': TextInput(attrs={'class': 'form-control input-sm'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'estado': Select(attrs={'class': 'form-control input-sm'}),
         }
 
 
@@ -45,8 +45,8 @@ class UdmArticuloForm(ModelForm):
         model = UdmArticulo
         fields = '__all__'
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
         }
 
 
@@ -62,12 +62,13 @@ class ArticuloFilterForm(ModelForm):
             'tipo',
             'clave_jde',
             'estado',
+            'imagen',
         ]
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'tipo': Select(attrs={'class': 'form-control'}),
-            'clave_jde': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'tipo': Select(attrs={'class': 'form-control input-sm'}),
+            'clave_jde': TextInput(attrs={'class': 'form-control input-sm'}),
         }
 
 
@@ -82,14 +83,15 @@ class ArticuloForm(ModelForm):
             'udm',
             'clave_jde',
             'estado',
+            'imagen',
         ]
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'tipo': Select(attrs={'class': 'form-control'}),
-            'udm': Select(attrs={'class': 'form-control'}),
-            'clave_jde': TextInput(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'tipo': Select(attrs={'class': 'form-control input-sm'}),
+            'udm': Select(attrs={'class': 'form-control input-sm'}),
+            'clave_jde': TextInput(attrs={'class': 'form-control input-sm'}),
+            'estado': Select(attrs={'class': 'form-control input-sm'}),
         }
         labels = {
             'clave_jde': 'Clave JDE',
@@ -102,24 +104,24 @@ class StockFilterForm(Form):
 
     almacen = ChoiceField(
         widget=Select(
-            attrs={'class': 'form-control'}
+            attrs={'class': 'form-control input-sm'}
         )
     )
 
     articulo = ChoiceField(
         widget=Select(
-            attrs={'class': 'form-control'}
+            attrs={'class': 'form-control input-sm'}
         )
     )
 
     cantidad_menorque = CharField(
         widget=TextInput(
-            attrs={'class': 'form-control'})
+            attrs={'class': 'form-control input-sm'})
     )
 
     cantidad_mayorque = CharField(
         widget=TextInput(
-            attrs={'class': 'form-control'})
+            attrs={'class': 'form-control input-sm'})
     )
 
     def __init__(self, *args, **kwargs):
@@ -182,13 +184,19 @@ class MovimientoCabeceraFilterForm(ModelForm):
             'tipo',
         ]
         widgets = {
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'almacen_origen': Select(attrs={'class': 'form-control'}),
-            'almacen_destino': Select(attrs={'class': 'form-control'}),
-            'persona_recibe': TextInput(attrs={'class': 'form-control'}),
-            'persona_entrega': TextInput(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control'}),
-            'tipo': Select(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'almacen_origen': Select(attrs={'class': 'form-control input-sm'}),
+            'almacen_destino': Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'persona_recibe': TextInput(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'persona_entrega': TextInput(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'estado': Select(attrs={'class': 'form-control input-sm'}),
+            'tipo': Select(attrs={'class': 'form-control input-sm'}),
 
         }
 
@@ -206,13 +214,19 @@ class MovimientoCabeceraForm(ModelForm):
             'persona_entrega',
         ]
         widgets = {
-            'fecha': TextInput(attrs={'class': 'form-control',
+            'fecha': TextInput(attrs={'class': 'form-control input-sm',
                                       'data-date-format': 'yyyy-mm-dd'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'almacen_origen': Select(attrs={'class': 'form-control'}),
-            'almacen_destino': Select(attrs={'class': 'form-control'}),
-            'persona_recibe': TextInput(attrs={'class': 'form-control'}),
-            'persona_entrega': TextInput(attrs={'class': 'form-control'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'almacen_origen': Select(attrs={'class': 'form-control input-sm'}),
+            'almacen_destino': Select(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'persona_recibe': TextInput(
+                attrs={'class': 'form-control input-sm'}
+            ),
+            'persona_entrega': TextInput(
+                attrs={'class': 'form-control input-sm'}
+            ),
 
         }
 
@@ -226,5 +240,5 @@ class MovimientoDetalleForm(ModelForm):
         ]
 
         widgets = {
-            'articulo': Select(attrs={'class': 'form-control'}),
+            'articulo': Select(attrs={'class': 'form-control input-sm'}),
         }

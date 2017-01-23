@@ -29,17 +29,34 @@ function TargetaFormulario() {
 
     this.$udm = $("#id_udm")
 
-    this.$boton_editar_udm = $("#btn_edit_udm")
+	this.$imagen = $('#id_imagen')
+	this.$imagen_preview = $('#img_preview')
 
+    this.$boton_editar_udm = $("#btn_edit_udm")
     this.modal_udm = new VentanaUdm()
 
 	this.init()
 }
 TargetaFormulario.prototype.init = function () {
 
+	this.$imagen.on("change",this, this.set_PreviewImagen)
 
     this.validar_Udm()
     this.$udm.on("change", this, this.change_Udm)
+}
+TargetaFormulario.prototype.set_PreviewImagen = function (e) {
+
+    if (this.files && this.files[0]) {
+        
+        var reader = new FileReader()
+
+        reader.onload = function (e) {
+            formulario.$imagen_preview.attr('src', e.target.result)
+        }
+
+        reader.readAsDataURL(this.files[0])
+
+    }
 }
 TargetaFormulario.prototype.change_Udm = function (e) {
 

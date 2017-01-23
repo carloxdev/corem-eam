@@ -13,7 +13,6 @@ from django.contrib.auth import views as auth_views
 
 # Vistas
 from .views import Login
-from .views import Dashboard
 from .views import UsuarioListView
 from .views import UsuarioCreateView
 from .views import UsuarioEditView
@@ -36,17 +35,6 @@ urlpatterns = [
         {'next_page': settings.LOGIN_URL},
         name='logout'
     ),
-
-
-    # ----------------- DASHBOARDS ----------------- #
-
-
-    url(
-        r'^dashboard/$',
-        Dashboard.as_view(),
-        name='dashboard'
-    ),
-
 
     # ----------------- USUARIO ----------------- #
 

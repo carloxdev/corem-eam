@@ -81,3 +81,12 @@
 	color: white;
 	text-align: center;	
 }
+
+.grid-body tbody tr th {
+	font-size: 12px !important;
+	font-family: Helvetica Neue !important;	
+}
+
+.grid-body tbody tr td {
+	font-size: 13px !important;
+}

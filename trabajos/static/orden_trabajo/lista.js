@@ -27,6 +27,7 @@ $(document).ready(function () {
 
     targeta_filtros = new TargetaFiltros()
     targeta_resultados = new TargetaResultados()
+
 })
 
 // Asigna eventos a teclas
@@ -154,6 +155,7 @@ GridPrincipal.prototype.get_Config = function () {
 GridPrincipal.prototype.get_Campos = function (e) {
 
     return {
+        pk: { type: "number" },
         equipo: { type: "string" },
         tipo: { type: "string" },
         estado: { type: "string" },
@@ -165,6 +167,7 @@ GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
 
+        { field: "pk", title: "Numero", width: "90px" },
         { field: "equipo", title: "Equipo", width: "200px" },
         { field: "descripcion", title: "Descripcion", width: "250px" },
         { field: "tipo", title: "Tipo", width: "120px" },
@@ -226,7 +229,7 @@ GridPrincipal.prototype.apply_Estilos = function (e) {
 
     // Aplicar formato a columna:
     $('td').each( function () {
-        if($(this).text()=='CAPTURA'){ 
+        if($(this).text()=='ABIERTA'){ 
             $(this).addClass('cell--reparacion')
         }
         else if($(this).text()=='CERRADA'){ 

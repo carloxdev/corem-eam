@@ -7,6 +7,9 @@ from django.db import models
 # Otros Modelos:
 from seguridad.models import Empresa
 
+# Validadores:
+from home.validators import valid_extension
+from home.validators import validate_image
 
 ARTICULO_TIPO = (
     ('INS', 'INSUMO'),
@@ -72,6 +75,15 @@ class Articulo(models.Model):
         choices=ARTICULO_TIPO,
         default="CORRE",
         blank=True
+    )
+    imagen = models.ImageField(
+        upload_to='articulos/img',
+        blank=True,
+        null=True,
+        validators=[
+            valid_extension,
+            validate_image
+        ]
     )
     udm = models.ForeignKey(
         UdmArticulo,
@@ -146,6 +158,9 @@ class Almacen(models.Model):
 class Stock(models.Model):
     almacen = models.ForeignKey(Almacen, on_delete=models.PROTECT)
     articulo = models.ForeignKey(Articulo, on_delete=models.PROTECT)
+    costo = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0
+    )
     cantidad = models.DecimalField(
         max_digits=20, decimal_places=4, default=0.0)
     created_date = models.DateTimeField(

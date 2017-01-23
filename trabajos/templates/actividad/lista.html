@@ -27,7 +27,7 @@
 	    <small>Actividades</small>
 	  </h1>
 	  <ol class="breadcrumb">
-	    <li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i>Inicio</a></li>
+	    <li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i>Inicio</a></li>
 	    <li><a href="{% url 'trabajos:ordenes_lista' %}">Ordenes</a></li>
 	    <li class="active">Actividades</li>
 	  </ol>
@@ -38,123 +38,62 @@
 
 		<div class="row">
 			<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}
-		    <div class="col-md-12">
 
-					<!-- Clave, Equipo, Descripcion, Estado -->
-					<div class="box box-solid">
-
-			            <div class="box-header with-border">
-			              <h3 class="box-title">No. Orden: <strong id="ot_clave">{{ orden_clave }}</strong></h3>
-							<span class="pull-right">
-								<a href="{{ MEDIA_URL }}files/ot.xlsx" class="btn btn-primary btn-xs">
-									<i class="fa fa-wrench"></i>
-									Imprimir OT
-								</a>							
-								<a href="{{ MEDIA_URL }}files/actividades.pdf" class="btn btn-primary btn-xs">
-									<i class="fa fa-gear"></i>
-									Reporte Mantenimiento
+				<div class="col-md-12">
+					
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs pull-right">						
+							<li><a id="tab_servicios" href="{% url 'trabajos:servicio_externo_lista' orden.id %}">Servicios</a></li>
+							<li><a id="tab_mano_obra" href="{% url 'trabajos:mano_obra_lista' orden.id %}">Mano Obra</a></li>
+							<li><a id="tab_materiales" href="{% url 'trabajos:material_lista' orden.id %}">Materiales</a></li>
+							<li class="active">
+								<a id="tab_actividades" href="#">Actividades</a>
+							</li>
+							<li><a href="{% url 'trabajos:ordenes_editar' orden.id %}">Generales</a></li>
+<!-- 							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									Reportes 
+									<span class="caret"></span>
 								</a>
+								<ul class="dropdown-menu">
+									<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Imprimir OT</a></li>
+									<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Imprimir Reporte de Mantenimiento</a></li>
+								</ul>
+							</li>	 -->					
+							<li class="pull-left header"><i class="fa fa-th"></i> No. Orden: <strong id="ot_clave">{{ orden.id }}</strong> - <strong>{{ orden.descripcion }}</strong></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane active">
 
-							</span>			              
-			            </div>
-			            <!-- /.box-header -->
 
-						<div class="box-body">
+								<div class="box box-info">
+									<div class="box-header box-header-border">
+										<h3 class="box-title">Registros</h3>
+										<div class="box-tools pull-right">
 
-							<div class="row">
+											<a href="#win_modal" class="btn bg-purple btn-sm" data-toggle="modal" id="boton_nuevo">
+												<i class="fa fa-plus-circle"></i>
+												Nuevo
+											</a>
 
-								<div class="col-sm-4">
+											<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
+											<i class="fa fa-file-excel-o"></i>
+											Exportar
+											</button>
+										</div>
+									</div>
+									<div id="grid_principal">
+									</div>
+								</div>	
 
-									<div class="form-group input-group-sm">
 
-									  	<label class="control-label">
-									  		{{ form.equipo.label }} 
-									 	</label>
-									    {{ form.equipo }}
-									 </div>
-
-								</div>
-
-								<div class="col-sm-8">
-
-									<div class="form-group input-group-sm">
-
-									  	<label class="control-label">
-									  		{{ form.descripcion.label }} 
-									 	</label>
-									    {{ form.descripcion }}
-									  </div>
-
-								</div>
 							</div>
-
-							<div class="row">
-
-								<div class="col-sm-6">
-
-									<div class="form-group input-group-sm">
-
-									  	<label class="control-label">
-									  		{{ form.tipo.label }} 
-									 	</label>
-									    {{ form.tipo }}
-									</div>
-								</div>
-
-								<div class="col-sm-6">
-
-									<div class="form-group input-group-sm">
-
-									  	<label class="control-label">
-									  		{{ form.estado.label }} 
-									 	</label>
-									    {{ form.estado }}
-									  
-									</div>
-								</div>								
-							</div>
-
-						</div>
-					<!-- /.box-body -->
-					</div>
-
-		          <!-- Custom Tabs (Informacion de la Orden) -->
-		         <div class="nav-tabs-custom">
-		            <ul class="nav nav-tabs">
-		              <li><a href="{% url 'trabajos:ordenes_editar' orden_clave %}">Generales</a></li>
-		              <li class="active"><a href="#" id="tab_actividades">Actividades</a></li>
-		              <li><a href="{% url 'trabajos:material_lista' orden_clave %}" id="tab_materiales">Materiales</a></li>
-		              <li><a href="{% url 'trabajos:servicio_externo_lista' orden_clave %}" id="tab_servicios">Servicios</a></li>
-		              <li><a href="{% url 'trabajos:mano_obra_lista' orden_clave %}" id="tab_mano_obra">Mano Obra</a></li>
-		            </ul>
-		            <div class="tab-content">
-		              	<div class="tab-pane active" id="tab_1">
-
-							<div class="box box-info">
-								<div class="box-header box-header-border">
-									<h3 class="box-title">Registros</h3>
-									<div class="box-tools pull-right">
-
-										<a href="#win_modal" class="btn bg-purple btn-sm" data-toggle="modal" id="boton_nuevo">
-											<i class="fa fa-plus-circle"></i>
-											Nuevo
-										</a>
-
-										<button type="button" id="boton_exportar" class="btn bg-olive btn-sm">
-										<i class="fa fa-file-excel-o"></i>
-										Exportar
-										</button>
-									</div>
-								</div>
-								<div id="grid_principal">
-								</div>
-							</div>							
-
-						</div> 
-
-					</div>			
+							<!-- /.tab-pane -->
+						</div> <!-- /.tab-content -->
+							
+					</div> <!-- nav-tabs-custom -->
 				</div>
-			</div>
+
 			</form>
 		</div>
 
@@ -173,24 +112,24 @@
 
 						<!-- Nombre -->
 						<div class="col-sm-4">
-							<div class="form-group input-group-sm has-warning" id="act_numero_contenedor">
+							<div class="form-group has-warning" id="act_numero_contenedor">
 								<label for="act_numero">
 									<i class="fa  fa-asterisk  "></i>
 									Numero:
 								</label>
-								<input class="form-control" id="act_numero" maxlength="144" type="number" />
+								<input class="form-control input-sm" id="act_numero" maxlength="144" type="number" />
 								<span class="help-block hidden" id="act_numero_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>
 
 						<!-- Descripcion -->
 						<div class="col-sm-8">
-							<div class="form-group input-group-sm has-warning" id="act_desc_contenedor">
+							<div class="form-group has-warning" id="act_desc_contenedor">
 								<label for="act_desc">
 									<i class="fa fa-asterisk"></i>
 									Descripcion:
 								</label>
-								<input class="form-control" id="act_desc" maxlength="144" type="text" />
+								<input class="form-control input-sm" id="act_desc" maxlength="144" type="text" />
 								<span class="help-block hidden" id="act_desc_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>						
@@ -200,23 +139,23 @@
 
 						<!-- Horas Estimadas -->
 						<div class="col-sm-6">
-							<div class="form-group input-group-sm has-warning" id="act_hrs_est_contenedor">
+							<div class="form-group has-warning" id="act_hrs_est_contenedor">
 								<label for="act_hrs_est">
 									<i class="fa fa-asterisk"></i>
 									Horas Estimadas:
 								</label>
-								<input class="form-control" id="act_hrs_est" maxlength="144" type="number" />
+								<input class="form-control input-sm" id="act_hrs_est" maxlength="144" type="number" />
 								<span class="help-block hidden" id="act_hrs_est_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>
 
 						<!-- Horas Reales -->
 						<div class="col-sm-6">
-							<div class="form-group input-group-sm" id="act_hrs_real_contenedor">
+							<div class="form-group" id="act_hrs_real_contenedor">
 								<label for="act_hrs_real">
 									Horas Reales:
 								</label>
-								<input class="form-control" id="act_hrs_real" maxlength="144" type="number" />
+								<input class="form-control input-sm" id="act_hrs_real" maxlength="144" type="number" />
 								<span class="help-block hidden" id="act_hrs_real_mensaje">Este campo es requerido.</span>
 							</div>
 						</div>	

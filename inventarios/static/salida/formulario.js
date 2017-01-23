@@ -25,8 +25,6 @@ $(document).ready(function () {
     targeta_resultados = new TargetaResultados()
     modal_detalle = new ModalDetalle()
 
-    pagina = new Pagina()
-    pagina.init_Alertify()    
 })
 
 /*-----------------------------------------------*\

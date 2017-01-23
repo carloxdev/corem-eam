@@ -9,20 +9,21 @@ from django.contrib.auth.models import User
 from activos.models import Equipo
 from inventarios.models import Articulo
 
-ORDEN_TIPO = (
-    ('PREVE', 'PREVENTIVA'),
-    ('PREDI', 'PREDICTIVA'),
-    ('CORRE', 'CORRECTIVA'),
-)
-
-EQUIPO_ESTADO = (
-    ('CAP', 'CAPTURA'),
-    ('TER', 'TERMINADA'),
-    ('CER', 'CERRADA'),
-)
-
 
 class OrdenTrabajo(models.Model):
+
+    ORDEN_TIPO = (
+        ('PREVE', 'PREVENTIVA'),
+        ('PREDI', 'PREDICTIVA'),
+        ('CORRE', 'CORRECTIVA'),
+    )
+
+    ORDEN_ESTADO = (
+        ('CAP', 'ABIERTA'),
+        ('TER', 'TERMINADA'),
+        ('CER', 'CERRADA'),
+    )
+
     equipo = models.ForeignKey(Equipo)
     descripcion = models.CharField(max_length=144, null=True)
     tipo = models.CharField(
@@ -33,7 +34,7 @@ class OrdenTrabajo(models.Model):
 
     estado = models.CharField(
         max_length=5,
-        choices=EQUIPO_ESTADO,
+        choices=ORDEN_ESTADO,
         default="CAP",
     )
 
@@ -103,8 +104,8 @@ class ManoObra(models.Model):
     orden = models.ForeignKey(OrdenTrabajo)
     empleado = models.ForeignKey(User, null=True)
     descripcion = models.CharField(max_length=144, null=True, blank=True)
-    fecha_inicio = models.DateTimeField(null=True, blank=True)
-    fecha_fin = models.DateTimeField(null=True, blank=True)
+    fecha_inicio = models.DateField(null=True, blank=True)
+    fecha_fin = models.DateField(null=True, blank=True)
     horas_estimadas = models.DecimalField(
         max_digits=7,
         decimal_places=2,
@@ -117,6 +118,10 @@ class ManoObra(models.Model):
         default=0.0,
         blank=True
     )
+    costo = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0
+    )
+
     # Auditoria Fields
     created_date = models.DateTimeField(
         auto_now=False,
@@ -152,6 +157,9 @@ class Material(models.Model):
         decimal_places=2,
         default=0.0
     )
+    costo = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0
+    )
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,
@@ -178,6 +186,9 @@ class ServicioExterno(models.Model):
     descripcion = models.CharField(max_length=144, null=True)
     clave_jde = models.CharField(max_length=144, null=True, blank=True)
     comentarios = models.TextField(null=True, blank=True)
+    costo = models.DecimalField(
+        max_digits=20, decimal_places=4, default=0.0
+    )
     created_date = models.DateTimeField(
         auto_now=False,
         auto_now_add=True,

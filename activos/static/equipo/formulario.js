@@ -26,19 +26,37 @@ function TargetaFormulario() {
 
     this.$padre = $('#id_padre')
     this.$ubicacion = $("#id_ubicacion")
+    
+    this.$imagen = $('#id_imagen')
+	this.$imagen_preview = $('#img_preview')
 
     this.$boton_editar_ubicacion = $("#btn_edit_ubicacion")
-
     this.modal_ubicacion = new VentanaUbicacion()
 
 	this.init()
 }
 TargetaFormulario.prototype.init = function () {
 
+	this.$imagen.on("change",this, this.set_PreviewImagen)
+
     this.$padre.select2()
 
     this.validar_Ubicacion()
     this.$ubicacion.on("change", this, this.change_Ubicacion)
+}
+TargetaFormulario.prototype.set_PreviewImagen = function (e) {
+
+    if (this.files && this.files[0]) {
+        
+        var reader = new FileReader()
+
+        reader.onload = function (e) {
+            formulario.$imagen_preview.attr('src', e.target.result)
+        }
+
+        reader.readAsDataURL(this.files[0])
+
+    }
 }
 TargetaFormulario.prototype.change_Ubicacion = function (e) {
 

@@ -272,10 +272,11 @@ router.register(
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(router.urls)),
-    url(r'', include('seguridad.urls')),
-    url(r'', include('activos.urls')),
-    url(r'', include('inventarios.urls')),
-    url(r'', include('trabajos.urls')),
+    url(r'', include('seguridad.urls', namespace="seguridad")),
+    url(r'', include('activos.urls', namespace="activos")),
+    url(r'', include('inventarios.urls', namespace="inventarios")),
+    url(r'', include('trabajos.urls', namespace="trabajos")),
+    url(r'', include('dashboards.urls', namespace="dashboards")),
 ]
 
 

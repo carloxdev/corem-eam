@@ -90,12 +90,12 @@ GridPrincipal.prototype.get_Campos = function (e) {
 GridPrincipal.prototype.get_Columnas = function (e) {
 
     return [
-        { field: "empleado_desc", title: "Empleado" },
-        { field: "descripcion", title: "Descripcion" },
-        { field: "fecha_inicio", title: "Fecha Inicio", width: "150px" },
-        { field: "fecha_fin", title: "Fecha Fin", width: "150px" },
+        { field: "empleado_desc", title: "Empleado", width: "300px" },
         { field: "horas_estimadas", title: "Horas Estimadas", width: "150px" },
         { field: "horas_reales", title: "Horas Reales", width: "150px" },        
+        { field: "fecha_inicio", title: "Fecha Inicio", width: "150px" },
+        { field: "fecha_fin", title: "Fecha Fin", width: "150px" },
+        { field: "descripcion", title: "Descripcion", width: "300px" },        
         {
            command: [
                 {
@@ -232,24 +232,14 @@ function VentanaModal() {
     this.$empleado_mensaje =  $('#mod_empleado_mensaje')    
 
     this.$desc =  $('#mod_desc')
-    this.$desc_contenedor =  $('#mod_desc_contenedor')
-    this.$desc_mensaje =  $('#mod_desc_mensaje')
 
     this.$fecha_inicio = $('#mod_fecha_inicio')
-    this.$fecha_inicio_contenedor = $('#mod_fecha_inicio_contenedor')
-    this.$fecha_inicio_mensaje =  $('#mod_fecha_inicio_mensaje')    
 
     this.$fecha_fin = $('#mod_fecha_fin')
-    this.$fecha_fin_contenedor = $('#mod_fecha_fin_contenedor')
-    this.$fecha_fin_mensaje =  $('#mod_fecha_fin_mensaje')        
 
     this.$hrs_est = $('#mod_hrs_est')
-    this.$hrs_est_contenedor = $('#mod_hrs_est_contenedor')
-    this.$hrs_est_mensaje =  $('#mod_hrs_est_mensaje')
 
     this.$hrs_real = $('#mod_hrs_real')
-    this.$hrs_real_contenedor = $('#mod_hrs_real_contenedor')
-    this.$hrs_real_mensaje =  $('#mod_hrs_real_mensaje')
 
     this.$boton_guardar = $('#btn_modal_save')
 
@@ -258,6 +248,11 @@ function VentanaModal() {
 VentanaModal.prototype.init = function () {
 
     this.$empleado.select2()
+
+    this.$fecha_inicio.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
+
+    this.$fecha_fin.inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
+
 
     // Se asoscia eventos al abrir el modal
     this.$id.on('show.bs.modal', this, this.load)
@@ -297,7 +292,7 @@ VentanaModal.prototype.validar = function () {
 
     return bandera
 }
-VentanaModal.prototype.fill_Empleados = function (_value) {
+VentanaModal.prototype.fill_Empleados = function (_value, _selected) {
 
     combo_box = this.$empleado
 
@@ -323,6 +318,8 @@ VentanaModal.prototype.fill_Empleados = function (_value) {
             })
 
             combo_box.trigger('change')
+
+            combo_box.val(_selected).trigger('change')
         },
         error: function (response) {
             
@@ -344,9 +341,8 @@ VentanaModal.prototype.load = function (e) {
     // Asosciar Eventos segun corresponda
     var event_owner
 
+    // Edicion
     if ( e.relatedTarget == undefined ) {
-
-        e.data.fill_Empleados("")
 
         // Se modifica el titulo
         e.data.$id.find('.modal-title').text('Editar Servicio')
@@ -368,6 +364,8 @@ VentanaModal.prototype.load = function (e) {
                 modal.$fecha_fin.val(response[0].fecha_fin)
                 modal.$hrs_est.val(response[0].horas_estimadas)
                 modal.$hrs_real.val(response[0].horas_reales)
+
+                modal.fill_Empleados("", response[0].empleado_id)
             },
             error: function (response) {
                 

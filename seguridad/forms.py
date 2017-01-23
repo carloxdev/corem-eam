@@ -31,20 +31,20 @@ class UsuarioCreateForm(ModelForm):
             'is_staff',
         ]
         widgets = {
-            'username': TextInput(attrs={'class': 'form-control'}),
-            'first_name': TextInput(attrs={'class': 'form-control'}),
-            'last_name': TextInput(attrs={'class': 'form-control'}),
-            'email': EmailInput(attrs={'class': 'form-control'}),
-            'password': TextInput(attrs={'class': 'form-control'}),
+            'username': TextInput(attrs={'class': 'form-control input-sm'}),
+            'first_name': TextInput(attrs={'class': 'form-control input-sm'}),
+            'last_name': TextInput(attrs={'class': 'form-control input-sm'}),
+            'email': EmailInput(attrs={'class': 'form-control input-sm'}),
+            'password': TextInput(attrs={'class': 'form-control input-sm'}),
         }
         labels = {
-            'username': 'Clave:',
+            'username': 'Cuenta:',
             'first_name': 'Nombre:',
             'last_name': 'Apellidos:',
             'email': 'Email:',
             'password': 'Contraseña:',
-            'is_active': 'Activo:',
-            'is_staff': 'Administrador:',
+            'is_active': 'Activo',
+            'is_staff': 'Administrador',
         }
 
 
@@ -65,18 +65,18 @@ class UsuarioEditForm(ModelForm):
             'is_staff',
         ]
         widgets = {
-            'first_name': TextInput(attrs={'class': 'form-control'}),
-            'last_name': TextInput(attrs={'class': 'form-control'}),
-            'email': EmailInput(attrs={'class': 'form-control'}),
-            'password': TextInput(attrs={'class': 'form-control'}),
+            'first_name': TextInput(attrs={'class': 'form-control input-sm'}),
+            'last_name': TextInput(attrs={'class': 'form-control input-sm'}),
+            'email': EmailInput(attrs={'class': 'form-control input-sm'}),
+            'password': TextInput(attrs={'class': 'form-control input-sm'}),
         }
         labels = {
             'first_name': 'Nombre:',
             'last_name': 'Apellidos:',
             'email': 'Email:',
             'password': 'Contraseña:',
-            'is_active': 'Activo:',
-            'is_staff': 'Administrador:',
+            'is_active': 'Activo',
+            'is_staff': 'Administrador',
         }
 
 
@@ -89,10 +89,22 @@ class ProfileForm(ModelForm):
             'user'
         ]
         widgets = {
-            'puesto': TextInput(attrs={'class': 'form-control'}),
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'fecha_nacimiento': TextInput(attrs={'class': 'form-control'}),
-            'comentarios': Textarea(attrs={'class': 'form-control'}),
+            'puesto': TextInput(attrs={'class': 'form-control input-sm'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'fecha_nacimiento': TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'data-date-format': 'yyyy-mm-dd'
+                }
+            ),
+            'comentarios': Textarea(attrs={'class': 'form-control input-sm'}),
+        }
+        labels = {
+            'clave': 'Clave RH:',
+            'puesto': 'Puesto:',
+            'fecha_nacimiento': 'Fecha Nacimiento:',
+            'comentarios': 'Comentarios:',
+            'imagen': 'Imagen:',
         }
         # labels = {
         #     'first_name': 'Nombre:',

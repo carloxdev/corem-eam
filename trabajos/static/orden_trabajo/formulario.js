@@ -41,12 +41,43 @@ TargetaFormulario.prototype.init = function () {
 
 	this.$equipo.select2()
 
-	this.$observaciones.wysihtml5()
+	this.$observaciones.wysihtml5({
+        toolbar: {
+            "font-styles": true,
+            "emphasis": true,
+            "lists": true,
+            "html": false,
+            "link": false,
+            "image": false,
+            "color": false,
+            "blockquote": false,
+        }
+    })
 
-	this.$fecha_estimada_inicio.datepicker(pagina.get_DatePickerConfig())
-	this.$fecha_estimada_fin.datepicker(pagina.get_DatePickerConfig())
-	this.$fecha_real_inicio.datepicker(pagina.get_DatePickerConfig())
-	this.$fecha_real_fin.datepicker(pagina.get_DatePickerConfig())
+	this.$fecha_estimada_inicio.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )	
+	this.$fecha_estimada_fin.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )	
+	this.$fecha_real_inicio.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )	
+	this.$fecha_real_fin.datepicker(
+        {
+            autoclose: true,
+            language: 'es'
+        }
+    )	
 
 	this.$tab_actividades.on("click", this, this.click_Tab_Activiades )
 	this.$tab_materiales.on("click", this, this.click_Tab_Materiales )

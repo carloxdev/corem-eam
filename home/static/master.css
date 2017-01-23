@@ -22,6 +22,14 @@
 	width: 400px;
 }
 
+.box--table {
+	border-left: 1px solid #C1C1C1 !important;
+	border-right: 1px solid #C1C1C1 !important;
+	border-bottom: 1px solid #C1C1C1 !important;
+
+	border-radius: 0 0 3px 3px;	
+}
+
 .box-header-border {
 
 	border-left: 1px solid #C1C1C1;
@@ -35,4 +43,10 @@
 
 .select2--fix .select2-container {
 	width: 100% !important;
+}
+
+.etiqueta-checkbox {
+	font-family: Helvetica Neue !important;
+	font-size: 12px !important;
+	font-weight: bold;
 }

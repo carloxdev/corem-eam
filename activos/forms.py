@@ -18,13 +18,6 @@ from .models import UdmOdometro
 
 class EquipoFiltersForm(ModelForm):
 
-    # def __init__(self, *args, **kwargs):
-    #     self.usuario = kwargs.pop('username')
-    #     super(EmpresaCreateForm, self).__init__(*args, **kwargs)
-
-    #     if self.usuario.username != 'root':
-    #         del self.fields['usuario']
-
     class Meta:
         model = Equipo
         fields = [
@@ -38,14 +31,18 @@ class EquipoFiltersForm(ModelForm):
             'ubicacion',
         ]
         widgets = {
-            'tag': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'serie': TextInput(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control select2'}),
-            'empresa': Select(attrs={'class': 'form-control'}),
-            'padre': Select(attrs={'class': 'form-control select2'}),
-            'sistema': TextInput(attrs={'class': 'form-control'}),
-            'ubicacion': Select(attrs={'class': 'form-control'}),
+            'tag': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'serie': TextInput(attrs={'class': 'form-control input-sm'}),
+            'estado': Select(attrs={'class': 'form-control input-sm select2'}),
+            'empresa': Select(
+                attrs={'class': 'form-control input-sm select2'}
+            ),
+            'padre': Select(attrs={'class': 'form-control input-sm select2'}),
+            'sistema': TextInput(attrs={'class': 'form-control input-sm'}),
+            'ubicacion': Select(
+                attrs={'class': 'form-control input-sm select2'}
+            ),
         }
         labels = {
             'tag': 'Tag',
@@ -65,17 +62,21 @@ class EquipoForm(ModelForm):
         model = Equipo
         fields = '__all__'
         widgets = {
-            'tag': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'serie': TextInput(attrs={'class': 'form-control'}),
-            'tipo': TextInput(attrs={'class': 'form-control'}),
-            'estado': Select(attrs={'class': 'form-control'}),
-            'padre': Select(attrs={'class': 'form-control'}),
-            'empresa': Select(attrs={'class': 'form-control'}),
-            'sistema': TextInput(attrs={'class': 'form-control'}),
-            'ubicacion': Select(attrs={'class': 'form-control'}),
-            'cliente': TextInput(attrs={'class': 'form-control'}),
-            'responsable': TextInput(attrs={'class': 'form-control'}),
+            'tag': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'serie': TextInput(attrs={'class': 'form-control input-sm'}),
+            'tipo': TextInput(attrs={'class': 'form-control input-sm'}),
+            'estado': Select(attrs={'class': 'form-control input-sm select2'}),
+            'padre': Select(attrs={'class': 'form-control input-sm select2'}),
+            'empresa': Select(
+                attrs={'class': 'form-control input-sm select2'}
+            ),
+            'sistema': TextInput(attrs={'class': 'form-control input-sm'}),
+            'ubicacion': Select(
+                attrs={'class': 'form-control input-sm select2'}
+            ),
+            'cliente': TextInput(attrs={'class': 'form-control input-sm'}),
+            'responsable': TextInput(attrs={'class': 'form-control input-sm'}),
         }
         labels = {
             'tag': 'Tag',
@@ -107,10 +108,10 @@ class OdometroForm(ModelForm):
             'esta_activo',
         ]
         widgets = {
-            'equipo': Select(attrs={'class': 'form-control'}),
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'udm': Select(attrs={'class': 'form-control'}),
+            'equipo': Select(attrs={'class': 'form-control input-sm select2'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'udm': Select(attrs={'class': 'form-control input-sm select2'}),
             'esta_activo': CheckboxInput(),
         }
         labels = {
@@ -133,10 +134,10 @@ class OdometroFiltersForm(ModelForm):
             'udm',
         ]
         widgets = {
-            'equipo': Select(attrs={'class': 'form-control'}),
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'udm': Select(attrs={'class': 'form-control'}),
+            'equipo': Select(attrs={'class': 'form-control input-sm select2'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'udm': Select(attrs={'class': 'form-control input-sm select2'}),
         }
         labels = {
             'equipo': 'Equipo',
@@ -154,8 +155,8 @@ class UdmOdometroForm(ModelForm):
         model = UdmOdometro
         fields = '__all__'
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
         }
 
 
@@ -169,7 +170,9 @@ class MedicionFiltersForm(ModelForm):
             'odometro',
         ]
         widgets = {
-            'odometro': Select(attrs={'class': 'form-control'}),
+            'odometro': Select(
+                attrs={'class': 'form-control input-sm select2'}
+            ),
         }
         labels = {
             'odometro': 'Odómetro',
@@ -185,9 +188,13 @@ class MedicionForm(ModelForm):
             'lectura'
         ]
         widgets = {
-            'fecha': TextInput(attrs={'class': 'form-control pull-right',
-                                      'data-date-format': 'yyyy-mm-dd'}),
-            'lectura': TextInput(attrs={'class': 'form-control'}),
+            'fecha': TextInput(
+                attrs={
+                    'class': 'form-control input-sm pull-right',
+                    'data-date-format': 'yyyy-mm-dd'
+                }
+            ),
+            'lectura': TextInput(attrs={'class': 'form-control input-sm'}),
         }
         labels = {
             'fecha': 'Fecha',
@@ -203,6 +210,6 @@ class UbicacionForm(ModelForm):
         model = Ubicacion
         fields = '__all__'
         widgets = {
-            'clave': TextInput(attrs={'class': 'form-control'}),
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
+            'clave': TextInput(attrs={'class': 'form-control input-sm'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
         }

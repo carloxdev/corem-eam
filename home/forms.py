@@ -18,8 +18,10 @@ class AnexoTextoForm(ModelForm):
         model = AnexoTexto
         fields = ['titulo', 'texto']
         widgets = {
-            'titulo': TextInput(attrs={'class': 'form-control'}),
-            'texto': Textarea(attrs={'class': 'textarea form-control'})
+            'titulo': TextInput(attrs={'class': 'form-control input-sm'}),
+            'texto': Textarea(
+                attrs={'class': 'textarea form-control input-sm'}
+            )
         }
         labels = {
             'titulo': 'Título',
@@ -41,35 +43,16 @@ class AnexoImagenForm(ModelForm):
         }
 
     def validar_extension(self):
-            diccionario = self.cleaned_data
+        diccionario = self.cleaned_data
 
-            imagen = diccionario.get('ruta')
-            if (not imagen.endswith('.png') and
-                not imagen.endswith('.jpg') and
-                    not imagen.endswith('.jpeg')):
+        imagen = diccionario.get('ruta')
+        if (not imagen.endswith('.png') and
+            not imagen.endswith('.jpg') and
+                not imagen.endswith('.jpeg')):
 
-                raise forms.ValidationError("valio gaver")
-            else:
-                return imagen
-    # def get_Imagen(self):
-    #     datos_formulario = self.cleaned_data
-    #     imagen = datos_formulario.get('ruta')
-
-    #     if (imagen is None):
-    #         raise forms.ValidationError("Debe seleccionar una imagen")
-
-    #     else:
-    #         return imagen
-
-    # def get_Descripcion(self):
-    #     datos_formulario = self.cleaned_data
-    #     descripcion = datos_formulario.get('descripcion')
-
-    #     if len(descripcion) > 10:
-    #         raise forms.ValidationError("Descripción demasiado larga")
-
-    #     else:
-    #         return descripcion
+            raise forms.ValidationError("Error")
+        else:
+            return imagen
 
 
 class AnexoArchivoForm(ModelForm):

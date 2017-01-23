@@ -80,6 +80,7 @@ class MaterialSerializer(serializers.HyperlinkedModelSerializer):
 
     articulo_id = serializers.SerializerMethodField()
     articulo_desc = serializers.SerializerMethodField()
+    articulo_udm = serializers.SerializerMethodField()
 
     class Meta:
         model = Material
@@ -90,6 +91,7 @@ class MaterialSerializer(serializers.HyperlinkedModelSerializer):
             'articulo',
             'articulo_id',
             'articulo_desc',
+            'articulo_udm',
             'cantidad_estimada',
             'cantidad_real',
         )
@@ -109,6 +111,14 @@ class MaterialSerializer(serializers.HyperlinkedModelSerializer):
                 obj.articulo.clave,
                 obj.articulo.descripcion
             )
+
+        except:
+            return ""
+
+    def get_articulo_udm(self, obj):
+
+        try:
+            return obj.articulo.udm.descripcion
 
         except:
             return ""

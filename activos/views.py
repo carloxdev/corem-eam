@@ -88,10 +88,19 @@ class EquipoCreateView(View):
     def __init__(self):
         self.template_name = 'equipo/formulario.html'
 
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
+
     def get(self, request):
         formulario = EquipoForm()
         contexto = {
             'form': formulario,
+            'operacion': "Nuevo"
         }
 
         return render(request, self.template_name, contexto)
@@ -115,10 +124,6 @@ class EquipoCreateView(View):
             equipo.ubicacion = datos_formulario.get('ubicacion')
             equipo.imagen = datos_formulario.get('imagen')
 
-            # if 'imagen' in request.POST:
-            #     equipo.imagen = request.POST['imagen']
-            # else:
-            #     equipo.imagen = request.FILES['imagen']
             equipo.save()
 
             return redirect(
@@ -126,7 +131,9 @@ class EquipoCreateView(View):
             )
 
         contexto = {
-            'form': formulario
+            'form': formulario,
+            'imagen': self.obtener_UrlImagen(equipo.imagen),
+            'operation': "Nuevo"
         }
         return render(request, self.template_name, contexto)
 
@@ -135,6 +142,14 @@ class EquipoUpdateView(View):
     def __init__(self):
         self.template_name = 'equipo/formulario.html'
         self.tag = ''
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
 
     def get(self, request, pk):
 
@@ -158,7 +173,8 @@ class EquipoUpdateView(View):
 
         contexto = {
             'form': formulario,
-            'tag': self.tag
+            'tag': self.tag,
+            'imagen': self.obtener_UrlImagen(equipo.imagen)
         }
 
         return render(request, self.template_name, contexto)
@@ -192,7 +208,8 @@ class EquipoUpdateView(View):
 
         contexto = {
             'form': formulario,
-            'tag': self.tag
+            'tag': self.tag,
+            'imagen': self.obtener_UrlImagen(equipo.imagen)
         }
         return render(request, self.template_name, contexto)
 

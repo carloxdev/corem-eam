@@ -11,8 +11,6 @@
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.common-bootstrap.min.css' %}"/>
 <link rel="stylesheet" href="{% static 'libs/plugins/kendo_2015_2_624/styles/kendo.bootstrap.min.css' %}"/>
 
-<!-- Pace -->
-<link rel="stylesheet" href="{% static 'libs/plugins/pace/pace.min.css' %}"/>
 
 <!-- Select2 -->
 <link rel="stylesheet" href="{% static 'libs/plugins/select2/select2.min.css' %}"/>
@@ -33,7 +31,7 @@
 	<small>{{ operation }}</small>
 	</h1>
 	<ol class="breadcrumb">
-		<li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+		<li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i> Inicio</a></li>
 		<li><a href="{% url 'inventarios:salidas_lista' %}">Salidas</a></li>
 		<li class="active">Nuevo</li>
 
@@ -70,15 +68,19 @@
 								{% endfor %}
 							</div>
 							<div class="form-group input-group-sm col-sx-12 col-sm-5 col-md-5 {% if form.fecha.field.required %} has-warning {% endif %} {% if form.fecha.errors %} has-error {% endif %} ">
+
 								<label for="{{ form.fecha.id_for_label}}">
-								<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
-								Fecha</label>
+									<i class="fa {% if form.fecha.field.required %} fa-asterisk {% endif %} {% if form.fecha.errors %} fa-circle-o {% endif %}"></i>
+									Fecha
+								</label>
+
 								<div class="form-group input-group">
 					            	<div class="input-group-addon">
 					                	<i class="fa fa-calendar"></i>
 					            	</div>
 					                {{ form.fecha }}
 					            </div>
+
 					            {% for error in form.fecha.errors %}
 								    <span class="help-block">{{ error }}</span>
 									{% endfor %}						
@@ -236,12 +238,6 @@
 <!-- Kendo Js -->
 <script src="{% static 'libs/plugins/kendo_2015_2_624/js/cultures/kendo.culture.es-MX.min.js' %}"></script>
 <script src="{% static 'libs/plugins/kendo_2015_2_624/js/kendo.web.min.js' %}"></script>
-
-<!-- Select2 -->
-<script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>
-
-<!-- Pace -->
-<script src="{% static 'libs/plugins/pace/pace.min.js' %}"></script>
 
 <!-- Select2 -->
 <script src="{% static 'libs/plugins/select2/select2.full.min.js' %}"></script>

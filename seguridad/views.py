@@ -46,7 +46,7 @@ class Login(View):
     def get(self, request):
 
         if request.user.is_authenticated():
-            return redirect(reverse('seguridad:dashboard'))
+            return redirect(reverse('dashboards:inicio'))
 
         else:
             return render(request, self.template_name, {})
@@ -62,7 +62,7 @@ class Login(View):
 
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('seguridad:dashboard'))
+                return redirect(reverse('dashboards:inicio'))
             else:
                 messages.warning(
                     request,
@@ -72,19 +72,6 @@ class Login(View):
         else:
             messages.error(request, "Cuenta usuario o contraseña no valida")
 
-        return render(request, self.template_name, {})
-
-
-@method_decorator(login_required, name='dispatch')
-class Dashboard(View):
-
-    def __init__(self):
-        self.template_name = 'dashboard.html'
-
-    def get(self, request):
-        return render(request, self.template_name, {})
-
-    def post(self, request):
         return render(request, self.template_name, {})
 
 
@@ -102,6 +89,14 @@ class UsuarioCreateView(View):
 
     def __init__(self):
         self.template_name = 'usuario/crear.html'
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
 
     def get(self, request):
         formulario = UsuarioCreateForm()
@@ -162,7 +157,8 @@ class UsuarioCreateView(View):
             contexto = {
                 'form': formulario,
                 'form_profile': formulario_profile,
-                'operation': "Nuevo"
+                'operation': "Nuevo",
+                'imagen': self.obtener_UrlImagen(usuario.profile.imagen)
             }
             return render(request, self.template_name, contexto)
 
@@ -173,6 +169,14 @@ class UsuarioEditView(View):
     def __init__(self):
         self.template_name = 'usuario/modificar.html'
         self.cuenta = ''
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
 
     def get(self, request, pk):
 
@@ -204,6 +208,7 @@ class UsuarioEditView(View):
             'form': formulario,
             'form_profile': formulario_profile,
             'cuenta': self.cuenta,
+            'imagen': self.obtener_UrlImagen(usuario.profile.imagen),
             'operation': "Editar"
         }
         return render(request, self.template_name, contexto)
@@ -257,6 +262,7 @@ class UsuarioEditView(View):
         contexto = {
             'form': formulario,
             'form_profile': formulario_profile,
+            'imagen': self.obtener_UrlImagen(usuario.profile.imagen),
             'cuenta': self.cuenta,
             'operation': "Editar"
         }

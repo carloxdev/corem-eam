@@ -12,7 +12,7 @@
 	<small>{{ operation }}</small>
 	</h1>
 	<ol class="breadcrumb">
-		<li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+		<li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i> Inicio</a></li>
 		<li><a href="{% url 'activos:udms_odometro_lista' %}">UDM de Odometro</a></li>
 		<li class="active"> {{ operation }} </li>
 	</ol>
@@ -37,7 +37,7 @@
 						<div class="row">
 							<div class="col-sm-3">
 
-								<div class="form-group input-group-sm {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
+								<div class="form-group {% if form.clave.field.required %} has-warning {% endif %} {% if form.clave.errors %} has-error {% endif %}">
 
 								  	<label class="control-label">
 								  		<i class="fa {% if form.clave.field.required %} fa-asterisk {% endif %} {% if form.clave.errors %} fa-asterisk {% endif %}"></i> 
@@ -54,7 +54,7 @@
 
 							<div class="col-sm-9">
 
-								<div class="form-group input-group-sm {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
+								<div class="form-group {% if form.descripcion.field.required %} has-warning {% endif %} {% if form.descripcion.errors %} has-error {% endif %}">
 
 								  	<label class="control-label">
 								  		<i class="fa {% if form.descripcion.field.required %} fa-asterisk {% endif %} {% if form.descripcion.errors %} fa-asterisk {% endif %}"></i> 

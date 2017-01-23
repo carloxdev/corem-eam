@@ -23,7 +23,7 @@
 	    <small>Anexos</small>
 	  </h1>
 	  <ol class="breadcrumb">
-	    <li><a href="{% url 'seguridad:dashboard' %}"><i class="fa fa-home"></i> Inicio</a></li>
+	    <li><a href="{% url 'dashboards:inicio' %}"><i class="fa fa-home"></i> Inicio</a></li>
 	    <li><a href="{% url 'inventarios:articulos_lista' %}">Articulos</a></li>
 	    <li class="active">Anexos</li>
 	  </ol>
@@ -70,7 +70,7 @@
 					    		<div class="row">
 					    			<div class="col-sm-10 col-md-offset-1">
 										{% for field in form %}
-					    				<div class="form-group input-group-sm {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
+					    				<div class="form-group {% if field.field.required %} has-warning {% endif %} {% if field.errors %} has-error {% endif %}">
 					    					
 					    						<label for="{{ field.label }}">
 					       		 				<i class="fa {% if field.field.required %} fa-asterisk {% endif %} {% if field.field.errors %} fa-asterisk {% endif %}"></i>

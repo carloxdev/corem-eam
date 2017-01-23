@@ -14,8 +14,8 @@ from django.forms import CharField
 # Modelos:
 from activos.models import Equipo
 from .models import OrdenTrabajo
-from .models import ORDEN_TIPO
-from .models import EQUIPO_ESTADO
+# from .models import ORDEN_TIPO
+# from .models import EQUIPO_ESTADO
 
 # ----------------- ORDEN DE TRABAJO ----------------- #
 
@@ -26,22 +26,42 @@ class OrdenTrabajoForm(ModelForm):
         model = OrdenTrabajo
         fields = '__all__'
         widgets = {
-            'descripcion': TextInput(attrs={'class': 'form-control'}),
-            'equipo': Select(attrs={'class': 'form-control select2'}),
-            'tipo': Select(attrs={'class': 'form-control select2'}),
-            'estado': Select(attrs={'class': 'form-control select2'}),
+            'descripcion': TextInput(attrs={'class': 'form-control input-sm'}),
+            'equipo': Select(attrs={'class': 'form-control input-sm select2'}),
+            'tipo': Select(attrs={'class': 'form-control input-sm select2'}),
+            'estado': Select(attrs={'class': 'form-control input-sm select2'}),
             'fecha_estimada_inicio': TextInput(
-                attrs={'class': 'form-control'}
+                attrs={
+                    'class': 'form-control input-sm',
+                    'data-date-format': 'yyyy-mm-dd'
+                }
             ),
-            'fecha_estimada_fin': TextInput(attrs={'class': 'form-control'}),
-            'fecha_real_inicio': TextInput(attrs={'class': 'form-control'}),
-            'fecha_real_fin': TextInput(attrs={'class': 'form-control'}),
+            'fecha_estimada_fin': TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'data-date-format': 'yyyy-mm-dd'
+                }
+            ),
+            'fecha_real_inicio': TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'data-date-format': 'yyyy-mm-dd'
+                }
+            ),
+            'fecha_real_fin': TextInput(
+                attrs={
+                    'class': 'form-control input-sm',
+                    'data-date-format': 'yyyy-mm-dd'
+                }
+            ),
             'es_template': CheckboxInput(),
 
 
-            'responsable': TextInput(attrs={'class': 'form-control select2'}),
+            'responsable': TextInput(
+                attrs={'class': 'form-control input-sm select2'}
+            ),
             'observaciones': Textarea(
-                attrs={'class': 'form-control'}
+                attrs={'class': 'form-control input-sm'}
             ),
         }
         labels = {
@@ -51,26 +71,34 @@ class OrdenTrabajoForm(ModelForm):
 
 class OrdenTrabajoFiltersForm(Form):
 
-    tipo = ChoiceField(widget=Select(attrs={'class': 'form-control  select2'}))
+    tipo = ChoiceField(
+        widget=Select(attrs={'class': 'form-control input-sm  select2'})
+    )
     estado = ChoiceField(
         widget=Select(
-            attrs={'class': 'form-control  select2'}
+            attrs={'class': 'form-control input-sm  select2'}
         )
     )
-    descripcion = CharField(widget=TextInput(attrs={'class': 'form-control'}))
+    descripcion = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-sm'})
+    )
     equipo = ChoiceField(
         widget=Select(
-            attrs={'class': 'form-control  select2'}
+            attrs={'class': 'form-control input-sm  select2'}
         )
     )
-    responsable = CharField(widget=TextInput(attrs={'class': 'form-control'}))
+    responsable = CharField(
+        widget=TextInput(attrs={'class': 'form-control input-sm'})
+    )
 
     def __init__(self, *args, **kwargs):
 
         super(OrdenTrabajoFiltersForm, self).__init__(*args, **kwargs)
         self.fields['equipo'].choices = self.get_Equipos()
-        self.fields['tipo'].choices = self.get_Tipos(ORDEN_TIPO)
-        self.fields['estado'].choices = self.get_Estados(EQUIPO_ESTADO)
+        self.fields['tipo'].choices = self.get_Tipos(OrdenTrabajo.ORDEN_TIPO)
+        self.fields['estado'].choices = self.get_Estados(
+            OrdenTrabajo.ORDEN_ESTADO
+        )
 
     def get_Tipos(self, _opciones):
         opciones = [('', '-------')]

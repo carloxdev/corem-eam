@@ -30,7 +30,7 @@ function Pagina() {
 Pagina.prototype.set_PageActive = function () {
 
 	// Se marca la pagina activa en el menu
-	if ( this.$titulo.text() == "Dashboard") {
+	if ( this.$titulo.text() == "Inicio") {
 		
 		this.activar_Opcion("opt_dashboard")
 	}
@@ -74,7 +74,6 @@ Pagina.prototype.set_PageActive = function () {
 		this.activar_Arbol("tree_inventarios")
 		this.activar_Opcion("opt_articulos")
 	}
-
 	else if ( this.$titulo.text() == "Ordenes de Trabajo") {
 
 		this.activar_Arbol("tree_trabajos")

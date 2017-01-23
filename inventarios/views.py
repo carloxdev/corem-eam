@@ -200,8 +200,17 @@ class ArticuloListView(View):
 
 
 class ArticuloCreateView(View):
+
     def __init__(self):
         self.template_name = 'articulo/formulario.html'
+
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
+
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
 
     def get(self, request):
         formulario = ArticuloForm()
@@ -216,6 +225,7 @@ class ArticuloCreateView(View):
         formulario = ArticuloForm(request.POST)
 
         if formulario.is_valid():
+
             datos_formulario = formulario.cleaned_data
             articulo = Articulo()
             articulo.clave = datos_formulario.get('clave')
@@ -224,6 +234,8 @@ class ArticuloCreateView(View):
             articulo.udm = datos_formulario.get('udm')
             articulo.estado = datos_formulario.get('estado')
             articulo.clave_jde = datos_formulario.get('clave_jde')
+            articulo.imagen = datos_formulario.get('imagen')
+
             articulo.save()
 
             return redirect(
@@ -231,28 +243,80 @@ class ArticuloCreateView(View):
             )
         contexto = {
             'form': formulario,
+            'imagen': self.obtener_UrlImagen(articulo.imagen),
             'operation': "Nuevo"
         }
 
         return render(request, self.template_name, contexto)
 
 
-class ArticuloUpdateView(UpdateView):
-    model = Articulo
-    form_class = ArticuloForm
-    template_name = 'articulo/formulario.html'
-    success_url = reverse_lazy('inventarios:articulos_lista')
+class ArticuloUpdateView(View):
+    def __init__(self):
+        self.template_name = 'articulo/formulario.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(ArticuloUpdateView, self).get_context_data(**kwargs)
+    def obtener_UrlImagen(self, _imagen):
+        imagen = ''
 
-        data = {
-            'operation': "Editar"
+        if _imagen:
+            imagen = _imagen.url
+
+        return imagen
+
+    def get(self, request, pk):
+
+        articulo = get_object_or_404(Articulo, pk=pk)
+
+        formulario = ArticuloForm(
+            initial={
+                "clave": articulo.clave,
+                "descripcion": articulo.descripcion,
+                "estado": articulo.estado,
+                "tipo": articulo.tipo,
+                "imagen": articulo.imagen,
+                "udm": articulo.udm,
+                "clave_jde": articulo.clave_jde,
+            }
+        )
+
+        contexto = {
+            'form': formulario,
+            'operation': "Editar",
+            'imagen': self.obtener_UrlImagen(articulo.imagen)
         }
 
-        context.update(data)
+        return render(request, self.template_name, contexto)
 
-        return context
+    def post(self, request, pk):
+
+        formulario = ArticuloForm(request.POST, request.FILES)
+
+        articulo = get_object_or_404(Articulo, pk=pk)
+
+        if formulario.is_valid():
+
+            datos_formulario = formulario.cleaned_data
+            articulo.clave = datos_formulario.get('clave')
+            articulo.descripcion = datos_formulario.get('descripcion')
+            articulo.estado = datos_formulario.get('estado')
+            articulo.tipo = datos_formulario.get('tipo')
+            articulo.imagen = datos_formulario.get('imagen')
+            articulo.udm = datos_formulario.get('udm')
+            articulo.clave_jde = datos_formulario.get('clave_jde')
+            articulo.created_date = datos_formulario.get('created_date')
+            articulo.updated_date = datos_formulario.get('updated_date')
+
+            articulo.save()
+
+            return redirect(
+                reverse('inventarios:articulos_lista')
+            )
+
+        contexto = {
+            'form': formulario,
+            'operation': "Editar",
+            'imagen': self.obtener_UrlImagen(articulo.imagen)
+        }
+        return render(request, self.template_name, contexto)
 
 
 class ArticuloAPI(viewsets.ModelViewSet):
