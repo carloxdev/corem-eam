@@ -12,6 +12,9 @@ from seguridad.models import Empresa
 from home.validators import valid_extension
 from home.validators import validate_image
 
+# Historia
+from simple_history.models import HistoricalRecords
+
 ARTICULO_TIPO = (
     ('INS', 'INSUMO'),
     ('HER', 'HERRAMIENTA'),
@@ -64,6 +67,7 @@ class UdmArticulo(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "({}) {}".format(
@@ -112,6 +116,7 @@ class Articulo(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "({0}) {1}".format(
@@ -154,6 +159,7 @@ class Almacen(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(
@@ -185,6 +191,7 @@ class Stock(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0}) {1}".format(self.almacen, self.articulo)
@@ -214,10 +221,12 @@ class MovimientoCabecera(models.Model):
     clasificacion = models.CharField(
         max_length=4,
         choices=MOVIMIENTO_CLASIFICACION,
+        default='AJU'
     )
     orden_trabajo = models.ForeignKey(
         'trabajos.OrdenTrabajo', null=True, blank=True)
-    usuario = models.ForeignKey(User)
+    usuario = models.ForeignKey(User, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.descripcion.encode('utf-8')
@@ -228,3 +237,4 @@ class MovimientoDetalle(models.Model):
         max_digits=20, decimal_places=4, default=0.0)
     articulo = models.ForeignKey(Articulo)
     cabecera = models.ForeignKey(MovimientoCabecera)
+    history = HistoricalRecords()

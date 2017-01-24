@@ -6,12 +6,10 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
 # Django Urls:
-from django.core.urlresolvers import reverse_lazy
 from django.core.urlresolvers import reverse
 
 # Django Generic Views
 from django.views.generic.base import View
-from django.views.generic import CreateView
 
 # Modelos:
 from .models import OrdenTrabajo
@@ -30,7 +28,7 @@ from home.forms import AnexoTextoForm
 from home.forms import AnexoImagenForm
 from home.forms import AnexoArchivoForm
 
-# API Rest:
+# API Rest & Json:
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -213,6 +211,11 @@ class OrdenTrabajoAPI(viewsets.ModelViewSet):
     pagination_class = GenericPagination
     filter_backends = (DjangoFilterBackend,)
     filter_class = OrdenTrabajoFilter
+
+
+class OrdenTrabajoLastAPI(viewsets.ModelViewSet):
+    queryset = OrdenTrabajo.objects.order_by('created_date')[:10]
+    serializer_class = OrdenTrabajoSerializer
 
 
 # ----------------- ACTIVIDAD ----------------- #

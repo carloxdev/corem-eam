@@ -8,11 +8,13 @@ from .views import EquipoListView
 from .views import EquipoCreateView
 from .views import EquipoUpdateView
 from .views import EquipoTreeListView
+from .views import EquipoHistory
+from .views import EquipoTreeAPI
+
 from .views import OdometroListView
 from .views import OdometroCreateView
 from .views import OdometroUpdateView
 
-from .views import EquipoTreeAPI
 from .views import AnexoTextoView
 from .views import AnexoImagenView
 from .views import AnexoArchivoView
@@ -57,6 +59,11 @@ urlpatterns = [
         r'^equipos/arbol/json/(?P<pk>\d+)/$',
         EquipoTreeAPI.as_view(),
         name='equipos_api_tree'
+    ),
+    url(
+        r'^equipos/historia/(?P<pk>.*)/$',
+        EquipoHistory.as_view(),
+        name='equipos_historia'
     ),
 
     # ----------------- ANEXOS ------------------ #

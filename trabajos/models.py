@@ -9,6 +9,9 @@ from django.contrib.auth.models import User
 from activos.models import Equipo
 from inventarios.models import Articulo
 
+# Historia
+from simple_history.models import HistoricalRecords
+
 
 class OrdenTrabajo(models.Model):
 
@@ -57,6 +60,7 @@ class OrdenTrabajo(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(self.equipo, self.id).encode('utf-8')
@@ -91,6 +95,7 @@ class Actividad(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.numero)
@@ -135,6 +140,7 @@ class ManoObra(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.empleado)
@@ -172,6 +178,7 @@ class Material(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.articulo)
@@ -201,6 +208,7 @@ class ServicioExterno(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(self.orden, self.clave_jde)

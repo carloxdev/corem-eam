@@ -194,13 +194,7 @@ class UsuarioEditView(View):
         )
 
         formulario_profile = ProfileForm(
-            initial={
-                'puesto': usuario.profile.puesto,
-                'clave': usuario.profile.clave,
-                'fecha_nacimiento': usuario.profile.fecha_nacimiento,
-                'imagen': usuario.profile.imagen,
-                'comentarios': usuario.profile.comentarios,
-            }
+            instance=usuario.profile
         )
 
         contexto = {
@@ -214,14 +208,15 @@ class UsuarioEditView(View):
 
     def post(self, request, pk):
 
-        formulario = UsuarioEditForm(request.POST)
-
         usuario = get_object_or_404(User, pk=pk)
         self.cuenta = usuario.username
+
+        formulario = UsuarioEditForm(request.POST)
 
         formulario_profile = ProfileForm(
             request.POST,
             request.FILES,
+            instance=usuario.profile
         )
 
         if formulario.is_valid() and formulario_profile.is_valid():
@@ -244,14 +239,7 @@ class UsuarioEditView(View):
 
             usuario.save()
 
-            datos_profile = formulario_profile.cleaned_data
-
-            usuario.profile.puesto = datos_profile.get('puesto')
-            usuario.profile.clave = datos_profile.get('clave')
-            usuario.profile.fecha_nacimiento = datos_profile.get(
-                'fecha_nacimiento'
-            )
-            usuario.profile.imagen = datos_profile.get('imagen')
+            usuario.profile = formulario_profile.save(commit=False)
             usuario.profile.save()
 
             return redirect(

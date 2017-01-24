@@ -6,8 +6,9 @@
 
 {% block css %}
 
-	<!-- bootstrap datepicker -->
-	<link rel="stylesheet" href="{% static 'libs/plugins/datepicker/datepicker3.css' %}">	
+  <!-- fullCalendar 2.2.5-->
+  <link rel="stylesheet" href="{% static 'libs/plugins/fullcalendar/fullcalendar.min.css' %}">
+  <link rel="stylesheet" href="{% static 'libs/plugins/fullcalendar/fullcalendar.print.css' %}" media="print">
 
 {% endblock css %}	
 
@@ -37,7 +38,7 @@
 				<div class="icon">
 					<i class="fa fa-file-o"></i>
 				</div>
-				<a href="#" class="small-box-footer">
+				<a href="{% url 'trabajos:ordenes_lista' %}" class="small-box-footer">
 					Mas información <i class="fa fa-arrow-circle-right"></i>
 				</a>
 			</div>
@@ -53,7 +54,7 @@
 				<div class="icon">
 					<i class="fa fa-file-o"></i>
 				</div>
-				<a href="#" class="small-box-footer">
+				<a href="{% url 'trabajos:ordenes_lista' %}" class="small-box-footer">
 					Mas información <i class="fa fa-arrow-circle-right"></i>
 				</a>
 			</div>
@@ -69,7 +70,7 @@
 				<div class="icon">
 					<i class="fa fa-file-o"></i>
 				</div>
-				<a href="#" class="small-box-footer">
+				<a href="{% url 'trabajos:ordenes_lista' %}" class="small-box-footer">
 					Mas información <i class="fa fa-arrow-circle-right"></i>
 				</a>
 			</div>
@@ -78,15 +79,15 @@
 		<!-- ./col -->
 		<div class="col-lg-3 col-xs-6">
 			<!-- small box -->
-			<div class="small-box bg-red">
+			<div class="small-box bg-yellow">
 				<div class="inner">
 					<h3>23</h3>
-					<p>Entradas Pendientes</p>
+					<p>Entradas En Transito</p>
 				</div>
 				<div class="icon">
 					<i class="fa fa-cubes"></i>
 				</div>
-				<a href="#" class="small-box-footer">
+				<a href="{% url 'trabajos:ordenes_lista' %}" class="small-box-footer">
 					Mas información <i class="fa fa-arrow-circle-right"></i>
 				</a>
 			</div>
@@ -121,63 +122,7 @@
 									<th>Estado</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR9842</a></td>
-									<td>Call of Duty IV</td>
-									<td><span class="label label-success">Shipped</span></td>
-									<td>
-										<div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-									</td>
-								</tr>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR1848</a></td>
-									<td>Samsung Smart TV</td>
-									<td><span class="label label-warning">Pending</span></td>
-									<td>
-										<div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-									</td>
-								</tr>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR7429</a></td>
-									<td>iPhone 6 Plus</td>
-									<td><span class="label label-danger">Delivered</span></td>
-									<td>
-										<div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-									</td>
-								</tr>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR7429</a></td>
-									<td>Samsung Smart TV</td>
-									<td><span class="label label-info">Processing</span></td>
-									<td>
-										<div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
-									</td>
-								</tr>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR1848</a></td>
-									<td>Samsung Smart TV</td>
-									<td><span class="label label-warning">Pending</span></td>
-									<td>
-										<div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
-									</td>
-								</tr>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR7429</a></td>
-									<td>iPhone 6 Plus</td>
-									<td><span class="label label-danger">Delivered</span></td>
-									<td>
-										<div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
-									</td>
-								</tr>
-								<tr>
-									<td><a href="pages/examples/invoice.html">OR9842</a></td>
-									<td>Call of Duty IV</td>
-									<td><span class="label label-success">Shipped</span></td>
-									<td>
-										<div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
-									</td>
-								</tr>
+							<tbody id="tabla_contenido" data-ordenes="{% url 'trabajos:ordenes_editar' 0 %}" data-equipos="{% url 'activos:equipos_editar' 0 %}">
 							</tbody>
 						</table>
 					</div>
@@ -185,8 +130,13 @@
 				</div>
 				<!-- /.box-body -->
 				<div class="box-footer clearfix">
-					<a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">Crear Orden</a>
-					<a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">Ver Todas</a>
+					<a href="{% url 'trabajos:ordenes_nueva' %}" class="btn btn-sm bg-purple pull-left">
+						<i class="fa fa-plus-circle"></i>
+						Crear Orden
+					</a>
+					<a href="{% url 'trabajos:ordenes_lista' %}" class="btn btn-sm btn-default pull-right">
+						Ver Todas
+					</a>
 				</div>
 				<!-- /.box-footer -->
 			</div>
@@ -199,7 +149,7 @@
 		<div class="col-md-12">
 			<div class="box">
 				<div class="box-header with-border">
-					<h3 class="box-title">Monthly Recap Report</h3>
+					<h3 class="box-title">Reporte de Costos</h3>
 					<div class="box-tools pull-right">
 						<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 						</button>
@@ -220,53 +170,15 @@
 				<!-- /.box-header -->
 				<div class="box-body">
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<p class="text-center">
-								<strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+								<strong>Preriodo: 1 Junio, 2014 - 30 Julio, 2014</strong>
 							</p>
 							<div class="chart">
 								<!-- Sales Chart Canvas -->
 								<canvas id="salesChart" style="height: 180px;"></canvas>
 							</div>
 							<!-- /.chart-responsive -->
-						</div>
-						<!-- /.col -->
-						<div class="col-md-4">
-							<p class="text-center">
-								<strong>Goal Completion</strong>
-							</p>
-							<div class="progress-group">
-								<span class="progress-text">Add Products to Cart</span>
-								<span class="progress-number"><b>160</b>/200</span>
-								<div class="progress sm">
-									<div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
-								</div>
-							</div>
-							<!-- /.progress-group -->
-							<div class="progress-group">
-								<span class="progress-text">Complete Purchase</span>
-								<span class="progress-number"><b>310</b>/400</span>
-								<div class="progress sm">
-									<div class="progress-bar progress-bar-red" style="width: 80%"></div>
-								</div>
-							</div>
-							<!-- /.progress-group -->
-							<div class="progress-group">
-								<span class="progress-text">Visit Premium Page</span>
-								<span class="progress-number"><b>480</b>/800</span>
-								<div class="progress sm">
-									<div class="progress-bar progress-bar-green" style="width: 80%"></div>
-								</div>
-							</div>
-							<!-- /.progress-group -->
-							<div class="progress-group">
-								<span class="progress-text">Send Inquiries</span>
-								<span class="progress-number"><b>250</b>/500</span>
-								<div class="progress sm">
-									<div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
-								</div>
-							</div>
-							<!-- /.progress-group -->
 						</div>
 						<!-- /.col -->
 					</div>
@@ -279,7 +191,7 @@
 							<div class="description-block border-right">
 								<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
 								<h5 class="description-header">$35,210.43</h5>
-								<span class="description-text">TOTAL REVENUE</span>
+								<span class="description-text">Mano Obra</span>
 							</div>
 							<!-- /.description-block -->
 						</div>
@@ -288,7 +200,7 @@
 							<div class="description-block border-right">
 								<span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
 								<h5 class="description-header">$10,390.90</h5>
-								<span class="description-text">TOTAL COST</span>
+								<span class="description-text">Materiales</span>
 							</div>
 							<!-- /.description-block -->
 						</div>
@@ -297,7 +209,7 @@
 							<div class="description-block border-right">
 								<span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
 								<h5 class="description-header">$24,813.53</h5>
-								<span class="description-text">TOTAL PROFIT</span>
+								<span class="description-text">Servicios</span>
 							</div>
 							<!-- /.description-block -->
 						</div>
@@ -306,7 +218,7 @@
 							<div class="description-block">
 								<span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
 								<h5 class="description-header">1200</h5>
-								<span class="description-text">GOAL COMPLETIONS</span>
+								<span class="description-text">Inactividad</span>
 							</div>
 							<!-- /.description-block -->
 						</div>
@@ -319,101 +231,30 @@
 		</div>
 		<!-- /.col -->
 	</div>
-	<!-- /.row -->
+	<!-- /.row -->	
 
+	<!-- Calendario y Chat -->
 	<div class="row">
-		
+
 		<!-- Calendario  -->
-		<div class="col-sm-8">
-			<!-- Calendar -->
-			<div class="box box-solid bg-green-gradient">
-				<div class="box-header">
-					<i class="fa fa-calendar"></i>
-					<h3 class="box-title">Calendar</h3>
-					<!-- tools box -->
-					<div class="pull-right box-tools">
-						<!-- button with a dropdown -->
-						<div class="btn-group">
-							<button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-bars"></i></button>
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a href="#">Add new event</a></li>
-								<li><a href="#">Clear events</a></li>
-								<li class="divider"></li>
-								<li><a href="#">View calendar</a></li>
-							</ul>
-						</div>
-						<button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-						</button>
-						<button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-						</button>
-					</div>
-					<!-- /. tools -->
-				</div>
-				<!-- /.box-header -->
-				<div class="box-body no-padding">
-					<!--The calendar -->
-					<div id="calendar" style="width: 100%"></div>
-				</div>
-				<!-- /.box-body -->
-				<div class="box-footer text-black">
-					<div class="row">
-						<div class="col-sm-6">
-							<!-- Progress bars -->
-							<div class="clearfix">
-								<span class="pull-left">Task #1</span>
-								<small class="pull-right">90%</small>
-							</div>
-							<div class="progress xs">
-								<div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-							</div>
-							<div class="clearfix">
-								<span class="pull-left">Task #2</span>
-								<small class="pull-right">70%</small>
-							</div>
-							<div class="progress xs">
-								<div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-							</div>
-						</div>
-						<!-- /.col -->
-						<div class="col-sm-6">
-							<div class="clearfix">
-								<span class="pull-left">Task #3</span>
-								<small class="pull-right">60%</small>
-							</div>
-							<div class="progress xs">
-								<div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-							</div>
-							<div class="clearfix">
-								<span class="pull-left">Task #4</span>
-								<small class="pull-right">40%</small>
-							</div>
-							<div class="progress xs">
-								<div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-							</div>
-						</div>
-						<!-- /.col -->
-					</div>
-					<!-- /.row -->
-				</div>
-			</div>
-			<!-- /.box -->
-			
-		</div>
+        <div class="col-md-8">
+          <div class="box box-primary">
+            <div class="box-body no-padding">
+              <!-- THE CALENDAR -->
+              <div id="calendar"></div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
 		
 		<!-- Chat box -->
 		<div class="col-sm-4">
 			<div class="box box-success">
 				<div class="box-header">
 					<i class="fa fa-comments-o"></i>
-					<h3 class="box-title">Chat</h3>
-					<div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-						<div class="btn-group" data-toggle="btn-toggle">
-							<button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i>
-							</button>
-							<button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
-						</div>
-					</div>
+					<h3 class="box-title">Mensajes</h3>
 				</div>
 				<div class="box-body chat" id="chat-box">
 					<!-- chat item -->
@@ -488,6 +329,22 @@
 
 {% endblock contenido %}
 
+{% block scripts %}
+
+	<!-- ChartJS 1.0.1 -->
+	<script src="{% static 'libs/plugins/chartjs/Chart.min.js' %}"></script>
+
+	<!-- fullCalendar 2.2.5 -->
+	<script src="{% static 'libs/plugins/moment.js/2.11.2/moment.min.js' %}"></script>	
+	<script src="{% static 'libs/plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+
+	<!-- Slimscroll -->
+	<script src="{% static 'libs/plugins/slimScroll/jquery.slimscroll.min.js' %}"></script>	
+
+	<!-- CoreM -->
+	<script src="{% static 'inicio.js' %}"></script>
+
+{% endblock scripts %}
 
 <!-- datepicker -->
 <script src="plugins/datepicker/bootstrap-datepicker.js"></script>

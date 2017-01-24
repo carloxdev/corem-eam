@@ -11,9 +11,12 @@ from .models import Stock
 from .models import MovimientoCabecera
 from .models import MovimientoDetalle
 
+# Historia
+from simple_history.admin import SimpleHistoryAdmin
+
 
 @admin.register(Articulo)
-class AdminArticulo(admin.ModelAdmin):
+class AdminArticulo(SimpleHistoryAdmin):
     list_display = (
         'clave',
         'clave_jde',

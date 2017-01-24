@@ -33,6 +33,7 @@ from inventarios.views import MovimientoAPI
 from inventarios.views import MovimientoDetalleAPI
 
 from trabajos.views import OrdenTrabajoAPI
+from trabajos.views import OrdenTrabajoLastAPI
 from trabajos.views import OrdenAnexoTextoAPI
 from trabajos.views import OrdenAnexoImagenAPI
 from trabajos.views import OrdenAnexoArchivoAPI
@@ -201,6 +202,12 @@ router.register(
     'ordentrabajo'
 )
 
+
+router.register(
+    r'ordenestrabajolast',
+    OrdenTrabajoLastAPI,
+    'ordentrabajolast'
+)
 
 # ----------------- ACTIVIDAD ----------------- #
 

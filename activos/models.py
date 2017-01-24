@@ -11,6 +11,9 @@ from seguridad.models import Empresa
 from home.validators import valid_extension
 from home.validators import validate_image
 
+# Historia
+from simple_history.models import HistoricalRecords
+
 
 EQUIPO_ESTADO = (
     ('ACT', 'ACTIVO'),
@@ -42,6 +45,7 @@ class Ubicacion(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "({}) {}".format(
@@ -105,6 +109,7 @@ class Equipo(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} - {1}".format(self.tag, self.descripcion).encode('utf-8')
@@ -117,6 +122,7 @@ class Asignacion(models.Model):
         auto_now_add=True,
         auto_now=False,
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "({0}) {1}".format(self.equipo, self.ubicacion).encode('utf-8')
@@ -141,6 +147,7 @@ class UdmOdometro(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "({}) {}".format(
@@ -167,6 +174,7 @@ class Odometro(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "{0} : {1}".format(self.equipo, self.clave).encode('utf-8')
@@ -188,6 +196,7 @@ class Medicion(models.Model):
         null=True,
         blank=True
     )
+    history = HistoricalRecords()
 
     def __str__(self):
         return "({0}) {1}".format(self.odometro, self.fecha).encode('utf-8')

@@ -11,6 +11,9 @@ from .models import Odometro
 from .models import Medicion
 from .models import UdmOdometro
 
+# Historia
+from simple_history.admin import SimpleHistoryAdmin
+
 # Import-Export
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -35,7 +38,7 @@ class EquipoResource(resources.ModelResource):
 
 
 @admin.register(Equipo)
-class AdminEquipo(ImportExportModelAdmin, admin.ModelAdmin):
+class AdminEquipo(ImportExportModelAdmin, SimpleHistoryAdmin):
     resource_class = EquipoResource
     list_display = (
         'id',

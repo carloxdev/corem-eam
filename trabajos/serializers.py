@@ -16,7 +16,7 @@ from .models import ServicioExterno
 class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
 
     equipo = serializers.SerializerMethodField()
-
+    equipo_id = serializers.SerializerMethodField()
     tipo = serializers.SerializerMethodField()
     estado = serializers.SerializerMethodField()
 
@@ -26,6 +26,7 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'pk',
             'equipo',
+            'equipo_id',
             'descripcion',
             'tipo',
             'estado',
@@ -45,6 +46,13 @@ class OrdenTrabajoSerializer(serializers.HyperlinkedModelSerializer):
                 obj.equipo.tag,
                 obj.equipo.descripcion
             )
+        except:
+            return ""
+
+    def get_equipo_id(self, obj):
+
+        try:
+            return obj.equipo.id
         except:
             return ""
 

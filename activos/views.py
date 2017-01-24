@@ -100,7 +100,7 @@ class EquipoCreateView(View):
         formulario = EquipoForm()
         contexto = {
             'form': formulario,
-            'operacion': "Nuevo"
+            'operation': "Nuevo"
         }
 
         return render(request, self.template_name, contexto)
@@ -139,6 +139,7 @@ class EquipoCreateView(View):
 
 
 class EquipoUpdateView(View):
+
     def __init__(self):
         self.template_name = 'equipo/formulario.html'
         self.tag = ''
@@ -157,23 +158,14 @@ class EquipoUpdateView(View):
         self.tag = equipo.tag
 
         formulario = EquipoForm(
-            initial={
-                'tag': equipo.tag,
-                'descripcion': equipo.descripcion,
-                'serie': equipo.serie,
-                'tipo': equipo.tipo,
-                'estado': equipo.estado,
-                'padre': equipo.padre,
-                'empresa': equipo.empresa,
-                'sistema': equipo.sistema,
-                'ubicacion': equipo.ubicacion,
-                'imagen': equipo.imagen,
-            }
+            instance=equipo
         )
 
         contexto = {
             'form': formulario,
             'tag': self.tag,
+            'operation': "Editar",
+            'equipo_id': equipo.id,
             'imagen': self.obtener_UrlImagen(equipo.imagen)
         }
 
@@ -181,25 +173,14 @@ class EquipoUpdateView(View):
 
     def post(self, request, pk):
 
-        formulario = EquipoForm(request.POST, request.FILES)
-
         equipo = get_object_or_404(Equipo, pk=pk)
         self.tag = equipo.tag
 
+        formulario = EquipoForm(request.POST, request.FILES, instance=equipo)
+
         if formulario.is_valid():
 
-            datos_formulario = formulario.cleaned_data
-            equipo.tag = datos_formulario.get('tag')
-            equipo.descripcion = datos_formulario.get('descripcion')
-            equipo.serie = datos_formulario.get('serie')
-            equipo.tipo = datos_formulario.get('tipo')
-            equipo.estado = datos_formulario.get('estado')
-            equipo.padre = datos_formulario.get('padre')
-            equipo.empresa = datos_formulario.get('empresa')
-            equipo.sistema = datos_formulario.get('sistema')
-            equipo.ubicacion = datos_formulario.get('ubicacion')
-            equipo.imagen = datos_formulario.get('imagen')
-
+            equipo = formulario.save(commit=False)
             equipo.save()
 
             return redirect(
@@ -209,13 +190,15 @@ class EquipoUpdateView(View):
         contexto = {
             'form': formulario,
             'tag': self.tag,
+            'operation': "Editar",
+            'equipo_id': equipo.id,
             'imagen': self.obtener_UrlImagen(equipo.imagen)
         }
         return render(request, self.template_name, contexto)
 
 
 class EquipoAPI(viewsets.ModelViewSet):
-    queryset = Equipo.objects.all().order_by("tag")
+    queryset = Equipo.objects.all().order_by("-created_date")
     serializer_class = EquipoSerializer
     pagination_class = GenericPagination
 
@@ -252,6 +235,24 @@ class EquipoTreeAPI(View):
             lista_json,
             content_type="application/json"
         )
+
+
+class EquipoHistory(View):
+
+    def __init__(self):
+        self.template_name = 'equipo/historia.html'
+
+    def get(self, request, pk):
+
+        registros = Equipo.history.filter(id=pk).order_by("history_date")
+
+        contexto = {
+            'operation': "Historia",
+            'equipo_id': pk,
+            'registros': registros
+        }
+
+        return render(request, self.template_name, contexto)
 
 
 # ----------------- EQUIPO - ANEXO ----------------- #

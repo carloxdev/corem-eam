@@ -35,6 +35,13 @@
 			<div class="box box-primary box--table">
 				<div class="box-header with-border">
 					<h3 class="box-title">Favor de proporcionar los siguientes datos:</h3>
+		
+					{% if operation == "Editar" %}
+
+						<a href="{% url 'activos:equipos_historia' equipo_id %}" class="pull-right">
+							<i class="fa fa-clock-o"></i>
+						</a>
+					{% endif %}
 				</div>
 				<!-- /.box-header -->
 				<form role="form" action="" method="POST" enctype="multipart/form-data"> {% csrf_token %}

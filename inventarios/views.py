@@ -214,6 +214,7 @@ class ArticuloCreateView(View):
         return imagen
 
     def get(self, request):
+
         formulario = ArticuloForm()
         contexto = {
             'form': formulario,
@@ -268,15 +269,7 @@ class ArticuloUpdateView(View):
         articulo = get_object_or_404(Articulo, pk=pk)
 
         formulario = ArticuloForm(
-            initial={
-                "clave": articulo.clave,
-                "descripcion": articulo.descripcion,
-                "estado": articulo.estado,
-                "tipo": articulo.tipo,
-                "imagen": articulo.imagen,
-                "udm": articulo.udm,
-                "clave_jde": articulo.clave_jde,
-            }
+            instance=articulo
         )
 
         contexto = {
@@ -289,23 +282,16 @@ class ArticuloUpdateView(View):
 
     def post(self, request, pk):
 
-        formulario = ArticuloForm(request.POST, request.FILES)
-
         articulo = get_object_or_404(Articulo, pk=pk)
+        formulario = ArticuloForm(
+            request.POST,
+            request.FILES,
+            instance=articulo
+        )
 
         if formulario.is_valid():
 
-            datos_formulario = formulario.cleaned_data
-            articulo.clave = datos_formulario.get('clave')
-            articulo.descripcion = datos_formulario.get('descripcion')
-            articulo.estado = datos_formulario.get('estado')
-            articulo.tipo = datos_formulario.get('tipo')
-            articulo.imagen = datos_formulario.get('imagen')
-            articulo.udm = datos_formulario.get('udm')
-            articulo.clave_jde = datos_formulario.get('clave_jde')
-            articulo.created_date = datos_formulario.get('created_date')
-            articulo.updated_date = datos_formulario.get('updated_date')
-
+            articulo = formulario.save(commit=False)
             articulo.save()
 
             return redirect(
