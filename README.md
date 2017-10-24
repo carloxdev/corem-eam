@@ -1,6 +1,6 @@
-# corem-eam
+# Corem EAM
 
-Sistema EAM desarrollada para TFS/Nuvoil para su uso en plataforma Agosto 12
+Sistema EAM desarrollado para las empresas TFS/Nuvoil para su uso en la plataforma Agosto 12.
 
 ![alt text](https://github.com/carloxdev/corem-eam/blob/master/screenshots/portada.png)
 
