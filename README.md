@@ -81,7 +81,7 @@ FICHA TECNICA:
 ![alt text](https://github.com/carloxdev/corem-eam/blob/master/screenshots/pozo-view.png)
 
 UBICACIÓN:
-![alt text](https://github.com/carloxdev/corem-eam/blob/master/screenshots/pozo-ubicacion.png)
+![alt text](https://github.com/carloxdev/corem-eam/blob/master/screenshots/pozo-ubication.png)
 
 EQUIPOS ASIGNADOS:
 ![alt text](https://github.com/carloxdev/corem-eam/blob/master/screenshots/pozo-equipos.png)
